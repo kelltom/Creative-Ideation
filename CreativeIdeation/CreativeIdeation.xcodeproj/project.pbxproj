@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */; };
 		DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3BF92D25D9C97800C368B0 /* CreativeIdeationApp.swift */; };
-		DD3BF93025D9C97800C368B0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3BF92F25D9C97800C368B0 /* ContentView.swift */; };
 		DD3BF93225D9C97800C368B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3BF93125D9C97800C368B0 /* Assets.xcassets */; };
 		DD3BF93525D9C97800C368B0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3BF93425D9C97800C368B0 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		DD3BF92A25D9C97800C368B0 /* CreativeIdeation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CreativeIdeation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD3BF92D25D9C97800C368B0 /* CreativeIdeationApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreativeIdeationApp.swift; sourceTree = "<group>"; };
-		DD3BF92F25D9C97800C368B0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		DD3BF93125D9C97800C368B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD3BF93425D9C97800C368B0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DD3BF93625D9C97800C368B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -33,6 +33,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DD3A4CE025DDC181007D68B6 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				DD3A4CEB25DDC3E5007D68B6 /* LoginView */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		DD3A4CE125DDC186007D68B6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		DD3A4CE225DDC18E007D68B6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DD3A4CEB25DDC3E5007D68B6 /* LoginView */ = {
+			isa = PBXGroup;
+			children = (
+				DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */,
+			);
+			path = LoginView;
+			sourceTree = "<group>";
+		};
 		DD3BF92125D9C97700C368B0 = {
 			isa = PBXGroup;
 			children = (
@@ -52,8 +82,10 @@
 		DD3BF92C25D9C97800C368B0 /* CreativeIdeation */ = {
 			isa = PBXGroup;
 			children = (
+				DD3A4CE225DDC18E007D68B6 /* Views */,
+				DD3A4CE125DDC186007D68B6 /* Model */,
+				DD3A4CE025DDC181007D68B6 /* Screens */,
 				DD3BF92D25D9C97800C368B0 /* CreativeIdeationApp.swift */,
-				DD3BF92F25D9C97800C368B0 /* ContentView.swift */,
 				DD3BF93125D9C97800C368B0 /* Assets.xcassets */,
 				DD3BF93625D9C97800C368B0 /* Info.plist */,
 				DD3BF93325D9C97800C368B0 /* Preview Content */,
@@ -138,7 +170,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD3BF93025D9C97800C368B0 /* ContentView.swift in Sources */,
+				DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */,
 				DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
