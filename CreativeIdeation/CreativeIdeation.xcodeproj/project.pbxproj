@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */; };
+		DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */; };
 		DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3BF92D25D9C97800C368B0 /* CreativeIdeationApp.swift */; };
 		DD3BF93225D9C97800C368B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3BF93125D9C97800C368B0 /* Assets.xcassets */; };
 		DD3BF93525D9C97800C368B0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3BF93425D9C97800C368B0 /* Preview Assets.xcassets */; };
@@ -15,6 +16,7 @@
 
 /* Begin PBXFileReference section */
 		DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoBannerView.swift; sourceTree = "<group>"; };
 		DD3BF92A25D9C97800C368B0 /* CreativeIdeation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CreativeIdeation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD3BF92D25D9C97800C368B0 /* CreativeIdeationApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreativeIdeationApp.swift; sourceTree = "<group>"; };
 		DD3BF93125D9C97800C368B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -51,6 +53,7 @@
 		DD3A4CE225DDC18E007D68B6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -171,6 +174,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */,
+				DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */,
 				DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
