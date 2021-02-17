@@ -43,7 +43,7 @@ struct LoginView: View {
                     Text("Log In")
                         .padding()
                         .frame(width: 550, height: 60, alignment: .center)
-                        .background(Color("DarkCyan"))
+                        .background(Color("darkCyan"))
                         .foregroundColor(.white)
                         .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color.black))
                         .font(.title2)
