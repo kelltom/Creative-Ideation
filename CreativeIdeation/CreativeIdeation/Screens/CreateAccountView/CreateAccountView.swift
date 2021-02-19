@@ -75,7 +75,6 @@ struct CreateAccountView: View {
                         .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color.black, lineWidth: 2.0))
                         .background(Color.white)
                         .foregroundColor(.black)
-                        .cornerRadius(8)
                         .padding()
                     
                 })
