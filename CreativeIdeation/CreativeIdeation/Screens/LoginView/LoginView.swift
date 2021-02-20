@@ -25,9 +25,9 @@ struct LoginView: View {
                     .padding()
                     .font(.system(size:40))
                 
-                MenuTextFieldView(title: "Email address", input: $email)
+                MenuTextField(title: "Email address", input: $email)
                 
-                MenuTextFieldView(title: "Password", input: $password)
+                MenuTextField(title: "Password", input: $password)
                 
                 // Log In Button
                 Button {

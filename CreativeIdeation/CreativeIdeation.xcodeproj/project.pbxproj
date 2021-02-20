@@ -15,7 +15,7 @@
 		DD3BF93225D9C97800C368B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3BF93125D9C97800C368B0 /* Assets.xcassets */; };
 		DD3BF93525D9C97800C368B0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3BF93425D9C97800C368B0 /* Preview Assets.xcassets */; };
 		DDDFDA8E25E0830800342B1B /* BigButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDFDA8D25E0830800342B1B /* BigButton.swift */; };
-		DDDFDA9425E086EC00342B1B /* MenuTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDFDA9325E086EC00342B1B /* MenuTextFieldView.swift */; };
+		DDDFDA9425E086EC00342B1B /* MenuTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDFDA9325E086EC00342B1B /* MenuTextField.swift */; };
 		DDDFDA9825E08B0000342B1B /* PreferenceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDFDA9725E08B0000342B1B /* PreferenceButton.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,7 +30,7 @@
 		DD3BF93425D9C97800C368B0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DD3BF93625D9C97800C368B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DDDFDA8D25E0830800342B1B /* BigButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigButton.swift; sourceTree = "<group>"; };
-		DDDFDA9325E086EC00342B1B /* MenuTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTextFieldView.swift; sourceTree = "<group>"; };
+		DDDFDA9325E086EC00342B1B /* MenuTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTextField.swift; sourceTree = "<group>"; };
 		DDDFDA9725E08B0000342B1B /* PreferenceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -146,7 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */,
-				DDDFDA9325E086EC00342B1B /* MenuTextFieldView.swift */,
+				DDDFDA9325E086EC00342B1B /* MenuTextField.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -221,7 +221,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				767994BE25DDC79A001970B4 /* CreateAccountView.swift in Sources */,
-				DDDFDA9425E086EC00342B1B /* MenuTextFieldView.swift in Sources */,
+				DDDFDA9425E086EC00342B1B /* MenuTextField.swift in Sources */,
 				DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */,
 				DDDFDA8E25E0830800342B1B /* BigButton.swift in Sources */,
 				DDDFDA9825E08B0000342B1B /* PreferenceButton.swift in Sources */,

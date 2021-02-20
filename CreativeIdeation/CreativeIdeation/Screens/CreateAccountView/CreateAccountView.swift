@@ -28,11 +28,11 @@ struct CreateAccountView: View {
                     .padding()
                     .font(.system(size:40))
                 
-                MenuTextFieldView(title: "Enter your full name", input: $fullname)
+                MenuTextField(title: "Enter your full name", input: $fullname)
                 
-                MenuTextFieldView(title: "Enter your email address", input: $emailAddress)
+                MenuTextField(title: "Enter your email address", input: $emailAddress)
                 
-                MenuTextFieldView(title: "Enter your password", input: $password)
+                MenuTextField(title: "Enter your password", input: $password)
                 
                 //Create account button
                 Button {
