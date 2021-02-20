@@ -14,6 +14,8 @@
 		DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3BF92D25D9C97800C368B0 /* CreativeIdeationApp.swift */; };
 		DD3BF93225D9C97800C368B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3BF93125D9C97800C368B0 /* Assets.xcassets */; };
 		DD3BF93525D9C97800C368B0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3BF93425D9C97800C368B0 /* Preview Assets.xcassets */; };
+		DDDFDA8E25E0830800342B1B /* BigButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDFDA8D25E0830800342B1B /* BigButton.swift */; };
+		DDDFDA9425E086EC00342B1B /* MenuTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDFDA9325E086EC00342B1B /* MenuTextFieldView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		DD3BF93125D9C97800C368B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD3BF93425D9C97800C368B0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DD3BF93625D9C97800C368B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DDDFDA8D25E0830800342B1B /* BigButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigButton.swift; sourceTree = "<group>"; };
+		DDDFDA9325E086EC00342B1B /* MenuTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTextFieldView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +79,8 @@
 		DD3A4CE225DDC18E007D68B6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */,
+				DDDFDA9225E086C300342B1B /* Views */,
+				DDDFDA8C25E0827B00342B1B /* Buttons */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -124,6 +129,23 @@
 				DD3BF93425D9C97800C368B0 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		DDDFDA8C25E0827B00342B1B /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				DDDFDA8D25E0830800342B1B /* BigButton.swift */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
+		DDDFDA9225E086C300342B1B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */,
+				DDDFDA9325E086EC00342B1B /* MenuTextFieldView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,7 +218,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				767994BE25DDC79A001970B4 /* CreateAccountView.swift in Sources */,
+				DDDFDA9425E086EC00342B1B /* MenuTextFieldView.swift in Sources */,
 				DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */,
+				DDDFDA8E25E0830800342B1B /* BigButton.swift in Sources */,
 				DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */,
 				DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */,
 				C9C67A0C25DDE5A6002D16A9 /* UserInfoView.swift in Sources */,
