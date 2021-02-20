@@ -46,40 +46,19 @@ struct UserInfoView: View {
                         Button {
                             // do something - navigate to different screen
                         } label: {
-                            Text("Student")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .background(Color("darkCyan"))
-                                .foregroundColor(.white)
-                                .cornerRadius(90)
-                                .padding()
+                            PreferenceButton(title: "Student", selected: true)
                         }
                         
                         Button {
                             // do something - navigate to different screen
                         } label: {
-                            Text("Teacher")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .overlay(RoundedRectangle(cornerRadius: 90.0).stroke(Color.black, lineWidth: 2.0))
-                                .background(Color.white)
-                                .foregroundColor(.black)
-                                .padding()
+                            PreferenceButton(title: "Teacher")
                         }
                         
                         Button {
                             // do something - navigate to different screen
                         } label: {
-                            Text("Employee")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .overlay(RoundedRectangle(cornerRadius: 90.0).stroke(Color.black, lineWidth: 2.0))
-                                .background(Color.white)
-                                .foregroundColor(.black)
-                                .padding()
+                            PreferenceButton(title: "Employee")
                         }
                     }
                     
@@ -88,27 +67,13 @@ struct UserInfoView: View {
                         Button(action:{
                             // do something - navigate to different screen
                         }, label:{
-                            Text("Individual")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .overlay(RoundedRectangle(cornerRadius: 90.0).stroke(Color.black, lineWidth: 2.0))
-                                .background(Color.white)
-                                .foregroundColor(.black)
-                                .padding()
+                            PreferenceButton(title: "Individual")
                         })
                         
                         Button {
                             // do something - navigate to different screen
                         } label: {
-                            Text("Other")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .overlay(RoundedRectangle(cornerRadius: 90.0).stroke(Color.black, lineWidth: 2.0))
-                                .background(Color.white)
-                                .foregroundColor(.black)
-                                .padding()
+                            PreferenceButton(title: "Other")
                         }
                         
                     }
@@ -122,40 +87,19 @@ struct UserInfoView: View {
                         Button {
                             // do something - navigate to different screen
                         } label:{
-                            Text("Marketing")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .overlay(RoundedRectangle(cornerRadius: 90.0).stroke(Color.black, lineWidth: 2.0))
-                                .background(Color.white)
-                                .foregroundColor(.black)
-                                .padding()
+                            PreferenceButton(title: "Marketing")
                         }
                         
                         Button {
                             // do something - navigate to different screen
                         } label:{
-                            Text("Technology")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .background(Color("darkCyan"))
-                                .foregroundColor(.white)
-                                .cornerRadius(90)
-                                .padding()
+                            PreferenceButton(title: "Technology", selected: true)
                         }
                         
                         Button {
                             // do something - navigate to different screen
                         } label: {
-                            Text("Business")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .overlay(RoundedRectangle(cornerRadius: 90.0).stroke(Color.black, lineWidth: 2.0))
-                                .background(Color.white)
-                                .foregroundColor(.black)
-                                .padding()
+                            PreferenceButton(title: "Business")
                         }
                         
                     }
@@ -165,40 +109,19 @@ struct UserInfoView: View {
                         Button {
                             // do something - navigate to different screen
                         } label: {
-                            Text("Education")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .overlay(RoundedRectangle(cornerRadius: 90.0).stroke(Color.black, lineWidth: 2.0))
-                                .background(Color.white)
-                                .foregroundColor(.black)
-                                .padding()
+                            PreferenceButton(title: "Education")
                         }
                         
                         Button {
                             // do something - navigate to different screen
                         } label: {
-                            Text("Entertainment")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .overlay(RoundedRectangle(cornerRadius: 90.0).stroke(Color.black, lineWidth: 2.0))
-                                .background(Color.white)
-                                .foregroundColor(.black)
-                                .padding()
+                            PreferenceButton(title: "Entertainment")
                         }
                         
                         Button {
                             // do something - navigate to different screen
                         } label: {
-                            Text("Other")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .overlay(RoundedRectangle(cornerRadius: 90.0).stroke(Color.black, lineWidth: 2.0))
-                                .background(Color.white)
-                                .foregroundColor(.black)
-                                .padding()
+                            PreferenceButton(title: "Other")
                         }
                         
                     }
@@ -208,15 +131,9 @@ struct UserInfoView: View {
             Button {
                 // do something - navigate to different screen
             } label: {
-                Text("Next")
-                    .fontWeight(.bold)
-                    .font(.system(size: 21))
-                    .frame(width: 690, height: 60, alignment: .center)
-                    .background(Color("darkCyan"))
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
-                    .padding()
+                BigButton(title: "Next")
             }
+            .padding(.top)
             
             Spacer()
         }

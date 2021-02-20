@@ -16,6 +16,7 @@
 		DD3BF93525D9C97800C368B0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3BF93425D9C97800C368B0 /* Preview Assets.xcassets */; };
 		DDDFDA8E25E0830800342B1B /* BigButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDFDA8D25E0830800342B1B /* BigButton.swift */; };
 		DDDFDA9425E086EC00342B1B /* MenuTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDFDA9325E086EC00342B1B /* MenuTextFieldView.swift */; };
+		DDDFDA9825E08B0000342B1B /* PreferenceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDFDA9725E08B0000342B1B /* PreferenceButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		DD3BF93625D9C97800C368B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DDDFDA8D25E0830800342B1B /* BigButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigButton.swift; sourceTree = "<group>"; };
 		DDDFDA9325E086EC00342B1B /* MenuTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTextFieldView.swift; sourceTree = "<group>"; };
+		DDDFDA9725E08B0000342B1B /* PreferenceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				DDDFDA8D25E0830800342B1B /* BigButton.swift */,
+				DDDFDA9725E08B0000342B1B /* PreferenceButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 				DDDFDA9425E086EC00342B1B /* MenuTextFieldView.swift in Sources */,
 				DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */,
 				DDDFDA8E25E0830800342B1B /* BigButton.swift in Sources */,
+				DDDFDA9825E08B0000342B1B /* PreferenceButton.swift in Sources */,
 				DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */,
 				DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */,
 				C9C67A0C25DDE5A6002D16A9 /* UserInfoView.swift in Sources */,
