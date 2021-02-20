@@ -64,11 +64,11 @@ struct UserInfoView: View {
                     
                     HStack{
                         
-                        Button(action:{
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
+                        } label: {
                             PreferenceButton(title: "Individual")
-                        })
+                        }
                         
                         Button {
                             // do something - navigate to different screen
@@ -86,13 +86,13 @@ struct UserInfoView: View {
                         
                         Button {
                             // do something - navigate to different screen
-                        } label:{
+                        } label: {
                             PreferenceButton(title: "Marketing")
                         }
                         
                         Button {
                             // do something - navigate to different screen
-                        } label:{
+                        } label: {
                             PreferenceButton(title: "Technology", selected: true)
                         }
                         
