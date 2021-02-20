@@ -8,21 +8,29 @@
 import SwiftUI
 
 struct UserInfoView: View {
+    
     var body: some View {
+        
         VStack{
+            
             LogoBannerView()
             
             Spacer()
                 .frame(minHeight: 60, maxHeight: 100)
             
             HStack {
+                
                 VStack(alignment: .leading){
+                    
                     VStack(alignment: .leading){
+                        
                         Text("Welcome to Ponder!")
                             .font(.system(size: 48))
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        
                         Text("Help us get to know you better:")
                             .font(.system(size: 32))
+                        
                     }
                     .padding()
                     
@@ -32,10 +40,12 @@ struct UserInfoView: View {
                     Text("What is your role?")
                         .font(.system(size: 32))
                         .padding()
+                    
                     HStack{
-                        Button(action:{
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
+                        } label: {
                             Text("Student")
                                 .fontWeight(.bold)
                                 .font(.system(size: 21))
@@ -44,10 +54,11 @@ struct UserInfoView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(90)
                                 .padding()
-                        })
-                        Button(action:{
+                        }
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
+                        } label: {
                             Text("Teacher")
                                 .fontWeight(.bold)
                                 .font(.system(size: 21))
@@ -56,10 +67,11 @@ struct UserInfoView: View {
                                 .background(Color.white)
                                 .foregroundColor(.black)
                                 .padding()
-                        })
-                        Button(action:{
+                        }
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
+                        } label: {
                             Text("Employee")
                                 .fontWeight(.bold)
                                 .font(.system(size: 21))
@@ -68,9 +80,11 @@ struct UserInfoView: View {
                                 .background(Color.white)
                                 .foregroundColor(.black)
                                 .padding()
-                        })
+                        }
                     }
+                    
                     HStack{
+                        
                         Button(action:{
                             // do something - navigate to different screen
                         }, label:{
@@ -83,9 +97,10 @@ struct UserInfoView: View {
                                 .foregroundColor(.black)
                                 .padding()
                         })
-                        Button(action:{
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
+                        } label: {
                             Text("Other")
                                 .fontWeight(.bold)
                                 .font(.system(size: 21))
@@ -94,15 +109,19 @@ struct UserInfoView: View {
                                 .background(Color.white)
                                 .foregroundColor(.black)
                                 .padding()
-                        })
+                        }
+                        
                     }
+                    
                     Text("What industry do you work in?")
                         .font(.system(size: 32))
                         .padding()
+                    
                     HStack{
-                        Button(action:{
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
+                        } label:{
                             Text("Marketing")
                                 .fontWeight(.bold)
                                 .font(.system(size: 21))
@@ -111,10 +130,11 @@ struct UserInfoView: View {
                                 .background(Color.white)
                                 .foregroundColor(.black)
                                 .padding()
-                        })
-                        Button(action:{
+                        }
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
+                        } label:{
                             Text("Technology")
                                 .fontWeight(.bold)
                                 .font(.system(size: 21))
@@ -123,10 +143,11 @@ struct UserInfoView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(90)
                                 .padding()
-                        })
-                        Button(action:{
+                        }
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
+                        } label: {
                             Text("Business")
                                 .fontWeight(.bold)
                                 .font(.system(size: 21))
@@ -135,12 +156,15 @@ struct UserInfoView: View {
                                 .background(Color.white)
                                 .foregroundColor(.black)
                                 .padding()
-                        })
+                        }
+                        
                     }
-                    HStack{
-                        Button(action:{
+                    
+                    HStack {
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
+                        } label: {
                             Text("Education")
                                 .fontWeight(.bold)
                                 .font(.system(size: 21))
@@ -149,10 +173,11 @@ struct UserInfoView: View {
                                 .background(Color.white)
                                 .foregroundColor(.black)
                                 .padding()
-                        })
-                        Button(action:{
+                        }
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
+                        } label: {
                             Text("Entertainment")
                                 .fontWeight(.bold)
                                 .font(.system(size: 21))
@@ -161,10 +186,11 @@ struct UserInfoView: View {
                                 .background(Color.white)
                                 .foregroundColor(.black)
                                 .padding()
-                        })
-                        Button(action:{
+                        }
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
+                        } label: {
                             Text("Other")
                                 .fontWeight(.bold)
                                 .font(.system(size: 21))
@@ -173,14 +199,15 @@ struct UserInfoView: View {
                                 .background(Color.white)
                                 .foregroundColor(.black)
                                 .padding()
-                        })
+                        }
+                        
                     }
                 }
             }
             
-            Button(action:{
+            Button {
                 // do something - navigate to different screen
-            }, label:{
+            } label: {
                 Text("Next")
                     .fontWeight(.bold)
                     .font(.system(size: 21))
@@ -189,8 +216,7 @@ struct UserInfoView: View {
                     .foregroundColor(.white)
                     .cornerRadius(8)
                     .padding()
-                
-            })
+            }
             
             Spacer()
         }
