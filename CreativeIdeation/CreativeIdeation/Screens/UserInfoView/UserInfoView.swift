@@ -8,21 +8,29 @@
 import SwiftUI
 
 struct UserInfoView: View {
+    
     var body: some View {
+        
         VStack{
+            
             LogoBannerView()
             
             Spacer()
                 .frame(minHeight: 60, maxHeight: 100)
             
             HStack {
+                
                 VStack(alignment: .leading){
+                    
                     VStack(alignment: .leading){
+                        
                         Text("Welcome to Ponder!")
                             .font(.system(size: 48))
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        
                         Text("Help us get to know you better:")
                             .font(.system(size: 32))
+                        
                     }
                     .padding()
                     
@@ -32,165 +40,100 @@ struct UserInfoView: View {
                     Text("What is your role?")
                         .font(.system(size: 32))
                         .padding()
+                    
                     HStack{
-                        Button(action:{
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
-                            Text("Student")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .background(Color("darkCyan"))
-                                .foregroundColor(.white)
-                                .cornerRadius(90)
-                                .padding()
-                        })
-                        Button(action:{
+                        } label: {
+                            PreferenceButton(title: "Student", selected: true)
+                        }
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
-                            Text("Teacher")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .overlay(RoundedRectangle(cornerRadius: 90.0).stroke(Color.black, lineWidth: 2.0))
-                                .background(Color.white)
-                                .foregroundColor(.black)
-                                .padding()
-                        })
-                        Button(action:{
+                        } label: {
+                            PreferenceButton(title: "Teacher")
+                        }
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
-                            Text("Employee")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .overlay(RoundedRectangle(cornerRadius: 90.0).stroke(Color.black, lineWidth: 2.0))
-                                .background(Color.white)
-                                .foregroundColor(.black)
-                                .padding()
-                        })
+                        } label: {
+                            PreferenceButton(title: "Employee")
+                        }
                     }
+                    
                     HStack{
-                        Button(action:{
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
-                            Text("Individual")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .overlay(RoundedRectangle(cornerRadius: 90.0).stroke(Color.black, lineWidth: 2.0))
-                                .background(Color.white)
-                                .foregroundColor(.black)
-                                .padding()
-                        })
-                        Button(action:{
+                        } label: {
+                            PreferenceButton(title: "Individual")
+                        }
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
-                            Text("Other")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .overlay(RoundedRectangle(cornerRadius: 90.0).stroke(Color.black, lineWidth: 2.0))
-                                .background(Color.white)
-                                .foregroundColor(.black)
-                                .padding()
-                        })
+                        } label: {
+                            PreferenceButton(title: "Other")
+                        }
+                        
                     }
+                    
                     Text("What industry do you work in?")
                         .font(.system(size: 32))
                         .padding()
+                    
                     HStack{
-                        Button(action:{
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
-                            Text("Marketing")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .overlay(RoundedRectangle(cornerRadius: 90.0).stroke(Color.black, lineWidth: 2.0))
-                                .background(Color.white)
-                                .foregroundColor(.black)
-                                .padding()
-                        })
-                        Button(action:{
+                        } label: {
+                            PreferenceButton(title: "Marketing")
+                        }
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
-                            Text("Technology")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .background(Color("darkCyan"))
-                                .foregroundColor(.white)
-                                .cornerRadius(90)
-                                .padding()
-                        })
-                        Button(action:{
+                        } label: {
+                            PreferenceButton(title: "Technology", selected: true)
+                        }
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
-                            Text("Business")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .overlay(RoundedRectangle(cornerRadius: 90.0).stroke(Color.black, lineWidth: 2.0))
-                                .background(Color.white)
-                                .foregroundColor(.black)
-                                .padding()
-                        })
+                        } label: {
+                            PreferenceButton(title: "Business")
+                        }
+                        
                     }
-                    HStack{
-                        Button(action:{
+                    
+                    HStack {
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
-                            Text("Education")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .overlay(RoundedRectangle(cornerRadius: 90.0).stroke(Color.black, lineWidth: 2.0))
-                                .background(Color.white)
-                                .foregroundColor(.black)
-                                .padding()
-                        })
-                        Button(action:{
+                        } label: {
+                            PreferenceButton(title: "Education")
+                        }
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
-                            Text("Entertainment")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .overlay(RoundedRectangle(cornerRadius: 90.0).stroke(Color.black, lineWidth: 2.0))
-                                .background(Color.white)
-                                .foregroundColor(.black)
-                                .padding()
-                        })
-                        Button(action:{
+                        } label: {
+                            PreferenceButton(title: "Entertainment")
+                        }
+                        
+                        Button {
                             // do something - navigate to different screen
-                        }, label:{
-                            Text("Other")
-                                .fontWeight(.bold)
-                                .font(.system(size: 21))
-                                .frame(width:200, height:60, alignment: .center)
-                                .overlay(RoundedRectangle(cornerRadius: 90.0).stroke(Color.black, lineWidth: 2.0))
-                                .background(Color.white)
-                                .foregroundColor(.black)
-                                .padding()
-                        })
+                        } label: {
+                            PreferenceButton(title: "Other")
+                        }
+                        
                     }
                 }
             }
             
-            Button(action:{
+            Button {
                 // do something - navigate to different screen
-            }, label:{
-                Text("Next")
-                    .fontWeight(.bold)
-                    .font(.system(size: 21))
-                    .frame(width: 690, height: 60, alignment: .center)
-                    .background(Color("darkCyan"))
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
-                    .padding()
-                
-            })
+            } label: {
+                BigButton(title: "Next")
+            }
+            .padding(.top)
             
             Spacer()
         }

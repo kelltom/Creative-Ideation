@@ -19,50 +19,31 @@ struct LoginView: View {
             
             Spacer()
             
-            VStack(spacing: 20) {
+            VStack() {
                 
                 Text("Log In")
-                    .font(.largeTitle)
-                
-                TextField("email address", text: $email)
                     .padding()
-                    .frame(width: 550, height: 60, alignment: .center)
-                    .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color.black))
-                    .font(.title2)
+                    .font(.system(size:40))
                 
-                TextField("password", text: $password)
-                    .padding()
-                    .frame(width: 550, height: 60, alignment: .center)
-                    .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color.black))
-                    .font(.title2)
+                MenuTextField(title: "Email address", input: $email)
+                
+                MenuTextField(title: "Password", input: $password)
                 
                 // Log In Button
                 Button {
                     
                 } label: {
-                    Text("Log In")
-                        .padding()
-                        .frame(width: 550, height: 60, alignment: .center)
-                        .background(Color("darkCyan"))
-                        .foregroundColor(.white)
-                        .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color.black))
-                        .font(.title2)
+                    BigButton(title: "Log In")
                 }
                 .padding(.top)
                 
-                // "Or sign in with" label
                 Text("or sign in with")
                 
                 // SSO Button
                 Button {
                     
                 } label: {
-                    Text("SSO")
-                        .padding()
-                        .foregroundColor(.black)
-                        .frame(width: 550, height: 60, alignment: .center)
-                        .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color.black))
-                        .font(.title2)
+                    BigButton(title: "SSO")
                 }
             }
             
@@ -72,12 +53,7 @@ struct LoginView: View {
             Button {
                 
             } label: {
-                Text("Register Now")
-                    .padding()
-                    .foregroundColor(.black)
-                    .frame(width: 550, height: 60, alignment: .center)
-                    .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color.black))
-                    .font(.title2)
+                BigButton(title: "Register Now")
             }
             
             Spacer()

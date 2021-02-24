@@ -23,7 +23,7 @@ struct LogoBannerView: View {
             
             Spacer()
         }
-        .padding(.leading, 30)
+        .padding(30)
         
     }
 }

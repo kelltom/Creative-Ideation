@@ -9,100 +9,67 @@ import SwiftUI
 
 struct CreateAccountView: View {
     
-    @State var firstname: String = ""
+    // These will eventually be put in a ViewModel
+    @State var fullname: String = ""
     @State var emailAddress: String = ""
     @State var password: String = ""
     
-    
     var body: some View {
         
-        
         VStack {
+            
             LogoBannerView()
+            
             Spacer()
+            
             VStack{
                 
-                Text("Create Account").padding().font(.system(size:40))
+                Text("Create Account")
+                    .padding()
+                    .font(.system(size:40))
                 
-                TextField("Enter your full name", text:$firstname )
-                    .padding()
-                    .frame(width:550, height: 60, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color.black))
-                    .font(.system(size: 20))
-                    .padding()
+                MenuTextField(title: "Enter your full name", input: $fullname)
                 
+                MenuTextField(title: "Enter your email address", input: $emailAddress)
                 
-                TextField("Enter your email address", text:$emailAddress )
-                    .padding()
-                    .frame(width: 550, height: 60, alignment: .center)
-                    .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color.black))
-                    .font(.system(size: 20))
-                    .padding()
-                
-                TextField("Enter your password", text:$password )
-                    .padding()
-                    .frame(width: 550, height: 60, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color.black))
-                    .font(.system(size: 20))
-                    .padding()
+                MenuTextField(title: "Enter your password", input: $password)
                 
                 //Create account button
-                Button(action:{
+                Button {
                     // do something - navigate to different screen
-                }, label:{
-                    Text("Create Account")
-                        .fontWeight(.bold)
-                        .font(.system(size: 21))
-                        .frame(width:550, height:60, alignment: .center)
-                        .background(Color("darkCyan"))
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                        .padding()
+                } label: {
+                    BigButton(title: "Create Account")
                     
-                })
+                }
+                .padding(.top)
                 
                 Text("or").font(.system(size:18))
                 
-                
-                //Login with SSO Button
-                Button(action:{
+                // Login with SSO Button
+                Button {
                     // do something - navigate to different screen
-                }, label:{
-                    Text("Login with SSO")
-                        .fontWeight(.bold)
-                        .font(.system(size: 21))
-                        .frame(width:550, height:60, alignment: .center)
-                        .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color.black, lineWidth: 2.0))
-                        .background(Color.white)
-                        .foregroundColor(.black)
-                        .padding()
-                    
-                })
+                } label: {
+                    BigButton(title: "Log In")
+                }
                 
+            }
+            
+            Spacer()
+            
+            // Create Acc Button
+            // TODO: Consider a different back button style - put this here to center the form
+            Button {
                 
+            } label: {
+                BigButton(title: "Go Back")
             }
             
             Spacer()
         }
         
-        
-     
     }
     
 }
-
-//struct CreateButton: View{
-//    var body: some View{
-//        Text("Create Account")
-//            .frame(width: 550, height: 60, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-//            .background(Color.pink)
-//            .foregroundColor(.white)
-//            .cornerRadius(8)
-//            .padding()
-//    }
-//}
-
-
 
 struct CreateAccountView_Previews: PreviewProvider {
     static var previews: some View {
