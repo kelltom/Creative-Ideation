@@ -10,7 +10,7 @@ import SwiftUI
 struct SearchBarView: View {
     @Binding var text: String
      
-    @State private var isEditing = false
+    @State private var isSearching = false
     
     var body: some View {
         HStack{
@@ -21,20 +21,20 @@ struct SearchBarView: View {
                 .cornerRadius(8)
                 .padding(.horizontal, 10)
                 .onTapGesture {
-                    self.isEditing = true
+                    self.isSearching = true
                 }
             
-            if isEditing{
+            if isSearching{
                 Button(action: {
-                    self.isEditing = false
-                    self.text = ""
-                }) {
-                   Text("Cancel")
-                }
-                .padding(.trailing)
-                .transition(.move(edge: .trailing))
-                .animation(.default)
-            
+                    isSearching = false
+                    text = ""
+                }, label:{
+                    Text("cancel")
+                        .padding(.trailing)
+                        .transition(.move(edge: .trailing))
+                        .animation(.spring())
+                })
+                
             }
         }
     }

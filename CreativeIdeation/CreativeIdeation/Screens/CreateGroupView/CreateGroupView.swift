@@ -44,6 +44,7 @@ struct CreateGroupView: View {
                     } label:{
                         BigButton(title: "Create").padding()
                     }
+                    
                     Text("or").font(.system(size:18))
                     
                     Button{
@@ -63,24 +64,25 @@ struct CreateGroupView: View {
                         
                         SearchBarView(text: $text).padding()
                         
-                        //List of Members we need to populate
-                        // "id.\id" - is to help identify each element in the array uniquely
+                        
+                        //List of Members we need to populate "id.\id" - is to help identify each element in the array uniquely
                         List{
-                            ForEach(listOfStudents, id: \.id){ stud in
+                            ForEach(listOfStudents, id: \.id){ student in
                                 HStack{
-                                    Image(systemName: "applelogo") // gotta change image to circle thing
-                                    Text(stud.name).padding(.leading)
+                                    Image(systemName: "person.crop.circle.fill").padding()
+                                    Text(student.name)
                                 }
-                                
                             }
-                            
+                            .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealWidth: 80, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealHeight: 50, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
+                            .border(Color("darkCyan"), width: 2)
+                            .cornerRadius(5.0)
+ 
                         }
-                        
-                        
-                    }.frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxWidth: 380, minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/,  maxHeight: 470, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/).border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/) // formatting for add members
+                    }
+                    .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxWidth: 380, minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/,  maxHeight: 470, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    .border(Color("darkCyan"), width: 2.0) // formatting for add members
+                    .cornerRadius(6)
                 }
-                
-                
             }.padding() // padding padding for title
         }
     }
