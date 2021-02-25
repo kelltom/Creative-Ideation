@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProfilePic: View {
     
-    var size: CGFloat
+    var size: CGFloat = 60
     
     var body: some View {
         Image(systemName: "person.fill")
@@ -24,6 +24,6 @@ struct ProfilePic: View {
 
 struct ProfilePic_Previews: PreviewProvider {
     static var previews: some View {
-        ProfilePic(size: 60)
+        ProfilePic()
     }
 }
