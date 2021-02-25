@@ -14,50 +14,54 @@ struct LoginView: View {
     
     var body: some View {
         
-        VStack {
-            LogoBannerView()
-            
-            Spacer()
-            
-            VStack() {
+        NavigationView {
+            VStack {
+                LogoBannerView()
                 
-                Text("Log In")
-                    .padding()
-                    .font(.system(size:40))
+                Spacer()
                 
-                MenuTextField(title: "Email address", input: $email)
-                
-                MenuTextField(title: "Password", input: $password)
-                
-                // Log In Button
-                Button {
+                VStack() {
                     
-                } label: {
-                    BigButton(title: "Log In")
-                }
-                .padding(.top)
-                
-                Text("or sign in with")
-                
-                // SSO Button
-                Button {
+                    Text("Log In")
+                        .padding()
+                        .font(.system(size:40))
                     
-                } label: {
-                    BigButton(title: "SSO")
+                    MenuTextField(title: "Email address", input: $email)
+                    
+                    MenuTextField(title: "Password", input: $password)
+                    
+                    // Log In Button
+                    Button {
+                        
+                    } label: {
+                        BigButton(title: "Log In")
+                    }
+                    .padding(.top)
+                    
+                    Text("or sign in with")
+                    
+                    // SSO Button
+                    Button {
+                        
+                    } label: {
+                        BigButton(title: "SSO")
+                    }
+                    
                 }
-            }
-            
-            Spacer()
-            
-            // Create Acc Button
-            Button {
                 
-            } label: {
-                BigButton(title: "Register Now")
+                Spacer()
+                
+                // Create Acc Button
+                NavigationLink(destination: CreateAccountView()) {
+                    BigButton(title: "Register Now")
+                }
+                
+                Spacer()
             }
-            
-            Spacer()
+            .navigationBarTitle("Log In")
+            .navigationBarHidden(true)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
         
     }
 }

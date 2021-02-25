@@ -16,56 +16,53 @@ struct CreateAccountView: View {
     
     var body: some View {
         
-        VStack {
-            
-            LogoBannerView()
-            
-            Spacer()
-            
-            VStack{
+        NavigationView {
+            VStack {
                 
-                Text("Create Account")
-                    .padding()
-                    .font(.system(size:40))
+                LogoBannerView()
                 
-                MenuTextField(title: "Enter your full name", input: $fullname)
+                Spacer()
                 
-                MenuTextField(title: "Enter your email address", input: $emailAddress)
-                
-                MenuTextField(title: "Enter your password", input: $password)
-                
-                //Create account button
-                Button {
-                    // do something - navigate to different screen
-                } label: {
-                    BigButton(title: "Create Account")
+                VStack{
+                    
+                    Text("Create Account")
+                        .padding()
+                        .font(.system(size:40))
+                    
+                    MenuTextField(title: "Enter your full name", input: $fullname)
+                    
+                    MenuTextField(title: "Enter your email address", input: $emailAddress)
+                    
+                    MenuTextField(title: "Enter your password", input: $password)
+                    
+                    //Create account button
+                    Button {
+                        // do something - navigate to different screen
+                    } label: {
+                        BigButton(title: "Create Account")
+                        
+                    }
+                    .padding(.top)
+                    
+                    Text("or").font(.system(size:18))
+                    
+                    // Login with SSO Button
+                    Button {
+                        // do something - navigate to different screen
+                    } label: {
+                        BigButton(title: "Log In")
+                    }
                     
                 }
-                .padding(.top)
                 
-                Text("or").font(.system(size:18))
+                Spacer()
                 
-                // Login with SSO Button
-                Button {
-                    // do something - navigate to different screen
-                } label: {
-                    BigButton(title: "Log In")
-                }
-                
+                Spacer()
             }
-            
-            Spacer()
-            
-            // Create Acc Button
-            // TODO: Consider a different back button style - put this here to center the form
-            Button {
-                
-            } label: {
-                BigButton(title: "Go Back")
-            }
-            
-            Spacer()
+            .navigationBarTitle("")
+            .navigationBarHidden(true)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
         
     }
     
