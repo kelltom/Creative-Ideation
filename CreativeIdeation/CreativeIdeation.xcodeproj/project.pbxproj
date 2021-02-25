@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		767994BE25DDC79A001970B4 /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767994BD25DDC79A001970B4 /* CreateAccountView.swift */; };
 		C9C67A0C25DDE5A6002D16A9 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A0B25DDE5A6002D16A9 /* UserInfoView.swift */; };
+		C9C67A1125E7FEDB002D16A9 /* UserPrefView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A1025E7FEDB002D16A9 /* UserPrefView.swift */; };
+		C9C67A1425E7FFC0002D16A9 /* EditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A1325E7FFC0002D16A9 /* EditButton.swift */; };
+		C9C67A1F25E81D57002D16A9 /* ProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A1E25E81D57002D16A9 /* ProfilePic.swift */; };
 		DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */; };
 		DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */; };
 		DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3BF92D25D9C97800C368B0 /* CreativeIdeationApp.swift */; };
@@ -22,6 +25,9 @@
 /* Begin PBXFileReference section */
 		767994BD25DDC79A001970B4 /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
 		C9C67A0B25DDE5A6002D16A9 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
+		C9C67A1025E7FEDB002D16A9 /* UserPrefView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPrefView.swift; sourceTree = "<group>"; };
+		C9C67A1325E7FFC0002D16A9 /* EditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditButton.swift; sourceTree = "<group>"; };
+		C9C67A1E25E81D57002D16A9 /* ProfilePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePic.swift; sourceTree = "<group>"; };
 		DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoBannerView.swift; sourceTree = "<group>"; };
 		DD3BF92A25D9C97800C368B0 /* CreativeIdeation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CreativeIdeation.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,9 +67,18 @@
 			path = UserInfoView;
 			sourceTree = "<group>";
 		};
+		C9C67A0F25E7FECA002D16A9 /* UserPrefView */ = {
+			isa = PBXGroup;
+			children = (
+				C9C67A1025E7FEDB002D16A9 /* UserPrefView.swift */,
+			);
+			path = UserPrefView;
+			sourceTree = "<group>";
+		};
 		DD3A4CE025DDC181007D68B6 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				C9C67A0F25E7FECA002D16A9 /* UserPrefView */,
 				C9C67A0A25DDE592002D16A9 /* UserInfoView */,
 				767994B825DDC66A001970B4 /* CreateAccountView */,
 				DD3A4CEB25DDC3E5007D68B6 /* LoginView */,
@@ -138,6 +153,7 @@
 			children = (
 				DDDFDA8D25E0830800342B1B /* BigButton.swift */,
 				DDDFDA9725E08B0000342B1B /* PreferenceButton.swift */,
+				C9C67A1325E7FFC0002D16A9 /* EditButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -147,6 +163,7 @@
 			children = (
 				DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */,
 				DDDFDA9325E086EC00342B1B /* MenuTextField.swift */,
+				C9C67A1E25E81D57002D16A9 /* ProfilePic.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -224,6 +241,9 @@
 				DDDFDA9425E086EC00342B1B /* MenuTextField.swift in Sources */,
 				DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */,
 				DDDFDA8E25E0830800342B1B /* BigButton.swift in Sources */,
+				C9C67A1125E7FEDB002D16A9 /* UserPrefView.swift in Sources */,
+				C9C67A1425E7FFC0002D16A9 /* EditButton.swift in Sources */,
+				C9C67A1F25E81D57002D16A9 /* ProfilePic.swift in Sources */,
 				DDDFDA9825E08B0000342B1B /* PreferenceButton.swift in Sources */,
 				DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */,
 				DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */,

@@ -13,13 +13,12 @@ struct BigButton: View {
     
     var body: some View {
         Text(title)
-            .padding()
             .frame(width: 550, height: 60, alignment: .center)
             .background(Color("darkCyan"))
             .foregroundColor(.white)
-            .overlay(RoundedRectangle(cornerRadius: 8.0)
-                        .stroke(Color.black))
+            .cornerRadius(10)
             .font(.title2)
+            .padding()
     }
 }
 
