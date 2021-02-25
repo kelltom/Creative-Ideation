@@ -15,6 +15,13 @@
 		C9C67A1125E7FEDB002D16A9 /* UserPrefView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A1025E7FEDB002D16A9 /* UserPrefView.swift */; };
 		C9C67A1425E7FFC0002D16A9 /* EditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A1325E7FFC0002D16A9 /* EditButton.swift */; };
 		C9C67A1F25E81D57002D16A9 /* ProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A1E25E81D57002D16A9 /* ProfilePic.swift */; };
+		C9C67A2525E8288B002D16A9 /* GroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A2425E8288B002D16A9 /* GroupView.swift */; };
+		C9C67A2825E82A18002D16A9 /* GroupPic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A2725E82A18002D16A9 /* GroupPic.swift */; };
+		C9C67A2B25E83480002D16A9 /* SubGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A2A25E83480002D16A9 /* SubGroup.swift */; };
+		C9C67A2E25E838F7002D16A9 /* FavouriteSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A2D25E838F7002D16A9 /* FavouriteSession.swift */; };
+		C9C67A3125E84A30002D16A9 /* GroupMemberPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A3025E84A30002D16A9 /* GroupMemberPanel.swift */; };
+		C9C67A3425E851DD002D16A9 /* SessionsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A3325E851DD002D16A9 /* SessionsList.swift */; };
+		C9C67A3725E85236002D16A9 /* SessionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A3625E85236002D16A9 /* SessionItem.swift */; };
 		DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */; };
 		DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */; };
 		DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3BF92D25D9C97800C368B0 /* CreativeIdeationApp.swift */; };
@@ -34,6 +41,13 @@
 		C9C67A1025E7FEDB002D16A9 /* UserPrefView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPrefView.swift; sourceTree = "<group>"; };
 		C9C67A1325E7FFC0002D16A9 /* EditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditButton.swift; sourceTree = "<group>"; };
 		C9C67A1E25E81D57002D16A9 /* ProfilePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePic.swift; sourceTree = "<group>"; };
+		C9C67A2425E8288B002D16A9 /* GroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupView.swift; sourceTree = "<group>"; };
+		C9C67A2725E82A18002D16A9 /* GroupPic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupPic.swift; sourceTree = "<group>"; };
+		C9C67A2A25E83480002D16A9 /* SubGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubGroup.swift; sourceTree = "<group>"; };
+		C9C67A2D25E838F7002D16A9 /* FavouriteSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteSession.swift; sourceTree = "<group>"; };
+		C9C67A3025E84A30002D16A9 /* GroupMemberPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMemberPanel.swift; sourceTree = "<group>"; };
+		C9C67A3325E851DD002D16A9 /* SessionsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsList.swift; sourceTree = "<group>"; };
+		C9C67A3625E85236002D16A9 /* SessionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionItem.swift; sourceTree = "<group>"; };
 		DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoBannerView.swift; sourceTree = "<group>"; };
 		DD3BF92A25D9C97800C368B0 /* CreativeIdeation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CreativeIdeation.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,9 +111,18 @@
 			path = UserPrefView;
 			sourceTree = "<group>";
 		};
+		C9C67A2325E8287F002D16A9 /* GroupView */ = {
+			isa = PBXGroup;
+			children = (
+				C9C67A2425E8288B002D16A9 /* GroupView.swift */,
+			);
+			path = GroupView;
+			sourceTree = "<group>";
+		};
 		DD3A4CE025DDC181007D68B6 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				C9C67A2325E8287F002D16A9 /* GroupView */,
 				C9C67A0F25E7FECA002D16A9 /* UserPrefView */,
 				76A0956325E80BDE00917450 /* CreateGroupView */,
 				76A0955F25E745BD00917450 /* CreateTeamsView */,
@@ -189,6 +212,12 @@
 				DDDFDA9325E086EC00342B1B /* MenuTextField.swift */,
 				C9C67A1E25E81D57002D16A9 /* ProfilePic.swift */,
 				76A0956825E825ED00917450 /* SearchBarView.swift */,
+				C9C67A2725E82A18002D16A9 /* GroupPic.swift */,
+				C9C67A2A25E83480002D16A9 /* SubGroup.swift */,
+				C9C67A2D25E838F7002D16A9 /* FavouriteSession.swift */,
+				C9C67A3025E84A30002D16A9 /* GroupMemberPanel.swift */,
+				C9C67A3325E851DD002D16A9 /* SessionsList.swift */,
+				C9C67A3625E85236002D16A9 /* SessionItem.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -265,11 +294,18 @@
 				767994BE25DDC79A001970B4 /* CreateAccountView.swift in Sources */,
 				DDDFDA9425E086EC00342B1B /* MenuTextField.swift in Sources */,
 				76A0956525E80F0500917450 /* CreateGroupView.swift in Sources */,
+				C9C67A2525E8288B002D16A9 /* GroupView.swift in Sources */,
+				C9C67A2E25E838F7002D16A9 /* FavouriteSession.swift in Sources */,
 				DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */,
+				C9C67A2B25E83480002D16A9 /* SubGroup.swift in Sources */,
+				C9C67A3125E84A30002D16A9 /* GroupMemberPanel.swift in Sources */,
 				DDDFDA8E25E0830800342B1B /* BigButton.swift in Sources */,
 				C9C67A1125E7FEDB002D16A9 /* UserPrefView.swift in Sources */,
 				C9C67A1425E7FFC0002D16A9 /* EditButton.swift in Sources */,
 				C9C67A1F25E81D57002D16A9 /* ProfilePic.swift in Sources */,
+				C9C67A3725E85236002D16A9 /* SessionItem.swift in Sources */,
+				C9C67A2825E82A18002D16A9 /* GroupPic.swift in Sources */,
+				C9C67A3425E851DD002D16A9 /* SessionsList.swift in Sources */,
 				DDDFDA9825E08B0000342B1B /* PreferenceButton.swift in Sources */,
 				DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */,
 				76A0956925E825ED00917450 /* SearchBarView.swift in Sources */,
