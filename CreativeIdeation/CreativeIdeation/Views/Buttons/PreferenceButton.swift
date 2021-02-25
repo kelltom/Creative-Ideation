@@ -19,7 +19,7 @@ struct PreferenceButton: View {
             .font(.system(size: 21))
             .frame(width:200, height:60, alignment: .center)
             .overlay(RoundedRectangle(cornerRadius: 90.0)
-                        .stroke(Color.black, lineWidth: 2.0))
+                        .stroke(selected ? Color.clear : Color.black, lineWidth: 2.0))
             .background(selected ? Color("darkCyan") : .white)
             .foregroundColor(selected ? .white : .black)
             .cornerRadius(90)
