@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		767994BE25DDC79A001970B4 /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767994BD25DDC79A001970B4 /* CreateAccountView.swift */; };
 		76A0956125E745D800917450 /* CreateTeamsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0956025E745D800917450 /* CreateTeamsView.swift */; };
+		76A0956525E80F0500917450 /* CreateGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0956425E80F0500917450 /* CreateGroupView.swift */; };
+		76A0956925E825ED00917450 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0956825E825ED00917450 /* SearchBarView.swift */; };
 		C9C67A0C25DDE5A6002D16A9 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A0B25DDE5A6002D16A9 /* UserInfoView.swift */; };
 		DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */; };
 		DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */; };
@@ -23,6 +25,8 @@
 /* Begin PBXFileReference section */
 		767994BD25DDC79A001970B4 /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
 		76A0956025E745D800917450 /* CreateTeamsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTeamsView.swift; sourceTree = "<group>"; };
+		76A0956425E80F0500917450 /* CreateGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupView.swift; sourceTree = "<group>"; };
+		76A0956825E825ED00917450 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		C9C67A0B25DDE5A6002D16A9 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
 		DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoBannerView.swift; sourceTree = "<group>"; };
@@ -63,6 +67,14 @@
 			path = CreateTeamsView;
 			sourceTree = "<group>";
 		};
+		76A0956325E80BDE00917450 /* CreateGroupView */ = {
+			isa = PBXGroup;
+			children = (
+				76A0956425E80F0500917450 /* CreateGroupView.swift */,
+			);
+			path = CreateGroupView;
+			sourceTree = "<group>";
+		};
 		C9C67A0A25DDE592002D16A9 /* UserInfoView */ = {
 			isa = PBXGroup;
 			children = (
@@ -74,6 +86,7 @@
 		DD3A4CE025DDC181007D68B6 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				76A0956325E80BDE00917450 /* CreateGroupView */,
 				76A0955F25E745BD00917450 /* CreateTeamsView */,
 				C9C67A0A25DDE592002D16A9 /* UserInfoView */,
 				767994B825DDC66A001970B4 /* CreateAccountView */,
@@ -158,6 +171,7 @@
 			children = (
 				DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */,
 				DDDFDA9325E086EC00342B1B /* MenuTextField.swift */,
+				76A0956825E825ED00917450 /* SearchBarView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -233,10 +247,12 @@
 			files = (
 				767994BE25DDC79A001970B4 /* CreateAccountView.swift in Sources */,
 				DDDFDA9425E086EC00342B1B /* MenuTextField.swift in Sources */,
+				76A0956525E80F0500917450 /* CreateGroupView.swift in Sources */,
 				DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */,
 				DDDFDA8E25E0830800342B1B /* BigButton.swift in Sources */,
 				DDDFDA9825E08B0000342B1B /* PreferenceButton.swift in Sources */,
 				DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */,
+				76A0956925E825ED00917450 /* SearchBarView.swift in Sources */,
 				DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */,
 				C9C67A0C25DDE5A6002D16A9 /* UserInfoView.swift in Sources */,
 				76A0956125E745D800917450 /* CreateTeamsView.swift in Sources */,
