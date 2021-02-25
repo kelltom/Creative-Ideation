@@ -31,9 +31,7 @@ struct LoginView: View {
                     MenuTextField(title: "Password", input: $password)
                     
                     // Log In Button
-                    Button {
-                        
-                    } label: {
+                    NavigationLink(destination: UserInfoView()) {
                         BigButton(title: "Log In")
                     }
                     .padding(.top)
