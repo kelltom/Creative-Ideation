@@ -1,0 +1,4 @@
+# Read http://robots.thoughtbot.com/xcode-and-git-bridging-the-gap for an explanation
+# Read https://roadfiresoftware.com/2015/09/automatically-resolving-git-merge-conflicts-in-xcodes-project-pbxproj/ for more
+*.pbxproj merge=union
+*.strings text diff
