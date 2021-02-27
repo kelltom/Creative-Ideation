@@ -11,6 +11,10 @@
 		76A0956125E745D800917450 /* CreateTeamsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0956025E745D800917450 /* CreateTeamsView.swift */; };
 		76A0956525E80F0500917450 /* CreateGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0956425E80F0500917450 /* CreateGroupView.swift */; };
 		76A0956925E825ED00917450 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0956825E825ED00917450 /* SearchBarView.swift */; };
+		C9AE738125EAAD940090C96B /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE738025EAAD940090C96B /* ActivityView.swift */; };
+		C9AE739425EAB73C0090C96B /* ActivityToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE739325EAB73C0090C96B /* ActivityToolbar.swift */; };
+		C9AE739725EAB8D80090C96B /* ToolButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE739625EAB8D80090C96B /* ToolButton.swift */; };
+		C9AE739A25EACCD40090C96B /* ActiveMembers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE739925EACCD40090C96B /* ActiveMembers.swift */; };
 		C9C67A0C25DDE5A6002D16A9 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A0B25DDE5A6002D16A9 /* UserInfoView.swift */; };
 		C9C67A1125E7FEDB002D16A9 /* UserPrefView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A1025E7FEDB002D16A9 /* UserPrefView.swift */; };
 		C9C67A1425E7FFC0002D16A9 /* EditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A1325E7FFC0002D16A9 /* EditButton.swift */; };
@@ -37,6 +41,10 @@
 		76A0956025E745D800917450 /* CreateTeamsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTeamsView.swift; sourceTree = "<group>"; };
 		76A0956425E80F0500917450 /* CreateGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupView.swift; sourceTree = "<group>"; };
 		76A0956825E825ED00917450 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		C9AE738025EAAD940090C96B /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
+		C9AE739325EAB73C0090C96B /* ActivityToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityToolbar.swift; sourceTree = "<group>"; };
+		C9AE739625EAB8D80090C96B /* ToolButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolButton.swift; sourceTree = "<group>"; };
+		C9AE739925EACCD40090C96B /* ActiveMembers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveMembers.swift; sourceTree = "<group>"; };
 		C9C67A0B25DDE5A6002D16A9 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
 		C9C67A1025E7FEDB002D16A9 /* UserPrefView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPrefView.swift; sourceTree = "<group>"; };
 		C9C67A1325E7FFC0002D16A9 /* EditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditButton.swift; sourceTree = "<group>"; };
@@ -95,6 +103,24 @@
 			path = CreateGroupView;
 			sourceTree = "<group>";
 		};
+		C9AE737F25EAAD870090C96B /* ActivityView */ = {
+			isa = PBXGroup;
+			children = (
+				C9AE738025EAAD940090C96B /* ActivityView.swift */,
+			);
+			path = ActivityView;
+			sourceTree = "<group>";
+		};
+		C9AE738325EAAE320090C96B /* ActivityCanvas */ = {
+			isa = PBXGroup;
+			children = (
+				C9AE739325EAB73C0090C96B /* ActivityToolbar.swift */,
+				C9AE739625EAB8D80090C96B /* ToolButton.swift */,
+				C9AE739925EACCD40090C96B /* ActiveMembers.swift */,
+			);
+			path = ActivityCanvas;
+			sourceTree = "<group>";
+		};
 		C9C67A0A25DDE592002D16A9 /* UserInfoView */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +148,7 @@
 		DD3A4CE025DDC181007D68B6 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				C9AE737F25EAAD870090C96B /* ActivityView */,
 				C9C67A2325E8287F002D16A9 /* GroupView */,
 				C9C67A0F25E7FECA002D16A9 /* UserPrefView */,
 				76A0956325E80BDE00917450 /* CreateGroupView */,
@@ -208,6 +235,7 @@
 		DDDFDA9225E086C300342B1B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C9AE738325EAAE320090C96B /* ActivityCanvas */,
 				DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */,
 				DDDFDA9325E086EC00342B1B /* MenuTextField.swift */,
 				C9C67A1E25E81D57002D16A9 /* ProfilePic.swift */,
@@ -295,13 +323,17 @@
 				DDDFDA9425E086EC00342B1B /* MenuTextField.swift in Sources */,
 				76A0956525E80F0500917450 /* CreateGroupView.swift in Sources */,
 				C9C67A2525E8288B002D16A9 /* GroupView.swift in Sources */,
+				C9AE739425EAB73C0090C96B /* ActivityToolbar.swift in Sources */,
+				C9AE739725EAB8D80090C96B /* ToolButton.swift in Sources */,
 				C9C67A2E25E838F7002D16A9 /* FavouriteSession.swift in Sources */,
+				C9AE739A25EACCD40090C96B /* ActiveMembers.swift in Sources */,
 				DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */,
 				C9C67A2B25E83480002D16A9 /* SubGroup.swift in Sources */,
 				C9C67A3125E84A30002D16A9 /* GroupMemberPanel.swift in Sources */,
 				DDDFDA8E25E0830800342B1B /* BigButton.swift in Sources */,
 				C9C67A1125E7FEDB002D16A9 /* UserPrefView.swift in Sources */,
 				C9C67A1425E7FFC0002D16A9 /* EditButton.swift in Sources */,
+				C9AE738125EAAD940090C96B /* ActivityView.swift in Sources */,
 				C9C67A1F25E81D57002D16A9 /* ProfilePic.swift in Sources */,
 				C9C67A3725E85236002D16A9 /* SessionItem.swift in Sources */,
 				C9C67A2825E82A18002D16A9 /* GroupPic.swift in Sources */,
