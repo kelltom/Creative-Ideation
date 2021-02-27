@@ -15,10 +15,13 @@
 		C9C67A2525E8288B002D16A9 /* GroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A2425E8288B002D16A9 /* GroupView.swift */; };
 		C9C67A2825E82A18002D16A9 /* GroupPic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A2725E82A18002D16A9 /* GroupPic.swift */; };
 		C9C67A2B25E83480002D16A9 /* SubGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A2A25E83480002D16A9 /* SubGroup.swift */; };
-		C9C67A2E25E838F7002D16A9 /* FavouriteSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A2D25E838F7002D16A9 /* FavouriteSession.swift */; };
 		C9C67A3125E84A30002D16A9 /* GroupMemberPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A3025E84A30002D16A9 /* GroupMemberPanel.swift */; };
 		C9C67A3425E851DD002D16A9 /* SessionsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A3325E851DD002D16A9 /* SessionsList.swift */; };
 		C9C67A3725E85236002D16A9 /* SessionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A3625E85236002D16A9 /* SessionItem.swift */; };
+		C9DC347825EA07B400CA28BB /* SubGroupsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC347725EA07B400CA28BB /* SubGroupsList.swift */; };
+		C9DC347F25EA0BC600CA28BB /* RecentSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC347E25EA0BC600CA28BB /* RecentSession.swift */; };
+		C9DC348225EA0BD300CA28BB /* RecentSessionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC348125EA0BD300CA28BB /* RecentSessionList.swift */; };
+		C9F1C92125EA121A00F95F61 /* GroupSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F1C92025EA121A00F95F61 /* GroupSidebar.swift */; };
 		DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */; };
 		DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */; };
 		DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3BF92D25D9C97800C368B0 /* CreativeIdeationApp.swift */; };
@@ -38,10 +41,13 @@
 		C9C67A2425E8288B002D16A9 /* GroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupView.swift; sourceTree = "<group>"; };
 		C9C67A2725E82A18002D16A9 /* GroupPic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupPic.swift; sourceTree = "<group>"; };
 		C9C67A2A25E83480002D16A9 /* SubGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubGroup.swift; sourceTree = "<group>"; };
-		C9C67A2D25E838F7002D16A9 /* FavouriteSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteSession.swift; sourceTree = "<group>"; };
 		C9C67A3025E84A30002D16A9 /* GroupMemberPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMemberPanel.swift; sourceTree = "<group>"; };
 		C9C67A3325E851DD002D16A9 /* SessionsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsList.swift; sourceTree = "<group>"; };
 		C9C67A3625E85236002D16A9 /* SessionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionItem.swift; sourceTree = "<group>"; };
+		C9DC347725EA07B400CA28BB /* SubGroupsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubGroupsList.swift; sourceTree = "<group>"; };
+		C9DC347E25EA0BC600CA28BB /* RecentSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSession.swift; sourceTree = "<group>"; };
+		C9DC348125EA0BD300CA28BB /* RecentSessionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSessionList.swift; sourceTree = "<group>"; };
+		C9F1C92025EA121A00F95F61 /* GroupSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSidebar.swift; sourceTree = "<group>"; };
 		DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoBannerView.swift; sourceTree = "<group>"; };
 		DD3BF92A25D9C97800C368B0 /* CreativeIdeation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CreativeIdeation.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,6 +101,51 @@
 				C9C67A2425E8288B002D16A9 /* GroupView.swift */,
 			);
 			path = GroupView;
+			sourceTree = "<group>";
+		};
+		C9DC348625EA0DF400CA28BB /* SubGroupsList */ = {
+			isa = PBXGroup;
+			children = (
+				C9C67A2A25E83480002D16A9 /* SubGroup.swift */,
+				C9DC347725EA07B400CA28BB /* SubGroupsList.swift */,
+			);
+			path = SubGroupsList;
+			sourceTree = "<group>";
+		};
+		C9DC348825EA0E5000CA28BB /* SessionsList */ = {
+			isa = PBXGroup;
+			children = (
+				C9C67A3625E85236002D16A9 /* SessionItem.swift */,
+				C9C67A3325E851DD002D16A9 /* SessionsList.swift */,
+			);
+			path = SessionsList;
+			sourceTree = "<group>";
+		};
+		C9DC348925EA0E6F00CA28BB /* RecentSessionList */ = {
+			isa = PBXGroup;
+			children = (
+				C9DC347E25EA0BC600CA28BB /* RecentSession.swift */,
+				C9DC348125EA0BD300CA28BB /* RecentSessionList.swift */,
+			);
+			path = RecentSessionList;
+			sourceTree = "<group>";
+		};
+		C9DC348B25EA0EA400CA28BB /* GroupMemberPanel */ = {
+			isa = PBXGroup;
+			children = (
+				C9C67A1E25E81D57002D16A9 /* ProfilePic.swift */,
+				C9C67A3025E84A30002D16A9 /* GroupMemberPanel.swift */,
+			);
+			path = GroupMemberPanel;
+			sourceTree = "<group>";
+		};
+		C9F1C91F25EA120400F95F61 /* GroupSidebar */ = {
+			isa = PBXGroup;
+			children = (
+				C9C67A2725E82A18002D16A9 /* GroupPic.swift */,
+				C9F1C92025EA121A00F95F61 /* GroupSidebar.swift */,
+			);
+			path = GroupSidebar;
 			sourceTree = "<group>";
 		};
 		DD3A4CE025DDC181007D68B6 /* Screens */ = {
@@ -184,15 +235,13 @@
 		DDDFDA9225E086C300342B1B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C9F1C91F25EA120400F95F61 /* GroupSidebar */,
+				C9DC348B25EA0EA400CA28BB /* GroupMemberPanel */,
+				C9DC348925EA0E6F00CA28BB /* RecentSessionList */,
+				C9DC348825EA0E5000CA28BB /* SessionsList */,
+				C9DC348625EA0DF400CA28BB /* SubGroupsList */,
 				DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */,
 				DDDFDA9325E086EC00342B1B /* MenuTextField.swift */,
-				C9C67A1E25E81D57002D16A9 /* ProfilePic.swift */,
-				C9C67A2725E82A18002D16A9 /* GroupPic.swift */,
-				C9C67A2A25E83480002D16A9 /* SubGroup.swift */,
-				C9C67A2D25E838F7002D16A9 /* FavouriteSession.swift */,
-				C9C67A3025E84A30002D16A9 /* GroupMemberPanel.swift */,
-				C9C67A3325E851DD002D16A9 /* SessionsList.swift */,
-				C9C67A3625E85236002D16A9 /* SessionItem.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -269,7 +318,8 @@
 				767994BE25DDC79A001970B4 /* CreateAccountView.swift in Sources */,
 				DDDFDA9425E086EC00342B1B /* MenuTextField.swift in Sources */,
 				C9C67A2525E8288B002D16A9 /* GroupView.swift in Sources */,
-				C9C67A2E25E838F7002D16A9 /* FavouriteSession.swift in Sources */,
+				C9DC347F25EA0BC600CA28BB /* RecentSession.swift in Sources */,
+				C9DC347825EA07B400CA28BB /* SubGroupsList.swift in Sources */,
 				DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */,
 				C9C67A2B25E83480002D16A9 /* SubGroup.swift in Sources */,
 				C9C67A3125E84A30002D16A9 /* GroupMemberPanel.swift in Sources */,
@@ -282,7 +332,9 @@
 				C9C67A3425E851DD002D16A9 /* SessionsList.swift in Sources */,
 				DDDFDA9825E08B0000342B1B /* PreferenceButton.swift in Sources */,
 				DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */,
+				C9F1C92125EA121A00F95F61 /* GroupSidebar.swift in Sources */,
 				DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */,
+				C9DC348225EA0BD300CA28BB /* RecentSessionList.swift in Sources */,
 				C9C67A0C25DDE5A6002D16A9 /* UserInfoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
