@@ -13,37 +13,8 @@ struct GroupView: View {
     
     var body: some View {
         HStack(spacing: 0){
-            VStack{
-                Text("Groups")
-                    .font(.title2)
-                    .foregroundColor(.white)
-                    .fontWeight(.bold)
-                    .padding()
-                GroupPic(selected: true)
-                    .padding()
-                
-                GroupPic()
-                    .padding()
-                
-                GroupPic()
-                    .padding()
-                
-                Button{
-                    // Add group button
-                } label: {
-                    Image(systemName: "plus.circle")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 80, height: 80)
-                        .foregroundColor(Color.white)
-                        .padding()
-                }
-                
-                Spacer()
-            }
-            .frame(maxHeight: .infinity)
-            .background(Color("darkCyan"))
-            .edgesIgnoringSafeArea(.all)
+            
+            GroupSidebar()
             
             VStack{
                 HStack(spacing: 20){
@@ -103,11 +74,7 @@ struct GroupView: View {
                                 
                                 Divider()
                                 
-                                FavouriteSession(title: "New Product")
-                                
-                                FavouriteSession(title: "Marketing Campaign")
-                                
-                                FavouriteSession(title: "Brand Name and Logo")
+                                RecentSessionList()
                                 
                             }
                             
@@ -117,11 +84,7 @@ struct GroupView: View {
                                 
                                 Divider()
                                 
-                                SubGroup(title: "Marketing", selected: true)
-                                
-                                SubGroup(title: "Finance")
-                                
-                                SubGroup(title: "Other")
+                                SubGroupsList()
                             }
                         }
                     } label: {
