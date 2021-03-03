@@ -18,7 +18,7 @@ struct MenuTextField: View {
             .frame(width: 550, height: 60, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             .overlay(RoundedRectangle(cornerRadius: 8.0)
                         .stroke(Color.black))
-            .font(.system(size: 20))
+            .font(.title2)
             .padding(10)
     }
 }

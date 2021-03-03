@@ -25,11 +25,11 @@ struct UserInfoView: View {
                     VStack(alignment: .leading){
                         
                         Text("Welcome to Ponder!")
-                            .font(.system(size: 48))
+                            .font(.largeTitle)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         
                         Text("Help us get to know you better:")
-                            .font(.system(size: 32))
+                            .font(.title)
                         
                     }
                     .padding()
@@ -38,7 +38,7 @@ struct UserInfoView: View {
                         .frame(height: 35)
                     
                     Text("What is your role?")
-                        .font(.system(size: 32))
+                        .font(.title)
                         .padding()
                     
                     HStack{
@@ -67,6 +67,12 @@ struct UserInfoView: View {
                         Button {
                             // do something - navigate to different screen
                         } label: {
+                            PreferenceButton(title: "Administrator")
+                        }
+                        
+                        Button {
+                            // do something - navigate to different screen
+                        } label: {
                             PreferenceButton(title: "Individual")
                         }
                         
@@ -79,7 +85,7 @@ struct UserInfoView: View {
                     }
                     
                     Text("What industry do you work in?")
-                        .font(.system(size: 32))
+                        .font(.title)
                         .padding()
                     
                     HStack{

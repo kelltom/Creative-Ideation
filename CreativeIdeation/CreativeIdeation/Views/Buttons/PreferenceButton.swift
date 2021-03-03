@@ -16,7 +16,7 @@ struct PreferenceButton: View {
         
         Text(title)
             .fontWeight(.bold)
-            .font(.system(size: 21))
+            .font(.title2)
             .frame(width:200, height:60, alignment: .center)
             .overlay(RoundedRectangle(cornerRadius: 90.0)
                         .stroke(selected ? Color.clear : Color.black, lineWidth: 2.0))
