@@ -16,53 +16,38 @@ struct CreateAccountView: View {
     
     var body: some View {
         
-        NavigationView {
-            VStack {
+        VStack {
+            
+            Spacer()
+            
+            VStack{
                 
-                LogoBannerView()
+                Text("Create Account")
+                    .padding()
+                    .font(.system(size:40))
                 
-                Spacer()
+                MenuTextField(title: "Enter your full name", input: $fullname)
                 
-                VStack{
-                    
-                    Text("Create Account")
-                        .padding()
-                        .font(.system(size:40))
-                    
-                    MenuTextField(title: "Enter your full name", input: $fullname)
-                    
-                    MenuTextField(title: "Enter your email address", input: $emailAddress)
-                    
-                    MenuTextField(title: "Enter your password", input: $password)
-                    
-                    //Create account button
-                    Button {
-                        // do something - navigate to different screen
-                    } label: {
-                        BigButton(title: "Create Account")
-                        
-                    }
-                    .padding(.top)
-                    
-                    Text("or").font(.system(size:18))
-                    
-                    // Login with SSO Button
-                    Button {
-                        // do something - navigate to different screen
-                    } label: {
-                        BigButton(title: "Log In")
-                    }
+                MenuTextField(title: "Enter your email address", input: $emailAddress)
+                
+                MenuTextField(title: "Enter your password", input: $password)
+                
+                //Create account button
+                Button {
+                    // do something - navigate to different screen
+                } label: {
+                    BigButton(title: "Create Account")
                     
                 }
-                
-                Spacer()
-                
-                Spacer()
+                .padding(.top)
+
             }
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
+            
+            Spacer()
+            
+            Spacer()
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+        
         
     }
     

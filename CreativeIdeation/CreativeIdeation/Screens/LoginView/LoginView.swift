@@ -15,8 +15,8 @@ struct LoginView: View {
     var body: some View {
         
         NavigationView {
+            
             VStack {
-                LogoBannerView()
                 
                 Spacer()
                 
@@ -42,7 +42,7 @@ struct LoginView: View {
                     Button {
                         
                     } label: {
-                        BigButton(title: "SSO")
+                        BigButton(title: "<Sign in with Google>")
                     }
                     
                 }
@@ -56,8 +56,15 @@ struct LoginView: View {
                 
                 Spacer()
             }
-            .navigationBarTitle("Log In")
+            .navigationTitle("Log In")
             .navigationBarHidden(true)
+//            .navigationBarTitle("Log In", displayMode: .large)
+//            .toolbar(content: {
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    LogoBannerView()
+//                }
+//            })
+            
         }
         .navigationViewStyle(StackNavigationViewStyle())
         

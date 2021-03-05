@@ -11,12 +11,9 @@ struct UserInfoView: View {
     
     var body: some View {
         
-        VStack{
-            
-            LogoBannerView()
+        VStack {
             
             Spacer()
-                .frame(minHeight: 60, maxHeight: 100)
             
             HStack {
                 
@@ -143,6 +140,7 @@ struct UserInfoView: View {
             
             Spacer()
         }
+        .navigationBarHidden(true)
     }
 }
 
