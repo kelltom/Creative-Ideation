@@ -20,17 +20,17 @@
 		C9C67A0C25DDE5A6002D16A9 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A0B25DDE5A6002D16A9 /* UserInfoView.swift */; };
 		C9C67A1125E7FEDB002D16A9 /* UserPrefView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A1025E7FEDB002D16A9 /* UserPrefView.swift */; };
 		C9C67A1425E7FFC0002D16A9 /* EditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A1325E7FFC0002D16A9 /* EditButton.swift */; };
-		C9C67A1F25E81D57002D16A9 /* ProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A1E25E81D57002D16A9 /* ProfilePic.swift */; };
 		C9C67A2525E8288B002D16A9 /* GroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A2425E8288B002D16A9 /* GroupView.swift */; };
-		C9C67A2825E82A18002D16A9 /* GroupPic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A2725E82A18002D16A9 /* GroupPic.swift */; };
-		C9C67A2B25E83480002D16A9 /* SubGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A2A25E83480002D16A9 /* SubGroup.swift */; };
-		C9C67A3125E84A30002D16A9 /* GroupMemberPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A3025E84A30002D16A9 /* GroupMemberPanel.swift */; };
-		C9C67A3425E851DD002D16A9 /* SessionsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A3325E851DD002D16A9 /* SessionsList.swift */; };
-		C9C67A3725E85236002D16A9 /* SessionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A3625E85236002D16A9 /* SessionItem.swift */; };
 		C9DC347825EA07B400CA28BB /* SubGroupsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC347725EA07B400CA28BB /* SubGroupsList.swift */; };
 		C9DC347F25EA0BC600CA28BB /* RecentSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC347E25EA0BC600CA28BB /* RecentSession.swift */; };
 		C9DC348225EA0BD300CA28BB /* RecentSessionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC348125EA0BD300CA28BB /* RecentSessionList.swift */; };
 		C9F1C92125EA121A00F95F61 /* GroupSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F1C92025EA121A00F95F61 /* GroupSidebar.swift */; };
+		C9F230BA25F29D53006590DA /* GroupPic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230B925F29D53006590DA /* GroupPic.swift */; };
+		C9F230BD25F29D8D006590DA /* SubGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230BC25F29D8D006590DA /* SubGroup.swift */; };
+		C9F230C125F29D98006590DA /* SessionsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230BF25F29D98006590DA /* SessionsList.swift */; };
+		C9F230C225F29D98006590DA /* SessionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230C025F29D98006590DA /* SessionItem.swift */; };
+		C9F230C625F29DA3006590DA /* GroupMemberPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230C425F29DA3006590DA /* GroupMemberPanel.swift */; };
+		C9F230C725F29DA3006590DA /* ProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230C525F29DA3006590DA /* ProfilePic.swift */; };
 		DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */; };
 		DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */; };
 		DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3BF92D25D9C97800C368B0 /* CreativeIdeationApp.swift */; };
@@ -55,17 +55,17 @@
 		C9C67A0B25DDE5A6002D16A9 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
 		C9C67A1025E7FEDB002D16A9 /* UserPrefView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPrefView.swift; sourceTree = "<group>"; };
 		C9C67A1325E7FFC0002D16A9 /* EditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditButton.swift; sourceTree = "<group>"; };
-		C9C67A1E25E81D57002D16A9 /* ProfilePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePic.swift; sourceTree = "<group>"; };
 		C9C67A2425E8288B002D16A9 /* GroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupView.swift; sourceTree = "<group>"; };
-		C9C67A2725E82A18002D16A9 /* GroupPic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupPic.swift; sourceTree = "<group>"; };
-		C9C67A2A25E83480002D16A9 /* SubGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubGroup.swift; sourceTree = "<group>"; };
-		C9C67A3025E84A30002D16A9 /* GroupMemberPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMemberPanel.swift; sourceTree = "<group>"; };
-		C9C67A3325E851DD002D16A9 /* SessionsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsList.swift; sourceTree = "<group>"; };
-		C9C67A3625E85236002D16A9 /* SessionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionItem.swift; sourceTree = "<group>"; };
 		C9DC347725EA07B400CA28BB /* SubGroupsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubGroupsList.swift; sourceTree = "<group>"; };
 		C9DC347E25EA0BC600CA28BB /* RecentSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSession.swift; sourceTree = "<group>"; };
 		C9DC348125EA0BD300CA28BB /* RecentSessionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSessionList.swift; sourceTree = "<group>"; };
 		C9F1C92025EA121A00F95F61 /* GroupSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSidebar.swift; sourceTree = "<group>"; };
+		C9F230B925F29D53006590DA /* GroupPic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupPic.swift; sourceTree = "<group>"; };
+		C9F230BC25F29D8D006590DA /* SubGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubGroup.swift; sourceTree = "<group>"; };
+		C9F230BF25F29D98006590DA /* SessionsList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionsList.swift; sourceTree = "<group>"; };
+		C9F230C025F29D98006590DA /* SessionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionItem.swift; sourceTree = "<group>"; };
+		C9F230C425F29DA3006590DA /* GroupMemberPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupMemberPanel.swift; sourceTree = "<group>"; };
+		C9F230C525F29DA3006590DA /* ProfilePic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePic.swift; sourceTree = "<group>"; };
 		DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoBannerView.swift; sourceTree = "<group>"; };
 		DD3BF92A25D9C97800C368B0 /* CreativeIdeation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CreativeIdeation.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -166,7 +166,7 @@
 		C9DC348625EA0DF400CA28BB /* SubGroupsList */ = {
 			isa = PBXGroup;
 			children = (
-				C9C67A2A25E83480002D16A9 /* SubGroup.swift */,
+				C9F230BC25F29D8D006590DA /* SubGroup.swift */,
 				C9DC347725EA07B400CA28BB /* SubGroupsList.swift */,
 			);
 			path = SubGroupsList;
@@ -175,8 +175,8 @@
 		C9DC348825EA0E5000CA28BB /* SessionsList */ = {
 			isa = PBXGroup;
 			children = (
-				C9C67A3625E85236002D16A9 /* SessionItem.swift */,
-				C9C67A3325E851DD002D16A9 /* SessionsList.swift */,
+				C9F230C025F29D98006590DA /* SessionItem.swift */,
+				C9F230BF25F29D98006590DA /* SessionsList.swift */,
 			);
 			path = SessionsList;
 			sourceTree = "<group>";
@@ -193,8 +193,8 @@
 		C9DC348B25EA0EA400CA28BB /* GroupMemberPanel */ = {
 			isa = PBXGroup;
 			children = (
-				C9C67A1E25E81D57002D16A9 /* ProfilePic.swift */,
-				C9C67A3025E84A30002D16A9 /* GroupMemberPanel.swift */,
+				C9F230C425F29DA3006590DA /* GroupMemberPanel.swift */,
+				C9F230C525F29DA3006590DA /* ProfilePic.swift */,
 			);
 			path = GroupMemberPanel;
 			sourceTree = "<group>";
@@ -202,7 +202,7 @@
 		C9F1C91F25EA120400F95F61 /* GroupSidebar */ = {
 			isa = PBXGroup;
 			children = (
-				C9C67A2725E82A18002D16A9 /* GroupPic.swift */,
+				C9F230B925F29D53006590DA /* GroupPic.swift */,
 				C9F1C92025EA121A00F95F61 /* GroupSidebar.swift */,
 			);
 			path = GroupSidebar;
@@ -301,16 +301,7 @@
 			children = (
 				C9AE73A125EB1ACA0090C96B /* ActivityTypeTile.swift */,
 				C9AE738325EAAE320090C96B /* ActivityCanvas */,
-				DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */,
-				DDDFDA9325E086EC00342B1B /* MenuTextField.swift */,
-				C9C67A1E25E81D57002D16A9 /* ProfilePic.swift */,
 				76A0956825E825ED00917450 /* SearchBarView.swift */,
-				C9C67A2725E82A18002D16A9 /* GroupPic.swift */,
-				C9C67A2A25E83480002D16A9 /* SubGroup.swift */,
-				C9C67A2D25E838F7002D16A9 /* FavouriteSession.swift */,
-				C9C67A3025E84A30002D16A9 /* GroupMemberPanel.swift */,
-				C9C67A3325E851DD002D16A9 /* SessionsList.swift */,
-				C9C67A3625E85236002D16A9 /* SessionItem.swift */,
 				C9F1C91F25EA120400F95F61 /* GroupSidebar */,
 				C9DC348B25EA0EA400CA28BB /* GroupMemberPanel */,
 				C9DC348925EA0E6F00CA28BB /* RecentSessionList */,
@@ -393,26 +384,24 @@
 			files = (
 				767994BE25DDC79A001970B4 /* CreateAccountView.swift in Sources */,
 				DDDFDA9425E086EC00342B1B /* MenuTextField.swift in Sources */,
+				C9F230C725F29DA3006590DA /* ProfilePic.swift in Sources */,
 				76A0956525E80F0500917450 /* CreateGroupView.swift in Sources */,
 				C9C67A2525E8288B002D16A9 /* GroupView.swift in Sources */,
 				C9AE739425EAB73C0090C96B /* ActivityToolbar.swift in Sources */,
 				C9AE73A225EB1ACA0090C96B /* ActivityTypeTile.swift in Sources */,
 				C9AE739725EAB8D80090C96B /* ToolButton.swift in Sources */,
-				C9C67A2E25E838F7002D16A9 /* FavouriteSession.swift in Sources */,
 				C9AE739A25EACCD40090C96B /* ActiveMembers.swift in Sources */,
 				C9DC347F25EA0BC600CA28BB /* RecentSession.swift in Sources */,
 				C9DC347825EA07B400CA28BB /* SubGroupsList.swift in Sources */,
 				DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */,
-				C9C67A2B25E83480002D16A9 /* SubGroup.swift in Sources */,
-				C9C67A3125E84A30002D16A9 /* GroupMemberPanel.swift in Sources */,
 				DDDFDA8E25E0830800342B1B /* BigButton.swift in Sources */,
 				C9C67A1125E7FEDB002D16A9 /* UserPrefView.swift in Sources */,
 				C9C67A1425E7FFC0002D16A9 /* EditButton.swift in Sources */,
+				C9F230C625F29DA3006590DA /* GroupMemberPanel.swift in Sources */,
 				C9AE738125EAAD940090C96B /* ActivityView.swift in Sources */,
-				C9C67A1F25E81D57002D16A9 /* ProfilePic.swift in Sources */,
-				C9C67A3725E85236002D16A9 /* SessionItem.swift in Sources */,
-				C9C67A2825E82A18002D16A9 /* GroupPic.swift in Sources */,
-				C9C67A3425E851DD002D16A9 /* SessionsList.swift in Sources */,
+				C9F230C225F29D98006590DA /* SessionItem.swift in Sources */,
+				C9F230BD25F29D8D006590DA /* SubGroup.swift in Sources */,
+				C9F230BA25F29D53006590DA /* GroupPic.swift in Sources */,
 				DDDFDA9825E08B0000342B1B /* PreferenceButton.swift in Sources */,
 				DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */,
 				76A0956925E825ED00917450 /* SearchBarView.swift in Sources */,
@@ -421,6 +410,7 @@
 				C9DC348225EA0BD300CA28BB /* RecentSessionList.swift in Sources */,
 				C9C67A0C25DDE5A6002D16A9 /* UserInfoView.swift in Sources */,
 				76A0956125E745D800917450 /* CreateTeamsView.swift in Sources */,
+				C9F230C125F29D98006590DA /* SessionsList.swift in Sources */,
 				C9AE739E25EB19F50090C96B /* CreateSessionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
