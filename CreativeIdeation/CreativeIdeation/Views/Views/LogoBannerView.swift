@@ -13,7 +13,7 @@ struct LogoBannerView: View {
             Image(systemName: "applelogo")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 150, height: 150)
+                .frame(width: 100, height: 100)
                 .foregroundColor(Color("darkCyan"))
             
             Text("Ponder")
@@ -23,7 +23,7 @@ struct LogoBannerView: View {
             
             Spacer()
         }
-        .padding(30)
+        .padding(.top, 30)
         
     }
 }

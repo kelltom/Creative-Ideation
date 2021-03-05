@@ -9,12 +9,15 @@ import SwiftUI
 
 struct GroupSidebar: View {
     var body: some View {
+        
         VStack{
-            Text("Groups")
+            
+            Text("Teams")
                 .font(.title2)
                 .foregroundColor(.white)
                 .fontWeight(.bold)
                 .padding()
+            
             GroupPic(selected: true)
                 .padding()
             

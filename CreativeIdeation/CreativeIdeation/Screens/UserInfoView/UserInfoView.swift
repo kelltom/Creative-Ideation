@@ -11,12 +11,9 @@ struct UserInfoView: View {
     
     var body: some View {
         
-        VStack{
-            
-            LogoBannerView()
+        VStack {
             
             Spacer()
-                .frame(minHeight: 60, maxHeight: 100)
             
             HStack {
                 
@@ -134,15 +131,14 @@ struct UserInfoView: View {
                 }
             }
             
-            Button {
-                // do something - navigate to different screen
-            } label: {
+            NavigationLink(destination: GroupView()) {
                 BigButton(title: "Next")
             }
             .padding(.top)
             
             Spacer()
         }
+        .navigationBarHidden(true)
     }
 }
 
