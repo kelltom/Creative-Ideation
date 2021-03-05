@@ -12,7 +12,8 @@ struct GroupView: View {
     @State private var listExpanded: Bool = true
     
     var body: some View {
-        HStack(spacing: 0){
+        
+        HStack(spacing: 0) {
             
             GroupSidebar()
             
@@ -145,6 +146,8 @@ struct GroupView: View {
                 
             }
         }
+        .navigationTitle("Home")
+        .navigationBarHidden(true)
     }
 }
 

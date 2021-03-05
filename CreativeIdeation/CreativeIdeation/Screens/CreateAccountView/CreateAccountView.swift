@@ -33,11 +33,8 @@ struct CreateAccountView: View {
                 MenuTextField(title: "Enter your password", input: $password)
                 
                 //Create account button
-                Button {
-                    // do something - navigate to different screen
-                } label: {
+                NavigationLink(destination: UserInfoView()) {
                     BigButton(title: "Create Account")
-                    
                 }
                 .padding(.top)
 

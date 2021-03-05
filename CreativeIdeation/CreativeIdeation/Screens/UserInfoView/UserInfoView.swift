@@ -131,9 +131,7 @@ struct UserInfoView: View {
                 }
             }
             
-            Button {
-                // do something - navigate to different screen
-            } label: {
+            NavigationLink(destination: GroupView()) {
                 BigButton(title: "Next")
             }
             .padding(.top)

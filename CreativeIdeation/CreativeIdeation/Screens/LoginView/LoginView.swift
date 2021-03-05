@@ -31,7 +31,7 @@ struct LoginView: View {
                     MenuTextField(title: "Password", input: $password)
                     
                     // Log In Button
-                    NavigationLink(destination: UserInfoView()) {
+                    NavigationLink(destination: GroupView()) {
                         BigButton(title: "Log In")
                     }
                     .padding(.top)
