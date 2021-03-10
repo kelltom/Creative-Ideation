@@ -36,23 +36,25 @@ struct LoginView: View {
                     }
                     .padding(.top)
                     
-                    Text("or sign in with")
+                    Text("or")
                     
-                    // SSO Button
+                    // Sign In with Google Button
                     Button {
                         
                     } label: {
-                        BigButton(title: "<Sign in with Google>")
+                        GoogleButton()
                     }
                     
                 }
                 
-                Spacer()
-                
                 // Create Acc Button
-                NavigationLink(destination: CreateAccountView()) {
-                    BigButton(title: "Register Now")
+                HStack {
+                    Text("New user?")
+                    NavigationLink(destination: CreateAccountView()) {
+                        Text("Create an Account.")
+                    }
                 }
+                .padding(.top, 20)
                 
                 Spacer()
             }
@@ -74,6 +76,32 @@ struct LoginView: View {
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView(email: "email address", password: "password")
+    }
+}
+
+struct GoogleButton: View {
+    
+    var body: some View {
+        HStack {
+            Image(systemName: "arrowtriangle.forward.square.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 50, height: 50)
+                .padding(.leading, 4)
+            
+            Spacer()
+            
+            Text("Sign in with Google")
+                .offset(x: -25)
+            
+            Spacer()
+        }
+        .frame(width: 550, height: 60, alignment: .center)
+        .background(Color(.blue))
+        .foregroundColor(.white)
+        .cornerRadius(10)
+        .font(.title2)
+        .padding()
     }
 }
 
