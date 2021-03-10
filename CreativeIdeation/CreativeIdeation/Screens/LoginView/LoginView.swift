@@ -9,6 +9,9 @@ import SwiftUI
 
 struct LoginView: View {
     
+    // Bound to CreateAccountView to enable popping view on btn click
+    @State var showLogIn = false
+    
     @State var email: String = ""
     @State var password: String = ""
     
@@ -50,7 +53,7 @@ struct LoginView: View {
                 // Create Acc Button
                 HStack {
                     Text("New user?")
-                    NavigationLink(destination: CreateAccountView()) {
+                    NavigationLink(destination: CreateAccountView(showLogIn: self.$showLogIn), isActive: self.$showLogIn) {
                         Text("Create an Account.")
                     }
                 }
@@ -60,12 +63,6 @@ struct LoginView: View {
             }
             .navigationTitle("Log In")
             .navigationBarHidden(true)
-//            .navigationBarTitle("Log In", displayMode: .large)
-//            .toolbar(content: {
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    LogoBannerView()
-//                }
-//            })
             
         }
         .navigationViewStyle(StackNavigationViewStyle())
@@ -76,13 +73,16 @@ struct LoginView: View {
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView(email: "email address", password: "password")
+            
     }
 }
 
 struct GoogleButton: View {
     
     var body: some View {
+        
         HStack {
+            
             Image(systemName: "arrowtriangle.forward.square.fill")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -95,6 +95,7 @@ struct GoogleButton: View {
                 .offset(x: -25)
             
             Spacer()
+            
         }
         .frame(width: 550, height: 60, alignment: .center)
         .background(Color(.blue))
@@ -102,6 +103,7 @@ struct GoogleButton: View {
         .cornerRadius(10)
         .font(.title2)
         .padding()
+        
     }
 }
 
