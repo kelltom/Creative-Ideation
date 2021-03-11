@@ -19,6 +19,7 @@ struct BigButton: View {
             .cornerRadius(10)
             .font(.title2)
             .padding()
+            .shadow(radius: 5, x: 5, y: 5)
     }
 }
 

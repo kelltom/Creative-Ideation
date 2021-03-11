@@ -61,7 +61,6 @@ struct LoginView: View {
                 
                 Spacer()
             }
-            .navigationTitle("Log In")
             .navigationBarHidden(true)
             
         }
@@ -83,11 +82,14 @@ struct GoogleButton: View {
         
         HStack {
             
-            Image(systemName: "arrowtriangle.forward.square.fill")
+            Image("google")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 50, height: 50)
-                .padding(.leading, 4)
+                .frame(width: 50, height: 57)
+                .padding(.horizontal, 10)
+                .background(Color(.white))
+                .cornerRadius(10)
+                .padding(.leading, 1)
             
             Spacer()
             
@@ -103,6 +105,7 @@ struct GoogleButton: View {
         .cornerRadius(10)
         .font(.title2)
         .padding()
+        .shadow(radius: 5, x: 5, y: 5)
         
     }
 }
