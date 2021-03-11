@@ -9,6 +9,9 @@ import SwiftUI
 
 struct LoginView: View {
     
+    // Bound to CreateAccountView to enable popping view on btn click
+    @State var showLogIn = false
+    
     @State var email: String = ""
     @State var password: String = ""
     
@@ -36,34 +39,29 @@ struct LoginView: View {
                     }
                     .padding(.top)
                     
-                    Text("or sign in with")
+                    Text("or")
                     
-                    // SSO Button
+                    // Sign In with Google Button
                     Button {
                         
                     } label: {
-                        BigButton(title: "<Sign in with Google>")
+                        GoogleButton()
                     }
                     
                 }
                 
-                Spacer()
-                
                 // Create Acc Button
-                NavigationLink(destination: CreateAccountView()) {
-                    BigButton(title: "Register Now")
+                HStack {
+                    Text("New user?")
+                    NavigationLink(destination: CreateAccountView(showLogIn: self.$showLogIn), isActive: self.$showLogIn) {
+                        Text("Create an Account.")
+                    }
                 }
+                .padding(.top, 20)
                 
                 Spacer()
             }
-            .navigationTitle("Log In")
             .navigationBarHidden(true)
-//            .navigationBarTitle("Log In", displayMode: .large)
-//            .toolbar(content: {
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    LogoBannerView()
-//                }
-//            })
             
         }
         .navigationViewStyle(StackNavigationViewStyle())
@@ -74,6 +72,41 @@ struct LoginView: View {
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView(email: "email address", password: "password")
+            
+    }
+}
+
+struct GoogleButton: View {
+    
+    var body: some View {
+        
+        HStack {
+            
+            Image("google")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 50, height: 57)
+                .padding(.horizontal, 10)
+                .background(Color(.white))
+                .cornerRadius(10)
+                .padding(.leading, 1)
+            
+            Spacer()
+            
+            Text("Sign in with Google")
+                .offset(x: -25)
+            
+            Spacer()
+            
+        }
+        .frame(width: 550, height: 60, alignment: .center)
+        .background(Color(.blue))
+        .foregroundColor(.white)
+        .cornerRadius(10)
+        .font(.title2)
+        .padding()
+        .shadow(radius: 5, x: 5, y: 5)
+        
     }
 }
 
