@@ -16,7 +16,7 @@ struct SubGroupsList: View {
             
             SubGroup(title: "Other")
         }
-        .frame(minHeight: 270)
+        .edgesIgnoringSafeArea(.all)
     }
 }
 

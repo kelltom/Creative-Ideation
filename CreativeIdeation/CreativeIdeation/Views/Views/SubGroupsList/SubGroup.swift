@@ -13,25 +13,24 @@ struct SubGroup: View {
     var selected: Bool = false
     
     var body: some View {
-        HStack(spacing: 20){
+        ZStack {
+            HStack{
+                Text(title)
+                    .font(.title2)
+                    .fontWeight(selected ? .bold : .regular)
+                    .foregroundColor(selected ? Color.white : Color.black)
+            }
             
-            Image(systemName: "folder.fill")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width:50, height: 50)
-                .foregroundColor(Color.yellow)
-                .padding()
-            
-            Text(title)
-                .font(.title2)
-                .fontWeight(selected ? .bold : .regular)
-                .foregroundColor(selected ? Color.white : Color.black)
-            
-            Spacer()
+            HStack{
+                Spacer()
+                OptionsButton()
+                    .foregroundColor(selected ? Color.white : Color.black)
+                    .padding(10)
+            }
         }
-        .frame(maxWidth: .infinity)
+        .frame(width: 250, height: 80)
         .background(selected ? Color("darkCyan") : Color.white)
-        .cornerRadius(10)
+        .edgesIgnoringSafeArea(.all)
     }
 }
 

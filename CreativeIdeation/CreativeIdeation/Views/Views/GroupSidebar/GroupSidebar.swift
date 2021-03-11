@@ -18,10 +18,10 @@ struct GroupSidebar: View {
                 .fontWeight(.bold)
                 .padding()
             
-            GroupPic(selected: true)
+            GroupPic(symbol_name: "house.circle")
                 .padding()
             
-            GroupPic()
+            GroupPic(selected: true)
                 .padding()
             
             GroupPic()

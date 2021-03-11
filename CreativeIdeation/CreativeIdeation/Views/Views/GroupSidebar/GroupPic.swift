@@ -10,6 +10,7 @@ import SwiftUI
 struct GroupPic: View {
     
     var selected: Bool = false
+    var symbol_name: String = "person.3.fill"
     var team_name: String = "Example"
     
     var body: some View {
@@ -18,7 +19,7 @@ struct GroupPic: View {
                 // select group
             } label: {
                 if selected{
-                    Image(systemName: "person.3.fill")
+                    Image(systemName: symbol_name)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 80, height: 80)
@@ -28,7 +29,7 @@ struct GroupPic: View {
                         .cornerRadius(10)
                         .shadow(color: .black, radius: 4, y: 4)
                 } else {
-                    Image(systemName: "person.3.fill")
+                    Image(systemName: symbol_name)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 80, height: 80)

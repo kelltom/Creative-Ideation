@@ -8,19 +8,26 @@
 import SwiftUI
 
 struct SessionsList: View {
+    
+    let columns = [
+        GridItem(.adaptive(minimum: 200))
+    ]
+    
     var body: some View {
-        List{
-            SessionItem(title: "Stupidly long and unnecessary title")
-            SessionItem()
-            SessionItem(inProgress: false)
-            SessionItem(inProgress: false)
-            SessionItem(inProgress: false)
-            SessionItem(inProgress: false)
-            SessionItem(inProgress: false)
-            SessionItem(inProgress: false)
-            SessionItem(inProgress: false)
+        ScrollView{
+            LazyVGrid(columns: columns, spacing: 40){
+                SessionItem(title: "Stupidly long and unnecessary title")
+                SessionItem()
+                SessionItem(inProgress: false)
+                SessionItem(inProgress: false)
+                SessionItem(inProgress: false)
+                SessionItem(inProgress: false)
+                SessionItem(inProgress: false)
+                SessionItem(inProgress: false)
+                SessionItem(inProgress: false)
+            }
         }
-        .overlay(Rectangle().stroke(Color.gray))
+        .padding(.top)
     }
 }
 
