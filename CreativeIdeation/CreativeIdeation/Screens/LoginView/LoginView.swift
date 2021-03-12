@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct LoginView: View {
     
@@ -14,6 +15,9 @@ struct LoginView: View {
     
     @State var email: String = ""
     @State var password: String = ""
+    
+    // This probably shouldn't go here
+    let db = Firestore.firestore()
     
     var body: some View {
         
@@ -43,7 +47,19 @@ struct LoginView: View {
                     
                     // Sign In with Google Button
                     Button {
-                        
+//                        // Add a new document with a generated ID
+//                        var ref: DocumentReference? = nil
+//                        ref = db.collection("users").addDocument(data: [
+//                            "first": "Ada",
+//                            "last": "Lovelace",
+//                            "born": 1815
+//                        ]) { err in
+//                            if let err = err {
+//                                print("Error adding document: \(err)")
+//                            } else {
+//                                print("Document added with ID: \(ref!.documentID)")
+//                            }
+//                        }
                     } label: {
                         GoogleButton()
                     }
