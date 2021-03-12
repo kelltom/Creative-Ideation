@@ -10,45 +10,62 @@ import SwiftUI
 struct SessionItem: View {
     
     var title: String = "Example Title"
-    var activity: String = "Example Activity"
+    var activity: String = "Sticky Notes"
+    var image: String = "post-it"
     var date: String = "25-Feb-2021"
     var inProgress: Bool = true
+    var team: String = "Big Company"
+    var group: String = "Marketing"
     
     var body: some View {
-        HStack{
-            Text(title)
-                .font(.title3)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading)
+        VStack(spacing: 3){
             
-            Text(activity)
-                .font(.title3)
-                .frame(width: 180, alignment: .leading)
-            
-            Text(date)
-                .font(.title3)
-                .frame(width: 140, alignment: .leading)
-            
-            Text(inProgress ? "In Progress" : "Completed")
-                .font(.title3)
-                .frame(width: 110)
-                .foregroundColor(inProgress ? Color.black : Color.white)
-                .padding()
-                .background(inProgress ? Color.yellow : Color("darkCyan"))
-                .cornerRadius(50)
-                .padding()
-            
-            Button{
-                // open activity settings
-            } label: {
-                Image(systemName: "ellipsis")
+            VStack {
+                Image(image)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 50, height: 50)
-                    .foregroundColor(Color.gray)
-                    .padding()
             }
+            .frame(maxWidth: .infinity)
+            .background(LinearGradient(gradient: Gradient(colors: [Color.white, Color.yellow]), startPoint: .topLeading, endPoint: .bottomTrailing))
+            
+            HStack{
+                Text(activity)
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                
+                Spacer()
+                
+                Text(date)
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
+            .padding(3)
+            
+            Text(title)
+                .font(.title3)
+            
+            Text(team + " - " + group)
+                .font(.caption)
+                .italic()
+            
+            HStack(alignment: .bottom, spacing: 5){
+                ProfilePic(size: 30)
+                
+                Text("Owner")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                
+                Spacer()
+                
+                OptionsButton()
+            }
+            .padding(.bottom, 5)
+            .padding(.horizontal, 10)
         }
+        .frame(width: 200, height: 200)
+        .cornerRadius(25)
+        .overlay(RoundedRectangle(cornerRadius: 25.0)
+                    .stroke(Color.black, lineWidth: 2.0))
     }
 }
 

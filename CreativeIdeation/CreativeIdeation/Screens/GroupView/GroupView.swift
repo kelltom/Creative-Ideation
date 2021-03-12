@@ -20,7 +20,7 @@ struct GroupView: View {
             VStack{
                 HStack(spacing: 20){
                     Text("Example Company")
-                        .font(.system(size: 48))
+                        .font(.largeTitle)
                     
                     
                     Button{
@@ -67,58 +67,45 @@ struct GroupView: View {
                 Divider()
                 
                 VStack{
-                    DisclosureGroup(isExpanded: $listExpanded) {
-                        HStack{
-                            VStack{
-                                Text("Favourite Sessions")
-                                    .font(.largeTitle)
-                                
-                                Divider()
-                                
-                                RecentSessionList()
-                                
-                            }
-                            
-                            VStack{
-                                Text("Sub Groups")
-                                    .font(.largeTitle)
-                                
-                                Divider()
-                                
-                                SubGroupsList()
-                            }
-                        }
-                    } label: {
-                        Spacer()
-                        Text("Menu")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                    }
-                    .padding()
-                    
-                    Divider()
+//                    DisclosureGroup(isExpanded: $listExpanded) {
+//                        HStack{
+//                            VStack{
+//                                Text("Favourite Sessions")
+//                                    .font(.largeTitle)
+//
+//                                Divider()
+//
+//                                RecentSessionList()
+//
+//                            }
+//
+//                            VStack{
+//                                Text("Sub Groups")
+//                                    .font(.largeTitle)
+//
+//                                Divider()
+//
+//                                SubGroupsList()
+//                            }
+//                        }
+//                    } label: {
+//                        Spacer()
+//                        Text("Menu")
+//                            .font(.largeTitle)
+//                            .fontWeight(.bold)
+//                    }
+//                    .padding()
                     
                     VStack(alignment: .leading){
                         HStack{
-                            VStack(alignment: .leading){
-                                Text("Marketing")
-                                    .font(.system(size: 48))
-                                    .fontWeight(.bold)
-                                
-                                Text("Created on Feb.25th by Kell Evoy")
-                                    .font(.title3)
-                            }
+                            Text("Recent Sessions")
+                                .font(.title)
                             
-                            Button{
-                                // change sub group prefs
-                            } label: {
-                                Image(systemName: "gearshape.fill")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 40, height: 40)
-                                    .foregroundColor(Color.black)
-                                    .padding()
-                            }
+                            Image(systemName: "clock.arrow.circlepath")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 40, height: 40)
+                                .foregroundColor(Color.red)
                             
                             Spacer()
                             
@@ -127,22 +114,38 @@ struct GroupView: View {
                         }
                         .padding()
                         
-                        Text("Description text description text description text description text description text description text description text description text description text description text description text description text description text description text description text description text description text description text description text description text description text description text description text description text description text description text description text description text description text")
-                            .font(.title3)
-                            .padding()
+                        RecentSessionList()
                         
-                        Text("Sessions")
-                            .font(.system(size: 40))
-                            .padding()
+                        Divider()
                         
-                        SessionsList()
-                            .padding()
+                        HStack{
+                            VStack{
+                                Text("Groups")
+                                    .font(.title)
+                                    .padding()
+                                
+                                SubGroupsList()
+                            }
+                            .frame(width: 280)
+                            
+                            Divider()
+                            
+                            VStack{
+                                Text("Sessions")
+                                    .font(.title)
+                                    .padding()
+                                
+                                SessionsList()
+                            }
+                        }
+                        
+                       
                         
                     }
                     .frame(maxWidth: .infinity)
                 }
                 
-                Spacer()
+                //Spacer()
                 
             }
         }
