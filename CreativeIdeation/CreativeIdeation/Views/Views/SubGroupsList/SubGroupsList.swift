@@ -9,14 +9,23 @@ import SwiftUI
 
 struct SubGroupsList: View {
     var body: some View {
-        List{
-            SubGroup(title: "Marketing", selected: true)
+        
+        VStack {
+            List{
+                SubGroup(title: "Marketing", selected: true)
+                
+                SubGroup(title: "Finance")
+                
+                SubGroup(title: "Sales")
+                
+                SubGroup(title: "Other")
+                
+                SubGroup(title: "Research and Development")
+            }
+            .edgesIgnoringSafeArea(.all)
             
-            SubGroup(title: "Finance")
-            
-            SubGroup(title: "Other")
+            Spacer()
         }
-        .edgesIgnoringSafeArea(.all)
     }
 }
 

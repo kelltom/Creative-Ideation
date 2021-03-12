@@ -8,15 +8,27 @@
 import SwiftUI
 
 struct RecentSessionList: View {
+    
+    let columns = [
+        GridItem(.adaptive(minimum: 200))
+    ]
+    
     var body: some View {
-        List{
-            RecentSession(title: "New Product")
-            
-            RecentSession(title: "Marketing Campaign")
-            
-            RecentSession(title: "Brand Name and Logo")
+        ScrollView(.horizontal, showsIndicators: false){
+            LazyHStack(spacing: 50){
+                SessionItem()
+                
+                SessionItem(group: "Sales")
+                
+                SessionItem(group: "Sales")
+                
+                SessionItem(group: "Finance")
+                
+                SessionItem()
+            }
+            .padding(.leading)
         }
-        .frame(minHeight: 270)
+        .frame(maxHeight: 225)
     }
 }
 

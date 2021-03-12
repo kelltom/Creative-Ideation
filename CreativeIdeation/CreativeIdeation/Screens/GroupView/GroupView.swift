@@ -114,6 +114,10 @@ struct GroupView: View {
                         }
                         .padding()
                         
+                        RecentSessionList()
+                        
+                        Divider()
+                        
                         HStack{
                             VStack{
                                 Text("Groups")
@@ -141,7 +145,7 @@ struct GroupView: View {
                     .frame(maxWidth: .infinity)
                 }
                 
-                Spacer()
+                //Spacer()
                 
             }
         }

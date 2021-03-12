@@ -14,18 +14,20 @@ struct SessionsList: View {
     ]
     
     var body: some View {
-        ScrollView{
+        ScrollView(showsIndicators: false){
             LazyVGrid(columns: columns, spacing: 40){
+                NewSessionButton()
+                SessionItem()
+                SessionItem()
                 SessionItem(title: "Stupidly long and unnecessary title")
                 SessionItem()
-                SessionItem(inProgress: false)
-                SessionItem(inProgress: false)
-                SessionItem(inProgress: false)
-                SessionItem(inProgress: false)
-                SessionItem(inProgress: false)
-                SessionItem(inProgress: false)
-                SessionItem(inProgress: false)
+                SessionItem()
+                SessionItem()
+                SessionItem()
+                SessionItem()
+                SessionItem()
             }
+            .padding()
         }
         .padding(.top)
     }
@@ -33,6 +35,22 @@ struct SessionsList: View {
 
 struct SessionsList_Previews: PreviewProvider {
     static var previews: some View {
-        SessionsList()
+        Group {
+            SessionsList()
+        }
+    }
+}
+
+struct NewSessionButton: View {
+    
+    var body: some View {
+        Image(systemName: "plus")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 50, height: 50)
+            .frame(width: 200, height: 200)
+            .overlay(RoundedRectangle(cornerRadius: 25.0)
+                        .stroke(Color.black, lineWidth: 2.0))
+        
     }
 }

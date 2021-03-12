@@ -19,6 +19,8 @@ struct SubGroup: View {
                     .font(.title2)
                     .fontWeight(selected ? .bold : .regular)
                     .foregroundColor(selected ? Color.white : Color.black)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: 180)
             }
             
             HStack{
@@ -30,7 +32,7 @@ struct SubGroup: View {
         }
         .frame(width: 250, height: 80)
         .background(selected ? Color("darkCyan") : Color.white)
-        .edgesIgnoringSafeArea(.all)
+        .cornerRadius(25)
     }
 }
 
