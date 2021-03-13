@@ -20,68 +20,95 @@ struct CreateAccountView: View {
     @State var emailAddress: String = ""
     @State var password: String = ""
     
+    @State var errorMsg: String = ""
+    @State private var showError: Bool = false
+    
+    
     let db = Firestore.firestore()
     
     var body: some View {
         
-        VStack {
+        ZStack {
             
-            Spacer()
-            
-            VStack{
-                
-                Text("Create Account")
-                    .padding()
-                    .font(.system(size:40))
-                
-                MenuTextField(title: "Enter your full name", input: $fullname)
-                
-                MenuTextField(title: "Enter your email address", input: $emailAddress)
-                
-                MenuTextField(title: "Enter your password", input: $password)
-                
-                // Create Account Link
-                NavigationLink(destination: GroupView(), tag: 1, selection: $actionState) {
-                    EmptyView()
-                }
-                
-                Button {
-                    // Add a new document with a generated ID
-                    Auth.auth().createUser(withEmail: emailAddress, password: password)
-                    { authResult, error in
-                        if error != nil {
-                            print(error?.localizedDescription ?? "Error creating account")
-                        } else {
-                            print("Success")
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                self.actionState = 1
-                            }
-                        }
-                    }
-                } label: {
-                    BigButton(title: "Create Account")
-                }
-                
-                // Already have account Button
-                HStack {
-                    Text("Already have an account?")
-                    Button(action: {self.showLogIn = false}) {
-                        Text("Log In.")
-                    }
-                }
-                .padding(.top, 20)
-                
+            if showError {
+                InputErrorBanner(msg: errorMsg)
             }
             
-            Spacer()
+            VStack {
+                
+                Spacer()
+                
+                VStack{
+                    
+                    Text("Create Account")
+                        .padding()
+                        .font(.system(size:40))
+                    
+                    MenuTextField(title: "Enter your full name", input: $fullname)
+                    
+                    MenuTextField(title: "Enter your email address", input: $emailAddress)
+                    
+                    MenuTextField(title: "Enter your password", input: $password)
+                    
+                    // Create Account Link
+                    NavigationLink(destination: GroupView(), tag: 1, selection: $actionState) {
+                        EmptyView()
+                    }
+                    
+                    Button {
+                        // Add a new document with a generated ID
+                        Auth.auth().createUser(withEmail: emailAddress, password: password)
+                        { authResult, error in
+                            if error != nil {
+                                print(error?.localizedDescription ?? "Error creating account")
+                                withAnimation {
+                                    errorMsg = error?.localizedDescription ?? "Error creating account"
+                                    showError.toggle()
+                                }
+                                delayAlert()
+                            } else {
+                                print("Success")
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    self.actionState = 1
+                                }
+                            }
+                        }
+                    } label: {
+                        BigButton(title: "Create Account")
+                    }
+                    
+                    // Already have account Button
+                    HStack {
+                        Text("Already have an account?")
+                        Button(action: {self.showLogIn = false}) {
+                            Text("Log In.")
+                        }
+                    }
+                    .padding(.top, 20)
+                    
+                }
+                
+                Spacer()
+            }
+            .navigationBarHidden(true)
         }
-        .navigationBarHidden(true)
         
+    }
+    
+    private func delayAlert() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            withAnimation{
+                showError.toggle()
+            }
+        }
     }
 }
 
 struct CreateAccountView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateAccountView(showLogIn: .constant(false))
+        Group {
+            CreateAccountView(showLogIn: .constant(false))
+            CreateAccountView(showLogIn: .constant(false))
+        }
     }
 }

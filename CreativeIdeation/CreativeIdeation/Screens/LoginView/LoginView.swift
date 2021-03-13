@@ -18,6 +18,9 @@ struct LoginView: View {
     @State var email: String = ""
     @State var password: String = ""
     
+    @State var errorMsg: String = ""
+    @State private var showError: Bool = false
+    
     // This probably shouldn't go here
     let db = Firestore.firestore()
     
@@ -25,72 +28,93 @@ struct LoginView: View {
         
         NavigationView {
             
-            VStack {
+            ZStack {
                 
-                Spacer()
+                if showError {
+                    InputErrorBanner(msg: errorMsg)
+                }
                 
-                VStack() {
+                VStack {
                     
-                    Text("Log In")
-                        .padding()
-                        .font(.system(size:40))
+                    Spacer()
                     
-                    MenuTextField(title: "Email address", input: $email)
-                    
-                    MenuTextField(title: "Password", input: $password, secure: true)
-                    
-                    // Log In Link
-                    NavigationLink(destination: GroupView(), tag: 1, selection: $actionState) {
-                        EmptyView()
-                    }
-                    
-                    // Log In Button
-                    Button {
-                        // logic for determining if user entered proper credentials
-                        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-                            if error != nil {
-                                print(error?.localizedDescription ?? "")
-                                self.password = "" // reset password field
-                            } else {
-                                print("Success")
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                    self.actionState = 1
+                    VStack() {
+                        
+                        Text("Log In")
+                            .padding()
+                            .font(.system(size:40))
+                        
+                        MenuTextField(title: "Email address", input: $email)
+                        
+                        MenuTextField(title: "Password", input: $password, secure: true)
+                        
+                        // Log In Link
+                        NavigationLink(destination: GroupView(), tag: 1, selection: $actionState) {
+                            EmptyView()
+                        }
+                        
+                        // Log In Button
+                        Button {
+                            // logic for determining if user entered proper credentials
+                            Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+                                if error != nil {
+                                    print(error?.localizedDescription ?? "")
+                                    self.password = "" // reset password field
+                                    
+                                    withAnimation {
+                                        errorMsg = error?.localizedDescription ?? "Login Failed, Try Again"
+                                        showError.toggle()
+                                    }
+                                    delayAlert()
+                                } else {
+                                    print("Success")
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                        self.actionState = 1
+                                    }
                                 }
                             }
+                        } label: {
+                            BigButton(title: "Log In")
                         }
-                    } label: {
-                        BigButton(title: "Log In")
+                        .padding(.top)
+                        
+                        Text("or")
+                        
+                        // Sign In with Google Button
+                        Button {
+                            // code here for Google Auth
+                            //actionState = 1
+                        } label: {
+                            GoogleButton()
+                        }
+                        
                     }
-                    .padding(.top)
                     
-                    Text("or")
-                    
-                    // Sign In with Google Button
-                    Button {
-                        // code here for Google Auth
-                        //actionState = 1
-                    } label: {
-                        GoogleButton()
+                    // Create Acc Button
+                    HStack {
+                        Text("New user?")
+                        NavigationLink(destination: CreateAccountView(showLogIn: self.$showLogIn), isActive: self.$showLogIn) {
+                            Text("Create an Account.")
+                        }
                     }
+                    .padding(.top, 20)
                     
+                    Spacer()
                 }
-                
-                // Create Acc Button
-                HStack {
-                    Text("New user?")
-                    NavigationLink(destination: CreateAccountView(showLogIn: self.$showLogIn), isActive: self.$showLogIn) {
-                        Text("Create an Account.")
-                    }
-                }
-                .padding(.top, 20)
-                
-                Spacer()
+                .navigationBarHidden(true)
             }
-            .navigationBarHidden(true)
             
         }
         .navigationViewStyle(StackNavigationViewStyle())
         
+    }
+    
+    private func delayAlert() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            withAnimation{
+                showError.toggle()
+            }
+        }
     }
 }
 
