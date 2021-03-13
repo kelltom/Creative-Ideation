@@ -13,6 +13,8 @@ struct LoginView: View {
     // Bound to CreateAccountView to enable popping view on btn click
     @State var showLogIn = false
     
+    @State private var actionState: Int? = 0
+    
     @State var email: String = ""
     @State var password: String = ""
     
@@ -35,10 +37,28 @@ struct LoginView: View {
                     
                     MenuTextField(title: "Email address", input: $email)
                     
-                    MenuTextField(title: "Password", input: $password)
+                    MenuTextField(title: "Password", input: $password, secure: true)
+                    
+                    // Log In Link
+                    NavigationLink(destination: GroupView(), tag: 1, selection: $actionState) {
+                        EmptyView()
+                    }
                     
                     // Log In Button
-                    NavigationLink(destination: GroupView()) {
+                    Button {
+                        // logic for determining if user entered proper credentials
+                        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+                            if error != nil {
+                                print(error?.localizedDescription ?? "")
+                                self.password = "" // reset password field
+                            } else {
+                                print("Success")
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    self.actionState = 1
+                                }
+                            }
+                        }
+                    } label: {
                         BigButton(title: "Log In")
                     }
                     .padding(.top)
@@ -47,19 +67,8 @@ struct LoginView: View {
                     
                     // Sign In with Google Button
                     Button {
-//                        // Add a new document with a generated ID
-//                        var ref: DocumentReference? = nil
-//                        ref = db.collection("users").addDocument(data: [
-//                            "first": "Ada",
-//                            "last": "Lovelace",
-//                            "born": 1815
-//                        ]) { err in
-//                            if let err = err {
-//                                print("Error adding document: \(err)")
-//                            } else {
-//                                print("Document added with ID: \(ref!.documentID)")
-//                            }
-//                        }
+                        // code here for Google Auth
+                        //actionState = 1
                     } label: {
                         GoogleButton()
                     }
@@ -88,7 +97,7 @@ struct LoginView: View {
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView(email: "email address", password: "password")
-            
+        
     }
 }
 
