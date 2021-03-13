@@ -118,15 +118,15 @@ struct GroupView: View {
                         
                         Divider()
                         
-                        HStack{
-                            VStack{
+                        HStack(spacing: 0){
+                            VStack(){
                                 Text("Groups")
                                     .font(.title)
                                     .padding()
                                 
                                 SubGroupsList()
                             }
-                            .frame(width: 280)
+                            .frame(width: 230)
                             
                             Divider()
                             

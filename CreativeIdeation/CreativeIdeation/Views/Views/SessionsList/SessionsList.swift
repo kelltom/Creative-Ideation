@@ -10,7 +10,7 @@ import SwiftUI
 struct SessionsList: View {
     
     let columns = [
-        GridItem(.adaptive(minimum: 200))
+        GridItem(.adaptive(minimum: 180))
     ]
     
     var body: some View {
