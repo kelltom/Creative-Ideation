@@ -9,8 +9,6 @@ import SwiftUI
 
 struct GroupView: View {
     
-    @State private var listExpanded: Bool = true
-    
     var body: some View {
         
         HStack(spacing: 0) {
@@ -51,14 +49,14 @@ struct GroupView: View {
                         Image(systemName: "bell.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 60, height: 60)
+                            .frame(width: 40, height: 40)
                             .foregroundColor(Color.yellow)
                     }
                     
                     Button{
                         // view user prefs
                     } label: {
-                        ProfilePic(size: 90)
+                        ProfilePic(size: 70)
                             .shadow(color: .black, radius: 4, y: 4)
                     }
                 }
@@ -67,35 +65,6 @@ struct GroupView: View {
                 Divider()
                 
                 VStack{
-//                    DisclosureGroup(isExpanded: $listExpanded) {
-//                        HStack{
-//                            VStack{
-//                                Text("Favourite Sessions")
-//                                    .font(.largeTitle)
-//
-//                                Divider()
-//
-//                                RecentSessionList()
-//
-//                            }
-//
-//                            VStack{
-//                                Text("Sub Groups")
-//                                    .font(.largeTitle)
-//
-//                                Divider()
-//
-//                                SubGroupsList()
-//                            }
-//                        }
-//                    } label: {
-//                        Spacer()
-//                        Text("Menu")
-//                            .font(.largeTitle)
-//                            .fontWeight(.bold)
-//                    }
-//                    .padding()
-                    
                     VStack(alignment: .leading){
                         HStack{
                             Text("Recent Sessions")
@@ -112,28 +81,26 @@ struct GroupView: View {
                             GroupMemberPanel()
                             
                         }
-                        .padding()
+                        .padding(.horizontal, 10)
                         
                         RecentSessionList()
                         
                         Divider()
                         
-                        HStack{
-                            VStack{
+                        HStack(spacing: 0){
+                            VStack(){
                                 Text("Groups")
                                     .font(.title)
-                                    .padding()
                                 
                                 SubGroupsList()
                             }
-                            .frame(width: 280)
+                            .frame(width: 230)
                             
                             Divider()
                             
                             VStack{
                                 Text("Sessions")
                                     .font(.title)
-                                    .padding()
                                 
                                 SessionsList()
                             }

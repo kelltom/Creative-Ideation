@@ -22,7 +22,7 @@ struct GroupPic: View {
                     Image(systemName: symbol_name)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 80, height: 80)
+                        .frame(width: 48, height: 48)
                         .foregroundColor(Color.black)
                         .background(Color.yellow)
                         .clipShape(Rectangle())
@@ -32,7 +32,7 @@ struct GroupPic: View {
                     Image(systemName: symbol_name)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 80, height: 80)
+                        .frame(width: 48, height: 48)
                         .foregroundColor(Color.black)
                         .background(Color.yellow)
                         .clipShape(Circle())
@@ -41,8 +41,9 @@ struct GroupPic: View {
             }
             
             Text(team_name)
-                .font(.title3)
+                .font(.footnote)
                 .foregroundColor(.white)
+                .frame(maxWidth: 60)
         }
         
     }

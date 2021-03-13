@@ -13,10 +13,10 @@ struct GroupSidebar: View {
         VStack{
             
             Text("Teams")
-                .font(.title2)
+                .font(.title3)
                 .foregroundColor(.white)
                 .fontWeight(.bold)
-                .padding()
+                .padding(.top, 20)
             
             GroupPic(symbol_name: "house.circle")
                 .padding()
@@ -33,7 +33,7 @@ struct GroupSidebar: View {
                 Image(systemName: "plus.circle")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 80, height: 80)
+                    .frame(width: 48, height: 48)
                     .foregroundColor(Color.white)
                     .padding()
             }
