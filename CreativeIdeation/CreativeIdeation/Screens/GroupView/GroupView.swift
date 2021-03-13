@@ -9,8 +9,6 @@ import SwiftUI
 
 struct GroupView: View {
     
-    @State private var listExpanded: Bool = true
-    
     var body: some View {
         
         HStack(spacing: 0) {
@@ -67,35 +65,6 @@ struct GroupView: View {
                 Divider()
                 
                 VStack{
-//                    DisclosureGroup(isExpanded: $listExpanded) {
-//                        HStack{
-//                            VStack{
-//                                Text("Favourite Sessions")
-//                                    .font(.largeTitle)
-//
-//                                Divider()
-//
-//                                RecentSessionList()
-//
-//                            }
-//
-//                            VStack{
-//                                Text("Sub Groups")
-//                                    .font(.largeTitle)
-//
-//                                Divider()
-//
-//                                SubGroupsList()
-//                            }
-//                        }
-//                    } label: {
-//                        Spacer()
-//                        Text("Menu")
-//                            .font(.largeTitle)
-//                            .fontWeight(.bold)
-//                    }
-//                    .padding()
-                    
                     VStack(alignment: .leading){
                         HStack{
                             Text("Recent Sessions")
@@ -112,7 +81,7 @@ struct GroupView: View {
                             GroupMemberPanel()
                             
                         }
-                        .padding()
+                        .padding(.horizontal, 10)
                         
                         RecentSessionList()
                         
@@ -122,7 +91,6 @@ struct GroupView: View {
                             VStack(){
                                 Text("Groups")
                                     .font(.title)
-                                    .padding()
                                 
                                 SubGroupsList()
                             }
@@ -133,7 +101,6 @@ struct GroupView: View {
                             VStack{
                                 Text("Sessions")
                                     .font(.title)
-                                    .padding()
                                 
                                 SessionsList()
                             }
