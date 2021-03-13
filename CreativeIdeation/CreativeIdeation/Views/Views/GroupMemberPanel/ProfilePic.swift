@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProfilePic: View {
     
-    var size: CGFloat = 60
+    var size: CGFloat = 45
     
     var body: some View {
         Image(systemName: "person.fill")

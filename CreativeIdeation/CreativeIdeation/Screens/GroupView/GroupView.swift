@@ -51,14 +51,14 @@ struct GroupView: View {
                         Image(systemName: "bell.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 60, height: 60)
+                            .frame(width: 40, height: 40)
                             .foregroundColor(Color.yellow)
                     }
                     
                     Button{
                         // view user prefs
                     } label: {
-                        ProfilePic(size: 90)
+                        ProfilePic(size: 70)
                             .shadow(color: .black, radius: 4, y: 4)
                     }
                 }

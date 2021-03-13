@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GroupMemberPanel: View {
     var body: some View {
-        HStack{
+        HStack(spacing: 0){
             ProfilePic()
                 .padding(8)
             ProfilePic()
@@ -21,7 +21,7 @@ struct GroupMemberPanel: View {
                 .foregroundColor(.gray)
                 .padding(8)
         }
-        .frame(minWidth: 370)
+        .frame(minWidth: 300)
         .background(Color.white)
         .clipped()
         .shadow(color: .black, radius: 4, y: 4)
