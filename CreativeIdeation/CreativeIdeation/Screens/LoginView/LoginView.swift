@@ -13,6 +13,8 @@ struct LoginView: View {
     // Bound to CreateAccountView to enable popping view on btn click
     @State var showLogIn = false
     
+    @State private var actionState: Int? = 0
+    
     @State var email: String = ""
     @State var password: String = ""
     
@@ -37,8 +39,16 @@ struct LoginView: View {
                     
                     MenuTextField(title: "Password", input: $password)
                     
+                    // Log In Link
+                    NavigationLink(destination: GroupView(), tag: 1, selection: $actionState) {
+                        EmptyView()
+                    }
+                    
                     // Log In Button
-                    NavigationLink(destination: GroupView()) {
+                    Button {
+                        // logic for determining if user entered proper credentials
+                        actionState = 1
+                    } label: {
                         BigButton(title: "Log In")
                     }
                     .padding(.top)
@@ -60,6 +70,7 @@ struct LoginView: View {
 //                                print("Document added with ID: \(ref!.documentID)")
 //                            }
 //                        }
+                        actionState = 1
                     } label: {
                         GoogleButton()
                     }
