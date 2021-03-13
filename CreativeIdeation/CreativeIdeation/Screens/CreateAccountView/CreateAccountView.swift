@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct CreateAccountView: View {
     
@@ -16,6 +17,8 @@ struct CreateAccountView: View {
     @State var fullname: String = ""
     @State var emailAddress: String = ""
     @State var password: String = ""
+    
+    let db = Firestore.firestore()
     
     var body: some View {
         
@@ -36,10 +39,24 @@ struct CreateAccountView: View {
                 MenuTextField(title: "Enter your password", input: $password)
                 
                 //Create account button
-                NavigationLink(destination: UserInfoView()) {
+//                NavigationLink(destination: UserInfoView()) {
+//                    BigButton(title: "Create Account")
+//                }
+//                .padding(.top)
+                
+                Button {
+                    // Add a new document with a generated ID
+                    Auth.auth().createUser(withEmail: emailAddress, password: password)
+                    { (result, error) in
+                        if error != nil {
+                            print(error?.localizedDescription ?? "Error creating account")
+                        } else {
+                            print("success")
+                        }
+                    }
+                } label: {
                     BigButton(title: "Create Account")
                 }
-                .padding(.top)
                 
                 // Already have account Button
                 HStack {
