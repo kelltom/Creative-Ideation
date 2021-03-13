@@ -16,21 +16,21 @@ struct SubGroup: View {
         ZStack {
             HStack{
                 Text(title)
-                    .font(.title3)
+                    .font(.title2)
                     .fontWeight(selected ? .bold : .regular)
                     .foregroundColor(selected ? Color.white : Color.black)
                     .multilineTextAlignment(.center)
-                    .frame(maxWidth: 140)
+                    .frame(maxWidth: 180)
             }
             
             HStack{
                 Spacer()
                 OptionsButton()
                     .foregroundColor(selected ? Color.white : Color.black)
-                    .padding(7)
+                    .padding(10)
             }
         }
-        .frame(width: 200, height: 80)
+        .frame(width: 250, height: 80)
         .background(selected ? Color("darkCyan") : Color.white)
         .cornerRadius(25)
     }

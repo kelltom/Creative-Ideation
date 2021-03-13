@@ -22,6 +22,9 @@ struct SubGroupsList: View {
                 
                 SubGroup(title: "Research and Development")
             }
+            .edgesIgnoringSafeArea(.all)
+            
+            Spacer()
         }
     }
 }
