@@ -11,6 +11,7 @@
 		76A0956125E745D800917450 /* CreateTeamsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0956025E745D800917450 /* CreateTeamsView.swift */; };
 		76A0956525E80F0500917450 /* CreateGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0956425E80F0500917450 /* CreateGroupView.swift */; };
 		76A0956925E825ED00917450 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0956825E825ED00917450 /* SearchBarView.swift */; };
+		C92BA9EA25FD689300FEEADA /* InputErrorBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92BA9E925FD689300FEEADA /* InputErrorBanner.swift */; };
 		C9AE738125EAAD940090C96B /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE738025EAAD940090C96B /* ActivityView.swift */; };
 		C9AE739425EAB73C0090C96B /* ActivityToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE739325EAB73C0090C96B /* ActivityToolbar.swift */; };
 		C9AE739725EAB8D80090C96B /* ToolButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE739625EAB8D80090C96B /* ToolButton.swift */; };
@@ -50,6 +51,7 @@
 		76A0956025E745D800917450 /* CreateTeamsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTeamsView.swift; sourceTree = "<group>"; };
 		76A0956425E80F0500917450 /* CreateGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupView.swift; sourceTree = "<group>"; };
 		76A0956825E825ED00917450 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		C92BA9E925FD689300FEEADA /* InputErrorBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputErrorBanner.swift; sourceTree = "<group>"; };
 		C9AE738025EAAD940090C96B /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		C9AE739325EAB73C0090C96B /* ActivityToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityToolbar.swift; sourceTree = "<group>"; };
 		C9AE739625EAB8D80090C96B /* ToolButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolButton.swift; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 				C9DC348625EA0DF400CA28BB /* SubGroupsList */,
 				DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */,
 				DDDFDA9325E086EC00342B1B /* MenuTextField.swift */,
+				C92BA9E925FD689300FEEADA /* InputErrorBanner.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -424,6 +427,7 @@
 				DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */,
 				76A0956925E825ED00917450 /* SearchBarView.swift in Sources */,
 				C9F1C92125EA121A00F95F61 /* GroupSidebar.swift in Sources */,
+				C92BA9EA25FD689300FEEADA /* InputErrorBanner.swift in Sources */,
 				DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */,
 				C9DC348225EA0BD300CA28BB /* RecentSessionList.swift in Sources */,
 				C9C67A0C25DDE5A6002D16A9 /* UserInfoView.swift in Sources */,
