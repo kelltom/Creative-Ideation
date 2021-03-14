@@ -47,9 +47,9 @@ struct CreateTeamView: View {
                 
                 VStack {
                     
-                    MenuTextField(title: "team name", input: $teamName)
+                    MenuTextField(title: "Team name", input: $teamName)
                     
-                    MenuTextField(title: "team description (optiona)", input: $teamDescription)
+                    MenuTextField(title: "Team description (optional)", input: $teamDescription)
                     
                     Button {
                         // Display error message when no Team name entered
