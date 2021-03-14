@@ -30,7 +30,7 @@ struct CreateTeamsView: View {
         
         ZStack {
             
-            if showBanner{
+            if showBanner {
                 NotificationBanner(image: bannerImage, msg: bannerMsg, color: bannerColor)
             }
             NotificationBanner(image: bannerImage, msg: bannerMsg, color: bannerColor)
@@ -40,19 +40,19 @@ struct CreateTeamsView: View {
                 Spacer()
             }
             
-            VStack{
+            VStack {
                 
                 Text("Create Your Team")
-                    .font(.system(size: 40, weight: .heavy))
+                    .font(.system(size: 40))
                     .padding()
                 
-                VStack{
+                VStack {
                     
                     MenuTextField(title: "team name", input: $teamName)
                     
                     MenuTextField(title: "team description (optiona)", input: $teamDescription)
                     
-                    Button{
+                    Button {
                         // Display error message when no Team name entered
                         if (teamName.isEmpty){
                             
@@ -91,20 +91,19 @@ struct CreateTeamsView: View {
                             }
                         }
                         
-                    } label:{
+                    } label: {
                         BigButton(title: "Create")
-                            .padding()
+                            .padding(.top, 5)
                     }
                     
                     Text("or")
-                        .font(.system(size:18))
                     
-                    Button{
-                        // do something here
-                    } label:{
-                        BigButton(title: "Start Session")
-                            .padding()
+                    // Create Acc Button
+                    NavigationLink(destination: EmptyView()) {
+                        Text("Reactivate pre-existing team.")
+                            .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
                     }
+                    .padding(.top)
                     
                 }
             }
