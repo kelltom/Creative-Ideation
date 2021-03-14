@@ -65,7 +65,7 @@ struct CreateTeamsView: View {
                             ref = db.collection("teams").addDocument(data: [
                                 "teamName": teamName,
                                 "teamDescription": teamDescription,
-                                "createdBy": user?.uid
+                                "createdBy": user?.uid as Any
                             ]) { err in
                                 if let err = err {
                                     print("Error adding document: \(err)")
