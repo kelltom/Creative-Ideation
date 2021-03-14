@@ -9,45 +9,50 @@ import SwiftUI
 import Firebase
 
 
-struct CreateTeamsView: View {
+struct CreateTeamView: View {
+    
+    @State private var showBanner: Bool = false
+    @Binding var showCreateTeam: Bool
+    
     @State var teamName: String = ""
     @State var teamDescription: String = ""
     @State var teamMembers: String = ""
+    
     @State var bannerMsg: String
     @State var bannerColor: Color
     @State var bannerImage: String
-    @State private var showBanner: Bool = false
-    @Binding var showCreateTeam: Bool
     
     // db init
     let db = Firestore.firestore()
     let user = Auth.auth().currentUser
     
-    
     var body: some View {
         
         ZStack {
-            if showBanner{
+            
+            if showBanner {
                 NotificationBanner(image: bannerImage, msg: bannerMsg, color: bannerColor)
             }
+
             VStack {
                 XDismissButton(isShowingSheet: $showCreateTeam)
                 Spacer()
             }
-           
-            VStack{
-               
-                Text("Create Your Team").font(.system(size: 40, weight: .heavy)).padding()
+            
+            VStack {
                 
-                VStack{
-                    MenuTextField(title: "team name", input: $teamName)
+                Text("Create Your Team")
+                    .font(.system(size: 40))
+                    .padding()
+                
+                VStack {
                     
-                    MenuTextField(title: "team description (optiona)", input: $teamDescription)
+                    MenuTextField(title: "Team name", input: $teamName)
                     
-
-
-                    Button{
-                        // do something here
+                    MenuTextField(title: "Team description (optional)", input: $teamDescription)
+                    
+                    Button {
+                        // Display error message when no Team name entered
                         if (teamName.isEmpty){
                             
                             bannerMsg = "Missing Team Name"
@@ -55,17 +60,18 @@ struct CreateTeamsView: View {
                             bannerImage = "exclamationmark.circle.fill"
                             
                             withAnimation {
-                                showBanner.toggle()
+                                showBanner = true
                             }
                             delayAlert()
                             
                         } else {
+                            // Attempt to save new Team to db
                             var ref: DocumentReference? = nil
                             
                             ref = db.collection("teams").addDocument(data: [
                                 "teamName": teamName,
                                 "teamDescription": teamDescription,
-                                "createdBy": user?.uid
+                                "createdBy": user?.uid as Any
                             ]) { err in
                                 if let err = err {
                                     print("Error adding document: \(err)")
@@ -75,26 +81,28 @@ struct CreateTeamsView: View {
                                     bannerImage = "checkmark.circle.fill"
                                     
                                     withAnimation {
-                                        showBanner.toggle()
+                                        showBanner = true
                                     }
                                     delayAlert()
                                     
                                     print("Document added with ID: \(ref!.documentID)")
                                 }
                             }
-                            
                         }
                         
-                    } label:{
-                        BigButton(title: "Create").padding()
+                    } label: {
+                        BigButton(title: "Create")
+                            .padding(.top, 5)
                     }
-                    Text("or").font(.system(size:18))
                     
-                    Button{
-                        // do something here
-                    } label:{
-                        BigButton(title: "Start Session").padding()
+                    Text("or")
+                    
+                    // Create Acc Button
+                    NavigationLink(destination: EmptyView()) {
+                        Text("Reactivate pre-existing team.")
+                            .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
                     }
+                    .padding(.top)
                     
                 }
             }
@@ -105,21 +113,14 @@ struct CreateTeamsView: View {
     private func delayAlert() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
             withAnimation{
-                showBanner.toggle()
+                showBanner = false
             }
         }
     }
 }
 
-
-
-
-
-
-
-
-struct CreateTeamsView_Previews: PreviewProvider {
+struct CreateTeamView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateTeamsView(bannerMsg: "", bannerColor: .white, bannerImage: "", showCreateTeam: .constant(true))
+        CreateTeamView(showCreateTeam: .constant(true), bannerMsg: "Success", bannerColor: .green, bannerImage: "checkmark.circle.fill")
     }
 }

@@ -20,7 +20,7 @@ struct PreferenceButton: View {
             .frame(width:200, height:60, alignment: .center)
             .overlay(RoundedRectangle(cornerRadius: 90.0)
                         .stroke(selected ? Color.clear : Color.black, lineWidth: 2.0))
-            .background(selected ? Color("darkCyan") : .white)
+            .background(selected ? Color("brandPrimary") : .white)
             .foregroundColor(selected ? .white : .black)
             .cornerRadius(90)
             .padding()

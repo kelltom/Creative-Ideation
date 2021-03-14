@@ -47,7 +47,7 @@ struct GroupView: View {
                 Spacer()
             }
             .frame(maxHeight: .infinity)
-            .background(Color("darkCyan"))
+            .background(Color("brandPrimary"))
             .edgesIgnoringSafeArea(.all)
         
             
@@ -155,7 +155,7 @@ struct GroupView: View {
         .navigationTitle("Home")
         .navigationBarHidden(true)
         .sheet(isPresented: $showCreateTeam){
-            CreateTeamsView(bannerMsg: "", bannerColor: .white, bannerImage: "", showCreateTeam: $showCreateTeam)
+            CreateTeamView(showCreateTeam: $showCreateTeam, bannerMsg: "", bannerColor: .white, bannerImage: "")
         }
     }
 }

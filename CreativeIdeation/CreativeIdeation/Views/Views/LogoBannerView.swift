@@ -14,7 +14,7 @@ struct LogoBannerView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 100, height: 100)
-                .foregroundColor(Color("darkCyan"))
+                .foregroundColor(Color("brandPrimary"))
             
             Text("Ponder")
                 .font(.largeTitle)

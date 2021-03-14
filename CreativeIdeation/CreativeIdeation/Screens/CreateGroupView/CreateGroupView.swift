@@ -59,7 +59,7 @@ struct CreateGroupView: View {
                         Text("Add Members")
                             .font(.system(size: 25))
                             .frame(maxWidth: .infinity, maxHeight: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, alignment: .center)
-                            .background(Rectangle().fill(Color("darkCyan")))
+                            .background(Rectangle().fill(Color("brandPrimary")))
                         
                         
                         SearchBarView(text: $text).padding()
@@ -74,13 +74,13 @@ struct CreateGroupView: View {
                                 }
                             }
                             .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealWidth: 80, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealHeight: 50, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                            .border(Color("darkCyan"), width: 2)
+                            .border(Color("brandPrimary"), width: 2)
                             .cornerRadius(5.0)
  
                         }
                     }
                     .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxWidth: 380, minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/,  maxHeight: 470, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .border(Color("darkCyan"), width: 2.0) // formatting for add members
+                    .border(Color("brandPrimary"), width: 2.0) // formatting for add members
                     .cornerRadius(6)
                 }
             }.padding() // padding padding for title

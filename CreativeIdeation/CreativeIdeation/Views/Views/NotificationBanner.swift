@@ -18,7 +18,7 @@ struct NotificationBanner: View {
                 Image(systemName: image)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 40, height: 40)
+                    .frame(width: 30, height: 30)
                     .foregroundColor(Color.white)
                 
                 
@@ -26,7 +26,7 @@ struct NotificationBanner: View {
                     .font(.title2)
                     .foregroundColor(.white)
             }
-            .frame(maxWidth: .infinity, maxHeight: 100)
+            .frame(maxWidth: .infinity, maxHeight: 80)
             .background(color)
             .cornerRadius(25)
             .padding()

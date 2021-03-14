@@ -7,12 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		765506E125FD746B00029F13 /* AddUserPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765506E025FD746A00029F13 /* AddUserPanel.swift */; };
 		767994BE25DDC79A001970B4 /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767994BD25DDC79A001970B4 /* CreateAccountView.swift */; };
-		76A0956125E745D800917450 /* CreateTeamsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0956025E745D800917450 /* CreateTeamsView.swift */; };
+		76A0956125E745D800917450 /* CreateTeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0956025E745D800917450 /* CreateTeamView.swift */; };
 		76A0956525E80F0500917450 /* CreateGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0956425E80F0500917450 /* CreateGroupView.swift */; };
 		76A0956925E825ED00917450 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0956825E825ED00917450 /* SearchBarView.swift */; };
-		76A184CD25FD8EF20070251D /* InputSuccessBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A184CC25FD8EF20070251D /* InputSuccessBanner.swift */; };
 		76A184D125FD979B0070251D /* XDismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A184D025FD979B0070251D /* XDismissButton.swift */; };
 		C92BA9EA25FD689300FEEADA /* NotificationBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92BA9E925FD689300FEEADA /* NotificationBanner.swift */; };
 		C9AE738125EAAD940090C96B /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE738025EAAD940090C96B /* ActivityView.swift */; };
@@ -50,12 +48,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		765506E025FD746A00029F13 /* AddUserPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddUserPanel.swift; sourceTree = "<group>"; };
 		767994BD25DDC79A001970B4 /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
-		76A0956025E745D800917450 /* CreateTeamsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTeamsView.swift; sourceTree = "<group>"; };
+		76A0956025E745D800917450 /* CreateTeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTeamView.swift; sourceTree = "<group>"; };
 		76A0956425E80F0500917450 /* CreateGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupView.swift; sourceTree = "<group>"; };
 		76A0956825E825ED00917450 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
-		76A184CC25FD8EF20070251D /* InputSuccessBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSuccessBanner.swift; sourceTree = "<group>"; };
 		76A184D025FD979B0070251D /* XDismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XDismissButton.swift; sourceTree = "<group>"; };
 		C92BA9E925FD689300FEEADA /* NotificationBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBanner.swift; sourceTree = "<group>"; };
 		C9AE738025EAAD940090C96B /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
@@ -113,12 +109,12 @@
 			path = CreateAccountView;
 			sourceTree = "<group>";
 		};
-		76A0955F25E745BD00917450 /* CreateTeamsView */ = {
+		76A0955F25E745BD00917450 /* CreateTeamView */ = {
 			isa = PBXGroup;
 			children = (
-				76A0956025E745D800917450 /* CreateTeamsView.swift */,
+				76A0956025E745D800917450 /* CreateTeamView.swift */,
 			);
-			path = CreateTeamsView;
+			path = CreateTeamView;
 			sourceTree = "<group>";
 		};
 		76A0956325E80BDE00917450 /* CreateGroupView */ = {
@@ -231,7 +227,7 @@
 				C9C67A2325E8287F002D16A9 /* GroupView */,
 				C9C67A0F25E7FECA002D16A9 /* UserPrefView */,
 				76A0956325E80BDE00917450 /* CreateGroupView */,
-				76A0955F25E745BD00917450 /* CreateTeamsView */,
+				76A0955F25E745BD00917450 /* CreateTeamView */,
 				C9C67A0A25DDE592002D16A9 /* UserInfoView */,
 				767994B825DDC66A001970B4 /* CreateAccountView */,
 				DD3A4CEB25DDC3E5007D68B6 /* LoginView */,
@@ -328,8 +324,6 @@
 				DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */,
 				DDDFDA9325E086EC00342B1B /* MenuTextField.swift */,
 				C92BA9E925FD689300FEEADA /* NotificationBanner.swift */,
-				765506E025FD746A00029F13 /* AddUserPanel.swift */,
-				76A184CC25FD8EF20070251D /* InputSuccessBanner.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -430,20 +424,18 @@
 				C9F230C625F29DA3006590DA /* GroupMemberPanel.swift in Sources */,
 				C9AE738125EAAD940090C96B /* ActivityView.swift in Sources */,
 				C9F230C225F29D98006590DA /* SessionItem.swift in Sources */,
-				765506E125FD746B00029F13 /* AddUserPanel.swift in Sources */,
 				76A184D125FD979B0070251D /* XDismissButton.swift in Sources */,
 				C9F230BD25F29D8D006590DA /* SubGroup.swift in Sources */,
 				C9F230BA25F29D53006590DA /* GroupPic.swift in Sources */,
 				DDDFDA9825E08B0000342B1B /* PreferenceButton.swift in Sources */,
 				DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */,
-				76A184CD25FD8EF20070251D /* InputSuccessBanner.swift in Sources */,
 				76A0956925E825ED00917450 /* SearchBarView.swift in Sources */,
 				C9F1C92125EA121A00F95F61 /* GroupSidebar.swift in Sources */,
 				C92BA9EA25FD689300FEEADA /* NotificationBanner.swift in Sources */,
 				DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */,
 				C9DC348225EA0BD300CA28BB /* RecentSessionList.swift in Sources */,
 				C9C67A0C25DDE5A6002D16A9 /* UserInfoView.swift in Sources */,
-				76A0956125E745D800917450 /* CreateTeamsView.swift in Sources */,
+				76A0956125E745D800917450 /* CreateTeamView.swift in Sources */,
 				C9F230C125F29D98006590DA /* SessionsList.swift in Sources */,
 				C9AE739E25EB19F50090C96B /* CreateSessionView.swift in Sources */,
 			);

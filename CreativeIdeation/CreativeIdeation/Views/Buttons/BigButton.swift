@@ -14,7 +14,7 @@ struct BigButton: View {
     var body: some View {
         Text(title)
             .frame(width: 550, height: 60, alignment: .center)
-            .background(Color("darkCyan"))
+            .background(Color("brandPrimary"))
             .foregroundColor(.white)
             .cornerRadius(10)
             .font(.title2)

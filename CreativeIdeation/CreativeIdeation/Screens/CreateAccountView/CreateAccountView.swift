@@ -44,11 +44,11 @@ struct CreateAccountView: View {
                         .padding()
                         .font(.system(size:40))
                     
-                    MenuTextField(title: "Enter your full name", input: $fullname)
+                    MenuTextField(title: "Full name", input: $fullname)
                     
-                    MenuTextField(title: "Enter your email address", input: $emailAddress)
+                    MenuTextField(title: "Email address", input: $emailAddress)
                     
-                    MenuTextField(title: "Enter your password", input: $password)
+                    MenuTextField(title: "Password", input: $password)
                     
                     // Create Account Link
                     NavigationLink(destination: GroupView(), tag: 1, selection: $actionState) {
