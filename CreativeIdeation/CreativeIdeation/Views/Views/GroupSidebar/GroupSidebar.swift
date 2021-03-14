@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct GroupSidebar: View {
+    
+    
     var body: some View {
         
         VStack{
@@ -29,6 +31,8 @@ struct GroupSidebar: View {
             
             Button{
                 // Add group button
+             
+                
             } label: {
                 Image(systemName: "plus.circle")
                     .resizable()
