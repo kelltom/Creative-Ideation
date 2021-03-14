@@ -60,7 +60,7 @@ struct LoginView: View {
                                 if error != nil {
                                     print(error?.localizedDescription ?? "")
                                     self.password = "" // reset password field
-
+                                    
                                     bannerMsg = error?.localizedDescription ?? "Login Failed, Try Again"
                                     bannerColor = Color.red
                                     bannerImage = "exclamationmark.circle.fill"
