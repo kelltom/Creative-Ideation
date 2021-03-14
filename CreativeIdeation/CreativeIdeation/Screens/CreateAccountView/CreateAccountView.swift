@@ -31,7 +31,7 @@ struct CreateAccountView: View {
         ZStack {
             
             if showError {
-                InputErrorBanner(msg: errorMsg)
+                NotificationBanner(image: "exclamationmark.circle.fill", msg: errorMsg, color: .red)
             }
             
             VStack {

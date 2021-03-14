@@ -7,14 +7,15 @@
 
 import SwiftUI
 
-struct InputErrorBanner: View {
-    
-    var msg: String = "Error"
+struct NotificationBanner: View {
+    var image: String
+    var msg: String
+    var color: Color
     
     var body: some View {
         VStack {
             HStack {
-                Image(systemName: "exclamationmark.circle.fill")
+                Image(systemName: image)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 40, height: 40)
@@ -26,7 +27,7 @@ struct InputErrorBanner: View {
                     .foregroundColor(.white)
             }
             .frame(maxWidth: .infinity, maxHeight: 100)
-            .background(Color.red)
+            .background(color)
             .cornerRadius(25)
             .padding()
             
@@ -35,8 +36,8 @@ struct InputErrorBanner: View {
     }
 }
 
-struct InputErrorBanner_Previews: PreviewProvider {
+struct NotificationBanner_Previews: PreviewProvider {
     static var previews: some View {
-        InputErrorBanner()
+        NotificationBanner(image: "checkmark", msg: "success", color: .green)
     }
 }

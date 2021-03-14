@@ -8,12 +8,48 @@
 import SwiftUI
 
 struct GroupView: View {
+    @State var showCreateTeam = false
     
     var body: some View {
         
         HStack(spacing: 0) {
             
-            GroupSidebar()
+            VStack{
+                
+                Text("Teams")
+                    .font(.title3)
+                    .foregroundColor(.white)
+                    .fontWeight(.bold)
+                    .padding(.top, 20)
+                
+                GroupPic(symbol_name: "house.circle")
+                    .padding()
+                
+                GroupPic(selected: true)
+                    .padding()
+                
+                GroupPic()
+                    .padding()
+                
+                Button{
+                    // Add group button
+                    showCreateTeam = true
+                    
+                } label: {
+                    Image(systemName: "plus.circle")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 48, height: 48)
+                        .foregroundColor(Color.white)
+                        .padding()
+                }
+                
+                Spacer()
+            }
+            .frame(maxHeight: .infinity)
+            .background(Color("darkCyan"))
+            .edgesIgnoringSafeArea(.all)
+        
             
             VStack{
                 HStack(spacing: 20){
@@ -118,6 +154,9 @@ struct GroupView: View {
         }
         .navigationTitle("Home")
         .navigationBarHidden(true)
+        .sheet(isPresented: $showCreateTeam){
+            CreateTeamsView(bannerMsg: "", bannerColor: .white, bannerImage: "", showCreateTeam: $showCreateTeam)
+        }
     }
 }
 
@@ -126,3 +165,6 @@ struct GroupView_Previews: PreviewProvider {
         GroupView()
     }
 }
+
+
+
