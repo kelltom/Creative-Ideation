@@ -55,7 +55,7 @@ struct CreateTeamsView: View {
                             bannerImage = "exclamationmark.circle.fill"
                             
                             withAnimation {
-                                showBanner.toggle()
+                                showBanner = true
                             }
                             delayAlert()
                             
@@ -75,7 +75,7 @@ struct CreateTeamsView: View {
                                     bannerImage = "checkmark.circle.fill"
                                     
                                     withAnimation {
-                                        showBanner.toggle()
+                                        showBanner = true
                                     }
                                     delayAlert()
                                     
@@ -105,7 +105,7 @@ struct CreateTeamsView: View {
     private func delayAlert() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
             withAnimation{
-                showBanner.toggle()
+                showBanner = false
             }
         }
     }

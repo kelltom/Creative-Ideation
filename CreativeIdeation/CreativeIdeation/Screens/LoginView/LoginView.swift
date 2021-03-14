@@ -10,16 +10,16 @@ import Firebase
 
 struct LoginView: View {
     
-    // Bound to CreateAccountView to enable popping view on btn click
     @State var showLogIn = false
-    
+    @State private var showBanner: Bool = false
     @State private var actionState: Int? = 0
     
     @State var email: String = ""
     @State var password: String = ""
     
-    @State var errorMsg: String = ""
-    @State private var showError: Bool = false
+    @State var bannerImage: String = ""
+    @State var bannerColor: Color = .red
+    @State var bannerMsg: String = ""
     
     // This probably shouldn't go here
     let db = Firestore.firestore()
@@ -30,8 +30,8 @@ struct LoginView: View {
             
             ZStack {
                 
-                if showError {
-                    NotificationBanner(image: "exclamationmark.circle.fill", msg: errorMsg, color: .red)
+                if showBanner {
+                    NotificationBanner(image: bannerImage, msg: bannerMsg, color: bannerColor)
                 }
                 
                 VStack {
@@ -55,19 +55,32 @@ struct LoginView: View {
                         
                         // Log In Button
                         Button {
-                            // logic for determining if user entered proper credentials
+                            // Authenticate user credentials
                             Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
                                 if error != nil {
                                     print(error?.localizedDescription ?? "")
                                     self.password = "" // reset password field
+
+                                    bannerMsg = error?.localizedDescription ?? "Login Failed, Try Again"
+                                    bannerColor = Color.red
+                                    bannerImage = "exclamationmark.circle.fill"
                                     
                                     withAnimation {
-                                        errorMsg = error?.localizedDescription ?? "Login Failed, Try Again"
-                                        showError.toggle()
+                                        showBanner = true
                                     }
                                     delayAlert()
                                 } else {
                                     print("Success")
+                                    bannerMsg = "Success"
+                                    bannerColor = Color.green
+                                    bannerImage = "checkmark.circle.fill"
+                                    
+                                    withAnimation {
+                                        showBanner = true
+                                    }
+                                    delayAlert()
+                                    
+                                    // Navigate to Team View
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                         self.actionState = 1
                                     }
@@ -112,7 +125,7 @@ struct LoginView: View {
     private func delayAlert() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
             withAnimation{
-                showError.toggle()
+                showBanner = false
             }
         }
     }
@@ -120,8 +133,7 @@ struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView(email: "email address", password: "password")
-        
+        LoginView()
     }
 }
 
