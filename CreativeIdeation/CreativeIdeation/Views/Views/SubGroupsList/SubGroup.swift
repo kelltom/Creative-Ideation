@@ -31,7 +31,7 @@ struct SubGroup: View {
             }
         }
         .frame(width: 200, height: 80)
-        .background(selected ? Color("darkCyan") : Color.white)
+        .background(selected ? Color("brandPrimary") : Color.white)
         .cornerRadius(25)
     }
 }

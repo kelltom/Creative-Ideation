@@ -26,7 +26,7 @@ struct ActivityTypeTile: View {
                     .frame(width: 80, height: 80)
                     .padding(40)
                     .foregroundColor(selected ? Color.white : Color.black)
-                    .background(selected ? Color("darkCyan") : Color.white)
+                    .background(selected ? Color("brandPrimary") : Color.white)
                     .cornerRadius(30)
                     .clipped()
                     .shadow(color: .black, radius: 4, y: 4)

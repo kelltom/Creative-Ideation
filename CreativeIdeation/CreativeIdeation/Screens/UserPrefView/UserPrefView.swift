@@ -99,7 +99,7 @@ struct UserPrefView: View {
                                 .font(.title)
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .background(Color("darkCyan"))
+                                .background(Color("brandPrimary"))
                         }
                         Button {
                             // do something - navigate to different screen

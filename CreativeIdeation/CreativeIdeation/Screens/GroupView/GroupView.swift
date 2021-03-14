@@ -47,7 +47,7 @@ struct GroupView: View {
                 Spacer()
             }
             .frame(maxHeight: .infinity)
-            .background(Color("darkCyan"))
+            .background(Color("brandPrimary"))
             .edgesIgnoringSafeArea(.all)
         
             
