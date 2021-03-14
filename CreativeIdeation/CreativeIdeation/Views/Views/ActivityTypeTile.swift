@@ -14,7 +14,9 @@ struct ActivityTypeTile: View {
     var selected: Bool = false
     
     var body: some View {
+        
         VStack{
+            
             Button {
                 // Select activity type
             } label: {

@@ -12,7 +12,7 @@ struct GroupSidebar: View {
     
     var body: some View {
         
-        VStack{
+        VStack {
             
             Text("Teams")
                 .font(.title3)
@@ -31,7 +31,6 @@ struct GroupSidebar: View {
             
             Button{
                 // Add group button
-             
                 
             } label: {
                 Image(systemName: "plus.circle")

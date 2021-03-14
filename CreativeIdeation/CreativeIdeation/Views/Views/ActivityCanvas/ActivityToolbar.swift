@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct ActivityToolbar: View {
+    
     var body: some View {
+        
         VStack{
             ToolButton(symbol_name: "arrow.up.and.down.and.arrow.left.and.right")
             ToolButton(selected: true, symbol_name: "pencil")

@@ -14,7 +14,7 @@ struct SubGroup: View {
     
     var body: some View {
         ZStack {
-            HStack{
+            HStack {
                 Text(title)
                     .font(.title3)
                     .fontWeight(selected ? .bold : .regular)
@@ -38,6 +38,6 @@ struct SubGroup: View {
 
 struct SubGroup_Previews: PreviewProvider {
     static var previews: some View {
-        SubGroup()
+        SubGroup(title: "Example", selected: true)
     }
 }
