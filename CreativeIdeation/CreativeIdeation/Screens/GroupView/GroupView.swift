@@ -155,7 +155,7 @@ struct GroupView: View {
         .navigationTitle("Home")
         .navigationBarHidden(true)
         .sheet(isPresented: $showCreateTeam){
-            CreateTeamsView(showCreateTeam: $showCreateTeam, bannerMsg: "", bannerColor: .white, bannerImage: "")
+            CreateTeamView(showCreateTeam: $showCreateTeam, bannerMsg: "", bannerColor: .white, bannerImage: "")
         }
     }
 }

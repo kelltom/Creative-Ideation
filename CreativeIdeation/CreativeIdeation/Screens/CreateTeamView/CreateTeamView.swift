@@ -9,7 +9,7 @@ import SwiftUI
 import Firebase
 
 
-struct CreateTeamsView: View {
+struct CreateTeamView: View {
     
     @State private var showBanner: Bool = false
     @Binding var showCreateTeam: Bool
@@ -33,7 +33,6 @@ struct CreateTeamsView: View {
             if showBanner {
                 NotificationBanner(image: bannerImage, msg: bannerMsg, color: bannerColor)
             }
-            NotificationBanner(image: bannerImage, msg: bannerMsg, color: bannerColor)
 
             VStack {
                 XDismissButton(isShowingSheet: $showCreateTeam)
@@ -120,8 +119,8 @@ struct CreateTeamsView: View {
     }
 }
 
-struct CreateTeamsView_Previews: PreviewProvider {
+struct CreateTeamView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateTeamsView(showCreateTeam: .constant(true), bannerMsg: "Success", bannerColor: .green, bannerImage: "checkmark.circle.fill")
+        CreateTeamView(showCreateTeam: .constant(true), bannerMsg: "Success", bannerColor: .green, bannerImage: "checkmark.circle.fill")
     }
 }
