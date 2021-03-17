@@ -10,6 +10,7 @@
 		76731F342602802200536836 /* TeamSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F332602802200536836 /* TeamSettingsView.swift */; };
 		76731F392602828C00536836 /* TeamPic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F382602828C00536836 /* TeamPic.swift */; };
 		76731F3D2602880500536836 /* TextEditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F3C2602880500536836 /* TextEditButton.swift */; };
+		76731F4026029A7900536836 /* DeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F3F26029A7900536836 /* DeleteButton.swift */; };
 		767994BE25DDC79A001970B4 /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767994BD25DDC79A001970B4 /* CreateAccountView.swift */; };
 		76A0956125E745D800917450 /* CreateTeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0956025E745D800917450 /* CreateTeamView.swift */; };
 		76A0956525E80F0500917450 /* CreateGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0956425E80F0500917450 /* CreateGroupView.swift */; };
@@ -54,6 +55,7 @@
 		76731F332602802200536836 /* TeamSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSettingsView.swift; sourceTree = "<group>"; };
 		76731F382602828C00536836 /* TeamPic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPic.swift; sourceTree = "<group>"; };
 		76731F3C2602880500536836 /* TextEditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditButton.swift; sourceTree = "<group>"; };
+		76731F3F26029A7900536836 /* DeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButton.swift; sourceTree = "<group>"; };
 		767994BD25DDC79A001970B4 /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
 		76A0956025E745D800917450 /* CreateTeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTeamView.swift; sourceTree = "<group>"; };
 		76A0956425E80F0500917450 /* CreateGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupView.swift; sourceTree = "<group>"; };
@@ -330,6 +332,7 @@
 				C9F230CA25F9E61D006590DA /* OptionsButton.swift */,
 				76A184D025FD979B0070251D /* XDismissButton.swift */,
 				76731F3C2602880500536836 /* TextEditButton.swift */,
+				76731F3F26029A7900536836 /* DeleteButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -463,6 +466,7 @@
 				C9DC348225EA0BD300CA28BB /* RecentSessionList.swift in Sources */,
 				C9C67A0C25DDE5A6002D16A9 /* UserInfoView.swift in Sources */,
 				76A0956125E745D800917450 /* CreateTeamView.swift in Sources */,
+				76731F4026029A7900536836 /* DeleteButton.swift in Sources */,
 				76731F3D2602880500536836 /* TextEditButton.swift in Sources */,
 				C9F230C125F29D98006590DA /* SessionsList.swift in Sources */,
 				C9AE739E25EB19F50090C96B /* CreateSessionView.swift in Sources */,

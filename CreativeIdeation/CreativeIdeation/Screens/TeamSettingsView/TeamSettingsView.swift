@@ -8,19 +8,25 @@
 import SwiftUI
 
 struct TeamSettingsView: View {
+    
+    @State private var profanityFilter = true
+    var title: String = "Team Settings"
     var userName: String = "Kellen Evoy"
     var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
-    @State private var profanityFilter = true
-    
+  
     var body: some View {
         VStack {
+            Text(title)
+                .font(.system(size: 40))
+                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                .padding()
             VStack{
                 //team image here
                 GroupPic().padding()
                 
                 VStack(alignment: .leading ){
                     Text("Team Name")
-                        .font(.system(size: 20))
+                        .font(.system(size: 25))
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     
                     HStack{
@@ -38,7 +44,7 @@ struct TeamSettingsView: View {
                     }
                     
                     Text("Description")
-                        .font(.system(size: 20))
+                        .font(.system(size: 25))
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     
                     HStack{
@@ -64,10 +70,12 @@ struct TeamSettingsView: View {
             .cornerRadius(20)
             
             VStack(alignment: .leading){
+                
                 Text("Profanity Control")
                     .font(.system(size: 20))
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     .foregroundColor(.gray)
+                    .padding(.top)
                     .padding()
                 
                 HStack{
@@ -89,11 +97,21 @@ struct TeamSettingsView: View {
                 }
                
             }
-            .frame(maxWidth: 650, maxHeight: 300)
-            Divider().frame(maxWidth: 650)
+            .frame(maxWidth: 650, maxHeight: 230)
+            Divider()
+                .frame(maxWidth: 650).background(Color(.gray))
             
+            Spacer()
+           
+            Button{
+                //do something
+            } label:{
+               DeleteButton()
+            }
+       
         }
-                
+        
+        
     }
 }
 

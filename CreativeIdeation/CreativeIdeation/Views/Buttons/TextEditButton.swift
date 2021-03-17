@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct TextEditButton: View {
-    var selected: Bool = false
+  
+    
     var body: some View {
         Text("Edit")
             .fontWeight(.bold)
             .font(.body)
             .frame(width:100, height:40, alignment: .center)
-            .background(Color(.gray))
+            .background(Color("brandPrimary"))
             .foregroundColor(.white)
             .cornerRadius(10)
             .padding()
