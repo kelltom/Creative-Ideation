@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		76731F342602802200536836 /* TeamSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F332602802200536836 /* TeamSettingsView.swift */; };
-		76731F392602828C00536836 /* TeamPic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F382602828C00536836 /* TeamPic.swift */; };
+		76731F392602828C00536836 /* PreferencePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F382602828C00536836 /* PreferencePic.swift */; };
 		76731F3D2602880500536836 /* TextEditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F3C2602880500536836 /* TextEditButton.swift */; };
 		76731F4026029A7900536836 /* DeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F3F26029A7900536836 /* DeleteButton.swift */; };
 		767994BE25DDC79A001970B4 /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767994BD25DDC79A001970B4 /* CreateAccountView.swift */; };
@@ -53,7 +53,7 @@
 
 /* Begin PBXFileReference section */
 		76731F332602802200536836 /* TeamSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSettingsView.swift; sourceTree = "<group>"; };
-		76731F382602828C00536836 /* TeamPic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPic.swift; sourceTree = "<group>"; };
+		76731F382602828C00536836 /* PreferencePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencePic.swift; sourceTree = "<group>"; };
 		76731F3C2602880500536836 /* TextEditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditButton.swift; sourceTree = "<group>"; };
 		76731F3F26029A7900536836 /* DeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButton.swift; sourceTree = "<group>"; };
 		767994BD25DDC79A001970B4 /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
@@ -120,7 +120,7 @@
 		76731F372602825200536836 /* TeamSettings */ = {
 			isa = PBXGroup;
 			children = (
-				76731F382602828C00536836 /* TeamPic.swift */,
+				76731F382602828C00536836 /* PreferencePic.swift */,
 			);
 			path = TeamSettings;
 			sourceTree = "<group>";
@@ -453,7 +453,7 @@
 				C9F230C625F29DA3006590DA /* GroupMemberPanel.swift in Sources */,
 				C9AE738125EAAD940090C96B /* ActivityView.swift in Sources */,
 				C9F230C225F29D98006590DA /* SessionItem.swift in Sources */,
-				76731F392602828C00536836 /* TeamPic.swift in Sources */,
+				76731F392602828C00536836 /* PreferencePic.swift in Sources */,
 				76A184D125FD979B0070251D /* XDismissButton.swift in Sources */,
 				C9F230BD25F29D8D006590DA /* SubGroup.swift in Sources */,
 				C9F230BA25F29D53006590DA /* GroupPic.swift in Sources */,

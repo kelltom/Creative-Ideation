@@ -16,6 +16,7 @@ struct UserPrefView: View {
     var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
     
     var body: some View {
+        
         VStack {
             Text(title)
                 .font(.system(size: 40))
@@ -28,12 +29,9 @@ struct UserPrefView: View {
                     
                 } label: {
                     
-                    GroupPic().padding()
-            
-                    
-                    
-                }
+                    PreferencePic().padding()
                 
+                }
                 
                 VStack(alignment: .leading ){
                     Text("Full Name")
@@ -112,7 +110,6 @@ struct UserPrefView: View {
                     
                 }
                 
-                
             }
             .frame(maxWidth: 650, maxHeight: 120)
             Divider()
@@ -127,7 +124,6 @@ struct UserPrefView: View {
             }
             
         }
-        
         
     }
 }

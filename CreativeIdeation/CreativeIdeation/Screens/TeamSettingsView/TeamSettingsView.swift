@@ -25,7 +25,7 @@ struct TeamSettingsView: View {
                     //do stuff
                     
                 } label: {
-                    GroupPic().padding()
+                    PreferencePic().padding()
                     
                 }
                
