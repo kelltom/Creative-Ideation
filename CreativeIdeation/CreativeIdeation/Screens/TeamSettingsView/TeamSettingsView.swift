@@ -21,8 +21,14 @@ struct TeamSettingsView: View {
                 .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                 .padding()
             VStack{
-                //team image here
-                GroupPic().padding()
+                Button{
+                    //do stuff
+                    
+                } label: {
+                    GroupPic().padding()
+                    
+                }
+               
                 
                 VStack(alignment: .leading ){
                     Text("Team Name")
@@ -79,7 +85,7 @@ struct TeamSettingsView: View {
                     .padding()
                 
                 HStack{
-                    Toggle("Filter Specfic Wods", isOn: $profanityFilter)
+                    Toggle("Filter Specfic Words", isOn: $profanityFilter)
                         .padding()
                         
                 }

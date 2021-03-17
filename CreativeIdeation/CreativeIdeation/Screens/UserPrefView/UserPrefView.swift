@@ -8,120 +8,127 @@
 import SwiftUI
 
 struct UserPrefView: View {
-    
-    @State private var ttsOn = false
     @State private var profanityFilter = true
-    @State private var ideaGen = true
+    var title: String = "User Preferences"
+    var userName: String = "Kellen Evoy"
+    var email: String = "evoyk@sheridancollege.ca"
+    var password: String = "******"
+    var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
     
     var body: some View {
-        VStack(alignment: .leading){
-            VStack(alignment: .leading){
-                Text("User Preferences")
-                    .font(.system(size: 48))
-                    .fontWeight(.bold)
-                    .padding()
-                HStack{
-                    Spacer()
-                    ProfilePic(size: 150)
-                        .padding()
-                    VStack{
+        VStack {
+            Text(title)
+                .font(.system(size: 40))
+                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                .padding(.top)
+                .padding()
+            VStack{
+                Button{
+                    //do stuff
+                    
+                } label: {
+                    
+                    GroupPic().padding()
+            
+                    
+                    
+                }
+                
+                
+                VStack(alignment: .leading ){
+                    Text("Full Name")
+                        .font(.system(size: 25))
+                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    
+                    HStack{
+                        Text(userName)
+                            .font(.system(size: 18))
+                        
                         Spacer()
-                        Button {
-                            // do something - modify
-                        } label: {
-                            EditButton()
-                        }
-                    }
-                    .frame(minHeight: 0, maxHeight: 150)
-                    
-                    Spacer()
-                    
-                    VStack(alignment: .leading){
-                        HStack(spacing: 40){
-                            Text("Kellen Evoy")
-                                .font(.system(size: 40))
-                                .padding()
-                            
-                            Button{
-                                // do something - modify
-                            } label: {
-                                EditButton()
-                            }
-                        }
-                        HStack(spacing: 40){
-                            Text("evoyk@sheridancollege.ca")
-                                .font(.system(size: 40))
-                                .padding()
-                            
-                            Button{
-                                // do something - modify
-                            } label: {
-                                EditButton()
-                            }
-                        }
                         
                         Button{
-                            //Change password
-                        } label: {
-                            BigButton(title: "Change Password")
-                                .cornerRadius(15)
-                                .padding()
+                            //button functionality
+                        }label:{
+                            //button design
+                            TextEditButton()
                         }
                     }
-                    .padding()
                     
-                    Spacer()
-                }
-            }
-            .padding()
-            HStack{
-                VStack{
-                    Toggle("Enable Profanity Filter", isOn: $profanityFilter)
-                        .font(.system(size: 28))
-                        .padding()
+                    Text("Email")
+                        .font(.system(size: 25))
+                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     
-                    Toggle("Enable Text-to-Speech", isOn: $ttsOn)
-                        .font(.system(size: 28))
-                        .padding()
-                    
-                    Toggle("Enable Idea Generation", isOn: $ideaGen)
-                        .font(.system(size: 28))
-                        .padding()
-                }
-                .padding()
-                
-                VStack{
-                    HStack(spacing: 0) {
-                        Button {
-                            // do something - navigate to different screen
-                        } label: {
-                            Text("Light Mode")
-                                .font(.title)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .background(Color("brandPrimary"))
+                    HStack{
+                        Text(email)
+                            .font(.system(size: 18))
+                        Spacer()
+                        Button{
+                            //button functionality
+                        }label:{
+                            //button design
+                            TextEditButton()
                         }
-                        Button {
-                            // do something - navigate to different screen
-                        } label: {
-                            Text("Dark Mode")
-                                .font(.title)
-                                .foregroundColor(.black)
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .background(Color.white)
-                        }
-
                     }
-                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 80)
-                    .cornerRadius(45)
-                    .overlay(RoundedRectangle(cornerRadius: 45) .stroke())
-                    .padding()
+                    
+                    Text("Password")
+                        .font(.system(size: 25))
+                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    
+                    HStack{
+                        Text(password)
+                            .font(.system(size: 18))
+                        Spacer()
+                        Button{
+                            //button functionality
+                        }label:{
+                            //button design
+                            TextEditButton()
+                        }
+                    }
+                    
                 }
                 .padding()
+                .frame(minWidth:100,  maxWidth: 650, maxHeight: 340, alignment: .leading)
+                .background(Color(.white))
+                .cornerRadius(10)
                 
             }
+            .frame(maxWidth: 700, maxHeight: 500, alignment: .center)
+            .background(Color("brandPrimary"))
+            .cornerRadius(20)
+            
+            VStack(alignment: .leading){
+                
+                Text("Display Settings")
+                    .font(.system(size: 20))
+                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .foregroundColor(.gray)
+                    .padding(.top)
+                    .padding()
+                
+                HStack{
+                    Toggle("Dark Mode", isOn: $profanityFilter)
+                        .padding()
+                    
+                }
+                
+                
+            }
+            .frame(maxWidth: 650, maxHeight: 120)
+            Divider()
+                .frame(maxWidth: 650).background(Color(.gray))
+            
             Spacer()
+            
+            Button{
+                //do something
+            } label:{
+                DeleteButton()
+            }
+            
         }
+        
+        
     }
 }
 
