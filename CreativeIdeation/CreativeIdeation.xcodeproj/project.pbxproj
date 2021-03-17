@@ -33,6 +33,8 @@
 		C9F230C625F29DA3006590DA /* GroupMemberPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230C425F29DA3006590DA /* GroupMemberPanel.swift */; };
 		C9F230C725F29DA3006590DA /* ProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230C525F29DA3006590DA /* ProfilePic.swift */; };
 		C9F230CB25F9E61D006590DA /* OptionsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230CA25F9E61D006590DA /* OptionsButton.swift */; };
+		DD3705C92602709100E611FD /* DBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3705C82602709100E611FD /* DBService.swift */; };
+		DD3705CC26027A8B00E611FD /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3705CB26027A8B00E611FD /* LoginViewModel.swift */; };
 		DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */; };
 		DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */; };
 		DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3BF92D25D9C97800C368B0 /* CreativeIdeationApp.swift */; };
@@ -74,6 +76,8 @@
 		C9F230C425F29DA3006590DA /* GroupMemberPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupMemberPanel.swift; sourceTree = "<group>"; };
 		C9F230C525F29DA3006590DA /* ProfilePic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePic.swift; sourceTree = "<group>"; };
 		C9F230CA25F9E61D006590DA /* OptionsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsButton.swift; sourceTree = "<group>"; };
+		DD3705C82602709100E611FD /* DBService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBService.swift; sourceTree = "<group>"; };
+		DD3705CB26027A8B00E611FD /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoBannerView.swift; sourceTree = "<group>"; };
 		DD3BF92A25D9C97800C368B0 /* CreativeIdeation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CreativeIdeation.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -219,6 +223,14 @@
 			path = GroupSidebar;
 			sourceTree = "<group>";
 		};
+		DD3705C72602706500E611FD /* DBService */ = {
+			isa = PBXGroup;
+			children = (
+				DD3705C82602709100E611FD /* DBService.swift */,
+			);
+			path = DBService;
+			sourceTree = "<group>";
+		};
 		DD3A4CE025DDC181007D68B6 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,6 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */,
+				DD3705CB26027A8B00E611FD /* LoginViewModel.swift */,
 			);
 			path = LoginView;
 			sourceTree = "<group>";
@@ -278,6 +291,7 @@
 		DD3BF92C25D9C97800C368B0 /* CreativeIdeation */ = {
 			isa = PBXGroup;
 			children = (
+				DD3705C72602706500E611FD /* DBService */,
 				DD3A4CE225DDC18E007D68B6 /* Views */,
 				DD3A4CE125DDC186007D68B6 /* Model */,
 				DD3A4CE025DDC181007D68B6 /* Screens */,
@@ -416,6 +430,7 @@
 				C9AE739725EAB8D80090C96B /* ToolButton.swift in Sources */,
 				C9AE739A25EACCD40090C96B /* ActiveMembers.swift in Sources */,
 				C9F230CB25F9E61D006590DA /* OptionsButton.swift in Sources */,
+				DD3705CC26027A8B00E611FD /* LoginViewModel.swift in Sources */,
 				C9DC347825EA07B400CA28BB /* SubGroupsList.swift in Sources */,
 				DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */,
 				DDDFDA8E25E0830800342B1B /* BigButton.swift in Sources */,
@@ -435,6 +450,7 @@
 				DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */,
 				C9DC348225EA0BD300CA28BB /* RecentSessionList.swift in Sources */,
 				C9C67A0C25DDE5A6002D16A9 /* UserInfoView.swift in Sources */,
+				DD3705C92602709100E611FD /* DBService.swift in Sources */,
 				76A0956125E745D800917450 /* CreateTeamView.swift in Sources */,
 				C9F230C125F29D98006590DA /* SessionsList.swift in Sources */,
 				C9AE739E25EB19F50090C96B /* CreateSessionView.swift in Sources */,
