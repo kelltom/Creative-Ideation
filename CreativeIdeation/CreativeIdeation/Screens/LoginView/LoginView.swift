@@ -11,7 +11,9 @@ import Firebase
 struct LoginView: View {
     
     @State var showLogIn = false
-    @State private var actionState: Int? = 0
+    
+    // May be used later
+    //@State private var actionState: Int? = 0
     
     @StateObject var viewModel = LoginViewModel()
     

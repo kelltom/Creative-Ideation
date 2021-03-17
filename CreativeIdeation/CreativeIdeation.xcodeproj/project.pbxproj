@@ -35,6 +35,7 @@
 		C9F230CB25F9E61D006590DA /* OptionsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230CA25F9E61D006590DA /* OptionsButton.swift */; };
 		DD3705CC26027A8B00E611FD /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3705CB26027A8B00E611FD /* LoginViewModel.swift */; };
 		DD3705CF26027AFA00E611FD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3705CE26027AFA00E611FD /* User.swift */; };
+		DD3705D426029A5D00E611FD /* CreateAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3705D326029A5D00E611FD /* CreateAccountViewModel.swift */; };
 		DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */; };
 		DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */; };
 		DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3BF92D25D9C97800C368B0 /* CreativeIdeationApp.swift */; };
@@ -78,6 +79,7 @@
 		C9F230CA25F9E61D006590DA /* OptionsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsButton.swift; sourceTree = "<group>"; };
 		DD3705CB26027A8B00E611FD /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		DD3705CE26027AFA00E611FD /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = User.swift; path = CreativeIdeation/Screens/LoginView/User.swift; sourceTree = SOURCE_ROOT; };
+		DD3705D326029A5D00E611FD /* CreateAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewModel.swift; sourceTree = "<group>"; };
 		DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		DD3A4CED25DDCD3A007D68B6 /* LogoBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoBannerView.swift; sourceTree = "<group>"; };
 		DD3BF92A25D9C97800C368B0 /* CreativeIdeation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CreativeIdeation.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				767994BD25DDC79A001970B4 /* CreateAccountView.swift */,
+				DD3705D326029A5D00E611FD /* CreateAccountViewModel.swift */,
 			);
 			path = CreateAccountView;
 			sourceTree = "<group>";
@@ -443,6 +446,7 @@
 				DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */,
 				C9DC348225EA0BD300CA28BB /* RecentSessionList.swift in Sources */,
 				C9C67A0C25DDE5A6002D16A9 /* UserInfoView.swift in Sources */,
+				DD3705D426029A5D00E611FD /* CreateAccountViewModel.swift in Sources */,
 				76A0956125E745D800917450 /* CreateTeamView.swift in Sources */,
 				C9F230C125F29D98006590DA /* SessionsList.swift in Sources */,
 				C9AE739E25EB19F50090C96B /* CreateSessionView.swift in Sources */,
