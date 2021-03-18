@@ -6,32 +6,25 @@
 //
 
 import SwiftUI
-import Firebase
 
 struct CreateAccountView: View {
     
     // Allows for popping view back to LogInView
     @Binding var showLogIn: Bool
     
-    @State private var actionState: Int? = 0
-    
-    // These will eventually be put in a ViewModel
-    @State var fullname: String = ""
-    @State var emailAddress: String = ""
-    @State var password: String = ""
-    
-    @State var errorMsg: String = ""
-    @State private var showError: Bool = false
-    
-    
-    let db = Firestore.firestore()
+    @StateObject var viewModel = CreateAccountViewModel()
     
     var body: some View {
         
         ZStack {
             
-            if showError {
-                NotificationBanner(image: "exclamationmark.circle.fill", msg: errorMsg, color: .red)
+            if viewModel.showBanner {
+                if viewModel.createSuccess {
+                    // be nice to show a banner for success here
+                    
+                } else {
+                    NotificationBanner(image: "exclamationmark.circle.fill", msg: viewModel.msg, color: .red)
+                }
             }
             
             VStack {
@@ -44,35 +37,23 @@ struct CreateAccountView: View {
                         .padding()
                         .font(.system(size:40))
                     
-                    MenuTextField(title: "Full name", input: $fullname)
+                    MenuTextField(title: "Full name", input: $viewModel.user.name)
                     
-                    MenuTextField(title: "Email address", input: $emailAddress)
+                    MenuTextField(title: "Email address", input: $viewModel.user.email)
                     
-                    MenuTextField(title: "Password", input: $password)
+                    MenuTextField(title: "Password", input: $viewModel.user.password)
                     
                     // Create Account Link
-                    NavigationLink(destination: GroupView(), tag: 1, selection: $actionState) {
-                        EmptyView()
-                    }
+                    NavigationLink(
+                        destination: GroupView(),
+                        isActive: $viewModel.createSuccess,
+                        label: {
+                            EmptyView()
+                        })
                     
                     Button {
-                        // Add a new document with a generated ID
-                        Auth.auth().createUser(withEmail: emailAddress, password: password)
-                        { authResult, error in
-                            if error != nil {
-                                print(error?.localizedDescription ?? "Error creating account")
-                                withAnimation {
-                                    errorMsg = error?.localizedDescription ?? "Error creating account"
-                                    showError.toggle()
-                                }
-                                delayAlert()
-                            } else {
-                                print("Success")
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                    self.actionState = 1
-                                }
-                            }
-                        }
+                        viewModel.createAccount()
+                        delayAlert()
                     } label: {
                         BigButton(title: "Create Account")
                     }
@@ -98,7 +79,7 @@ struct CreateAccountView: View {
     private func delayAlert() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
             withAnimation{
-                showError.toggle()
+                viewModel.showBanner = false
             }
         }
     }
@@ -106,9 +87,6 @@ struct CreateAccountView: View {
 
 struct CreateAccountView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            CreateAccountView(showLogIn: .constant(false))
-            CreateAccountView(showLogIn: .constant(false))
-        }
+        CreateAccountView(showLogIn: .constant(false))
     }
 }

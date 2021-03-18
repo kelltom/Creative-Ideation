@@ -11,18 +11,11 @@ import Firebase
 struct LoginView: View {
     
     @State var showLogIn = false
-    @State private var showBanner: Bool = false
-    @State private var actionState: Int? = 0
     
-    @State var email: String = ""
-    @State var password: String = ""
+    // May be used later
+    //@State private var actionState: Int? = 0
     
-    @State var bannerImage: String = ""
-    @State var bannerColor: Color = .red
-    @State var bannerMsg: String = ""
-    
-    // This probably shouldn't go here
-    let db = Firestore.firestore()
+    @StateObject var viewModel = LoginViewModel()
     
     var body: some View {
         
@@ -30,8 +23,10 @@ struct LoginView: View {
             
             ZStack {
                 
-                if showBanner {
-                    NotificationBanner(image: bannerImage, msg: bannerMsg, color: bannerColor)
+                if viewModel.showBanner {
+                    if !viewModel.authSuccess {
+                        NotificationBanner(image: "exclamationmark.circle.fill", msg: viewModel.msg, color: .red)
+                    }
                 }
                 
                 VStack {
@@ -44,48 +39,22 @@ struct LoginView: View {
                             .padding()
                             .font(.system(size:40))
                         
-                        MenuTextField(title: "Email address", input: $email)
+                        MenuTextField(title: "Email address", input: $viewModel.user.email)
                         
-                        MenuTextField(title: "Password", input: $password, secure: true)
+                        MenuTextField(title: "Password", input: $viewModel.user.password, secure: true)
                         
                         // Log In Link
-                        NavigationLink(destination: GroupView(), tag: 1, selection: $actionState) {
-                            EmptyView()
-                        }
+                        NavigationLink(
+                            destination: GroupView(),
+                            isActive: $viewModel.authSuccess,
+                            label: {
+                                EmptyView()
+                            })
                         
                         // Log In Button
                         Button {
-                            // Authenticate user credentials
-                            Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-                                if error != nil {
-                                    print(error?.localizedDescription ?? "")
-                                    self.password = "" // reset password field
-                                    
-                                    bannerMsg = error?.localizedDescription ?? "Login Failed, Try Again"
-                                    bannerColor = Color.red
-                                    bannerImage = "exclamationmark.circle.fill"
-                                    
-                                    withAnimation {
-                                        showBanner = true
-                                    }
-                                    delayAlert()
-                                } else {
-                                    print("Success")
-                                    bannerMsg = "Success"
-                                    bannerColor = Color.green
-                                    bannerImage = "checkmark.circle.fill"
-                                    
-                                    withAnimation {
-                                        showBanner = true
-                                    }
-                                    delayAlert()
-                                    
-                                    // Navigate to Team View
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                        self.actionState = 1
-                                    }
-                                }
-                            }
+                            viewModel.authenticate()
+                            delayAlert()
                         } label: {
                             BigButton(title: "Log In")
                         }
@@ -124,8 +93,8 @@ struct LoginView: View {
     
     private func delayAlert() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-            withAnimation{
-                showBanner = false
+            withAnimation {
+                viewModel.showBanner = false
             }
         }
     }
