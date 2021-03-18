@@ -16,7 +16,7 @@ struct CreativeIdeationApp: App {
     
     var body: some Scene {
         WindowGroup {
-            LoginView()
+            HomeView()
         }
     }
 }
