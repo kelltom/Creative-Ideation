@@ -18,35 +18,37 @@ struct UserPrefView: View {
     var body: some View {
         
         VStack {
+            
             Text(title)
                 .font(.system(size: 40))
                 .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                 .padding(.top)
                 .padding()
+            
             VStack{
-                Button{
-                    //do stuff
-                    
-                } label: {
-                    
-                    PreferencePic().padding()
                 
+                Button {
+                    //do stuff
+                } label: {
+                    PreferencePic().padding()
                 }
                 
-                VStack(alignment: .leading ){
+                VStack(alignment: .leading ) {
+                    
                     Text("Full Name")
                         .font(.system(size: 25))
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     
-                    HStack{
+                    HStack {
+                        
                         Text(userName)
                             .font(.system(size: 18))
                         
                         Spacer()
                         
-                        Button{
+                        Button {
                             //button functionality
-                        }label:{
+                        } label: {
                             //button design
                             TextEditButton()
                         }
@@ -56,13 +58,15 @@ struct UserPrefView: View {
                         .font(.system(size: 25))
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     
-                    HStack{
+                    HStack {
                         Text(email)
                             .font(.system(size: 18))
+                        
                         Spacer()
-                        Button{
+                        
+                        Button {
                             //button functionality
-                        }label:{
+                        } label: {
                             //button design
                             TextEditButton()
                         }
@@ -72,13 +76,15 @@ struct UserPrefView: View {
                         .font(.system(size: 25))
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     
-                    HStack{
+                    HStack {
                         Text(password)
                             .font(.system(size: 18))
+                        
                         Spacer()
-                        Button{
+                        
+                        Button {
                             //button functionality
-                        }label:{
+                        } label: {
                             //button design
                             TextEditButton()
                         }
@@ -95,7 +101,7 @@ struct UserPrefView: View {
             .background(Color("brandPrimary"))
             .cornerRadius(20)
             
-            VStack(alignment: .leading){
+            VStack(alignment: .leading) {
                 
                 Text("Display Settings")
                     .font(.system(size: 20))
@@ -104,7 +110,7 @@ struct UserPrefView: View {
                     .padding(.top)
                     .padding()
                 
-                HStack{
+                HStack {
                     Toggle("Dark Mode", isOn: $profanityFilter)
                         .padding()
                     
@@ -112,14 +118,15 @@ struct UserPrefView: View {
                 
             }
             .frame(maxWidth: 650, maxHeight: 120)
+            
             Divider()
                 .frame(maxWidth: 650).background(Color(.gray))
             
             Spacer()
             
-            Button{
+            Button {
                 //do something
-            } label:{
+            } label: {
                 DeleteButton()
             }
             
@@ -130,6 +137,6 @@ struct UserPrefView: View {
 
 struct UserPrefView_Previews: PreviewProvider {
     static var previews: some View {
-        UserPrefView()
+        UserPrefView(title: "Title", userName: "Username", email: "Email@email.com", password: "*****", description: "Some description here")
     }
 }
