@@ -10,40 +10,44 @@ import SwiftUI
 struct TeamSettingsView: View {
     
     @State private var profanityFilter = true
+    
     var title: String = "Team Settings"
     var userName: String = "Kellen Evoy"
     var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
-  
+    
     var body: some View {
+        
         VStack {
+            
             Text(title)
                 .font(.system(size: 40))
                 .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                 .padding()
-            VStack{
+            
+            VStack {
+                
                 Button{
                     //do stuff
-                    
                 } label: {
                     PreferencePic().padding()
-                    
                 }
-               
                 
-                VStack(alignment: .leading ){
+                VStack(alignment: .leading ) {
+                    
                     Text("Team Name")
                         .font(.system(size: 25))
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        .fontWeight(.bold)
                     
-                    HStack{
+                    HStack {
+                        
                         Text(userName)
                             .font(.system(size: 18))
                         
                         Spacer()
                         
-                        Button{
+                        Button {
                             //button functionality
-                        }label:{
+                        } label: {
                             //button design
                             TextEditButton()
                         }
@@ -54,15 +58,19 @@ struct TeamSettingsView: View {
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     
                     HStack{
+                        
                         Text(description)
                             .font(.system(size: 18))
+                        
                         Spacer()
-                        Button{
+                        
+                        Button {
                             //button functionality
-                        }label:{
+                        } label: {
                             //button design
                             TextEditButton()
                         }
+                        
                     }
                 }
                 .padding()
@@ -75,7 +83,7 @@ struct TeamSettingsView: View {
             .background(Color("brandPrimary"))
             .cornerRadius(20)
             
-            VStack(alignment: .leading){
+            VStack(alignment: .leading) {
                 
                 Text("Profanity Control")
                     .font(.system(size: 20))
@@ -84,45 +92,46 @@ struct TeamSettingsView: View {
                     .padding(.top)
                     .padding()
                 
-                HStack{
+                HStack {
                     Toggle("Filter Specfic Words", isOn: $profanityFilter)
                         .padding()
-                        
                 }
                 
-                HStack{
+                HStack {
+                    
                     Text("Blocked Words List")
                         .padding()
+                    
                     Spacer()
-                    Button{
+                    
+                    Button {
                         //button functionality
-                    }label:{
+                    } label: {
                         //button design
                         TextEditButton()
                     }
                 }
-               
+                
             }
             .frame(maxWidth: 650, maxHeight: 230)
+            
             Divider()
                 .frame(maxWidth: 650).background(Color(.gray))
             
             Spacer()
-           
+            
             Button{
                 //do something
             } label:{
-               DeleteButton()
+                DeleteButton()
             }
-       
+            
         }
-        
-        
     }
 }
 
 struct TeamSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        TeamSettingsView()
+        TeamSettingsView(title: "Title", userName: "Username", description: "Some description here")
     }
 }
