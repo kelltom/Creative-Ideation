@@ -1,18 +1,18 @@
 //
-//  UserPrefView.swift
+//  TeamSettingsView.swift
 //  CreativeIdeation
 //
-//  Created by Matthew Marini on 2021-02-25.
+//  Created by Vanessa Li on 2021-03-17.
 //
 
 import SwiftUI
 
-struct UserPrefView: View {
+struct TeamSettingsView: View {
+    
     @State private var profanityFilter = true
-    var title: String = "User Preferences"
+    
+    var title: String = "Team Settings"
     var userName: String = "Kellen Evoy"
-    var email: String = "evoyk@sheridancollege.ca"
-    var password: String = "******"
     var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
     
     var body: some View {
@@ -22,12 +22,11 @@ struct UserPrefView: View {
             Text(title)
                 .font(.system(size: 40))
                 .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                .padding(.top)
                 .padding()
             
-            VStack{
+            VStack {
                 
-                Button {
+                Button{
                     //do stuff
                 } label: {
                     PreferencePic().padding()
@@ -35,9 +34,9 @@ struct UserPrefView: View {
                 
                 VStack(alignment: .leading ) {
                     
-                    Text("Full Name")
+                    Text("Team Name")
                         .font(.system(size: 25))
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        .fontWeight(.bold)
                     
                     HStack {
                         
@@ -54,12 +53,13 @@ struct UserPrefView: View {
                         }
                     }
                     
-                    Text("Email")
+                    Text("Description")
                         .font(.system(size: 25))
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     
-                    HStack {
-                        Text(email)
+                    HStack{
+                        
+                        Text(description)
                             .font(.system(size: 18))
                         
                         Spacer()
@@ -70,26 +70,8 @@ struct UserPrefView: View {
                             //button design
                             TextEditButton()
                         }
-                    }
-                    
-                    Text("Password")
-                        .font(.system(size: 25))
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                    
-                    HStack {
-                        Text(password)
-                            .font(.system(size: 18))
                         
-                        Spacer()
-                        
-                        Button {
-                            //button functionality
-                        } label: {
-                            //button design
-                            TextEditButton()
-                        }
                     }
-                    
                 }
                 .padding()
                 .frame(minWidth:100,  maxWidth: 650, maxHeight: 340, alignment: .leading)
@@ -103,7 +85,7 @@ struct UserPrefView: View {
             
             VStack(alignment: .leading) {
                 
-                Text("Display Settings")
+                Text("Profanity Control")
                     .font(.system(size: 20))
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     .foregroundColor(.gray)
@@ -111,32 +93,45 @@ struct UserPrefView: View {
                     .padding()
                 
                 HStack {
-                    Toggle("Dark Mode", isOn: $profanityFilter)
+                    Toggle("Filter Specfic Words", isOn: $profanityFilter)
+                        .padding()
+                }
+                
+                HStack {
+                    
+                    Text("Blocked Words List")
                         .padding()
                     
+                    Spacer()
+                    
+                    Button {
+                        //button functionality
+                    } label: {
+                        //button design
+                        TextEditButton()
+                    }
                 }
                 
             }
-            .frame(maxWidth: 650, maxHeight: 120)
+            .frame(maxWidth: 650, maxHeight: 230)
             
             Divider()
                 .frame(maxWidth: 650).background(Color(.gray))
             
             Spacer()
             
-            Button {
+            Button{
                 //do something
-            } label: {
+            } label:{
                 DeleteButton()
             }
             
         }
-        
     }
 }
 
-struct UserPrefView_Previews: PreviewProvider {
+struct TeamSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        UserPrefView(title: "Title", userName: "Username", email: "Email@email.com", password: "*****", description: "Some description here")
+        TeamSettingsView(title: "Title", userName: "Username", description: "Some description here")
     }
 }
