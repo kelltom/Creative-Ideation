@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct GroupView: View {
+struct HomeView: View {
+    
     @State var showCreateTeam = false
     
     var body: some View {
@@ -31,7 +32,7 @@ struct GroupView: View {
                 GroupPic()
                     .padding()
                 
-                Button{
+                Button {
                     // Add group button
                     showCreateTeam = true
                     
@@ -49,15 +50,14 @@ struct GroupView: View {
             .frame(maxHeight: .infinity)
             .background(Color("brandPrimary"))
             .edgesIgnoringSafeArea(.all)
-        
             
-            VStack{
+            VStack {
+                
                 HStack(spacing: 20){
                     Text("Example Company")
                         .font(.largeTitle)
                     
-                    
-                    Button{
+                    Button {
                         // add person to group
                     } label: {
                         Image(systemName: "person.badge.plus.fill")
@@ -67,7 +67,7 @@ struct GroupView: View {
                             .foregroundColor(Color.black)
                     }
                     
-                    Button{
+                    Button {
                         // change group prefs
                     } label: {
                         Image(systemName: "gearshape.fill")
@@ -79,7 +79,7 @@ struct GroupView: View {
                     
                     Spacer()
                     
-                    Button{
+                    Button {
                         // view notifications
                     } label: {
                         Image(systemName: "bell.fill")
@@ -89,7 +89,7 @@ struct GroupView: View {
                             .foregroundColor(Color.yellow)
                     }
                     
-                    Button{
+                    Button {
                         // view user prefs
                     } label: {
                         ProfilePic(size: 70)
@@ -142,13 +142,9 @@ struct GroupView: View {
                             }
                         }
                         
-                       
-                        
                     }
                     .frame(maxWidth: .infinity)
                 }
-                
-                //Spacer()
                 
             }
         }
@@ -162,7 +158,7 @@ struct GroupView: View {
 
 struct GroupView_Previews: PreviewProvider {
     static var previews: some View {
-        GroupView()
+        HomeView()
     }
 }
 

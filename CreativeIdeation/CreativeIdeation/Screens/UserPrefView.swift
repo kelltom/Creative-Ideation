@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct UserPrefView: View {
+    
     @State private var profanityFilter = true
+    
     var title: String = "User Preferences"
     var userName: String = "Kellen Evoy"
     var email: String = "evoyk@sheridancollege.ca"
@@ -25,7 +27,7 @@ struct UserPrefView: View {
                 .padding(.top)
                 .padding()
             
-            VStack{
+            VStack {
                 
                 Button {
                     //do stuff
