@@ -131,7 +131,7 @@ struct UserInfoView: View {
                 }
             }
             
-            NavigationLink(destination: GroupView()) {
+            NavigationLink(destination: HomeView()) {
                 BigButton(title: "Next")
             }
             .padding(.top)

@@ -45,7 +45,7 @@ struct CreateAccountView: View {
                     
                     // Create Account Link
                     NavigationLink(
-                        destination: GroupView(),
+                        destination: HomeView(),
                         isActive: $viewModel.createSuccess,
                         label: {
                             EmptyView()

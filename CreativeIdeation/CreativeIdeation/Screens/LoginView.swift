@@ -45,7 +45,7 @@ struct LoginView: View {
                         
                         // Log In Link
                         NavigationLink(
-                            destination: GroupView(),
+                            destination: HomeView(),
                             isActive: $viewModel.authSuccess,
                             label: {
                                 EmptyView()
