@@ -96,6 +96,7 @@ struct CreateTeamView: View {
                     }
                     
                     Text("or")
+                        .hidden()
                     
                     // Create Acc Button
                     NavigationLink(destination: EmptyView()) {
@@ -103,6 +104,7 @@ struct CreateTeamView: View {
                             .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
                     }
                     .padding(.top)
+                    .hidden()
                     
                 }
             }
