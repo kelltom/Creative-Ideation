@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     
     @State var showCreateTeam = false
+    @State var selection: Int? = nil
     
     var body: some View {
         
@@ -67,15 +68,18 @@ struct HomeView: View {
                             .foregroundColor(Color.black)
                     }
                     
-                    Button {
-                        // change group prefs
-                    } label: {
+                     NavigationLink(
+                     destination: TeamSettingsView(),
+                     label: {
                         Image(systemName: "gearshape.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(Color.black)
-                    }
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 40, height: 40)
+                        .foregroundColor(Color.black)
+                        
+                     })
+                    
+
                     
                     Spacer()
                     

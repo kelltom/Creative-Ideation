@@ -32,6 +32,7 @@ struct TeamSettingsView: View {
                     PreferencePic().padding()
                 }
                 
+                
                 VStack(alignment: .leading ) {
                     
                     Text("Team Name")
