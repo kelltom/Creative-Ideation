@@ -22,6 +22,7 @@ struct ActivityView: View {
                     ActiveMembers()
                     Spacer()
                 }
+                .hidden()
             }
         }
         .edgesIgnoringSafeArea(.all)

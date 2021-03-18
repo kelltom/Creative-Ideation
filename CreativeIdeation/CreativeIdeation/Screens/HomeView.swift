@@ -115,6 +115,7 @@ struct HomeView: View {
                             Spacer()
                             
                             GroupMemberPanel()
+                                .hidden()
                             
                         }
                         .padding(.horizontal, 10)

@@ -60,7 +60,17 @@ struct LoginView: View {
                         }
                         .padding(.top)
                         
+                        // Create Acc Button
+                        HStack {
+                            Text("New user?")
+                            NavigationLink(destination: CreateAccountView(showLogIn: self.$showLogIn), isActive: self.$showLogIn) {
+                                Text("Create an Account.")
+                            }
+                        }
+                        .padding(.top, 20)
+                        
                         Text("or")
+                            .hidden()
                         
                         // Sign In with Google Button
                         Button {
@@ -69,17 +79,9 @@ struct LoginView: View {
                         } label: {
                             GoogleButton()
                         }
+                        .hidden()
                         
                     }
-                    
-                    // Create Acc Button
-                    HStack {
-                        Text("New user?")
-                        NavigationLink(destination: CreateAccountView(showLogIn: self.$showLogIn), isActive: self.$showLogIn) {
-                            Text("Create an Account.")
-                        }
-                    }
-                    .padding(.top, 20)
                     
                     Spacer()
                 }
