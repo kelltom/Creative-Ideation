@@ -115,53 +115,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		76731F322602800B00536836 /* TeamSettingsView */ = {
-			isa = PBXGroup;
-			children = (
-				76731F332602802200536836 /* TeamSettingsView.swift */,
-			);
-			path = TeamSettingsView;
-			sourceTree = "<group>";
-		};
 		76731F372602825200536836 /* TeamSettings */ = {
 			isa = PBXGroup;
 			children = (
 				76731F382602828C00536836 /* PreferencePic.swift */,
 			);
 			path = TeamSettings;
-			sourceTree = "<group>";
-		};
-		767994B825DDC66A001970B4 /* CreateAccountView */ = {
-			isa = PBXGroup;
-			children = (
-				767994BD25DDC79A001970B4 /* CreateAccountView.swift */,
-				DD3705D326029A5D00E611FD /* CreateAccountViewModel.swift */,
-			);
-			path = CreateAccountView;
-			sourceTree = "<group>";
-		};
-		76A0955F25E745BD00917450 /* CreateTeamView */ = {
-			isa = PBXGroup;
-			children = (
-				76A0956025E745D800917450 /* CreateTeamView.swift */,
-			);
-			path = CreateTeamView;
-			sourceTree = "<group>";
-		};
-		76A0956325E80BDE00917450 /* CreateGroupView */ = {
-			isa = PBXGroup;
-			children = (
-				76A0956425E80F0500917450 /* CreateGroupView.swift */,
-			);
-			path = CreateGroupView;
-			sourceTree = "<group>";
-		};
-		C9AE737F25EAAD870090C96B /* ActivityView */ = {
-			isa = PBXGroup;
-			children = (
-				C9AE738025EAAD940090C96B /* ActivityView.swift */,
-			);
-			path = ActivityView;
 			sourceTree = "<group>";
 		};
 		C9AE738325EAAE320090C96B /* ActivityCanvas */ = {
@@ -172,38 +131,6 @@
 				C9AE739925EACCD40090C96B /* ActiveMembers.swift */,
 			);
 			path = ActivityCanvas;
-			sourceTree = "<group>";
-		};
-		C9AE739C25EB19E40090C96B /* CreateSessionView */ = {
-			isa = PBXGroup;
-			children = (
-				C9AE739D25EB19F50090C96B /* CreateSessionView.swift */,
-			);
-			path = CreateSessionView;
-			sourceTree = "<group>";
-		};
-		C9C67A0A25DDE592002D16A9 /* UserInfoView */ = {
-			isa = PBXGroup;
-			children = (
-				C9C67A0B25DDE5A6002D16A9 /* UserInfoView.swift */,
-			);
-			path = UserInfoView;
-			sourceTree = "<group>";
-		};
-		C9C67A0F25E7FECA002D16A9 /* UserPrefView */ = {
-			isa = PBXGroup;
-			children = (
-				C9C67A1025E7FEDB002D16A9 /* UserPrefView.swift */,
-			);
-			path = UserPrefView;
-			sourceTree = "<group>";
-		};
-		C9C67A2325E8287F002D16A9 /* GroupView */ = {
-			isa = PBXGroup;
-			children = (
-				C9C67A2425E8288B002D16A9 /* GroupView.swift */,
-			);
-			path = GroupView;
 			sourceTree = "<group>";
 		};
 		C9DC348625EA0DF400CA28BB /* SubGroupsList */ = {
@@ -253,16 +180,16 @@
 		DD3A4CE025DDC181007D68B6 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				76731F322602800B00536836 /* TeamSettingsView */,
-				C9AE739C25EB19E40090C96B /* CreateSessionView */,
-				C9AE737F25EAAD870090C96B /* ActivityView */,
-				C9C67A2325E8287F002D16A9 /* GroupView */,
-				C9C67A0F25E7FECA002D16A9 /* UserPrefView */,
-				76A0956325E80BDE00917450 /* CreateGroupView */,
-				76A0955F25E745BD00917450 /* CreateTeamView */,
-				C9C67A0A25DDE592002D16A9 /* UserInfoView */,
-				767994B825DDC66A001970B4 /* CreateAccountView */,
-				DD3A4CEB25DDC3E5007D68B6 /* LoginView */,
+				DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */,
+				767994BD25DDC79A001970B4 /* CreateAccountView.swift */,
+				76731F332602802200536836 /* TeamSettingsView.swift */,
+				C9C67A0B25DDE5A6002D16A9 /* UserInfoView.swift */,
+				C9C67A1025E7FEDB002D16A9 /* UserPrefView.swift */,
+				C9C67A2425E8288B002D16A9 /* GroupView.swift */,
+				76A0956025E745D800917450 /* CreateTeamView.swift */,
+				76A0956425E80F0500917450 /* CreateGroupView.swift */,
+				C9AE739D25EB19F50090C96B /* CreateSessionView.swift */,
+				C9AE738025EAAD940090C96B /* ActivityView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -282,15 +209,6 @@
 				DDDFDA8C25E0827B00342B1B /* Buttons */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		DD3A4CEB25DDC3E5007D68B6 /* LoginView */ = {
-			isa = PBXGroup;
-			children = (
-				DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */,
-				DD3705CB26027A8B00E611FD /* LoginViewModel.swift */,
-			);
-			path = LoginView;
 			sourceTree = "<group>";
 		};
 		DD3BF92125D9C97700C368B0 = {
@@ -314,6 +232,7 @@
 			children = (
 				DD3A4CE225DDC18E007D68B6 /* Views */,
 				DD3A4CE125DDC186007D68B6 /* Model */,
+				DDA4DD132603CCFA008972FD /* ViewModels */,
 				DD3A4CE025DDC181007D68B6 /* Screens */,
 				DD3BF92D25D9C97800C368B0 /* CreativeIdeationApp.swift */,
 				DD3BF93125D9C97800C368B0 /* Assets.xcassets */,
@@ -330,6 +249,15 @@
 				DD3BF93425D9C97800C368B0 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		DDA4DD132603CCFA008972FD /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				DD3705D326029A5D00E611FD /* CreateAccountViewModel.swift */,
+				DD3705CB26027A8B00E611FD /* LoginViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		DDDFDA8C25E0827B00342B1B /* Buttons */ = {
