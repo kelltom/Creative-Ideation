@@ -78,9 +78,7 @@ struct HomeView: View {
                         .foregroundColor(Color.black)
                         
                      })
-                    
-
-                    
+                                        
                     Spacer()
                     
                     Button {
@@ -93,12 +91,15 @@ struct HomeView: View {
                             .foregroundColor(Color.yellow)
                     }
                     
-                    Button {
-                        // view user prefs
-                    } label: {
+                    NavigationLink(
+                    destination: UserPrefView(),
+                    label: {
                         ProfilePic(size: 70)
                             .shadow(color: .black, radius: 4, y: 4)
-                    }
+                       
+                    })
+                   
+            
                 }
                 .padding()
                 
