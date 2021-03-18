@@ -10,12 +10,13 @@ import Firebase
 
 struct LoginView: View {
     
+    // Allows for CreateAccount View to jump back to this View
     @State var showLogIn = false
     
     // May be used later
     //@State private var actionState: Int? = 0
     
-    @StateObject var viewModel = LoginViewModel()
+    @EnvironmentObject var viewModel: UserAccountViewModel
     
     var body: some View {
         
@@ -54,7 +55,6 @@ struct LoginView: View {
                         // Log In Button
                         Button {
                             viewModel.authenticate()
-                            delayAlert()
                         } label: {
                             BigButton(title: "Log In")
                         }
@@ -93,13 +93,6 @@ struct LoginView: View {
         
     }
     
-    private func delayAlert() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-            withAnimation {
-                viewModel.showBanner = false
-            }
-        }
-    }
 }
 
 struct LoginView_Previews: PreviewProvider {
