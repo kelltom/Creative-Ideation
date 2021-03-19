@@ -63,8 +63,7 @@ final class UserAccountViewModel: ObservableObject {
                 print("Successfully created User auth")
                 
                 // Mirror user in DB
-                var ref: DocumentReference? = nil
-                ref = self.db.collection("users").addDocument(data: [
+                self.db.collection("users").document((authResult?.user.uid)! as String).setData([
                     "name": self.user.name,
                     "email": self.user.email,
                     "id": authResult?.user.uid as Any
@@ -74,7 +73,7 @@ final class UserAccountViewModel: ObservableObject {
                         self.msg = "Error adding document: \(err)"
                         self.createSuccess = false
                     } else {
-                        print("Document added with ID: \(ref!.documentID)")
+                        print("Document added with")
                         self.msg = "Account created successfully!"
                         self.createSuccess = true
                     }
