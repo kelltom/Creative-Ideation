@@ -79,15 +79,16 @@ struct HomeView: View {
                             .foregroundColor(Color.black)
                     }
                     
-                    Button {
-                        // change group prefs
-                    } label: {
-                        Image(systemName: "gearshape.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(Color.black)
-                    }
+                    NavigationLink(
+                        destination: TeamSettingsView(),
+                        label: {
+                            Image(systemName: "gearshape.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 40, height: 40)
+                                .foregroundColor(Color.black)
+                            
+                        })
                     
                     Spacer()
                     
@@ -101,12 +102,14 @@ struct HomeView: View {
                             .foregroundColor(Color.yellow)
                     }
                     
-                    Button {
-                        // view user prefs
-                    } label: {
-                        ProfilePic(size: 70)
-                            .shadow(color: .black, radius: 4, y: 4)
-                    }
+                    NavigationLink(
+                        destination: UserPrefView(),
+                        label: {
+                            ProfilePic(size: 70)
+                                .shadow(color: .black, radius: 4, y: 4)
+                            
+                        })
+                    
                 }
                 .padding()
                 

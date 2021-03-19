@@ -10,13 +10,18 @@ import Firebase
 
 @main
 struct CreativeIdeationApp: App {
+    
+    var userAccountViewModel: UserAccountViewModel
+        
     init() {
         FirebaseApp.configure()
+        userAccountViewModel = UserAccountViewModel() // needs to instantiate after Firebase configures, since it uses Firebase
     }
     
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            LoginView()
+                .environmentObject(userAccountViewModel)
         }
     }
 }

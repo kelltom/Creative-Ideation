@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct CreateSessionView: View {
+    
     @State var sessionName: String = ""
     @Binding var showSheets: ActiveSheet?
     @Binding var showActivity: Bool
-    
     
     var body: some View {
         ZStack {

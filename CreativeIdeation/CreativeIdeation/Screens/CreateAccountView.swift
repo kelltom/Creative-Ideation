@@ -12,7 +12,7 @@ struct CreateAccountView: View {
     // Allows for popping view back to LogInView
     @Binding var showLogIn: Bool
     
-    @StateObject var viewModel = CreateAccountViewModel()
+    @EnvironmentObject var viewModel: UserAccountViewModel
     
     var body: some View {
         
@@ -41,7 +41,7 @@ struct CreateAccountView: View {
                     
                     MenuTextField(title: "Email address", input: $viewModel.user.email)
                     
-                    MenuTextField(title: "Password", input: $viewModel.user.password)
+                    MenuTextField(title: "Password", input: $viewModel.user.password, secure: true)
                     
                     // Create Account Link
                     NavigationLink(
@@ -53,7 +53,7 @@ struct CreateAccountView: View {
                     
                     Button {
                         viewModel.createAccount()
-                        delayAlert()
+                        //delayAlert()
                     } label: {
                         BigButton(title: "Create Account")
                     }
@@ -73,20 +73,20 @@ struct CreateAccountView: View {
             }
             .navigationBarHidden(true)
         }
+        .onAppear {
+            viewModel.showBanner = false
+        }
+        .onDisappear {
+            viewModel.showBanner = false
+        }
         
     }
-    
-    private func delayAlert() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-            withAnimation{
-                viewModel.showBanner = false
-            }
-        }
-    }
+
 }
 
 struct CreateAccountView_Previews: PreviewProvider {
     static var previews: some View {
         CreateAccountView(showLogIn: .constant(false))
+            .environmentObject(UserAccountViewModel())
     }
 }
