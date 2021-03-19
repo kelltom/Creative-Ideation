@@ -10,31 +10,70 @@ import SwiftUI
 struct CreateGroupView: View {
     @State var groupName: String = ""
     @State var groupDescription: String = ""
-    @State var groupMembers: String = ""
-    @State var text: String = "" //search text
+    @State var code: String = ""
+    
+    @State var groupCode: String = ""
+    @State var activeSheet: ActiveSheet?
+    @State private var showBanner: Bool = false
     
     
     var body: some View {
-        VStack{
-            Text("Create Your Group").font(.system(size: 40, weight: .heavy)).padding()
-            HStack{
-                
-                VStack{
+        ZStack {
+            if showBanner {
+                CodeGeneratorView(code: code)
+            }
+            
+            VStack{
+                Text("Create Your Group").font(.system(size: 40, weight: .heavy)).padding()
+                HStack{
                     
-                    MenuTextField(title: "group name", input: $groupName)
-                    
-                    MenuTextField(title: "group description (optiona)", input: $groupDescription)
-                    
-                    
-                    Button{
-                        // do something here
-                    } label:{
-                        BigButton(title: "Create").padding()
+                    VStack{
+                        
+                        MenuTextField(title: "group name", input: $groupName)
+                        
+                        MenuTextField(title: "group description (optiona)", input: $groupDescription)
+                        
+                        
+                        Button{
+                            randomGen()
+                            //groupCode = UUID().uuidString
+                            //print(groupCode)
+                            //activeSheet = .group
+                            withAnimation {
+                                showBanner = true
+                            }
+                            delayAlert()
+        
+                            
+                        } label:{
+                            BigButton(title: "Create").padding()
+                        }
+                        
+                        
                     }
                     
-                }
+                }.padding() // padding padding for title
                 
-            }.padding() // padding padding for title
+            }
+        }
+    }
+    
+    func randomGen(){
+        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        code = ""
+        for _ in 1...6{
+            code.append(letters.randomElement()!)
+        }
+        
+        print(code)
+     
+    }
+    
+    private func delayAlert() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+            withAnimation{
+                showBanner = false
+            }
         }
     }
 }
