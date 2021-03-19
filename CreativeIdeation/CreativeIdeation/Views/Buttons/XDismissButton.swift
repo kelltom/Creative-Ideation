@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct XDismissButton: View {
-    @Binding var isShowingSheet: Bool
+    @Binding var isShowingSheet: ActiveSheet?
     var body: some View {
         HStack{
             Spacer()
             Button{
-                isShowingSheet = false
-                
+                isShowingSheet = nil
             } label:{
                 Image(systemName: "xmark")
                     .foregroundColor(Color(.label))
@@ -28,6 +27,6 @@ struct XDismissButton: View {
 
 struct XDismissButton_Previews: PreviewProvider {
     static var previews: some View {
-        XDismissButton(isShowingSheet: .constant(true))
+        XDismissButton(isShowingSheet: .constant(nil))
     }
 }

@@ -7,10 +7,21 @@
 
 import SwiftUI
 
+enum ActiveSheet: Identifiable {
+    case team, group, session
+    
+    var id: Int{
+        hashValue
+    }
+}
+
 struct HomeView: View {
     
-    @State var showCreateTeam = false
-    @State var selection: Int? = nil
+    @State var activeSheet: ActiveSheet?
+    @State var showActivity: Bool = false
+    
+    let columns = [
+        GridItem(.adaptive(minimum: 200))]
     
     var body: some View {
         
@@ -35,7 +46,7 @@ struct HomeView: View {
                 
                 Button {
                     // Add group button
-                    showCreateTeam = true
+                    activeSheet = .team
                     
                 } label: {
                     Image(systemName: "plus.circle")
@@ -143,7 +154,34 @@ struct HomeView: View {
                                 Text("Sessions")
                                     .font(.title)
                                 
-                                SessionsList()
+                                ScrollView(showsIndicators: false){
+                                    LazyVGrid(columns: columns, spacing: 40){
+                                        
+                                        Button{
+                                            activeSheet = .session
+                                        } label: {
+                                            Image(systemName: "plus")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 50, height: 50)
+                                                .frame(width: 200, height: 200)
+                                                .overlay(RoundedRectangle(cornerRadius: 25.0)
+                                                            .stroke(Color.black, lineWidth: 2.0))
+                                        }
+                                        
+                                        SessionItem()
+                                        SessionItem()
+                                        SessionItem()
+                                        SessionItem()
+                                        SessionItem()
+                                        SessionItem()
+                                        SessionItem()
+                                        SessionItem()
+                                        SessionItem()
+                                    }
+                                    .padding()
+                                }
+                                .padding(.top)
                             }
                         }
                         
@@ -152,12 +190,25 @@ struct HomeView: View {
                 }
                 
             }
+            
+            NavigationLink(destination: ActivityView(
+                            showActivity: self.$showActivity), isActive: self.$showActivity) {
+                EmptyView()
+            }
         }
         .navigationTitle("Home")
         .navigationBarHidden(true)
-        .sheet(isPresented: $showCreateTeam){
-            CreateTeamView(showCreateTeam: $showCreateTeam, bannerMsg: "", bannerColor: .white, bannerImage: "")
+        .sheet(item: $activeSheet){ item in
+            switch item {
+            case .session:
+                CreateSessionView(sessionName: "", showSheets: $activeSheet, showActivity: $showActivity)
+            case .team:
+                CreateTeamView(showSheets: $activeSheet, bannerMsg: "", bannerColor: .white, bannerImage: "")
+            default:
+                CreateSessionView(sessionName: "", showSheets: $activeSheet, showActivity: $showActivity)
+            }
         }
+        
     }
 }
 

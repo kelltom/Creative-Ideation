@@ -12,7 +12,7 @@ import Firebase
 struct CreateTeamView: View {
     
     @State private var showBanner: Bool = false
-    @Binding var showCreateTeam: Bool
+    @Binding var showSheets: ActiveSheet?
     
     @State var teamName: String = ""
     @State var teamDescription: String = ""
@@ -35,7 +35,7 @@ struct CreateTeamView: View {
             }
 
             VStack {
-                XDismissButton(isShowingSheet: $showCreateTeam)
+                XDismissButton(isShowingSheet: $showSheets)
                 Spacer()
             }
             
@@ -123,6 +123,6 @@ struct CreateTeamView: View {
 
 struct CreateTeamView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateTeamView(showCreateTeam: .constant(true), bannerMsg: "Success", bannerColor: .green, bannerImage: "checkmark.circle.fill")
+        CreateTeamView(showSheets: .constant(.team), bannerMsg: "Success", bannerColor: .green, bannerImage: "checkmark.circle.fill")
     }
 }
