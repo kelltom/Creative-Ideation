@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum ActiveSheet: Identifiable {
-    case team, group, session
+    case team, group, session, addTeamMembers
     
     var id: Int{
         hashValue
@@ -71,6 +71,7 @@ struct HomeView: View {
                     
                     Button {
                         // add person to group
+                        activeSheet = .addTeamMembers
                     } label: {
                         Image(systemName: "person.badge.plus.fill")
                             .resizable()
@@ -204,6 +205,8 @@ struct HomeView: View {
                 CreateSessionView(sessionName: "", showSheets: $activeSheet, showActivity: $showActivity)
             case .team:
                 CreateTeamView(showSheets: $activeSheet, bannerMsg: "", bannerColor: .white, bannerImage: "")
+            case .addTeamMembers:
+                CodeGeneratorView(code: "", showSheets: $activeSheet)
             default:
                 CreateSessionView(sessionName: "", showSheets: $activeSheet, showActivity: $showActivity)
             }

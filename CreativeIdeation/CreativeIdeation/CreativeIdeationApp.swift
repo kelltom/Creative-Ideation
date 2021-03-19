@@ -20,7 +20,7 @@ struct CreativeIdeationApp: App {
     
     var body: some Scene {
         WindowGroup {
-            CreateGroupView()
+            LoginView()
                 .environmentObject(userAccountViewModel)
         }
     }
