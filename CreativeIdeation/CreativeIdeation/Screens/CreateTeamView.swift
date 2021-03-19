@@ -46,7 +46,7 @@ struct CreateTeamView: View {
                     MenuTextField(title: "Team description (optional)", input: $teamViewModel.newTeam.teamDescription)
                     
                     Button {
-                        teamViewModel.createTeam()
+                        teamViewModel.batchedCreateTeam()
                     } label: {
                         BigButton(title: "Create")
                             .padding(.top, 5)

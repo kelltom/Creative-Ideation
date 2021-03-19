@@ -79,11 +79,65 @@ final class TeamViewModel: ObservableObject {
         }
     }
     
+    func batchedCreateTeam() {
+        
+        // Get user ID
+        guard let uid = Auth.auth().currentUser?.uid else {
+            createBanner(message: "Failed to find user ID", didSucceed: false)
+            return
+        }
+        
+        // Make sure Team Name is not empty
+        guard !newTeam.teamName.isEmpty else {
+            createBanner(message: "Team name must not be empty", didSucceed: false)
+            return
+        }
+        
+        // Attempt to save New Team to DB, and add Team reference to User document
+        let batch = db.batch()
+        
+        let teamRef = db.collection("teams").document()
+        batch.setData([
+            "teamName": self.newTeam.teamName,
+            "teamDescription": self.newTeam.teamDescription,
+            "createdBy": uid,
+            "admins": FieldValue.arrayUnion([uid]),
+            "members": FieldValue.arrayUnion([uid])
+        ], forDocument: teamRef)
+        
+        let userRef = db.collection("users").document(uid)
+        batch.updateData(["teams" : FieldValue.arrayUnion([teamRef.documentID])], forDocument: userRef)
+        
+        batch.commit() { err in
+            if let err = err {
+                print("Error writing batch for Create Team: \(err)")
+                self.createBanner(message: "Create Team failed. Try again.", didSucceed: false)
+            } else {
+                print("Team created successfully with id: \(teamRef.documentID)")
+                self.createBanner(message: "Team created successfully!", didSucceed: true)
+            }
+        }
+        
+    }
+    
     // Tells View to stop showing banner after 4 seconds
     private func delayAlert() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
             withAnimation {
                 self.showBanner = false
+            }
+        }
+    }
+    
+    private func createBanner(message: String, didSucceed: Bool) {
+        msg = message
+        createSuccess = didSucceed
+        withAnimation {
+            self.showBanner = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                withAnimation {
+                    self.showBanner = false
+                }
             }
         }
     }
