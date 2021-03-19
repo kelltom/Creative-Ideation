@@ -27,31 +27,44 @@ final class TeamViewModel: ObservableObject {
         var ref: DocumentReference? = nil
         let userId: String = user?.uid ?? ""
         
-        if userId != "" {
+        if !userId.isEmpty {
             
-            ref = db.collection("teams").addDocument(data: [
-                "teamName": self.newTeam.teamName,
-                "teamDescription": self.newTeam.teamDescription,
-                "createdBy": userId,
-                "admins": FieldValue.arrayUnion([userId]),
-                "members": FieldValue.arrayUnion([userId])
-            ]) { err in
-                if let err = err {
-                    print("Error adding document: \(err)")
-                    self.createSuccess = false
-                    self.msg = "Error creating team: \(err)"
-                    withAnimation {
-                        self.showBanner = true
-                        self.delayAlert()
+            if !newTeam.teamName.isEmpty {
+                ref = db.collection("teams").addDocument(data: [
+                    "teamName": self.newTeam.teamName,
+                    "teamDescription": self.newTeam.teamDescription,
+                    "createdBy": userId,
+                    "admins": FieldValue.arrayUnion([userId]),
+                    "members": FieldValue.arrayUnion([userId])
+                ]) { err in
+                    if let err = err { // failed to add team document
+                        print("Error adding document: \(err)")
+                        self.createSuccess = false
+                        self.msg = "Error creating team: \(err)"
+                        withAnimation {
+                            self.showBanner = true
+                            self.delayAlert()
+                        }
+                    } else { // team created successfully
+                        self.createSuccess = true
+                        self.msg = "Team created successfully"
+                        withAnimation {
+                            self.showBanner = true
+                            self.delayAlert()
+                        }
+                        print("Document added with ID: \(ref!.documentID)")
                     }
-                } else {
-                    // On success
-                    print("Document added with ID: \(ref!.documentID)")
+                }
+            } else { // if team name is missing
+                self.createSuccess = false
+                self.msg = "Team name is required"
+                withAnimation {
+                    self.showBanner = true
+                    self.delayAlert()
                 }
             }
             
-        } else {
-            
+        } else { // if user ID not found
             self.msg = "Error: User ID not found"
             self.createSuccess = false
             withAnimation {
@@ -60,7 +73,7 @@ final class TeamViewModel: ObservableObject {
             }
         }
     }
-        
+    
     // Tells View to stop showing banner after 4 seconds
     private func delayAlert() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
