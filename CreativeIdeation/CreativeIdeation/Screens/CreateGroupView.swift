@@ -8,16 +8,17 @@
 import SwiftUI
 
 struct CreateGroupView: View {
+    
     @State var groupName: String = ""
     @State var groupDescription: String = ""
     @State var activeSheet: ActiveSheet?
 
-    
-    
     var body: some View {
         
         VStack{
+            
             Text("Create Your Group").font(.system(size: 40, weight: .heavy)).padding()
+            
             HStack{
                 
                 VStack{
@@ -31,11 +32,10 @@ struct CreateGroupView: View {
                     } label:{
                         BigButton(title: "Create").padding()
                     }
-                    
                 }
                 
-            }.padding() // padding padding for title
-            
+            }
+            .padding() // padding padding for title
         }
     }
 }
