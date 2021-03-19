@@ -16,6 +16,7 @@
 		76A0956525E80F0500917450 /* CreateGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0956425E80F0500917450 /* CreateGroupView.swift */; };
 		76A0956925E825ED00917450 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0956825E825ED00917450 /* SearchBarView.swift */; };
 		76A184D125FD979B0070251D /* XDismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A184D025FD979B0070251D /* XDismissButton.swift */; };
+		76C0480426054878009ECBAB /* CodeGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C0480326054878009ECBAB /* CodeGeneratorView.swift */; };
 		C92BA9EA25FD689300FEEADA /* NotificationBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92BA9E925FD689300FEEADA /* NotificationBanner.swift */; };
 		C9AE738125EAAD940090C96B /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE738025EAAD940090C96B /* ActivityView.swift */; };
 		C9AE739425EAB73C0090C96B /* ActivityToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE739325EAB73C0090C96B /* ActivityToolbar.swift */; };
@@ -62,6 +63,7 @@
 		76A0956425E80F0500917450 /* CreateGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupView.swift; sourceTree = "<group>"; };
 		76A0956825E825ED00917450 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		76A184D025FD979B0070251D /* XDismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XDismissButton.swift; sourceTree = "<group>"; };
+		76C0480326054878009ECBAB /* CodeGeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGeneratorView.swift; sourceTree = "<group>"; };
 		C92BA9E925FD689300FEEADA /* NotificationBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBanner.swift; sourceTree = "<group>"; };
 		C9AE738025EAAD940090C96B /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		C9AE739325EAB73C0090C96B /* ActivityToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityToolbar.swift; sourceTree = "<group>"; };
@@ -117,6 +119,14 @@
 				76731F382602828C00536836 /* PreferencePic.swift */,
 			);
 			path = TeamSettings;
+			sourceTree = "<group>";
+		};
+		76C0480226054853009ECBAB /* CreateGroup */ = {
+			isa = PBXGroup;
+			children = (
+				76C0480326054878009ECBAB /* CodeGeneratorView.swift */,
+			);
+			path = CreateGroup;
 			sourceTree = "<group>";
 		};
 		C9AE738325EAAE320090C96B /* ActivityCanvas */ = {
@@ -271,6 +281,7 @@
 		DDDFDA9225E086C300342B1B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				76C0480226054853009ECBAB /* CreateGroup */,
 				76731F372602825200536836 /* TeamSettings */,
 				C9AE73A125EB1ACA0090C96B /* ActivityTypeTile.swift */,
 				C9AE738325EAAE320090C96B /* ActivityCanvas */,
@@ -390,6 +401,7 @@
 				76A184D125FD979B0070251D /* XDismissButton.swift in Sources */,
 				C9F230BD25F29D8D006590DA /* SubGroup.swift in Sources */,
 				C9F230BA25F29D53006590DA /* GroupPic.swift in Sources */,
+				76C0480426054878009ECBAB /* CodeGeneratorView.swift in Sources */,
 				DDDFDA9825E08B0000342B1B /* PreferenceButton.swift in Sources */,
 				DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */,
 				76A0956925E825ED00917450 /* SearchBarView.swift in Sources */,
