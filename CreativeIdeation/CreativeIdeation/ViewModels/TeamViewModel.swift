@@ -24,6 +24,7 @@ final class TeamViewModel: ObservableObject {
     
     func createTeam() {
         // Attempt to save new Team to db
+        createSuccess = false
         var ref: DocumentReference? = nil
         let userId: String = user?.uid ?? ""
         
@@ -41,18 +42,18 @@ final class TeamViewModel: ObservableObject {
                         print("Error adding document: \(err)")
                         self.createSuccess = false
                         self.msg = "Error creating team: \(err)"
-                        withAnimation {
-                            self.showBanner = true
-                            self.delayAlert()
-                        }
                     } else { // team created successfully
+                        print("Document added with ID: \(ref!.documentID)")
                         self.createSuccess = true
                         self.msg = "Team created successfully"
-                        withAnimation {
-                            self.showBanner = true
-                            self.delayAlert()
-                        }
-                        print("Document added with ID: \(ref!.documentID)")
+                        
+                        // Clean up text fields
+                        self.newTeam.teamName = ""
+                        self.newTeam.teamDescription = ""
+                    }
+                    withAnimation {
+                        self.showBanner = true
+                        self.delayAlert()
                     }
                 }
             } else { // if team name is missing
@@ -62,6 +63,10 @@ final class TeamViewModel: ObservableObject {
                     self.showBanner = true
                     self.delayAlert()
                 }
+            }
+            
+            if createSuccess {
+                // add document ID to the user's team list
             }
             
         } else { // if user ID not found
