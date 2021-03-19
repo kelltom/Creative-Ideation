@@ -20,8 +20,8 @@ struct CreateTeamView: View {
         
         ZStack {
             
-            if teamViewModel.showBanner {
-                if teamViewModel.createSuccess {
+            if teamViewModel.isShowingBanner {
+                if teamViewModel.didOperationSucceed {
                     NotificationBanner(image: "checkmark.circle.fill", msg: teamViewModel.msg, color: .green)
                 } else {
                     NotificationBanner(image: "exclamationmark.circle.fill", msg: teamViewModel.msg, color: .red)
@@ -46,7 +46,7 @@ struct CreateTeamView: View {
                     MenuTextField(title: "Team description (optional)", input: $teamViewModel.newTeam.teamDescription)
                     
                     Button {
-                        teamViewModel.batchedCreateTeam()
+                        teamViewModel.createTeam()
                     } label: {
                         BigButton(title: "Create")
                             .padding(.top, 5)
