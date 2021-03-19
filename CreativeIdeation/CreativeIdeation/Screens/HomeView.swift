@@ -203,7 +203,7 @@ struct HomeView: View {
             case .session:
                 CreateSessionView(sessionName: "", showSheets: $activeSheet, showActivity: $showActivity)
             case .team:
-                CreateTeamView(showSheets: $activeSheet, bannerMsg: "", bannerColor: .white, bannerImage: "")
+                CreateTeamView(showSheets: $activeSheet)
             default:
                 CreateSessionView(sessionName: "", showSheets: $activeSheet, showActivity: $showActivity)
             }
