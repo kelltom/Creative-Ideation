@@ -20,6 +20,8 @@ struct HomeView: View {
     @State var activeSheet: ActiveSheet?
     @State var showActivity: Bool = false
     
+    @EnvironmentObject var teamViewModel: TeamViewModel
+    
     let columns = [
         GridItem(.adaptive(minimum: 200))]
     
@@ -234,8 +236,11 @@ struct HomeView: View {
                 
             case .group:
                 CreateGroupView(showSheets: $activeSheet)
-                
+            
             }
+        }
+        .onAppear {
+            teamViewModel.getTeams()
         }
         
     }

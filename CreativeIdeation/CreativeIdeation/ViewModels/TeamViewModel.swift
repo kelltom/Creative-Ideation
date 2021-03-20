@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import FirebaseFirestoreSwift
 import SwiftUI
 
 final class TeamViewModel: ObservableObject {
@@ -21,6 +22,7 @@ final class TeamViewModel: ObservableObject {
     @Published var isShowingBanner = false
     @Published var didOperationSucceed = false
     
+    /// Creates a single team
     func createTeam() {
         
         // Get user ID
@@ -70,6 +72,35 @@ final class TeamViewModel: ObservableObject {
         newTeam.teamDescription = ""
     }
     
+    /// Populate list of teams associated with current user
+    func getTeams() {
+        
+        // Get user ID
+        guard let uid = Auth.auth().currentUser?.uid else {
+            //setBanner(message: "Failed to find user ID", didSucceed: false)
+            return
+        }
+        
+        // Query db to get references to all teams where current user's ID appears in members list
+        // Create an instance of Team for each and add them to list of teams
+        db.collection("teams").whereField("members", arrayContains: uid)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        do {
+                            try self.teams.append(document.data(as: Team.self)!)
+                            print("Team object added to list of teams successfully")
+                        } catch {
+                            print("Error adding team object to list of teams")
+                        }
+                        
+                    }
+                }
+            }
+    }
+    
     private func setBanner(message: String, didSucceed: Bool) {
         msg = message
         didOperationSucceed = didSucceed
@@ -90,7 +121,7 @@ final class TeamViewModel: ObservableObject {
         for _ in 1...6{
             code.append(letters.randomElement()!)
         }
-
+        
         return code
     }
     

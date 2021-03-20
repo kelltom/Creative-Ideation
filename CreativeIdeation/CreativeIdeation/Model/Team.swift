@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Team {
+struct Team : Codable {
     var teamId = ""
     var teamName = ""
     var teamDescription = ""
@@ -16,4 +16,14 @@ struct Team {
     
     var members: [String] = []
     var admins: [String] = []
+    
+    enum CodingKeys: String, CodingKey {
+        case teamId
+        case teamName
+        case teamDescription
+        case createdBy
+        case accessCode
+        case members
+        case admins
+    }
 }
