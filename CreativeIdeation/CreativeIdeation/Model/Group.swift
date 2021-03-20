@@ -12,7 +12,6 @@ struct Group {
     var id = UUID() // used for looping
     var groupId = ""
     var groupTitle = ""
-    var groupDescription = ""
     
     var admins: [String] = []
     var members: [String] = []

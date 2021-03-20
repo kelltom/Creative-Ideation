@@ -32,9 +32,8 @@ struct CreateGroupView: View {
                     
                     VStack{
                         
-                        MenuTextField(title: "group name", input: $groupName)
+                        MenuTextField(title: "group name", input: $groupViewModel.newGroup.groupTitle)
                         
-                        MenuTextField(title: "group description (optiona)", input: $groupDescription)
                         
                         Button {
                             groupViewModel.createGroup(teamId: teamViewModel.selectedTeam?.teamId ?? "" )
