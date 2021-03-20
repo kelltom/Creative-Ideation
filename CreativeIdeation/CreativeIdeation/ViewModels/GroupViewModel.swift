@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class GroupViewModel{
+final class GroupViewModel: ObservableObject{
     
     
 }

@@ -13,11 +13,13 @@ struct CreativeIdeationApp: App {
     
     var userAccountViewModel: UserAccountViewModel
     var teamViewModel: TeamViewModel
+    var groupViewModel: GroupViewModel
         
     init() {
         FirebaseApp.configure()
         userAccountViewModel = UserAccountViewModel() // needs to instantiate after Firebase configures, since it uses Firebase
         teamViewModel = TeamViewModel()
+        groupViewModel = GroupViewModel()
     }
     
     var body: some Scene {
@@ -25,6 +27,8 @@ struct CreativeIdeationApp: App {
             LoginView()
                 .environmentObject(userAccountViewModel)
                 .environmentObject(teamViewModel)
+                .environmentObject(groupViewModel)
+                
         }
     }
 }
