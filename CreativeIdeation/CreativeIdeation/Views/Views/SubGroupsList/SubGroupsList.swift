@@ -12,6 +12,7 @@ struct SubGroupsList: View {
         
         VStack {
             List{
+                
                 SubGroup(title: "Marketing", selected: true)
                 
                 SubGroup(title: "Finance")

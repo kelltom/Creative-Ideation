@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum ActiveSheet: Identifiable {
-    case team, group, session
+    case team, group, session, addTeamMembers
     
     var id: Int{
         hashValue
@@ -71,6 +71,7 @@ struct HomeView: View {
                     
                     Button {
                         // add person to group
+                        activeSheet = .addTeamMembers
                     } label: {
                         Image(systemName: "person.badge.plus.fill")
                             .resizable()
@@ -115,9 +116,11 @@ struct HomeView: View {
                 
                 Divider()
                 
-                VStack{
-                    VStack(alignment: .leading){
-                        HStack{
+                VStack {
+                    
+                    VStack(alignment: .leading) {
+                        
+                        HStack {
                             Text("Recent Sessions")
                                 .font(.title)
                             
@@ -140,24 +143,43 @@ struct HomeView: View {
                         Divider()
                         
                         HStack(spacing: 0){
-                            VStack(){
+                            
+                            VStack() {
+                                
                                 Text("Groups")
                                     .font(.title)
                                 
+                                VStack {
+                                    
+                                    Button {
+                                        activeSheet = .group
+                                    } label: {
+                                        Text("Add Group")
+                                            .foregroundColor(Color.black)
+                                        Image(systemName: "plus")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 20, height: 15)
+                                            .padding()
+                                    }
+                                }.padding()
+                                                                
                                 SubGroupsList()
                             }
                             .frame(width: 230)
                             
                             Divider()
                             
-                            VStack{
+                            VStack {
+                                
                                 Text("Sessions")
                                     .font(.title)
                                 
-                                ScrollView(showsIndicators: false){
+                                ScrollView(showsIndicators: false) {
+                                    
                                     LazyVGrid(columns: columns, spacing: 40){
                                         
-                                        Button{
+                                        Button {
                                             activeSheet = .session
                                         } label: {
                                             Image(systemName: "plus")
@@ -200,12 +222,19 @@ struct HomeView: View {
         .navigationBarHidden(true)
         .sheet(item: $activeSheet){ item in
             switch item {
+            
             case .session:
                 CreateSessionView(sessionName: "", showSheets: $activeSheet, showActivity: $showActivity)
+                
             case .team:
                 CreateTeamView(showSheets: $activeSheet)
-            default:
-                CreateSessionView(sessionName: "", showSheets: $activeSheet, showActivity: $showActivity)
+                
+            case .addTeamMembers:
+                AddTeamMembersView(showSheets: $activeSheet)
+                
+            case .group:
+                CreateGroupView(showSheets: $activeSheet)
+                
             }
         }
         

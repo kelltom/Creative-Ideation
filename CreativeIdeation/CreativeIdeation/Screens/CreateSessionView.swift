@@ -14,6 +14,7 @@ struct CreateSessionView: View {
     @Binding var showActivity: Bool
     
     var body: some View {
+        
         ZStack {
             
             VStack {

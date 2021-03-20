@@ -41,3 +41,4 @@ struct SubGroup_Previews: PreviewProvider {
         SubGroup(title: "Example", selected: true)
     }
 }
+
