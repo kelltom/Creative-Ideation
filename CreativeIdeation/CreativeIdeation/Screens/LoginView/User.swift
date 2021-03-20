@@ -12,4 +12,6 @@ struct User {
     var name = ""
     var email = ""
     var password = ""
+    
+    var listOfTeams: [String] = []
 }

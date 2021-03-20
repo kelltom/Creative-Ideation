@@ -14,24 +14,18 @@ struct CreateTeamView: View {
     @State private var showBanner: Bool = false
     @Binding var showSheets: ActiveSheet?
     
-    @State var teamName: String = ""
-    @State var teamDescription: String = ""
-    @State var teamMembers: String = ""
-    
-    @State var bannerMsg: String
-    @State var bannerColor: Color
-    @State var bannerImage: String
-    
-    // db init
-    let db = Firestore.firestore()
-    let user = Auth.auth().currentUser
+    @EnvironmentObject var teamViewModel: TeamViewModel
     
     var body: some View {
         
         ZStack {
             
-            if showBanner {
-                NotificationBanner(image: bannerImage, msg: bannerMsg, color: bannerColor)
+            if teamViewModel.isShowingBanner {
+                if teamViewModel.didOperationSucceed {
+                    NotificationBanner(image: "checkmark.circle.fill", msg: teamViewModel.msg, color: .green)
+                } else {
+                    NotificationBanner(image: "exclamationmark.circle.fill", msg: teamViewModel.msg, color: .red)
+                }
             }
 
             VStack {
@@ -47,49 +41,12 @@ struct CreateTeamView: View {
                 
                 VStack {
                     
-                    MenuTextField(title: "Team name", input: $teamName)
+                    MenuTextField(title: "Team name", input: $teamViewModel.newTeam.teamName)
                     
-                    MenuTextField(title: "Team description (optional)", input: $teamDescription)
+                    MenuTextField(title: "Team description (optional)", input: $teamViewModel.newTeam.teamDescription)
                     
                     Button {
-                        // Display error message when no Team name entered
-                        if (teamName.isEmpty){
-                            
-                            bannerMsg = "Missing Team Name"
-                            bannerColor = Color.red
-                            bannerImage = "exclamationmark.circle.fill"
-                            
-                            withAnimation {
-                                showBanner = true
-                            }
-                            delayAlert()
-                            
-                        } else {
-                            // Attempt to save new Team to db
-                            var ref: DocumentReference? = nil
-                            
-                            ref = db.collection("teams").addDocument(data: [
-                                "teamName": teamName,
-                                "teamDescription": teamDescription,
-                                "createdBy": user?.uid as Any
-                            ]) { err in
-                                if let err = err {
-                                    print("Error adding document: \(err)")
-                                } else {
-                                    bannerMsg = "Success"
-                                    bannerColor = Color.green
-                                    bannerImage = "checkmark.circle.fill"
-                                    
-                                    withAnimation {
-                                        showBanner = true
-                                    }
-                                    delayAlert()
-                                    
-                                    print("Document added with ID: \(ref!.documentID)")
-                                }
-                            }
-                        }
-                        
+                        teamViewModel.createTeam()
                     } label: {
                         BigButton(title: "Create")
                             .padding(.top, 5)
@@ -123,6 +80,6 @@ struct CreateTeamView: View {
 
 struct CreateTeamView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateTeamView(showSheets: .constant(.team), bannerMsg: "Success", bannerColor: .green, bannerImage: "checkmark.circle.fill")
+        CreateTeamView(showSheets: .constant(.team))
     }
 }

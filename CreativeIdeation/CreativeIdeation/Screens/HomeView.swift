@@ -116,9 +116,11 @@ struct HomeView: View {
                 
                 Divider()
                 
-                VStack{
-                    VStack(alignment: .leading){
-                        HStack{
+                VStack {
+                    
+                    VStack(alignment: .leading) {
+                        
+                        HStack {
                             Text("Recent Sessions")
                                 .font(.title)
                             
@@ -141,7 +143,9 @@ struct HomeView: View {
                         Divider()
                         
                         HStack(spacing: 0){
-                            VStack(){
+                            
+                            VStack() {
+                                
                                 Text("Groups")
                                     .font(.title)
                                 
@@ -151,14 +155,16 @@ struct HomeView: View {
                             
                             Divider()
                             
-                            VStack{
+                            VStack {
+                                
                                 Text("Sessions")
                                     .font(.title)
                                 
-                                ScrollView(showsIndicators: false){
+                                ScrollView(showsIndicators: false) {
+                                    
                                     LazyVGrid(columns: columns, spacing: 40){
                                         
-                                        Button{
+                                        Button {
                                             activeSheet = .session
                                         } label: {
                                             Image(systemName: "plus")
@@ -201,12 +207,16 @@ struct HomeView: View {
         .navigationBarHidden(true)
         .sheet(item: $activeSheet){ item in
             switch item {
+            
             case .session:
                 CreateSessionView(sessionName: "", showSheets: $activeSheet, showActivity: $showActivity)
+                
             case .team:
-                CreateTeamView(showSheets: $activeSheet, bannerMsg: "", bannerColor: .white, bannerImage: "")
+                CreateTeamView(showSheets: $activeSheet)
+                
             case .addTeamMembers:
                 CodeGeneratorView(code: "", showSheets: $activeSheet)
+
             default:
                 CreateSessionView(sessionName: "", showSheets: $activeSheet, showActivity: $showActivity)
             }
