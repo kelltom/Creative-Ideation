@@ -8,6 +8,7 @@
 import Foundation
 
 struct Team {
+    var teamId = ""
     var teamName = ""
     var teamDescription = ""
     var createdBy = ""

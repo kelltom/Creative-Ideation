@@ -43,6 +43,7 @@ final class TeamViewModel: ObservableObject {
         
         let teamRef = db.collection("teams").document()
         batch.setData([
+            "teamId": teamRef.documentID,
             "teamName": self.newTeam.teamName,
             "teamDescription": self.newTeam.teamDescription,
             "createdBy": uid,
@@ -82,6 +83,7 @@ final class TeamViewModel: ObservableObject {
         }
     }
     
+    // Generates a random code that can be used to join the team
     private func randomGen() -> String {
         let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         var code = ""
