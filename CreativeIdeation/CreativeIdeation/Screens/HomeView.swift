@@ -20,6 +20,8 @@ struct HomeView: View {
     @State var activeSheet: ActiveSheet?
     @State var showActivity: Bool = false
     
+    @EnvironmentObject var teamViewModel: TeamViewModel
+    
     let columns = [
         GridItem(.adaptive(minimum: 200))]
     
@@ -35,19 +37,18 @@ struct HomeView: View {
                     .fontWeight(.bold)
                     .padding(.top, 20)
                 
+                // Home Team Button
                 GroupPic(symbol_name: "house.circle")
                     .padding()
                 
-                GroupPic(selected: true)
-                    .padding()
+                ForEach(teamViewModel.teams) { team in
+                    GroupPic(teamName: team.teamName)
+                        .padding()
+                }
                 
-                GroupPic()
-                    .padding()
-                
+                // Add/Join Team Button
                 Button {
-                    // Add group button
                     activeSheet = .team
-                    
                 } label: {
                     Image(systemName: "plus.circle")
                         .resizable()
@@ -234,8 +235,11 @@ struct HomeView: View {
                 
             case .group:
                 CreateGroupView(showSheets: $activeSheet)
-                
+            
             }
+        }
+        .onAppear {
+            teamViewModel.getTeams()
         }
         
     }
@@ -244,6 +248,7 @@ struct HomeView: View {
 struct GroupView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
+            .environmentObject(TeamViewModel())
     }
 }
 

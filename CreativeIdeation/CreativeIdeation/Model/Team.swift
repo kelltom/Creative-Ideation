@@ -7,7 +7,10 @@
 
 import Foundation
 
-struct Team {
+struct Team : Codable, Identifiable {
+    
+    var id = UUID() // used for looping
+    var teamId = ""
     var teamName = ""
     var teamDescription = ""
     var createdBy = ""
@@ -15,4 +18,14 @@ struct Team {
     
     var members: [String] = []
     var admins: [String] = []
+    
+    enum CodingKeys: String, CodingKey {
+        case teamId
+        case teamName
+        case teamDescription
+        case createdBy
+        case accessCode
+        case members
+        case admins
+    }
 }
