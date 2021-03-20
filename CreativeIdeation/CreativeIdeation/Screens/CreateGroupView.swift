@@ -19,6 +19,14 @@ struct CreateGroupView: View {
         
         ZStack {
             
+            if groupViewModel.isShowingBanner {
+                if groupViewModel.didOperationSucceed {
+                    NotificationBanner(image: "checkmark.circle.fill", msg: groupViewModel.msg, color: .green)
+                } else {
+                    NotificationBanner(image: "exclamationmark.circle.fill", msg: groupViewModel.msg, color: .red)
+                }
+            }
+            
             VStack {
                 XDismissButton(isShowingSheet: $showSheets)
                 Spacer()
@@ -47,6 +55,8 @@ struct CreateGroupView: View {
             }
         }
     }
+    
+    
 }
 
 

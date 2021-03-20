@@ -21,21 +21,18 @@ final class GroupViewModel: ObservableObject{
     @Published var isShowingBanner = false
     @Published var didOperationSucceed = false
     
-    
-    
-    
     //create group
     func createGroup(teamId: String?){
         //get user id
         guard let uid = Auth.auth().currentUser?.uid else{
-            //setBanner(message: "Failed to find user ID", didSucceed: false)
+            setBanner(message: "Failed to find user ID", didSucceed: false)
             print("failed to find user ID")
             return
         }
         
         //check to make sure group name is not empty
         guard !newGroup.groupTitle.isEmpty else{
-            //setBanner(message: "Group Name must not be empty", didSucceed: false)
+            setBanner(message: "Group Name must not be empty", didSucceed: false)
             print("group name must not be empty")
             return
         }
@@ -43,6 +40,7 @@ final class GroupViewModel: ObservableObject{
         
         //checks if teamid is nil
         guard let teamId = teamId else{
+            setBanner(message: "Team Id is nil", didSucceed: false)
             print("no team id ")
             return
         }
@@ -53,6 +51,7 @@ final class GroupViewModel: ObservableObject{
             if let document = document, document.exists {
                 
             } else {
+                self.setBanner(message: "team doc does not exists", didSucceed: false)
                 print("team doc does not exists")
                 return
             }
@@ -70,27 +69,21 @@ final class GroupViewModel: ObservableObject{
         ]){
             err in
             if let err = err {
+                self.setBanner(message: "Error adding document: \(err)", didSucceed: false)
                 print("Error adding document: \(err)")
                 
             } else {
+                self.setBanner(message: "group doc added", didSucceed: true)
                 print("group document successfully addedddddddd")
+                self.newGroup.groupTitle = ""
+                
                 
             }
             
         }
         
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     private func setBanner(message: String, didSucceed: Bool) {
         msg = message
         didOperationSucceed = didSucceed
