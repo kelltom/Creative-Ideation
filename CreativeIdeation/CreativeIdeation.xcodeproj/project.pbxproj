@@ -16,6 +16,7 @@
 		76A0956525E80F0500917450 /* CreateGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0956425E80F0500917450 /* CreateGroupView.swift */; };
 		76A0956925E825ED00917450 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0956825E825ED00917450 /* SearchBarView.swift */; };
 		76A184D125FD979B0070251D /* XDismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A184D025FD979B0070251D /* XDismissButton.swift */; };
+		76A51DAA2605804D000C3DA4 /* AddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A51DA92605804D000C3DA4 /* AddButton.swift */; };
 		76C0480426054878009ECBAB /* AddTeamMembersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C0480326054878009ECBAB /* AddTeamMembersView.swift */; };
 		C92BA9EA25FD689300FEEADA /* NotificationBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92BA9E925FD689300FEEADA /* NotificationBanner.swift */; };
 		C9AE738125EAAD940090C96B /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE738025EAAD940090C96B /* ActivityView.swift */; };
@@ -65,6 +66,7 @@
 		76A0956425E80F0500917450 /* CreateGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupView.swift; sourceTree = "<group>"; };
 		76A0956825E825ED00917450 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		76A184D025FD979B0070251D /* XDismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XDismissButton.swift; sourceTree = "<group>"; };
+		76A51DA92605804D000C3DA4 /* AddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButton.swift; sourceTree = "<group>"; };
 		76C0480326054878009ECBAB /* AddTeamMembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTeamMembersView.swift; sourceTree = "<group>"; };
 		C92BA9E925FD689300FEEADA /* NotificationBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBanner.swift; sourceTree = "<group>"; };
 		C9AE738025EAAD940090C96B /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 			children = (
 				C9F230BC25F29D8D006590DA /* SubGroup.swift */,
 				C9DC347725EA07B400CA28BB /* SubGroupsList.swift */,
+				76A51DA92605804D000C3DA4 /* AddButton.swift */,
 			);
 			path = SubGroupsList;
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 				DD15B00526051A7200F51777 /* Team.swift in Sources */,
 				C9F230C725F29DA3006590DA /* ProfilePic.swift in Sources */,
 				76A0956525E80F0500917450 /* CreateGroupView.swift in Sources */,
+				76A51DAA2605804D000C3DA4 /* AddButton.swift in Sources */,
 				C9C67A2525E8288B002D16A9 /* HomeView.swift in Sources */,
 				DD2977352603D266000A1C95 /* UserAccountViewModel.swift in Sources */,
 				C9AE739425EAB73C0090C96B /* ActivityToolbar.swift in Sources */,

@@ -149,6 +149,23 @@ struct HomeView: View {
                                 Text("Groups")
                                     .font(.title)
                                 
+                                VStack {
+                                    Button{
+                                        activeSheet = .group
+                                    }label:{
+                                        Text("Add Group")
+                                            .foregroundColor(Color.black)
+                                        Image(systemName: "plus")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 20, height: 15)
+                                            .padding()
+                                        
+                                    }
+                                }.padding()
+                                
+                                
+                                
                                 SubGroupsList()
                             }
                             .frame(width: 230)
@@ -216,7 +233,10 @@ struct HomeView: View {
                 
             case .addTeamMembers:
                 AddTeamMembersView(showSheets: $activeSheet)
-
+           
+            case .group:
+                CreateGroupView(showSheets: $activeSheet)
+                
             default:
                 CreateSessionView(sessionName: "", showSheets: $activeSheet, showActivity: $showActivity)
             }

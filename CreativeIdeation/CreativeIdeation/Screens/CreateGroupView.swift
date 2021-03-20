@@ -11,31 +11,39 @@ struct CreateGroupView: View {
     
     @State var groupName: String = ""
     @State var groupDescription: String = ""
-    @State var activeSheet: ActiveSheet?
+    @Binding var showSheets: ActiveSheet?
 
     var body: some View {
         
-        VStack{
+        ZStack {
             
-            Text("Create Your Group").font(.system(size: 40, weight: .heavy)).padding()
-            
-            HStack{
-                
-                VStack{
-                    
-                    MenuTextField(title: "group name", input: $groupName)
-                    
-                    MenuTextField(title: "group description (optiona)", input: $groupDescription)
-                    
-                    Button{
-                        //
-                    } label:{
-                        BigButton(title: "Create").padding()
-                    }
-                }
-                
+            VStack {
+                XDismissButton(isShowingSheet: $showSheets)
+                Spacer()
             }
-            .padding() // padding padding for title
+            
+            VStack{
+                
+                Text("Create Your Group").font(.system(size: 40, weight: .heavy)).padding()
+                
+                HStack{
+                    
+                    VStack{
+                        
+                        MenuTextField(title: "group name", input: $groupName)
+                        
+                        MenuTextField(title: "group description (optiona)", input: $groupDescription)
+                        
+                        Button{
+                            //
+                        } label:{
+                            BigButton(title: "Create").padding()
+                        }
+                    }
+                    
+                }
+                .padding() // padding padding for title
+            }
         }
     }
 }
@@ -43,7 +51,7 @@ struct CreateGroupView: View {
 
 struct CreateGroupView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateGroupView()
+        CreateGroupView(showSheets: .constant(.group))
     }
 }
 

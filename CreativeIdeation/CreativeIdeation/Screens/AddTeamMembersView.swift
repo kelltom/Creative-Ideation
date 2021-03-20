@@ -18,6 +18,11 @@ struct AddTeamMembersView: View {
         ZStack {
             
             VStack {
+                XDismissButton(isShowingSheet: $showSheets)
+                Spacer()
+            }
+            
+            VStack {
                 Text("Group Code")
                     .font(.system(size: 35))
                     .foregroundColor(Color.white)
@@ -25,9 +30,20 @@ struct AddTeamMembersView: View {
                     .padding()
                 
                 VStack {
-                    Text("teamViewModel.selectedTeam?.accessCode") // temporary value
-                        .font(.system(size: 25))
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    HStack {
+                        Spacer()
+                        Text("tFGT67fF") // temporary value
+                            .font(.system(size: 25))
+                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        Spacer()
+                        Button{
+                            
+                        }label:{
+                            Image(systemName: "doc.on.doc")
+                            
+                        }
+                        
+                    }
                     
                 }
                 .padding()
@@ -43,7 +59,7 @@ struct AddTeamMembersView: View {
         }
         
     }
-
+    
 }
 
 struct CodeGeneratorView_Previews: PreviewProvider {
