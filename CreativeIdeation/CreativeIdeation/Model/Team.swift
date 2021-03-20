@@ -7,7 +7,9 @@
 
 import Foundation
 
-struct Team : Codable {
+struct Team : Codable, Identifiable {
+    
+    var id = UUID() // used for looping
     var teamId = ""
     var teamName = ""
     var teamDescription = ""

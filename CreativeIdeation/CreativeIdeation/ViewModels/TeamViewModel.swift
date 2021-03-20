@@ -70,10 +70,16 @@ final class TeamViewModel: ObservableObject {
         // Reset input fields
         newTeam.teamName = ""
         newTeam.teamDescription = ""
+        
+        // Reload list of teams
+        getTeams()
     }
     
     /// Populate list of teams associated with current user
     func getTeams() {
+        
+        // Empty list of teams to avoid repeated appends
+        teams = []
         
         // Get user ID
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -90,6 +96,7 @@ final class TeamViewModel: ObservableObject {
                 } else {
                     for document in querySnapshot!.documents {
                         do {
+                            // Convert document to Team object and append to list of teams
                             try self.teams.append(document.data(as: Team.self)!)
                             print("Team object added to list of teams successfully")
                         } catch {

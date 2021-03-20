@@ -11,7 +11,7 @@ struct GroupPic: View {
     
     var selected: Bool = false
     var symbol_name: String = "person.3.fill"
-    var team_name: String = "Example"
+    var teamName: String = ""
     
     var body: some View {
         VStack{
@@ -40,7 +40,7 @@ struct GroupPic: View {
                 }
             }
             
-            Text(team_name)
+            Text(teamName)
                 .font(.footnote)
                 .foregroundColor(.white)
                 .frame(maxWidth: 60)
@@ -51,6 +51,6 @@ struct GroupPic: View {
 
 struct GroupPic_Previews: PreviewProvider {
     static var previews: some View {
-        GroupPic()
+        GroupPic(teamName: "Example")
     }
 }
