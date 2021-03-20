@@ -38,13 +38,17 @@ final class TeamViewModel: ObservableObject {
         // Attempt to save New Team to DB, and add Team reference to User document
         let batch = db.batch()
         
+        // Create randomly generated access code
+        let code = randomGen()
+        
         let teamRef = db.collection("teams").document()
         batch.setData([
             "teamName": self.newTeam.teamName,
             "teamDescription": self.newTeam.teamDescription,
             "createdBy": uid,
             "admins": FieldValue.arrayUnion([uid]),
-            "members": FieldValue.arrayUnion([uid])
+            "members": FieldValue.arrayUnion([uid]),
+            "accessCode": code
         ], forDocument: teamRef)
         
         let userRef = db.collection("users").document(uid)
@@ -76,6 +80,16 @@ final class TeamViewModel: ObservableObject {
                 }
             }
         }
+    }
+    
+    private func randomGen() -> String {
+        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        var code = ""
+        for _ in 1...6{
+            code.append(letters.randomElement()!)
+        }
+
+        return code
     }
     
 }

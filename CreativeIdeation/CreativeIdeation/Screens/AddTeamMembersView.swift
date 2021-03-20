@@ -7,14 +7,16 @@
 
 import SwiftUI
 
-struct CodeGeneratorView: View {
+struct AddTeamMembersView: View {
     
-    @State var code: String
     @Binding var showSheets: ActiveSheet?
+    
+    @EnvironmentObject var teamViewModel: TeamViewModel
     
     var body: some View {
         
         ZStack {
+            
             VStack {
                 Text("Group Code")
                     .font(.system(size: 35))
@@ -22,9 +24,8 @@ struct CodeGeneratorView: View {
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     .padding()
                 
-                
                 VStack {
-                    Text(code)
+                    Text("teamViewModel.selectedTeam?.accessCode") // temporary value
                         .font(.system(size: 25))
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     
@@ -42,23 +43,11 @@ struct CodeGeneratorView: View {
         }
         
     }
-//
-//    func randomGen(){
-//        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-//        code = ""
-//        for _ in 1...6{
-//            code.append(letters.randomElement()!)
-//        }
-//
-//        print(code)
-//
-//    }
-//
-    
+
 }
 
 struct CodeGeneratorView_Previews: PreviewProvider {
     static var previews: some View {
-        CodeGeneratorView(code: "", showSheets: .constant(.addTeamMembers))
+        AddTeamMembersView(showSheets: .constant(.addTeamMembers))
     }
 }

@@ -215,7 +215,7 @@ struct HomeView: View {
                 CreateTeamView(showSheets: $activeSheet)
                 
             case .addTeamMembers:
-                CodeGeneratorView(code: "", showSheets: $activeSheet)
+                AddTeamMembersView(showSheets: $activeSheet)
 
             default:
                 CreateSessionView(sessionName: "", showSheets: $activeSheet, showActivity: $showActivity)

@@ -11,6 +11,7 @@ struct Team {
     var teamName = ""
     var teamDescription = ""
     var createdBy = ""
+    var accessCode = ""
     
     var members: [String] = []
     var admins: [String] = []
