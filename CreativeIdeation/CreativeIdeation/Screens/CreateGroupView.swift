@@ -12,6 +12,8 @@ struct CreateGroupView: View {
     @State var groupName: String = ""
     @State var groupDescription: String = ""
     @Binding var showSheets: ActiveSheet?
+    @EnvironmentObject var groupViewModel: GroupViewModel
+    @EnvironmentObject var teamViewModel: TeamViewModel
 
     var body: some View {
         
@@ -35,7 +37,7 @@ struct CreateGroupView: View {
                         MenuTextField(title: "group description (optiona)", input: $groupDescription)
                         
                         Button {
-                            //
+                            groupViewModel.createGroup(teamId: teamViewModel.selectedTeam?.teamId ?? "" )
                         } label: {
                             BigButton(title: "Create").padding()
                         }
