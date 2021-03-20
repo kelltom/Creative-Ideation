@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Creates a profile picture for a Team using an SF symbol input
 struct TeamPic: View {
     
     var selected: Bool = false

@@ -42,9 +42,9 @@ struct HomeView: View {
                     teamViewModel.selectedTeam = nil
                 } label: {
                     if teamViewModel.selectedTeam == nil {
-                        TeamPic(selected: true, symbol_name: "house.circle", teamName: "Home")
+                        TeamPic(selected: true, symbol_name: "house", teamName: "Home")
                     } else {
-                        TeamPic(selected: false, symbol_name: "house.circle", teamName: "Home")
+                        TeamPic(selected: false, symbol_name: "house", teamName: "Home")
                     }
                 }
 
@@ -105,7 +105,6 @@ struct HomeView: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 40, height: 40)
                                 .foregroundColor(Color.black)
-                            
                         })
                     
                     Spacer()
