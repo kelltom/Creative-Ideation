@@ -12,10 +12,20 @@ struct CreateGroupView: View {
     @State var groupName: String = ""
     @State var groupDescription: String = ""
     @Binding var showSheets: ActiveSheet?
+    @EnvironmentObject var groupViewModel: GroupViewModel
+    @EnvironmentObject var teamViewModel: TeamViewModel
 
     var body: some View {
         
         ZStack {
+            
+            if groupViewModel.isShowingBanner {
+                if groupViewModel.didOperationSucceed {
+                    NotificationBanner(image: "checkmark.circle.fill", msg: groupViewModel.msg, color: .green)
+                } else {
+                    NotificationBanner(image: "exclamationmark.circle.fill", msg: groupViewModel.msg, color: .red)
+                }
+            }
             
             VStack {
                 XDismissButton(isShowingSheet: $showSheets)
@@ -30,12 +40,11 @@ struct CreateGroupView: View {
                     
                     VStack{
                         
-                        MenuTextField(title: "group name", input: $groupName)
+                        MenuTextField(title: "group name", input: $groupViewModel.newGroup.groupTitle)
                         
-                        MenuTextField(title: "group description (optiona)", input: $groupDescription)
                         
                         Button {
-                            //
+                            groupViewModel.createGroup(teamId: teamViewModel.selectedTeam?.teamId)
                         } label: {
                             BigButton(title: "Create").padding()
                         }
@@ -46,6 +55,8 @@ struct CreateGroupView: View {
             }
         }
     }
+    
+    
 }
 
 
