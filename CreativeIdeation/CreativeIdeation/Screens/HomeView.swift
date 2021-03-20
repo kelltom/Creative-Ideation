@@ -29,7 +29,7 @@ struct HomeView: View {
         
         HStack(spacing: 0) {
             
-            VStack{
+            VStack {
                 
                 Text("Teams")
                     .font(.title3)
@@ -37,13 +37,29 @@ struct HomeView: View {
                     .fontWeight(.bold)
                     .padding(.top, 20)
                 
-                // Home Team Button
-                GroupPic(symbol_name: "house.circle")
-                    .padding()
-                
+                // Home Team button
+                Button {
+                    teamViewModel.selectedTeam = nil
+                } label: {
+                    if teamViewModel.selectedTeam == nil {
+                        TeamPic(selected: true, symbol_name: "house.circle", teamName: "Home")
+                    } else {
+                        TeamPic(selected: false, symbol_name: "house.circle", teamName: "Home")
+                    }
+                }
+
+                // Add buttons for additional Teams
                 ForEach(teamViewModel.teams) { team in
-                    GroupPic(teamName: team.teamName)
-                        .padding()
+                    
+                    Button {
+                        teamViewModel.selectedTeam = team
+                    } label: {
+                        if teamViewModel.selectedTeam?.id == team.id {
+                            TeamPic(selected: true, teamName: team.teamName)
+                        } else {
+                            TeamPic(selected: false, teamName: team.teamName)
+                        }
+                    }
                 }
                 
                 // Add/Join Team Button
@@ -67,7 +83,7 @@ struct HomeView: View {
             VStack {
                 
                 HStack(spacing: 20){
-                    Text("Example Company")
+                    Text(teamViewModel.selectedTeam?.teamName ?? "Unknown")
                         .font(.largeTitle)
                     
                     Button {

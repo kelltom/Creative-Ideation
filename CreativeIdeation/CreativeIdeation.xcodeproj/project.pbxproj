@@ -32,7 +32,7 @@
 		C9DC347825EA07B400CA28BB /* SubGroupsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC347725EA07B400CA28BB /* SubGroupsList.swift */; };
 		C9DC348225EA0BD300CA28BB /* RecentSessionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC348125EA0BD300CA28BB /* RecentSessionList.swift */; };
 		C9F1C92125EA121A00F95F61 /* GroupSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F1C92025EA121A00F95F61 /* GroupSidebar.swift */; };
-		C9F230BA25F29D53006590DA /* GroupPic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230B925F29D53006590DA /* GroupPic.swift */; };
+		C9F230BA25F29D53006590DA /* TeamPic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230B925F29D53006590DA /* TeamPic.swift */; };
 		C9F230BD25F29D8D006590DA /* SubGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230BC25F29D8D006590DA /* SubGroup.swift */; };
 		C9F230C225F29D98006590DA /* SessionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230C025F29D98006590DA /* SessionItem.swift */; };
 		C9F230C625F29DA3006590DA /* GroupMemberPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230C425F29DA3006590DA /* GroupMemberPanel.swift */; };
@@ -82,7 +82,7 @@
 		C9DC347725EA07B400CA28BB /* SubGroupsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubGroupsList.swift; sourceTree = "<group>"; };
 		C9DC348125EA0BD300CA28BB /* RecentSessionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSessionList.swift; sourceTree = "<group>"; };
 		C9F1C92025EA121A00F95F61 /* GroupSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSidebar.swift; sourceTree = "<group>"; };
-		C9F230B925F29D53006590DA /* GroupPic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupPic.swift; sourceTree = "<group>"; };
+		C9F230B925F29D53006590DA /* TeamPic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamPic.swift; sourceTree = "<group>"; };
 		C9F230BC25F29D8D006590DA /* SubGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubGroup.swift; sourceTree = "<group>"; };
 		C9F230C025F29D98006590DA /* SessionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionItem.swift; sourceTree = "<group>"; };
 		C9F230C425F29DA3006590DA /* GroupMemberPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupMemberPanel.swift; sourceTree = "<group>"; };
@@ -175,7 +175,7 @@
 		C9F1C91F25EA120400F95F61 /* GroupSidebar */ = {
 			isa = PBXGroup;
 			children = (
-				C9F230B925F29D53006590DA /* GroupPic.swift */,
+				C9F230B925F29D53006590DA /* TeamPic.swift */,
 				C9F1C92025EA121A00F95F61 /* GroupSidebar.swift */,
 			);
 			path = GroupSidebar;
@@ -404,7 +404,7 @@
 				76731F392602828C00536836 /* PreferencePic.swift in Sources */,
 				76A184D125FD979B0070251D /* XDismissButton.swift in Sources */,
 				C9F230BD25F29D8D006590DA /* SubGroup.swift in Sources */,
-				C9F230BA25F29D53006590DA /* GroupPic.swift in Sources */,
+				C9F230BA25F29D53006590DA /* TeamPic.swift in Sources */,
 				76C0480426054878009ECBAB /* AddTeamMembersView.swift in Sources */,
 				DDDFDA9825E08B0000342B1B /* PreferenceButton.swift in Sources */,
 				DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */,

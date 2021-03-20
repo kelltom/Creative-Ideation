@@ -20,13 +20,13 @@ struct GroupSidebar: View {
                 .fontWeight(.bold)
                 .padding(.top, 20)
             
-            GroupPic(symbol_name: "house.circle")
+            TeamPic(symbol_name: "house.circle")
                 .padding()
             
-            GroupPic(selected: true)
+            TeamPic(selected: true)
                 .padding()
             
-            GroupPic()
+            TeamPic()
                 .padding()
             
             Button{
