@@ -25,7 +25,7 @@ final class GroupViewModel: ObservableObject{
     
     
     //create group
-    func createGroup(teamId: String){
+    func createGroup(teamId: String?){
         //get user id
         guard let uid = Auth.auth().currentUser?.uid else{
             //setBanner(message: "Failed to find user ID", didSucceed: false)
@@ -41,9 +41,14 @@ final class GroupViewModel: ObservableObject{
         }
         
         
-        //loop through the team collection and if it matches the string passed add to group
-        let teamRef = db.collection("teams").document(teamId)
+        //checks if teamid is nil
+        guard let teamId = teamId else{
+            print("no team id ")
+            return
+        }
         
+        //check if team id matches selected team , create group
+        let teamRef = db.collection("teams").document(teamId)
         teamRef.getDocument {(document, error) in
             if let document = document, document.exists {
                 
@@ -53,8 +58,12 @@ final class GroupViewModel: ObservableObject{
             }
         }
         
-        teamRef.collection("groups").addDocument(data: [
-            "groupId": "",
+        // getting group document reference
+        let groupRef = teamRef.collection("groups").document()
+        
+        // adding group details to document
+        groupRef.setData([
+            "groupId": groupRef.documentID,
             "groupTitle": self.newGroup.groupTitle,
             "admins": FieldValue.arrayUnion([uid]),
             "members": FieldValue.arrayUnion([uid])

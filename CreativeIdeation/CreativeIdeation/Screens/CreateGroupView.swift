@@ -36,7 +36,7 @@ struct CreateGroupView: View {
                         
                         
                         Button {
-                            groupViewModel.createGroup(teamId: teamViewModel.selectedTeam?.teamId ?? "" )
+                            groupViewModel.createGroup(teamId: teamViewModel.selectedTeam?.teamId)
                         } label: {
                             BigButton(title: "Create").padding()
                         }
