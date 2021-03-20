@@ -23,8 +23,8 @@ struct AddTeamMembersView: View {
             }
             
             VStack {
-                Text("Group Code")
-                    .font(.system(size: 35))
+                Text("Team Code")
+                    .font(.largeTitle)
                     .foregroundColor(Color.white)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     .padding()
@@ -33,7 +33,7 @@ struct AddTeamMembersView: View {
                     HStack {
                         Spacer()
                         Text("tFGT67fF") // temporary value
-                            .font(.system(size: 25))
+                            .font(.title)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         Spacer()
                         Button{

@@ -34,9 +34,9 @@ struct CreateGroupView: View {
                         
                         MenuTextField(title: "group description (optiona)", input: $groupDescription)
                         
-                        Button{
+                        Button {
                             //
-                        } label:{
+                        } label: {
                             BigButton(title: "Create").padding()
                         }
                     }
