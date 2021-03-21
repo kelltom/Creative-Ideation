@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SubGroup: View {
+struct GroupButton: View {
     
     var title: String = "Example"
     var selected: Bool = false
@@ -38,7 +38,7 @@ struct SubGroup: View {
 
 struct SubGroup_Previews: PreviewProvider {
     static var previews: some View {
-        SubGroup(title: "Example", selected: true)
+        GroupButton(title: "Example", selected: true)
     }
 }
 

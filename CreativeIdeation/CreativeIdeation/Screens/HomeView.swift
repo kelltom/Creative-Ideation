@@ -54,6 +54,7 @@ struct HomeView: View {
                     
                     Button {
                         teamViewModel.selectedTeam = team
+                        groupViewModel.selectedGroup = nil
                         groupViewModel.getGroups(teamId: teamViewModel.selectedTeam?.teamId)
                     } label: {
                         if teamViewModel.selectedTeam?.id == team.id {
@@ -181,8 +182,30 @@ struct HomeView: View {
                                             .padding()
                                     }
                                 }.padding()
-                                                                
-                                SubGroupsList()
+                                                                                                
+                                // Group Column
+                                ScrollView {
+                                    
+                                    LazyVStack {
+                                        
+                                        ForEach(groupViewModel.groups) { group in
+                                            
+                                            Button {
+                                                groupViewModel.selectedGroup = group
+                                                // TODO: get list of sessions for group here
+                                            } label: {
+                                                if group.groupId == groupViewModel.selectedGroup?.groupId {
+                                                    GroupButton(title: group.groupTitle, selected: true)
+                                                } else {
+                                                    GroupButton(title: group.groupTitle, selected: false)
+                                                }
+                                            }
+                                        }
+                                        
+                                    }
+                                }
+                                
+                                
                             }
                             .frame(width: 230)
                             
