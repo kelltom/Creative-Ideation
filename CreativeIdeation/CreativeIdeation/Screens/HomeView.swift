@@ -21,6 +21,7 @@ struct HomeView: View {
     @State var showActivity: Bool = false
     
     @EnvironmentObject var teamViewModel: TeamViewModel
+    @EnvironmentObject var groupViewModel: GroupViewModel
     
     let columns = [
         GridItem(.adaptive(minimum: 200))]
@@ -40,6 +41,7 @@ struct HomeView: View {
                 // Home Team button
                 Button {
                     teamViewModel.selectedTeam = nil
+                    groupViewModel.groups = []
                 } label: {
                     if teamViewModel.selectedTeam == nil {
                         TeamPic(selected: true, symbol_name: "house", teamName: "Home")
@@ -47,12 +49,14 @@ struct HomeView: View {
                         TeamPic(selected: false, symbol_name: "house", teamName: "Home")
                     }
                 }
-
+                
                 // Add buttons for additional Teams
                 ForEach(teamViewModel.teams) { team in
                     
                     Button {
                         teamViewModel.selectedTeam = team
+                        groupViewModel.selectedGroup = nil
+                        groupViewModel.getGroups(teamId: teamViewModel.selectedTeam?.teamId)
                     } label: {
                         if teamViewModel.selectedTeam?.id == team.id {
                             TeamPic(selected: true, teamName: team.teamName)
@@ -82,8 +86,8 @@ struct HomeView: View {
             
             VStack {
                 
-                HStack(spacing: 20){
-                    Text(teamViewModel.selectedTeam?.teamName ?? "Unknown")
+                HStack(spacing: 20) {
+                    Text(teamViewModel.selectedTeam?.teamName ?? "Home")
                         .font(.largeTitle)
                     
                     Button {
@@ -152,7 +156,7 @@ struct HomeView: View {
                                 .hidden()
                             
                         }
-                        .padding(.horizontal, 10)
+                        .padding(.leading)
                         
                         RecentSessionList()
                         
@@ -165,22 +169,51 @@ struct HomeView: View {
                                 Text("Groups")
                                     .font(.title)
                                 
-                                VStack {
+                                // Add Group button
+                                Button {
+                                    activeSheet = .group
+                                } label: {
+                                    Text("Add Group")
+                                        .foregroundColor(Color.black)
+                                    Image(systemName: "plus")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 20, height: 15)
+                                }
+                                
+                                // Groups Column
+                                ScrollView {
                                     
-                                    Button {
-                                        activeSheet = .group
-                                    } label: {
-                                        Text("Add Group")
-                                            .foregroundColor(Color.black)
-                                        Image(systemName: "plus")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 20, height: 15)
-                                            .padding()
+                                    LazyVStack {
+                                        
+                                        ForEach(groupViewModel.groups) { group in
+                                            
+                                            Button {
+                                                if groupViewModel.selectedGroup?.id == group.id {
+                                                    // if already selected, un-select
+                                                    groupViewModel.selectedGroup = nil
+                                                } else {
+                                                    groupViewModel.selectedGroup = group
+                                                }
+                                                
+                                                // TODO: get list of sessions for group here
+                                                
+                                            } label: {
+                                                if group.groupId == groupViewModel.selectedGroup?.groupId {
+                                                    GroupButton(title: group.groupTitle, selected: true)
+                                                        .padding(.top)
+                                                } else {
+                                                    GroupButton(title: group.groupTitle, selected: false)
+                                                        .padding(.top)
+                                                }
+                                                
+                                            }
+                                        }
+                                        
                                     }
-                                }.padding()
-                                                                
-                                SubGroupsList()
+                                }
+                                
+                                
                             }
                             .frame(width: 230)
                             
@@ -244,13 +277,17 @@ struct HomeView: View {
                 
             case .team:
                 CreateTeamView(showSheets: $activeSheet)
+                    .environmentObject(self.teamViewModel)
                 
             case .addTeamMembers:
                 AddTeamMembersView(showSheets: $activeSheet)
+                    .environmentObject(self.teamViewModel)
                 
             case .group:
                 CreateGroupView(showSheets: $activeSheet)
-            
+                    .environmentObject(self.teamViewModel)
+                    .environmentObject(self.groupViewModel)
+                
             }
         }
         .onAppear {
@@ -264,6 +301,7 @@ struct GroupView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
             .environmentObject(TeamViewModel())
+            .environmentObject(GroupViewModel())
     }
 }
 
