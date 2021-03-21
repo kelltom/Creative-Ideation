@@ -81,6 +81,8 @@ final class GroupViewModel: ObservableObject{
                 self.newGroup.groupTitle = ""
             }
         }
+        
+        getGroups(teamId: teamId)
     }
     
     /// Populates list of groups within GroupViewModel according to given teamId

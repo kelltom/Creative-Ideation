@@ -41,6 +41,7 @@ struct HomeView: View {
                 // Home Team button
                 Button {
                     teamViewModel.selectedTeam = nil
+                    groupViewModel.groups = []
                 } label: {
                     if teamViewModel.selectedTeam == nil {
                         TeamPic(selected: true, symbol_name: "house", teamName: "Home")
@@ -86,7 +87,7 @@ struct HomeView: View {
             VStack {
                 
                 HStack(spacing: 20) {
-                    Text(teamViewModel.selectedTeam?.teamName ?? "Unknown")
+                    Text(teamViewModel.selectedTeam?.teamName ?? "Home")
                         .font(.largeTitle)
                     
                     Button {
