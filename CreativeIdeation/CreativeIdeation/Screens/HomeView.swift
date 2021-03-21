@@ -124,7 +124,7 @@ struct HomeView: View {
                     }
                     
                     NavigationLink(
-                        destination: UserPrefView(),
+                        destination: UserSettingsView(),
                         label: {
                             ProfilePic(size: 70)
                                 .shadow(color: .black, radius: 4, y: 4)

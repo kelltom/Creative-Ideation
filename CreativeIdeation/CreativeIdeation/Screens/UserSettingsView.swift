@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct UserPrefView: View {
+struct UserSettingsView: View {
     
     @State private var profanityFilter = true
     
@@ -129,7 +129,18 @@ struct UserPrefView: View {
             Button {
                 //do something
             } label: {
-                DeleteButton()
+                HStack {
+                    Image(systemName: "arrowshape.turn.up.backward.fill")
+                    Text("Log Out")
+                        .fontWeight(.bold)
+                        .font(.body)
+                       
+                }
+                .frame(width:200, height:50, alignment: .center)
+                .background(Color(.red))
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                .padding()
             }
             
         }
@@ -139,6 +150,6 @@ struct UserPrefView: View {
 
 struct UserPrefView_Previews: PreviewProvider {
     static var previews: some View {
-        UserPrefView(title: "Title", userName: "Username", email: "Email@email.com", password: "*****", description: "Some description here")
+        UserSettingsView(title: "Title", userName: "Username", email: "Email@email.com", password: "*****", description: "Some description here")
     }
 }
