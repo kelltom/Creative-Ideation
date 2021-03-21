@@ -21,6 +21,7 @@ struct HomeView: View {
     @State var showActivity: Bool = false
     
     @EnvironmentObject var teamViewModel: TeamViewModel
+    @EnvironmentObject var groupViewModel: GroupViewModel
     
     let columns = [
         GridItem(.adaptive(minimum: 200))]
@@ -53,6 +54,7 @@ struct HomeView: View {
                     
                     Button {
                         teamViewModel.selectedTeam = team
+                        groupViewModel.getGroups(teamId: teamViewModel.selectedTeam?.teamId)
                     } label: {
                         if teamViewModel.selectedTeam?.id == team.id {
                             TeamPic(selected: true, teamName: team.teamName)

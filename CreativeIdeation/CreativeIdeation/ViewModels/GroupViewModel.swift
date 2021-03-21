@@ -82,6 +82,45 @@ final class GroupViewModel: ObservableObject{
         }
     }
     
+    /// Populates list of groups within GroupViewModel according to given teamId
+    func getGroups(teamId: String?) {
+        
+        // Empty list of groups to avoid repeated appends
+        groups = []
+        
+        // Get user ID
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("Failed to find user ID, cannot add Group to list")
+            return
+        }
+        
+        // Ensure Team ID is not nil
+        guard let teamId = teamId else {
+            print("Team ID is nil, cannot query Groups")
+            return
+        }
+        
+        // Query db to get references to all groups where current user's ID appears in members list
+        // Create an instance of Group for each and add them to list of groups
+        db.collection("teams").document(teamId).collection("groups").whereField("members", arrayContains: uid)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        do {
+                            // Convert document to Group object and append to list of teams
+                            try self.groups.append(document.data(as: Group.self)!)
+                            print("Group object added to list of groups successfully")
+                        } catch {
+                            print("Error adding group object to list of groups")
+                        }
+                        
+                    }
+                }
+            }
+    }
+    
     private func setBanner(message: String, didSucceed: Bool) {
         msg = message
         didOperationSucceed = didSucceed
