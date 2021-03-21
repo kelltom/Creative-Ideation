@@ -66,6 +66,9 @@ struct CreateTeamView: View {
                 }
             }
         }
+        .onAppear {
+            teamViewModel.newTeam = Team() // clear inputs from previous sheet
+        }
         
     }
     

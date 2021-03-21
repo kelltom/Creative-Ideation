@@ -246,12 +246,16 @@ struct HomeView: View {
                 
             case .team:
                 CreateTeamView(showSheets: $activeSheet)
+                    .environmentObject(self.teamViewModel)
                 
             case .addTeamMembers:
                 AddTeamMembersView(showSheets: $activeSheet)
+                    .environmentObject(self.teamViewModel)
                 
             case .group:
                 CreateGroupView(showSheets: $activeSheet)
+                    .environmentObject(self.teamViewModel)
+                    .environmentObject(self.groupViewModel)
             
             }
         }

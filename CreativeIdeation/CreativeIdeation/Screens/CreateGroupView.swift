@@ -54,6 +54,9 @@ struct CreateGroupView: View {
                 .padding() // padding padding for title
             }
         }
+        .onAppear {
+            groupViewModel.newGroup = Group() // clear inputs from previous sheet
+        }
     }
     
     

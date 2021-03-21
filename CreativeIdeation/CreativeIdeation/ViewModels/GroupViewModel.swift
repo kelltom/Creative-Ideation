@@ -69,7 +69,8 @@ final class GroupViewModel: ObservableObject{
             "groupId": groupRef.documentID,
             "groupTitle": self.newGroup.groupTitle,
             "admins": FieldValue.arrayUnion([uid]),
-            "members": FieldValue.arrayUnion([uid])
+            "members": FieldValue.arrayUnion([uid]),
+            "sessions": FieldValue.arrayUnion([])
         ]){ err in
             if let err = err {
                 self.setBanner(message: "Error adding document: \(err)", didSucceed: false)

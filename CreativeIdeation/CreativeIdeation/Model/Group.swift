@@ -22,7 +22,7 @@ struct Group: Codable, Identifiable {
         case groupTitle
         case admins
         case members
-        //case sessions
+        case sessions
     }
  
 }
