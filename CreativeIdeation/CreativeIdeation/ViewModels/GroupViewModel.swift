@@ -11,6 +11,7 @@ import FirebaseFirestoreSwift
 import SwiftUI
 
 final class GroupViewModel: ObservableObject{
+    
     private var db = Firestore.firestore()
     
     @Published var groups: [Group] = []   // populated when navigating to HomeView
@@ -21,69 +22,64 @@ final class GroupViewModel: ObservableObject{
     @Published var isShowingBanner = false
     @Published var didOperationSucceed = false
     
-    //create group
+    /// Creates a group within a Team with the given teamId
     func createGroup(teamId: String?){
-        //get user id
+        
+        // Get user id
         guard let uid = Auth.auth().currentUser?.uid else{
             setBanner(message: "Failed to find user ID", didSucceed: false)
-            print("failed to find user ID")
+            print("Failed to find user ID")
             return
         }
         
-        //check to make sure group name is not empty
+        // Check to make sure group name is not empty
         guard !newGroup.groupTitle.isEmpty else{
-            setBanner(message: "Group Name must not be empty", didSucceed: false)
-            print("group name must not be empty")
+            setBanner(message: "Group name must not be empty", didSucceed: false)
+            print("Group name must not be empty")
             return
         }
         
         
-        //checks if teamid is nil
+        // Checks if teamid is nil
         guard let teamId = teamId else{
-            setBanner(message: "Team Id is nil", didSucceed: false)
-            print("no team id ")
+            setBanner(message: "Team ID not found, please try again", didSucceed: false)
+            print("Error: Team ID is nil, cannot create Group")
             return
         }
         
-        //check if team id matches selected team , create group
+        // Check if team id matches selected team , create group
         let teamRef = db.collection("teams").document(teamId)
         teamRef.getDocument {(document, error) in
             if let document = document, document.exists {
                 
             } else {
-                self.setBanner(message: "team doc does not exists", didSucceed: false)
-                print("team doc does not exists")
+                self.setBanner(message: "Error: No Team selected, please try again", didSucceed: false)
+                print("Error: Team document does not exist")
                 return
             }
         }
         
-        // getting group document reference
+        // Getting group document reference
         let groupRef = teamRef.collection("groups").document()
         
-        // adding group details to document
+        // Adding group details to document
         groupRef.setData([
             "groupId": groupRef.documentID,
             "groupTitle": self.newGroup.groupTitle,
             "admins": FieldValue.arrayUnion([uid]),
             "members": FieldValue.arrayUnion([uid])
-        ]){
-            err in
+        ]){ err in
             if let err = err {
                 self.setBanner(message: "Error adding document: \(err)", didSucceed: false)
                 print("Error adding document: \(err)")
-                
             } else {
-                self.setBanner(message: "group doc added", didSucceed: true)
-                print("group document successfully addedddddddd")
+                self.setBanner(message: "Group created successfully", didSucceed: true)
+                print("Group document added successfully")
                 self.newGroup.groupTitle = ""
-                
-                
             }
-            
         }
-        
     }
-
+    
     private func setBanner(message: String, didSucceed: Bool) {
         msg = message
         didOperationSucceed = didSucceed
