@@ -14,9 +14,9 @@ final class GroupViewModel: ObservableObject{
     
     private var db = Firestore.firestore()
     
-    @Published var groups: [Group] = []   // populated when navigating to HomeView
-    @Published var selectedGroups: Group?  // selected team in the listview
-    @Published var newGroup = Group()     // used by CreateTeamView
+    @Published var groups: [Group] = []   // populated when changing Teams
+    @Published var selectedGroup: Group?  // selected group in the listview
+    @Published var newGroup = Group()     // used by CreateGroupView
     
     @Published var msg = ""
     @Published var isShowingBanner = false
@@ -31,6 +31,8 @@ final class GroupViewModel: ObservableObject{
             print("Failed to find user ID")
             return
         }
+        
+        // TODO: Check if uid is in admin list
         
         // Check to make sure group name is not empty
         guard !newGroup.groupTitle.isEmpty else{
