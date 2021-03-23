@@ -8,18 +8,18 @@
 import SwiftUI
 
 struct PreferencePic: View {
-    
+
     var selected: Bool = false
-    var symbol_name: String = "person.fill"
-    var team_name: String = "Name"
-    
+    var symbolName: String = "person.fill"
+    var teamName: String = "Name"
+
     var body: some View {
-        VStack{
+        VStack {
             Button {
                 // select group
             } label: {
-                if selected{
-                    Image(systemName: symbol_name)
+                if selected {
+                    Image(systemName: symbolName)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 60, height: 60)
@@ -29,23 +29,23 @@ struct PreferencePic: View {
                         .cornerRadius(10)
                         .shadow(color: .black, radius: 4, y: 4)
                 } else {
-                    Image(systemName: symbol_name)
+                    Image(systemName: symbolName)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 60, height:60)
+                        .frame(width: 60, height: 60)
                         .foregroundColor(Color.black)
                         .background(Color.yellow)
                         .clipShape(Circle())
                         .shadow(color: .black, radius: 4, y: 4)
                 }
             }
-            
-            Text(team_name)
+
+            Text(teamName)
                 .font(.footnote)
                 .foregroundColor(.white)
                 .frame(maxWidth: 60)
         }
-        
+
     }
 }
 

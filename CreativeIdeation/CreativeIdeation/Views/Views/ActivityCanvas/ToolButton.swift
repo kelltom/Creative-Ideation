@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct ToolButton: View {
-    
+
     var selected: Bool = false
-    var symbol_name: String = "pencil"
-    
+    var symbolName: String = "pencil"
+
     var body: some View {
-        Button{
-            //Move button
+        Button {
+            // Move button
         } label: {
-        Image(systemName: symbol_name)
+        Image(systemName: symbolName)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(width: 65, height: 65)

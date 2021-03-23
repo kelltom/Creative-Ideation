@@ -8,30 +8,29 @@
 import SwiftUI
 
 struct GroupSidebar: View {
-    
-    
+
     var body: some View {
-        
+
         VStack {
-            
+
             Text("Teams")
                 .font(.title3)
                 .foregroundColor(.white)
                 .fontWeight(.bold)
                 .padding(.top, 20)
-            
-            TeamPic(symbol_name: "house.circle")
+
+            TeamPic(symbolName: "house.circle")
                 .padding()
-            
+
             TeamPic(selected: true)
                 .padding()
-            
+
             TeamPic()
                 .padding()
-            
-            Button{
+
+            Button {
                 // Add group button
-                
+
             } label: {
                 Image(systemName: "plus.circle")
                     .resizable()
@@ -40,7 +39,7 @@ struct GroupSidebar: View {
                     .foregroundColor(Color.white)
                     .padding()
             }
-            
+
             Spacer()
         }
         .frame(maxHeight: .infinity)

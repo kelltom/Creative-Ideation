@@ -8,18 +8,17 @@
 import SwiftUI
 import Firebase
 
-
 struct CreateTeamView: View {
-    
+
     @State private var showBanner: Bool = false
     @Binding var showSheets: ActiveSheet?
-    
+
     @EnvironmentObject var teamViewModel: TeamViewModel
-    
+
     var body: some View {
-        
+
         ZStack {
-            
+
             if teamViewModel.isShowingBanner {
                 if teamViewModel.didOperationSucceed {
                     NotificationBanner(image: "checkmark.circle.fill", msg: teamViewModel.msg, color: .green)
@@ -32,29 +31,29 @@ struct CreateTeamView: View {
                 XDismissButton(isShowingSheet: $showSheets)
                 Spacer()
             }
-            
+
             VStack {
-                
+
                 Text("Create Your Team")
                     .font(.system(size: 40))
                     .padding()
-                
+
                 VStack {
-                    
+
                     MenuTextField(title: "Team name", input: $teamViewModel.newTeam.teamName)
-                    
+
                     MenuTextField(title: "Team description (optional)", input: $teamViewModel.newTeam.teamDescription)
-                    
+
                     Button {
                         teamViewModel.createTeam()
                     } label: {
                         BigButton(title: "Create")
                             .padding(.top, 5)
                     }
-                    
+
                     Text("or")
                         .hidden()
-                    
+
                     // Create Acc Button
                     NavigationLink(destination: EmptyView()) {
                         Text("Reactivate pre-existing team.")
@@ -62,19 +61,19 @@ struct CreateTeamView: View {
                     }
                     .padding(.top)
                     .hidden()
-                    
+
                 }
             }
         }
         .onAppear {
             teamViewModel.newTeam = Team() // clear inputs from previous sheet
         }
-        
+
     }
-    
+
     private func delayAlert() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-            withAnimation{
+            withAnimation {
                 showBanner = false
             }
         }

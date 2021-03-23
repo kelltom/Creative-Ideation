@@ -9,18 +9,18 @@ import SwiftUI
 
 struct SubGroupsList: View {
     var body: some View {
-        
+
         VStack {
-            List{
-                
+            List {
+
                 GroupButton(title: "Marketing", selected: true)
-                
+
                 GroupButton(title: "Finance")
-                
+
                 GroupButton(title: "Sales")
-                
+
                 GroupButton(title: "Other")
-                
+
                 GroupButton(title: "Research and Development")
             }
         }

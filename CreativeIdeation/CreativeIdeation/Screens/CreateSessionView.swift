@@ -8,42 +8,43 @@
 import SwiftUI
 
 struct CreateSessionView: View {
-    
+
     @State var sessionName: String = ""
     @Binding var showSheets: ActiveSheet?
     @Binding var showActivity: Bool
-    
+
     @EnvironmentObject var sessionViewModel: SessionViewModel
     @EnvironmentObject var groupViewModel: GroupViewModel
     @EnvironmentObject var teamViewModel: TeamViewModel
-    
+
     var body: some View {
-        
+
         ZStack {
-            
+
             VStack {
                 XDismissButton(isShowingSheet: $showSheets)
                 Spacer()
             }
-            
-            VStack{
+
+            VStack {
                 Text("Create a Session").font(.system(size: 40, weight: .heavy)).padding()
-                
-                VStack{
+
+                VStack {
                     MenuTextField(title: "Session Name", input: $sessionViewModel.newSession.sessionTitle)
-                    
+
                     MenuTextField(title: "Description", input: $sessionViewModel.newSession.sessionDescription)
-                    
-                    HStack{
+
+                    HStack {
                         ActivityTypeTile(selected: true)
                             .padding()
                         ActivityTypeTile(
-                            title: "Sticky Notes", symbol_name: "doc.on.doc.fill")
+                            title: "Sticky Notes", symbolName: "doc.on.doc.fill")
                             .padding()
                     }
-                    
+
                     Button {
-                        sessionViewModel.createSession(teamId: teamViewModel.selectedTeam?.teamId, groupId: groupViewModel.selectedGroup?.groupId)
+                        sessionViewModel.createSession(teamId: teamViewModel.selectedTeam?.teamId,
+                                                       groupId: groupViewModel.selectedGroup?.groupId)
                         showSheets = nil
                         showActivity = true
                     } label: {

@@ -8,30 +8,30 @@
 import SwiftUI
 
 struct AddButton: View {
-    
+
     var title: String
     var selected: Bool = false
-    
+
     var body: some View {
         ZStack {
-            HStack{
-                Button{
-                    
-                }label:{
+            HStack {
+                Button {
+
+                }label: {
                     Text(title)
                         .foregroundColor(Color.black)
                     Image(systemName: "plus")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 20, height: 15)
-  
+
                 }
             }
         }
         .frame(width: 200, height: 80)
         .cornerRadius(25)
         .border(Color.gray)
-        
+
     }
 }
 

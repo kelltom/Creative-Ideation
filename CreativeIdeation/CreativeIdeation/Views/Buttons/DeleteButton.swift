@@ -10,22 +10,22 @@ import SwiftUI
 struct DeleteButton: View {
     var image: String = "trash.fill"
     var body: some View {
-        
+
         HStack {
             Image(systemName: image)
             Text("Delete Team")
                 .fontWeight(.bold)
                 .font(.body)
-               
+
         }
-        .frame(width:200, height:50, alignment: .center)
+        .frame(width: 200, height: 50, alignment: .center)
         .background(Color(.red))
         .foregroundColor(.white)
         .cornerRadius(10)
         .padding()
-        
+
     }
-    
+
 }
 
 struct DeleteButton_Previews: PreviewProvider {
