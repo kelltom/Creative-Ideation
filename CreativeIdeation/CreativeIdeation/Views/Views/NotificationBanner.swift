@@ -11,7 +11,7 @@ struct NotificationBanner: View {
     var image: String
     var msg: String
     var color: Color
-    
+
     var body: some View {
         VStack {
             HStack {
@@ -20,8 +20,7 @@ struct NotificationBanner: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 30, height: 30)
                     .foregroundColor(Color.white)
-                
-                
+
                 Text(msg)
                     .font(.title2)
                     .foregroundColor(.white)
@@ -30,7 +29,7 @@ struct NotificationBanner: View {
             .background(color)
             .cornerRadius(25)
             .padding()
-            
+
             Spacer()
         }
     }

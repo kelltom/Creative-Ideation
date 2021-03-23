@@ -9,17 +9,17 @@ import SwiftUI
 
 /// Creates a profile picture for a Team using an SF symbol input
 struct TeamPic: View {
-    
+
     var selected: Bool = false
-    var symbol_name: String = "person.3.fill"
+    var symbolName: String = "person.3.fill"
     var teamName: String = ""
-    
+
     var body: some View {
-        
+
         VStack {
-            
+
             if selected {
-                Image(systemName: symbol_name)
+                Image(systemName: symbolName)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 48, height: 48)
@@ -29,7 +29,7 @@ struct TeamPic: View {
                     .cornerRadius(10)
                     .shadow(color: .black, radius: 4, y: 4)
             } else {
-                Image(systemName: symbol_name)
+                Image(systemName: symbolName)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 48, height: 48)
@@ -38,14 +38,14 @@ struct TeamPic: View {
                     .clipShape(Circle())
                     .shadow(color: .black, radius: 4, y: 4)
             }
-            
+
             Text(teamName)
                 .font(.footnote)
                 .foregroundColor(.white)
                 .frame(maxWidth: 60)
-            
+
         }
-        
+
     }
 }
 

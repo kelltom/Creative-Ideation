@@ -10,11 +10,11 @@ import SwiftUI
 struct XDismissButton: View {
     @Binding var isShowingSheet: ActiveSheet?
     var body: some View {
-        HStack{
+        HStack {
             Spacer()
-            Button{
+            Button {
                 isShowingSheet = nil
-            } label:{
+            } label: {
                 Image(systemName: "xmark")
                     .foregroundColor(Color(.label))
                     .imageScale(.large)

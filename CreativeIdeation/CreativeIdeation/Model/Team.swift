@@ -7,18 +7,17 @@
 
 import Foundation
 
-struct Team : Codable, Identifiable {
-    
+struct Team: Codable, Identifiable {
     var id = UUID() // used for looping
     var teamId = ""
     var teamName = ""
     var teamDescription = ""
     var createdBy = ""
     var accessCode = ""
-    
+
     var members: [String] = []
     var admins: [String] = []
-    
+
     enum CodingKeys: String, CodingKey {
         case teamId
         case teamName

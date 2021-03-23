@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct MenuTextField: View {
-    
+
     var title: String
     @Binding var input: String
     var secure: Bool = false
-    
+
     var body: some View {
         if secure {
             SecureField(title, text: $input )
                 .padding()
-                .frame(width: 550, height: 60, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                .frame(width: 550, height: 60, alignment: .center/*@END_MENU_TOKEN@*/)
                 .overlay(RoundedRectangle(cornerRadius: 8.0)
                             .stroke(Color.black))
                 .font(.title2)
@@ -25,13 +25,13 @@ struct MenuTextField: View {
         } else {
             TextField(title, text: $input )
                 .padding()
-                .frame(width: 550, height: 60, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                .frame(width: 550, height: 60, alignment: .center/*@END_MENU_TOKEN@*/)
                 .overlay(RoundedRectangle(cornerRadius: 8.0)
                             .stroke(Color.black))
                 .font(.title2)
                 .padding(10)
         }
-        
+
     }
 }
 

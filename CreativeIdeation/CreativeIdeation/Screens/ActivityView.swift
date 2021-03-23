@@ -9,20 +9,20 @@ import SwiftUI
 import PencilKit
 
 struct ActivityView: View {
-    
+
     @State private var canvasView = PKCanvasView()
     @Binding var showActivity: Bool
-    
+
     var body: some View {
-        ZStack{
-            // Whatever view we use for the canvas will be placed here, so that all other elements are placed above it on the zstack
+        ZStack {
+            // Whatever view we use for the canvas will be placed here,
+            // so that all other elements are placed above it on the zstack
             PKCanvas(canvasView: $canvasView)
-            
-            
-            HStack{
+
+            HStack {
                 ActivityToolbar()
                 Spacer()
-                VStack{
+                VStack {
                     ActiveMembers()
                     Spacer()
                 }
@@ -36,14 +36,14 @@ struct ActivityView: View {
 struct PKCanvas: UIViewRepresentable {
     @Binding var canvasView: PKCanvasView
     let picker = PKToolPicker.init()
-    var size : Int = 10000
-    var canvasSize : CGSize {
+    var size: Int = 10000
+    var canvasSize: CGSize {
         return CGSize(width: size, height: size)
     }
-    var center : CGPoint {
+    var center: CGPoint {
         return CGPoint(x: size/2, y: size/2)
     }
-    
+
     func makeUIView(context: Context) -> PKCanvasView {
         canvasView.drawingPolicy = .anyInput
         canvasView.contentSize = canvasSize
@@ -52,7 +52,7 @@ struct PKCanvas: UIViewRepresentable {
         canvasView.becomeFirstResponder()
         return canvasView
     }
-    
+
     func updateUIView(_ canvasView: PKCanvasView, context: Context) {
         picker.addObserver(canvasView)
         picker.setVisible(true, forFirstResponder: canvasView)

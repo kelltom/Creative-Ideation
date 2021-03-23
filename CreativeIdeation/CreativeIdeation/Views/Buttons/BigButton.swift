@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct BigButton: View {
-    
+
     var title: String
-    
+
     var body: some View {
         Text(title)
             .frame(width: 550, height: 60, alignment: .center)

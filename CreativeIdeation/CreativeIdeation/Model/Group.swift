@@ -8,15 +8,14 @@
 import Foundation
 
 struct Group: Codable, Identifiable {
-    
-    var id = UUID() // used for looping
+    var id = UUID()  // used for looping
     var groupId = ""
     var groupTitle = ""
-    
+
     var admins: [String] = []
     var members: [String] = []
     var sessions: [String] = []
-    
+
     enum CodingKeys: String, CodingKey {
         case groupId
         case groupTitle
@@ -24,5 +23,5 @@ struct Group: Codable, Identifiable {
         case members
         case sessions
     }
- 
+
 }

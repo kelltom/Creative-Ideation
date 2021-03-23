@@ -8,22 +8,22 @@
 import SwiftUI
 
 struct RecentSessionList: View {
-    
+
     let columns = [
         GridItem(.adaptive(minimum: 200))
     ]
-    
+
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false){
-            LazyHStack(spacing: 50){
+        ScrollView(.horizontal, showsIndicators: false) {
+            LazyHStack(spacing: 50) {
                 SessionItem()
-                
+
                 SessionItem(group: "Sales")
-                
+
                 SessionItem(group: "Sales")
-                
+
                 SessionItem(group: "Finance")
-                
+
                 SessionItem()
             }
             .padding(.leading)

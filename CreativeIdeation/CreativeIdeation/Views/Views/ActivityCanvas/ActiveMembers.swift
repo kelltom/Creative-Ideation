@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ActiveMembers: View {
     var body: some View {
-        HStack{
+        HStack {
             ProfilePic()
                 .padding(8)
             ProfilePic()
@@ -21,7 +21,7 @@ struct ActiveMembers: View {
         .cornerRadius(20)
         .clipped()
         .shadow(color: .black, radius: 4, y: 4)
-        
+
     }
 }
 

@@ -9,41 +9,41 @@ import SwiftUI
 import Firebase
 
 struct LoginView: View {
-    
+
     // Allows for CreateAccount View to jump back to this View
     @State var showLogIn = false
-    
+
     // May be used later
-    //@State private var actionState: Int? = 0
-    
+    // @State private var actionState: Int? = 0
+
     @EnvironmentObject var viewModel: UserAccountViewModel
-    
+
     var body: some View {
-        
+
         NavigationView {
-            
+
             ZStack {
-                
+
                 if viewModel.showBanner {
                     if !viewModel.authSuccess {
                         NotificationBanner(image: "exclamationmark.circle.fill", msg: viewModel.msg, color: .red)
                     }
                 }
-                
+
                 VStack {
-                    
+
                     Spacer()
-                    
-                    VStack() {
-                        
+
+                    VStack {
+
                         Text("Log In")
                             .padding()
                             .font(.system(size:40))
-                        
+
                         MenuTextField(title: "Email address", input: $viewModel.user.email)
-                        
+
                         MenuTextField(title: "Password", input: $viewModel.user.password, secure: true)
-                        
+
                         // Log In Link
                         NavigationLink(
                             destination: HomeView(),
@@ -51,7 +51,7 @@ struct LoginView: View {
                             label: {
                                 EmptyView()
                             })
-                        
+
                         // Log In Button
                         Button {
                             viewModel.authenticate()
@@ -59,40 +59,41 @@ struct LoginView: View {
                             BigButton(title: "Log In")
                         }
                         .padding(.top)
-                        
+
                         // Create Acc Button
                         HStack {
                             Text("New user?")
-                            NavigationLink(destination: CreateAccountView(showLogIn: self.$showLogIn), isActive: self.$showLogIn) {
+                            NavigationLink(destination: CreateAccountView(showLogIn: self.$showLogIn),
+                                           isActive: self.$showLogIn) {
                                 Text("Create an Account.")
                             }
                         }
                         .padding(.top, 20)
-                        
+
                         Text("or")
                             .hidden()
-                        
+
                         // Sign In with Google Button
                         Button {
                             // code here for Google Auth
-                            //actionState = 1
+                            // actionState = 1
                         } label: {
                             GoogleButton()
                         }
                         .hidden()
-                        
+
                     }
-                    
+
                     Spacer()
                 }
                 .navigationBarHidden(true)
             }
-            
+
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        
+
     }
-    
+
 }
 
 struct LoginView_Previews: PreviewProvider {
@@ -103,11 +104,11 @@ struct LoginView_Previews: PreviewProvider {
 }
 
 struct GoogleButton: View {
-    
+
     var body: some View {
-        
+
         HStack {
-            
+
             Image("google")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -116,14 +117,14 @@ struct GoogleButton: View {
                 .background(Color(.white))
                 .cornerRadius(10)
                 .padding(.leading, 1)
-            
+
             Spacer()
-            
+
             Text("Sign in with Google")
                 .offset(x: -25)
-            
+
             Spacer()
-            
+
         }
         .frame(width: 550, height: 60, alignment: .center)
         .background(Color(.blue))
@@ -132,10 +133,6 @@ struct GoogleButton: View {
         .font(.title2)
         .padding()
         .shadow(radius: 5, x: 5, y: 5)
-        
+
     }
 }
-
-
-
-

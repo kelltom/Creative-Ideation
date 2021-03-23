@@ -8,41 +8,41 @@
 import SwiftUI
 
 struct CreateAccountView: View {
-    
+
     // Allows for popping view back to LogInView
     @Binding var showLogIn: Bool
-    
+
     @EnvironmentObject var viewModel: UserAccountViewModel
-    
+
     var body: some View {
-        
+
         ZStack {
-            
+
             if viewModel.showBanner {
                 if viewModel.createSuccess {
                     // be nice to show a banner for success here
-                    
+
                 } else {
                     NotificationBanner(image: "exclamationmark.circle.fill", msg: viewModel.msg, color: .red)
                 }
             }
-            
+
             VStack {
-                
+
                 Spacer()
-                
-                VStack{
-                    
+
+                VStack {
+
                     Text("Create Account")
                         .padding()
                         .font(.system(size:40))
-                    
+
                     MenuTextField(title: "Full name", input: $viewModel.user.name)
-                    
+
                     MenuTextField(title: "Email address", input: $viewModel.user.email)
-                    
+
                     MenuTextField(title: "Password", input: $viewModel.user.password, secure: true)
-                    
+
                     // Create Account Link
                     NavigationLink(
                         destination: HomeView(),
@@ -50,25 +50,27 @@ struct CreateAccountView: View {
                         label: {
                             EmptyView()
                         })
-                    
+
                     Button {
                         viewModel.createAccount()
-                        //delayAlert()
+                        // delayAlert()
                     } label: {
                         BigButton(title: "Create Account")
                     }
-                    
+
                     // Already have account Button
                     HStack {
                         Text("Already have an account?")
-                        Button(action: {self.showLogIn = false}) {
+                        Button {
+                            self.showLogIn = false
+                        } label: {
                             Text("Log In.")
                         }
                     }
                     .padding(.top, 20)
-                    
+
                 }
-                
+
                 Spacer()
             }
             .navigationBarHidden(true)
@@ -79,7 +81,7 @@ struct CreateAccountView: View {
         .onDisappear {
             viewModel.showBanner = false
         }
-        
+
     }
 
 }

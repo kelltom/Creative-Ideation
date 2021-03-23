@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct ActivityTypeTile: View {
-    
+
     var title: String = "Blank Canvas"
-    var symbol_name: String = "paintbrush.pointed.fill"
+    var symbolName: String = "paintbrush.pointed.fill"
     var selected: Bool = false
-    
+
     var body: some View {
-        
-        VStack{
-            
+
+        VStack {
+
             Button {
                 // Select activity type
             } label: {
-                Image(systemName: symbol_name)
+                Image(systemName: symbolName)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 80, height: 80)
@@ -31,7 +31,7 @@ struct ActivityTypeTile: View {
                     .clipped()
                     .shadow(color: .black, radius: 4, y: 4)
             }
-            
+
             Text(title)
                 .font(.title)
         }

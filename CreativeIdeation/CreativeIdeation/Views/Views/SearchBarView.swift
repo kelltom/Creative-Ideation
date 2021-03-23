@@ -9,11 +9,11 @@ import SwiftUI
 
 struct SearchBarView: View {
     @Binding var text: String
-     
+
     @State private var isSearching = false
-    
+
     var body: some View {
-        HStack{
+        HStack {
             TextField("Search ...", text: $text)
                 .padding(7)
                 .padding(.horizontal, 25)
@@ -23,18 +23,18 @@ struct SearchBarView: View {
                 .onTapGesture {
                     self.isSearching = true
                 }
-            
-            if isSearching{
+
+            if isSearching {
                 Button(action: {
                     isSearching = false
                     text = ""
-                }, label:{
+                }, label: {
                     Text("cancel")
                         .padding(.trailing)
                         .transition(.move(edge: .trailing))
                         .animation(.spring())
                 })
-                
+
             }
         }
     }

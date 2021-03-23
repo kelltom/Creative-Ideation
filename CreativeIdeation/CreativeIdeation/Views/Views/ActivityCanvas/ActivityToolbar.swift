@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct ActivityToolbar: View {
-    
+
     var body: some View {
-        
-        VStack{
-            ToolButton(symbol_name: "arrow.up.and.down.and.arrow.left.and.right")
-            ToolButton(selected: true, symbol_name: "pencil")
-            ToolButton(symbol_name: "plus.square")
-            ToolButton(symbol_name: "trash")
-            ToolButton(symbol_name: "bubble.right")
-            ToolButton(symbol_name: "questionmark.circle")
+
+        VStack {
+            ToolButton(symbolName: "arrow.up.and.down.and.arrow.left.and.right")
+            ToolButton(selected: true, symbolName: "pencil")
+            ToolButton(symbolName: "plus.square")
+            ToolButton(symbolName: "trash")
+            ToolButton(symbolName: "bubble.right")
+            ToolButton(symbolName: "questionmark.circle")
         }
         .frame(minHeight: 400)
         .background(Color.white)
