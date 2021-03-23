@@ -231,6 +231,7 @@ struct HomeView: View {
                                         
                                         Button {
                                             activeSheet = .session
+                                            
                                         } label: {
                                             Image(systemName: "plus")
                                                 .resizable()
