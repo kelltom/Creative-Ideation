@@ -22,6 +22,7 @@ struct HomeView: View {
     
     @EnvironmentObject var teamViewModel: TeamViewModel
     @EnvironmentObject var groupViewModel: GroupViewModel
+    @EnvironmentObject var sessionViewModel: SessionViewModel
     
     let columns = [
         GridItem(.adaptive(minimum: 200))]
@@ -230,6 +231,7 @@ struct HomeView: View {
                                         
                                         Button {
                                             activeSheet = .session
+                                            
                                         } label: {
                                             Image(systemName: "plus")
                                                 .resizable()

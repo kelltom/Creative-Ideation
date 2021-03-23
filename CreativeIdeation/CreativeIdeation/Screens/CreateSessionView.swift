@@ -13,6 +13,10 @@ struct CreateSessionView: View {
     @Binding var showSheets: ActiveSheet?
     @Binding var showActivity: Bool
     
+    @EnvironmentObject var sessionViewModel: SessionViewModel
+    @EnvironmentObject var groupViewModel: GroupViewModel
+    @EnvironmentObject var teamViewModel: TeamViewModel
+    
     var body: some View {
         
         ZStack {
@@ -26,7 +30,9 @@ struct CreateSessionView: View {
                 Text("Create a Session").font(.system(size: 40, weight: .heavy)).padding()
                 
                 VStack{
-                    MenuTextField(title: "Session Name", input: $sessionName)
+                    MenuTextField(title: "Session Name", input: $sessionViewModel.newSession.sessionTitle)
+                    
+                    MenuTextField(title: "Description", input: $sessionViewModel.newSession.sessionDescription)
                     
                     HStack{
                         ActivityTypeTile(selected: true)
@@ -37,6 +43,7 @@ struct CreateSessionView: View {
                     }
                     
                     Button {
+                        sessionViewModel.createSession(teamId: teamViewModel.selectedTeam?.teamId, groupId: groupViewModel.selectedGroup?.groupId)
                         showSheets = nil
                         showActivity = true
                     } label: {
