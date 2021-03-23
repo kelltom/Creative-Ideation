@@ -15,6 +15,7 @@ struct CreateSessionView: View {
     
     @EnvironmentObject var sessionViewModel: SessionViewModel
     @EnvironmentObject var groupViewModel: GroupViewModel
+    @EnvironmentObject var teamViewModel: TeamViewModel
     
     var body: some View {
         
@@ -42,7 +43,7 @@ struct CreateSessionView: View {
                     }
                     
                     Button {
-                        sessionViewModel.createSession(groupId: groupViewModel.selectedGroup?.groupId)
+                        sessionViewModel.createSession(teamId: teamViewModel.selectedTeam?.teamId, groupId: groupViewModel.selectedGroup?.groupId)
                         showSheets = nil
                         showActivity = true
                     } label: {
