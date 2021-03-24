@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Session {
+struct Session: Identifiable {
+    var id = UUID()
     var sessionId = ""
     var sessionTitle = ""
     var sessionDescription = ""

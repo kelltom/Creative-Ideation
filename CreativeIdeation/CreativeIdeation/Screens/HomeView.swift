@@ -43,6 +43,8 @@ struct HomeView: View {
                 Button {
                     teamViewModel.selectedTeam = nil
                     groupViewModel.groups = []
+                    sessionViewModel.teamSessions = []
+                    sessionViewModel.groupSessions = []
                 } label: {
                     if teamViewModel.selectedTeam == nil {
                         TeamPic(selected: true, symbolName: "house", teamName: "Home")
@@ -57,7 +59,8 @@ struct HomeView: View {
                     Button {
                         teamViewModel.selectedTeam = team
                         groupViewModel.selectedGroup = nil
-                        groupViewModel.getGroups(teamId: teamViewModel.selectedTeam?.teamId)
+                        groupViewModel.getGroups(teamId: team.teamId)
+                        sessionViewModel.getAllSessions(teamId: team.teamId)
                     } label: {
                         if teamViewModel.selectedTeam?.id == team.id {
                             TeamPic(selected: true, teamName: team.teamName)
@@ -85,6 +88,7 @@ struct HomeView: View {
             .background(Color("brandPrimary"))
             .edgesIgnoringSafeArea(.all)
 
+            // Top Title Bar
             VStack {
 
                 HStack(spacing: 20) {
@@ -139,6 +143,7 @@ struct HomeView: View {
 
                 VStack {
 
+                    // Recent Sessions List
                     VStack(alignment: .leading) {
 
                         HStack {
@@ -159,7 +164,18 @@ struct HomeView: View {
                         }
                         .padding(.leading)
 
-                        RecentSessionList()
+                        // Generate list of recent Sessions for Team
+                        ForEach(sessionViewModel.teamSessions) { session in
+
+                            Button {
+                                // make session clickable
+                            } label: {
+                                SessionItem(team: teamViewModel.selectedTeam?.teamName ?? "Unknown",
+                                            group: groupViewModel.groups.first(
+                                                where: {$0.groupId == session.groupId})!.groupTitle,
+                                            session: session)
+                            }
+                        }
 
                         Divider()
 
@@ -193,12 +209,11 @@ struct HomeView: View {
                                                 if groupViewModel.selectedGroup?.id == group.id {
                                                     // if already selected, un-select
                                                     groupViewModel.selectedGroup = nil
+                                                    sessionViewModel.groupSessions = []  // empty list of group sessions
                                                 } else {
                                                     groupViewModel.selectedGroup = group
+                                                    sessionViewModel.getGroupSessions(groupId: group.groupId)
                                                 }
-
-                                                // Get list of sessions for group here
-
                                             } label: {
                                                 if group.groupId == groupViewModel.selectedGroup?.groupId {
                                                     GroupButton(title: group.groupTitle, selected: true)
@@ -219,18 +234,20 @@ struct HomeView: View {
 
                             Divider()
 
+                            // Sessions Column
                             VStack {
 
                                 Text("Sessions")
                                     .font(.title)
 
+                                // List of Sessions
                                 ScrollView(showsIndicators: false) {
 
                                     LazyVGrid(columns: columns, spacing: 40) {
 
+                                        // Create Session button
                                         Button {
                                             activeSheet = .session
-
                                         } label: {
                                             Image(systemName: "plus")
                                                 .resizable()
@@ -241,15 +258,15 @@ struct HomeView: View {
                                                             .stroke(Color.black, lineWidth: 2.0))
                                         }
 
-                                        SessionItem()
-                                        SessionItem()
-                                        SessionItem()
-                                        SessionItem()
-                                        SessionItem()
-                                        SessionItem()
-                                        SessionItem()
-                                        SessionItem()
-                                        SessionItem()
+                                        // Generate list of Sessions for selected group
+                                        ForEach(sessionViewModel.groupSessions) { session in
+
+                                            Button {
+                                                // make session clickable
+                                            } label: {
+                                                SessionItem(session: session)
+                                            }
+                                        }
                                     }
                                     .padding()
                                 }
@@ -275,6 +292,9 @@ struct HomeView: View {
 
             case .session:
                 CreateSessionView(sessionName: "", showSheets: $activeSheet, showActivity: $showActivity)
+                    .environmentObject(self.groupViewModel)
+                    .environmentObject(self.teamViewModel)
+                    .environmentObject(self.sessionViewModel)
 
             case .team:
                 CreateTeamView(showSheets: $activeSheet)
@@ -303,5 +323,6 @@ struct GroupView_Previews: PreviewProvider {
         HomeView()
             .environmentObject(TeamViewModel())
             .environmentObject(GroupViewModel())
+            .environmentObject(SessionViewModel())
     }
 }
