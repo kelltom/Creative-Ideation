@@ -42,6 +42,7 @@ struct HomeView: View {
                 // Home Team button
                 Button {
                     teamViewModel.selectedTeam = nil
+                    groupViewModel.selectedGroup = nil
                     groupViewModel.groups = []
                     sessionViewModel.teamSessions = []
                     sessionViewModel.groupSessions = []
@@ -165,17 +166,22 @@ struct HomeView: View {
                         .padding(.leading)
 
                         // Generate list of recent Sessions for Team
-                        ForEach(sessionViewModel.teamSessions) { session in
-
-                            Button {
-                                // make session clickable
-                            } label: {
-                                SessionItem(team: teamViewModel.selectedTeam?.teamName ?? "Unknown",
-                                            group: groupViewModel.groups.first(
-                                                where: {$0.groupId == session.groupId})!.groupTitle,
-                                            session: session)
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            LazyHStack(spacing: 50) {
+                                ForEach(sessionViewModel.teamSessions) { session in
+                                    Button {
+                                        // make session clickable
+                                    } label: {
+                                        SessionItem(team: teamViewModel.selectedTeam?.teamName ?? "Unknown",
+                                                    group: groupViewModel.groups.first(
+                                                        where: {$0.groupId == session.groupId})?.groupTitle ?? "Unknown",
+                                                    session: session)
+                                    }
+                                }
                             }
+                            .padding(.leading)
                         }
+                        .frame(maxHeight: 225)
 
                         Divider()
 
@@ -264,7 +270,10 @@ struct HomeView: View {
                                             Button {
                                                 // make session clickable
                                             } label: {
-                                                SessionItem(session: session)
+                                                SessionItem(
+                                                    team: teamViewModel.selectedTeam?.teamName ?? "Unknown",
+                                                    group: groupViewModel.selectedGroup?.groupTitle ?? "Unknown",
+                                                    session: session)
                                             }
                                         }
                                     }
@@ -313,6 +322,8 @@ struct HomeView: View {
         }
         .onAppear {
             teamViewModel.getTeams()
+            sessionViewModel.getAllSessions(teamId: teamViewModel.selectedTeam?.teamId)
+            sessionViewModel.getGroupSessions(groupId: groupViewModel.selectedGroup?.groupId)
         }
 
     }
