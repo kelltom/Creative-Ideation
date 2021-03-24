@@ -57,12 +57,15 @@ final class SessionViewModel: ObservableObject {
         let batch = db.batch()
         batch.setData([
             "sessionId": sessionRef.documentID,
+            "sessionTitle": self.newSession.sessionTitle,
+            "sessionDescription": self.newSession.sessionDescription,
+            "type": "",
+            "inProgress": true,
+            "dateCreated": "",  // should get timestamp
+            "dateModified": "",  // should get timestamp
             "createdBy": uid,
-            "description": self.newSession.sessionDescription,
             "groupId": groupId,
-            "inProgress": "",
-            "title": self.newSession.sessionTitle,
-            "type": ""
+            "teamId": teamId
         ], forDocument: sessionRef)
 
         // Save Session ID to list of Sessions in Group document
@@ -85,12 +88,61 @@ final class SessionViewModel: ObservableObject {
 
     /// Populates teamSessions array, storing a Session object for each found in the datastore
     func getAllSessions(teamId: String?) {
+        // Empty list of sessions
+        teamSessions = []
 
+        // Ensure Team ID is not nil
+        guard let teamId = teamId else {
+            print("Cannot get Sessions: Team ID is nil")
+            return
+        }
+
+        // Get list of Sessions that belong to Team ID
+        db.collection("sessions").whereField("teamId", in: [teamId])
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error getting Session: \(error)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        do {
+                            // Convert document to Session object and append to list of teamSessions
+                            try self.teamSessions.append(document.data(as: Session.self)!)
+                            print("Session object added to list of teamSessions")
+                        } catch {
+                            print("Error adding Session object to list of teamSessions")
+                        }
+                    }
+                }
+            }
     }
 
     /// Populates groupSessions array, storing a Session object for each found in the datastore
     func getGroupSessions(groupId: String?) {
+        // Empty list of sessions
+        groupSessions = []
 
+        // Ensure Group ID is not nil
+        guard let groupId = groupId else {
+            print("Cannot get Sessions: Group ID is nil")
+            return
+        }
+
+        // Get list of Sessions that belong to Group ID
+        db.collection("sessions").whereField("groupId", in: [groupId])
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error getting Session: \(error)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        do {
+                            // Convert document to Session object and append to list of groupSessions
+                            try self.groupSessions.append(document.data(as: Session.self)!)
+                            print("Session object added to list of groupSessions")
+                        } catch {
+                            print("Error adding Session object to list of groupSessions")
+                        }
+                    }
+                }
+            }
     }
-
 }

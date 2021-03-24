@@ -17,6 +17,8 @@ struct SessionItem: View {
     var team: String = "Big Company"
     var group: String = "Marketing"
 
+    var session: Session
+
     var body: some View {
         VStack(spacing: 3) {
 
@@ -43,7 +45,7 @@ struct SessionItem: View {
             }
             .padding(3)
 
-            Text(title)
+            Text(session.sessionTitle)
                 .font(.title3)
 
             Text(team + " - " + group)
@@ -73,6 +75,6 @@ struct SessionItem: View {
 
 struct SessionItem_Previews: PreviewProvider {
     static var previews: some View {
-        SessionItem()
+        SessionItem(session: Session(sessionTitle: "Sample Title", type: "Sticky Notes"))
     }
 }
