@@ -15,23 +15,28 @@ struct ActivityView: View {
                       Color.init(red: 0, green: 0.7, blue: 0.9),
                       Color.init(red: 0.9, green: 0.9, blue: 0),
                       Color.init(red: 0.9, green: 0.45, blue: 0.9)]
-    @State private var canvasView = PKCanvasView()
+    // @State private var canvasView = PKCanvasView()
     @State private var numberOfStickies = 0
+
     @State private var inputArray: [String] = []
     @State private var stickyColorArray: [Int] = []
+    @State private var locationArray: [CGPoint] = []
+
     @State private var selectedColor = -1
     @State private var selectedSticky: Int = -1
     @State private var randomizeColor: Bool = true
+
     @Binding var showActivity: Bool
 
     var body: some View {
         ZStack {
             // Whatever view we use for the canvas will be placed here,
             // so that all other elements are placed above it on the zstack
-            // PKCanvas(canvasView: $canvasView)
+
+            // PKCanvas(canvasView: $canvasView) // Creates the canvasView
 
             ForEach((0 ..< numberOfStickies), id: \.self) { idx in
-                StickyNote(input: self.$inputArray[idx], chosenColor: self.colorArray[stickyColorArray[idx]])
+                StickyNote(location: self.$locationArray[idx], input: self.$inputArray[idx], chosenColor: self.colorArray[stickyColorArray[idx]])
                     .gesture(
                         LongPressGesture(minimumDuration: 1.5)
                             .onEnded({_ in
@@ -48,12 +53,15 @@ struct ActivityView: View {
                     VStack {
                         Button {
 
+                            locationArray.append(CGPoint(x: 400, y: 400))
                             inputArray.append("")
+
                             if randomizeColor {
                                 stickyColorArray.append(Int.random(in: 0..<5))
                             } else {
                                 stickyColorArray.append(selectedColor)
                             }
+
                             self.numberOfStickies += 1
 
                         } label: {
@@ -212,15 +220,29 @@ struct ActivityView: View {
                                 }
                             } label: {
                                 if selectedSticky < 0 {
-                                    Image(systemName: "questionmark")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 15, height: 15)
-                                        .foregroundColor(randomizeColor ? Color.white : Color.black)
-                                        .frame(width: 60, height: 30)
-                                        .background(randomizeColor ? Color.black : Color.white)
-                                        .cornerRadius(5)
-                                        .padding(.top, 5)
+                                    ZStack {
+                                        Image(systemName: "questionmark")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 15, height: 15)
+                                            .foregroundColor(randomizeColor ? Color.white : Color.black)
+                                            .frame(width: 60, height: 30)
+                                            .background(randomizeColor ? Color.black : Color.white)
+                                            .cornerRadius(5)
+                                            .padding(.top, 5)
+
+                                        if randomizeColor {
+                                            RoundedRectangle(cornerRadius: 5)
+                                                .stroke(Color.white, lineWidth: 2)
+                                                .frame(width: 54, height: 24)
+                                                .padding(.top, 5)
+                                        } else {
+                                            RoundedRectangle(cornerRadius: 5)
+                                                .stroke(Color.black, lineWidth: 2)
+                                                .frame(width: 60, height: 30)
+                                                .padding(.top, 5)
+                                        }
+                                    }
                                 } else {
                                     Image(systemName: "checkmark")
                                         .resizable()
@@ -291,7 +313,7 @@ struct PKCanvas: UIViewRepresentable {
 
 struct StickyNote: View {
 
-    @State private var location: CGPoint = CGPoint(x: 200, y: 200)
+    @Binding var location: CGPoint
     @GestureState private var startLocation: CGPoint?
     var title: String = ""
     @Binding var input: String
