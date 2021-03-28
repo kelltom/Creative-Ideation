@@ -21,10 +21,12 @@ struct ActivityView: View {
     @State private var inputArray: [String] = []
     @State private var stickyColorArray: [Int] = []
     @State private var locationArray: [CGPoint] = []
+    @State private var isSelectedArray: [Bool] = []
 
     @State private var selectedColor = -1
     @State private var selectedSticky: Int = -1
     @State private var randomizeColor: Bool = true
+    @GestureState var isDetectingLongPress = false
 
     @Binding var showActivity: Bool
 
@@ -36,11 +38,18 @@ struct ActivityView: View {
             // PKCanvas(canvasView: $canvasView) // Creates the canvasView
 
             ForEach((0 ..< numberOfStickies), id: \.self) { idx in
-                StickyNote(location: self.$locationArray[idx], input: self.$inputArray[idx], chosenColor: self.colorArray[stickyColorArray[idx]])
-                    .gesture(
-                        LongPressGesture(minimumDuration: 1.5)
+                StickyNote(input: self.$inputArray[idx],
+                           location: self.$locationArray[idx],
+                           chosenColor: self.colorArray[stickyColorArray[idx]],
+                           selected: self.isSelectedArray[idx])
+                    .simultaneousGesture(
+                        LongPressGesture(minimumDuration: 1)
                             .onEnded({_ in
+                                if selectedSticky >= 0 {
+                                    isSelectedArray[selectedSticky] = false
+                                }
                                 selectedSticky = idx
+                                isSelectedArray[idx] = true
                             })
                     )
             }
@@ -55,6 +64,7 @@ struct ActivityView: View {
 
                             locationArray.append(CGPoint(x: 400, y: 400))
                             inputArray.append("")
+                            isSelectedArray.append(false)
 
                             if randomizeColor {
                                 stickyColorArray.append(Int.random(in: 0..<5))
@@ -216,6 +226,7 @@ struct ActivityView: View {
 
                                 } else {
                                     // confirm button, deselect
+                                    isSelectedArray[selectedSticky] = false
                                     selectedSticky = -1
                                 }
                             } label: {
@@ -313,11 +324,14 @@ struct PKCanvas: UIViewRepresentable {
 
 struct StickyNote: View {
 
-    @Binding var location: CGPoint
-    @GestureState private var startLocation: CGPoint?
-    var title: String = ""
     @Binding var input: String
+    @Binding var location: CGPoint
+
     var chosenColor: Color? = Color.red
+    var selected: Bool = false
+
+    @GestureState private var startLocation: CGPoint?
+    @GestureState var isDetectingLongPress = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -334,6 +348,7 @@ struct StickyNote: View {
         }
         .gesture(simpleDrag)
         .cornerRadius(10)
+        .shadow(color: selected ? Color.black : Color.clear, radius: 6, y: 4 )
         .position(location)
     }
 
