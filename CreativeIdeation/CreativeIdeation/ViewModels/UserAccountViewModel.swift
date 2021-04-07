@@ -8,6 +8,7 @@
 import Foundation
 import Firebase
 import SwiftUI
+import FirebaseFirestoreSwift
 
 final class UserAccountViewModel: ObservableObject {
 
@@ -20,6 +21,7 @@ final class UserAccountViewModel: ObservableObject {
     @Published var createSuccess = false
     @Published var msg = ""
     @Published var showBanner = false
+    @Published var selectedUser: User?
 
     func authenticate() {
         self.showBanner = false
@@ -41,6 +43,27 @@ final class UserAccountViewModel: ObservableObject {
                 self.delayAlert()
             }
         }
+    }
+
+    func loggedInUser() {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        db.collection("users").document(uid)
+            .getDocument { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    do {
+                        // Convert document to User object
+                        try self.selectedUser = querySnapshot?.data(as: User.self)
+                        print("User object mapped successfully")
+                    } catch {
+                        print("Error createing object to USER")
+                    }
+                }
+            }
+
     }
 
     func createAccount() {
@@ -87,6 +110,7 @@ final class UserAccountViewModel: ObservableObject {
 
         }
     }
+
 
     // Tells View to stop showing banner after 4 seconds
     private func delayAlert() {
