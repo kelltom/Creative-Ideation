@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UserSettingsView: View {
 
-    //@EnvironmentObject var viewModel: UserAccountViewModel
+    @EnvironmentObject var viewModel: UserAccountViewModel
     //@EnvironmentObject var viewModel: UserAccountViewModel
 
     @State private var profanityFilter = true
@@ -38,8 +38,6 @@ struct UserSettingsView: View {
                     PreferencePic().padding()
                 }
 
-                //TextEditButton()
-
                 VStack(alignment: .leading ) {
 
                     Text("Full Name")
@@ -47,18 +45,13 @@ struct UserSettingsView: View {
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
 
                     HStack {
-//                        Text(viewModel.selectedUser?.name ?? "Unknown")
-//                            .font(.system(size: 18))
+                        Text(viewModel.selectedUser?.name ?? "Unknown")
+                            .font(.system(size: 18))
+                            .padding(.top)
+                            .padding(.bottom)
 
                         Spacer()
 
-                        Button {
-                            // button functionality
-                            //TextField("fffff", text: $userName)
-                        } label: {
-                            // button design
-                            TextEditButton()
-                        }
                     }
 
                     Text("Email")
@@ -66,8 +59,8 @@ struct UserSettingsView: View {
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
 
                     HStack {
-//                        Text(viewModel.selectedUser?.email ?? "Unknown")
-//                            .font(.system(size: 18))
+                        Text(viewModel.selectedUser?.email ?? "Unknown")
+                            .font(.system(size: 18))
 
                         Spacer()
 
@@ -163,5 +156,6 @@ struct UserPrefView_Previews: PreviewProvider {
                          email: "Email@email.com",
                          password: "*****",
                          description: "Some description here")
+            .environmentObject(UserAccountViewModel())
     }
 }

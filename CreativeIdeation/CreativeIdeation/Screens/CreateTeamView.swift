@@ -83,5 +83,6 @@ struct CreateTeamView: View {
 struct CreateTeamView_Previews: PreviewProvider {
     static var previews: some View {
         CreateTeamView(showSheets: .constant(.team))
+            .environmentObject(TeamViewModel())
     }
 }

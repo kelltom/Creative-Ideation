@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		761F4751261E212A0019B580 /* UpdateEmailSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761F4750261E212A0019B580 /* UpdateEmailSettings.swift */; };
 		76731F342602802200536836 /* TeamSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F332602802200536836 /* TeamSettingsView.swift */; };
 		76731F392602828C00536836 /* PreferencePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F382602828C00536836 /* PreferencePic.swift */; };
 		76731F3D2602880500536836 /* TextEditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F3C2602880500536836 /* TextEditButton.swift */; };
@@ -61,6 +62,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		761F4750261E212A0019B580 /* UpdateEmailSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateEmailSettings.swift; sourceTree = "<group>"; };
 		76731F332602802200536836 /* TeamSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSettingsView.swift; sourceTree = "<group>"; };
 		76731F382602828C00536836 /* PreferencePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencePic.swift; sourceTree = "<group>"; };
 		76731F3C2602880500536836 /* TextEditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditButton.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				76A0956425E80F0500917450 /* CreateGroupView.swift */,
 				C9AE739D25EB19F50090C96B /* CreateSessionView.swift */,
 				C9AE738025EAAD940090C96B /* ActivityView.swift */,
+				761F4750261E212A0019B580 /* UpdateEmailSettings.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -444,6 +447,7 @@
 				C9F230BA25F29D53006590DA /* TeamPic.swift in Sources */,
 				76C0480426054878009ECBAB /* AddTeamMembersView.swift in Sources */,
 				DDDFDA9825E08B0000342B1B /* PreferenceButton.swift in Sources */,
+				761F4751261E212A0019B580 /* UpdateEmailSettings.swift in Sources */,
 				DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */,
 				76A0956925E825ED00917450 /* SearchBarView.swift in Sources */,
 				C9F1C92125EA121A00F95F61 /* GroupSidebar.swift in Sources */,
