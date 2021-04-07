@@ -15,16 +15,20 @@ final class UserAccountViewModel: ObservableObject {
     // private var dbService : DBService! 
     private var db = Firestore.firestore()
 
-    @Published var user = User()
-
     @Published var authSuccess = false
     @Published var createSuccess = false
     @Published var msg = ""
     @Published var showBanner = false
     @Published var selectedUser: User?
 
-    func authenticate() {
+    func authenticate(email: String, password: String) {
         self.showBanner = false
+
+        // Populate User object
+        var user = User()
+        user.email = email
+        user.password = password
+
         // Authenticate user credentials
         Auth.auth().signIn(withEmail: user.email, password: user.password) { (_, error) in
             if error != nil {
@@ -66,8 +70,15 @@ final class UserAccountViewModel: ObservableObject {
 
     }
 
-    func createAccount() {
+    func createAccount(name: String, email: String, password: String) {
         self.showBanner = false
+
+        // Populate User object
+        var user = User()
+        user.name = name
+        user.email = email
+        user.password = password
+
         // Add new User to authenticated list
         Auth.auth().createUser(withEmail: user.email, password: user.password) { authResult, error in
             if error != nil {
@@ -84,10 +95,10 @@ final class UserAccountViewModel: ObservableObject {
             } else {
                 print("Successfully created User auth")
 
-                // Mirror user in DB
+                // Mirror user in DB (ideally, it would take the User object and convert to document
                 self.db.collection("users").document((authResult?.user.uid)! as String).setData([
-                    "name": self.user.name,
-                    "email": self.user.email,
+                    "name": user.name,
+                    "email": user.email,
                     "id": authResult?.user.uid as Any
                 ]) { err in
                     if let err = err {
