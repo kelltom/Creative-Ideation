@@ -16,14 +16,13 @@ final class GroupViewModel: ObservableObject {
 
     @Published var groups: [Group] = []   // populated when changing Teams
     @Published var selectedGroup: Group?  // selected group in the listview
-    @Published var newGroup = Group()     // used by CreateGroupView
 
     @Published var msg = ""
     @Published var isShowingBanner = false
     @Published var didOperationSucceed = false
 
     /// Creates a group within a Team with the given teamId
-    func createGroup(teamId: String?) {
+    func createGroup(teamId: String?, groupTitle: String) {
 
         // Get user id
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -34,8 +33,12 @@ final class GroupViewModel: ObservableObject {
 
         // Check if uid is in admin list
 
+        // Populate new Group object
+        var group = Group()
+        group.groupTitle = groupTitle
+
         // Check to make sure group name is not empty
-        guard !newGroup.groupTitle.isEmpty else {
+        guard !group.groupTitle.isEmpty else {
             setBanner(message: "Group name must not be empty", didSucceed: false)
             print("Group name must not be empty")
             return
@@ -66,7 +69,7 @@ final class GroupViewModel: ObservableObject {
         // Adding group details to document
         groupRef.setData([
             "groupId": groupRef.documentID,
-            "groupTitle": self.newGroup.groupTitle,
+            "groupTitle": group.groupTitle,
             "admins": FieldValue.arrayUnion([uid]),
             "members": FieldValue.arrayUnion([uid]),
             "sessions": FieldValue.arrayUnion([])
@@ -77,7 +80,6 @@ final class GroupViewModel: ObservableObject {
             } else {
                 self.setBanner(message: "Group created successfully", didSucceed: true)
                 print("Group document added successfully")
-                self.newGroup.groupTitle = ""
             }
         }
 
