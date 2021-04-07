@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SessionItem: View {
+struct SessionTile: View {
 
     var title: String = "Example Title"
     var activity: String = "Sticky Notes"
@@ -75,6 +75,6 @@ struct SessionItem: View {
 
 struct SessionItem_Previews: PreviewProvider {
     static var previews: some View {
-        SessionItem(session: Session(sessionTitle: "Sample Title", type: "Sticky Notes"))
+        SessionTile(session: Session(sessionTitle: "Sample Title", type: "Sticky Notes"))
     }
 }

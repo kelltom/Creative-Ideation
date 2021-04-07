@@ -172,7 +172,7 @@ struct HomeView: View {
                                     Button {
                                         // make session clickable
                                     } label: {
-                                        SessionItem(team: teamViewModel.selectedTeam?.teamName ?? "Unknown",
+                                        SessionTile(team: teamViewModel.selectedTeam?.teamName ?? "Unknown",
                                                     group: groupViewModel.groups.first(
                                                         where: {$0.groupId == session.groupId})?.groupTitle ?? "Unknown",
                                                     session: session)
@@ -270,7 +270,7 @@ struct HomeView: View {
                                             Button {
                                                 // make session clickable
                                             } label: {
-                                                SessionItem(
+                                                SessionTile(
                                                     team: teamViewModel.selectedTeam?.teamName ?? "Unknown",
                                                     group: groupViewModel.selectedGroup?.groupTitle ?? "Unknown",
                                                     session: session)

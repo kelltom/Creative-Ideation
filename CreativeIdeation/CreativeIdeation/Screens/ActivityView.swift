@@ -10,6 +10,9 @@ import PencilKit
 
 struct ActivityView: View {
 
+    @EnvironmentObject var sessionViewModel: SessionViewModel
+    @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
+
     let colorArray = [Color.init(red: 0.9, green: 0, blue: 0),
                       Color.init(red: 0, green: 0.9, blue: 0),
                       Color.init(red: 0, green: 0.7, blue: 0.9),
@@ -37,22 +40,31 @@ struct ActivityView: View {
 
             // PKCanvas(canvasView: $canvasView) // Creates the canvasView
 
-            ForEach((0 ..< numberOfStickies), id: \.self) { idx in
-                StickyNote(input: self.$inputArray[idx],
-                           location: self.$locationArray[idx],
-                           chosenColor: self.colorArray[stickyColorArray[idx]],
-                           selected: self.isSelectedArray[idx])
-                    .simultaneousGesture(
-                        LongPressGesture(minimumDuration: 1)
-                            .onEnded({_ in
-                                if selectedSticky >= 0 {
-                                    isSelectedArray[selectedSticky] = false
-                                }
-                                selectedSticky = idx
-                                isSelectedArray[idx] = true
-                            })
-                    )
+            ForEach(sessionItemViewModel.sessionItems, id: \.self) { item in
+                StickyNote(
+                    input: item.input,
+                    location: CGPoint(x: item.location[0], y: item.location[1]),
+                    chosenColor: self.colorArray[item.color],
+                    selected: false
+                )
             }
+
+//            ForEach((0 ..< numberOfStickies), id: \.self) { idx in
+//                StickyNote(input: self.inputArray[idx],
+//                           location: self.locationArray[idx],
+//                           chosenColor: self.colorArray[stickyColorArray[idx]],
+//                           selected: self.isSelectedArray[idx])
+//                    .simultaneousGesture(
+//                        LongPressGesture(minimumDuration: 1)
+//                            .onEnded({_ in
+//                                if selectedSticky >= 0 {
+//                                    isSelectedArray[selectedSticky] = false
+//                                }
+//                                selectedSticky = idx
+//                                isSelectedArray[idx] = true
+//                            })
+//                    )
+//            }
 
             VStack {
                 Spacer()
@@ -61,18 +73,20 @@ struct ActivityView: View {
                     Spacer()
                     VStack {
                         Button {
-
-                            locationArray.append(CGPoint(x: 400, y: 400))
-                            inputArray.append("")
-                            isSelectedArray.append(false)
-
-                            if randomizeColor {
-                                stickyColorArray.append(Int.random(in: 0..<5))
-                            } else {
-                                stickyColorArray.append(selectedColor)
-                            }
-
-                            self.numberOfStickies += 1
+                            var newSticky = SessionItem()
+                            newSticky.color = randomizeColor ? Int.random(in: 0..<5) : selectedColor
+                            sessionItemViewModel.sessionItems.append(newSticky)
+//                            locationArray.append(CGPoint(x: 400, y: 400))
+//                            inputArray.append("")
+//                            isSelectedArray.append(false)
+//
+//                            if randomizeColor {
+//                                stickyColorArray.append(Int.random(in: 0..<5))
+//                            } else {
+//                                stickyColorArray.append(selectedColor)
+//                            }
+//
+//                            self.numberOfStickies += 1
 
                         } label: {
                             VStack(spacing: 0) {
@@ -322,48 +336,10 @@ struct PKCanvas: UIViewRepresentable {
     }
 }
 
-struct StickyNote: View {
-
-    @Binding var input: String
-    @Binding var location: CGPoint
-
-    var chosenColor: Color? = Color.red
-    var selected: Bool = false
-
-    @GestureState private var startLocation: CGPoint?
-    @GestureState var isDetectingLongPress = false
-
-    var body: some View {
-        VStack(spacing: 0) {
-            Rectangle()
-                .foregroundColor(chosenColor)
-                .frame(width: 125, height: 25)
-
-            TextEditor(text: $input)
-                .frame(width: 125, height: 100)
-                .opacity(0.7)
-                .background(chosenColor)
-                .foregroundColor(.black)
-
-        }
-        .gesture(simpleDrag)
-        .cornerRadius(10)
-        .shadow(color: selected ? Color.black : Color.clear, radius: 6, y: 4 )
-        .position(location)
-    }
-
-    var simpleDrag: some Gesture {
-        DragGesture()
-            .onChanged { value in
-                var newLocation = startLocation ?? location
-                newLocation.x += value.translation.width
-                newLocation.y += value.translation.height
-                self.location = newLocation}
-    }
-}
-
 struct ActivityView_Previews: PreviewProvider {
     static var previews: some View {
         ActivityView(showActivity: .constant(true))
+            .environmentObject(SessionViewModel())
+            .environmentObject(SessionItemViewModel())
     }
 }
