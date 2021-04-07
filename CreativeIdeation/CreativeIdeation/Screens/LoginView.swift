@@ -16,6 +16,9 @@ struct LoginView: View {
     // May be used later
     // @State private var actionState: Int? = 0
 
+    @State var email: String = ""
+    @State var password: String = ""
+
     @EnvironmentObject var viewModel: UserAccountViewModel
 
     var body: some View {
@@ -40,9 +43,9 @@ struct LoginView: View {
                             .padding()
                             .font(.system(size:40))
 
-                        MenuTextField(title: "Email address", input: $viewModel.user.email)
+                        MenuTextField(title: "Email address", input: $email)
 
-                        MenuTextField(title: "Password", input: $viewModel.user.password, secure: true)
+                        MenuTextField(title: "Password", input: $password, secure: true)
 
                         // Log In Link
                         NavigationLink(
@@ -54,7 +57,7 @@ struct LoginView: View {
 
                         // Log In Button
                         Button {
-                            viewModel.authenticate()
+                            viewModel.authenticate(email: email, password: password)
                         } label: {
                             BigButton(title: "Log In")
                         }

@@ -21,10 +21,10 @@ final class UserAccountViewModel: ObservableObject {
     @Published var msg = ""
     @Published var showBanner = false
 
-    func authenticate() {
+    func authenticate(email: String, password: String) {
         self.showBanner = false
         // Authenticate user credentials
-        Auth.auth().signIn(withEmail: user.email, password: user.password) { (_, error) in
+        Auth.auth().signIn(withEmail: email, password: password) { (_, error) in
             if error != nil {
                 print(error?.localizedDescription ?? "")
                 self.msg = error?.localizedDescription ?? ""
