@@ -12,6 +12,10 @@ struct CreateAccountView: View {
     // Allows for popping view back to LogInView
     @Binding var showLogIn: Bool
 
+    @State var name: String = ""
+    @State var email: String = ""
+    @State var password: String = ""
+
     @EnvironmentObject var viewModel: UserAccountViewModel
 
     var body: some View {
@@ -37,11 +41,11 @@ struct CreateAccountView: View {
                         .padding()
                         .font(.system(size:40))
 
-                    MenuTextField(title: "Full name", input: $viewModel.user.name)
+                    MenuTextField(title: "Full name", input: $name)
 
-                    MenuTextField(title: "Email address", input: $viewModel.user.email)
+                    MenuTextField(title: "Email address", input: $email)
 
-                    MenuTextField(title: "Password", input: $viewModel.user.password, secure: true)
+                    MenuTextField(title: "Password", input: $password, secure: true)
 
                     // Create Account Link
                     NavigationLink(
@@ -52,7 +56,7 @@ struct CreateAccountView: View {
                         })
 
                     Button {
-                        viewModel.createAccount()
+                        viewModel.createAccount(name: name, email: email, password: password)
                         // delayAlert()
                     } label: {
                         BigButton(title: "Create Account")
