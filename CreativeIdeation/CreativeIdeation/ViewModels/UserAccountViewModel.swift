@@ -73,34 +73,39 @@ final class UserAccountViewModel: ObservableObject {
 
     // updating db
     func updateUserInfo(email: String) {
+
+        var user = User()
+        user.email = email
+
         //getting user ID
         guard let uid = Auth.auth().currentUser?.uid else {
-            return
-        }
-        //getting user email
-        guard let userEmail = Auth.auth().currentUser?.email else {
             return
         }
         //get current user
         guard let currentUser = Auth.auth().currentUser else {
             return
         }
-        // updates collection
 
-
-        // updates authentication
+        // updates email authentication
         currentUser.updateEmail(to: email) { error in
             if error != nil {
-                print("email update did not work")
+                print(error?.localizedDescription ?? "email update did not work")
             } else {
                 print("Email update succesfull")
+                //updates email address in document collection
+                self.db.collection("users").document(uid).updateData([
+                    "email": user.email
+                ]){ err in
+                    if let err = err {
+                        print("Error updating user email: \(err)")
+                    } else {
+                        print("user email updated successfully")
+                    }
+
+                }
             }
 
         }
-
-
-
-
 
     }
 
