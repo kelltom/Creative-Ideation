@@ -47,11 +47,9 @@ struct HomeView: View {
                     sessionViewModel.teamSessions = []
                     sessionViewModel.groupSessions = []
                 } label: {
-                    if teamViewModel.selectedTeam == nil {
-                        TeamPic(selected: true, symbolName: "house", teamName: "Home")
-                    } else {
-                        TeamPic(selected: false, symbolName: "house", teamName: "Home")
-                    }
+                    TeamPic(selected: teamViewModel.selectedTeam == nil,
+                            symbolName: "house",
+                            teamName: "Home")
                 }
 
                 // Add buttons for additional Teams
@@ -63,11 +61,8 @@ struct HomeView: View {
                         groupViewModel.getGroups(teamId: team.teamId)
                         sessionViewModel.getAllSessions(teamId: team.teamId)
                     } label: {
-                        if teamViewModel.selectedTeam?.id == team.id {
-                            TeamPic(selected: true, teamName: team.teamName)
-                        } else {
-                            TeamPic(selected: false, teamName: team.teamName)
-                        }
+                        TeamPic(selected: teamViewModel.selectedTeam?.id == team.id,
+                                teamName: team.teamName)
                     }
                 }
 

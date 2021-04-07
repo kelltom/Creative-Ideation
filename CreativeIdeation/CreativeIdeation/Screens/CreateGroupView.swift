@@ -9,9 +9,11 @@ import SwiftUI
 
 struct CreateGroupView: View {
 
-    @State var groupName: String = ""
+    @State var groupTitle: String = ""
     @State var groupDescription: String = ""
+
     @Binding var showSheets: ActiveSheet?
+
     @EnvironmentObject var groupViewModel: GroupViewModel
     @EnvironmentObject var teamViewModel: TeamViewModel
 
@@ -40,10 +42,12 @@ struct CreateGroupView: View {
 
                     VStack {
 
-                        MenuTextField(title: "group name", input: $groupViewModel.newGroup.groupTitle)
+                        MenuTextField(title: "group name", input: $groupTitle)
 
                         Button {
-                            groupViewModel.createGroup(teamId: teamViewModel.selectedTeam?.teamId)
+                            groupViewModel.createGroup(teamId: teamViewModel.selectedTeam?.teamId,
+                                                       groupTitle: groupTitle)
+                            groupTitle = ""
                         } label: {
                             BigButton(title: "Create").padding()
                         }
@@ -52,9 +56,6 @@ struct CreateGroupView: View {
                 }
                 .padding() // padding padding for title
             }
-        }
-        .onAppear {
-            groupViewModel.newGroup = Group() // clear inputs from previous sheet
         }
     }
 
