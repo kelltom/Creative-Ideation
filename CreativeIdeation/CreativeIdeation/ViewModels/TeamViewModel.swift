@@ -16,20 +16,24 @@ final class TeamViewModel: ObservableObject {
 
     @Published var teams: [Team] = []   // populated when navigating to HomeView
     @Published var selectedTeam: Team?  // selected team in the sidebar
-    @Published var newTeam = Team()     // used by CreateTeamView
 
     @Published var msg = ""
     @Published var isShowingBanner = false
     @Published var didOperationSucceed = false
 
     /// Creates a single team
-    func createTeam() {
+    func createTeam(teamName: String, teamDescription: String) {
 
         // Get user ID
         guard let uid = Auth.auth().currentUser?.uid else {
             setBanner(message: "Failed to find user ID", didSucceed: false)
             return
         }
+
+        // Populate Team object
+        var newTeam = Team()
+        newTeam.teamName = teamName
+        newTeam.teamDescription = teamDescription
 
         // Make sure Team Name is not empty
         guard !newTeam.teamName.isEmpty else {
@@ -46,8 +50,8 @@ final class TeamViewModel: ObservableObject {
         let teamRef = db.collection("teams").document()
         batch.setData([
             "teamId": teamRef.documentID,
-            "teamName": self.newTeam.teamName,
-            "teamDescription": self.newTeam.teamDescription,
+            "teamName": newTeam.teamName,
+            "teamDescription": newTeam.teamDescription,
             "createdBy": uid,
             "admins": FieldValue.arrayUnion([uid]),
             "members": FieldValue.arrayUnion([uid]),
@@ -66,10 +70,6 @@ final class TeamViewModel: ObservableObject {
                 self.setBanner(message: "Team created successfully!", didSucceed: true)
             }
         }
-
-        // Reset input fields
-        newTeam.teamName = ""
-        newTeam.teamDescription = ""
 
         // Reload list of teams
         getTeams()

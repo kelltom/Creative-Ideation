@@ -13,6 +13,9 @@ struct CreateTeamView: View {
     @State private var showBanner: Bool = false
     @Binding var showSheets: ActiveSheet?
 
+    @State var teamName: String = ""
+    @State var teamDescription: String = ""
+
     @EnvironmentObject var teamViewModel: TeamViewModel
 
     var body: some View {
@@ -40,12 +43,14 @@ struct CreateTeamView: View {
 
                 VStack {
 
-                    MenuTextField(title: "Team name", input: $teamViewModel.newTeam.teamName)
+                    MenuTextField(title: "Team name", input: $teamName)
 
-                    MenuTextField(title: "Team description (optional)", input: $teamViewModel.newTeam.teamDescription)
+                    MenuTextField(title: "Team description (optional)", input: $teamDescription)
 
                     Button {
-                        teamViewModel.createTeam()
+                        teamViewModel.createTeam(teamName: teamName, teamDescription: teamDescription)
+                        teamName = ""
+                        teamDescription = ""
                     } label: {
                         BigButton(title: "Create")
                             .padding(.top, 5)
@@ -65,9 +70,6 @@ struct CreateTeamView: View {
                 }
             }
         }
-        .onAppear {
-            teamViewModel.newTeam = Team() // clear inputs from previous sheet
-        }
 
     }
 
@@ -83,5 +85,6 @@ struct CreateTeamView: View {
 struct CreateTeamView_Previews: PreviewProvider {
     static var previews: some View {
         CreateTeamView(showSheets: .constant(.team))
+            .environmentObject(TeamViewModel())
     }
 }
