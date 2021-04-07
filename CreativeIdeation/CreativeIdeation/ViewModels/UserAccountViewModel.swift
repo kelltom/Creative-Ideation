@@ -49,10 +49,12 @@ final class UserAccountViewModel: ObservableObject {
         }
     }
 
-    func loggedInUser() {
+    func loggedInUser() { // reading the database onAppear in UpdateEmailSettings
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
+
+        print(uid)
         db.collection("users").document(uid)
             .getDocument { (querySnapshot, err) in
                 if let err = err {
@@ -67,6 +69,38 @@ final class UserAccountViewModel: ObservableObject {
                     }
                 }
             }
+    }
+
+    // updating db
+    func updateUserInfo(email: String) {
+        //getting user ID
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        //getting user email
+        guard let userEmail = Auth.auth().currentUser?.email else {
+            return
+        }
+        //get current user
+        guard let currentUser = Auth.auth().currentUser else {
+            return
+        }
+        // updates collection
+
+
+        // updates authentication
+        currentUser.updateEmail(to: email) { error in
+            if error != nil {
+                print("email update did not work")
+            } else {
+                print("Email update succesfull")
+            }
+
+        }
+
+
+
+
 
     }
 

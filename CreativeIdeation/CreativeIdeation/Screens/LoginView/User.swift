@@ -16,13 +16,13 @@ struct User: Codable, Identifiable {
     var email = ""
     var password = ""
 
-    var teams: [String] = []
+    //var teams: [String] = []
 
     enum CodingKeys: String, CodingKey {
         case id
         case name
         case email
-        case teams
+        //case teams
 
     }
 }

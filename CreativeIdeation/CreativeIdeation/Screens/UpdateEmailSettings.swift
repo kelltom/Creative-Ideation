@@ -12,6 +12,8 @@ struct UpdateEmailSettings: View {
     @State var currentEmail: String = ""
     @Binding var showSheet: Bool
 
+    @EnvironmentObject var viewModel: UserAccountViewModel
+
     var body: some View {
         ZStack {
 
@@ -66,7 +68,7 @@ struct UpdateEmailSettings: View {
                 }
                 Button {
                     // save to DB call view model function to update DB
-
+                    viewModel.updateUserInfo(email: newEmail)
                 } label: {
                     SubmitButton()
                 }
