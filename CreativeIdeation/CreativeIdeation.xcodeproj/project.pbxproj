@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		761F4751261E212A0019B580 /* UpdateEmailSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761F4750261E212A0019B580 /* UpdateEmailSettings.swift */; };
+		761F4758261E43CB0019B580 /* SubmitButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761F4757261E43CB0019B580 /* SubmitButton.swift */; };
 		76731F342602802200536836 /* TeamSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F332602802200536836 /* TeamSettingsView.swift */; };
 		76731F392602828C00536836 /* PreferencePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F382602828C00536836 /* PreferencePic.swift */; };
 		76731F3D2602880500536836 /* TextEditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F3C2602880500536836 /* TextEditButton.swift */; };
@@ -63,6 +64,7 @@
 
 /* Begin PBXFileReference section */
 		761F4750261E212A0019B580 /* UpdateEmailSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateEmailSettings.swift; sourceTree = "<group>"; };
+		761F4757261E43CB0019B580 /* SubmitButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitButton.swift; sourceTree = "<group>"; };
 		76731F332602802200536836 /* TeamSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSettingsView.swift; sourceTree = "<group>"; };
 		76731F382602828C00536836 /* PreferencePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencePic.swift; sourceTree = "<group>"; };
 		76731F3C2602880500536836 /* TextEditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditButton.swift; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 				76A184D025FD979B0070251D /* XDismissButton.swift */,
 				76731F3C2602880500536836 /* TextEditButton.swift */,
 				76731F3F26029A7900536836 /* DeleteButton.swift */,
+				761F4757261E43CB0019B580 /* SubmitButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -459,6 +462,7 @@
 				76731F4026029A7900536836 /* DeleteButton.swift in Sources */,
 				76731F3D2602880500536836 /* TextEditButton.swift in Sources */,
 				C9AE739E25EB19F50090C96B /* CreateSessionView.swift in Sources */,
+				761F4758261E43CB0019B580 /* SubmitButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

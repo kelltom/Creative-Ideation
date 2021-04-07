@@ -10,7 +10,6 @@ import SwiftUI
 struct UserSettingsView: View {
 
     @EnvironmentObject var viewModel: UserAccountViewModel
-    //@EnvironmentObject var viewModel: UserAccountViewModel
 
     @State private var profanityFilter = true
 
