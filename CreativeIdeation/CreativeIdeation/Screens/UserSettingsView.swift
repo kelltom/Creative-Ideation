@@ -32,11 +32,14 @@ struct UserSettingsView: View {
 
             VStack {
 
-                Button {
-                    // do stuff
-                } label: {
-                    PreferencePic().padding()
-                }
+                ProfilePic(size: 60)
+                    .shadow(color: .black, radius: 4, y: 4)
+                    .padding()
+                    .contextMenu(ContextMenu(menuItems: {
+                        Text("Upload from gallery")
+                        Text("Take photo")
+                    }))
+
 
                 VStack(alignment: .leading ) {
 
@@ -147,7 +150,7 @@ struct UserSettingsView: View {
         }
         .onAppear {
             viewModel.loggedInUser()
-//            print(viewModel.selectedUser?.password ?? "test")
+            //            print(viewModel.selectedUser?.password ?? "test")
         }
 
     }

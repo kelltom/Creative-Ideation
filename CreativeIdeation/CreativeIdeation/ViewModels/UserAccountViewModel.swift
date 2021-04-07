@@ -95,13 +95,12 @@ final class UserAccountViewModel: ObservableObject {
                 //updates email address in document collection
                 self.db.collection("users").document(uid).updateData([
                     "email": user.email
-                ]){ err in
+                ]) { err in
                     if let err = err {
                         print("Error updating user email: \(err)")
                     } else {
                         print("user email updated successfully")
                     }
-
                 }
             }
 
