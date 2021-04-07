@@ -16,7 +16,7 @@ struct SubmitButton: View {
 
         }
         .frame(width: 200, height: 50, alignment: .center)
-        .background(Color(.blue))
+        .background(Color("brandPrimary"))
         .foregroundColor(.white)
         .cornerRadius(10)
         .padding()

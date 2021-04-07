@@ -10,6 +10,7 @@ import SwiftUI
 struct UserSettingsView: View {
 
     @EnvironmentObject var viewModel: UserAccountViewModel
+    @State var showSheet = false
 
     @State private var profanityFilter = true
 
@@ -65,6 +66,7 @@ struct UserSettingsView: View {
 
                         Button {
                             // button functionality
+                            self.showSheet.toggle()
                         } label: {
                             // button design
                             TextEditButton()
@@ -140,8 +142,11 @@ struct UserSettingsView: View {
                 .padding()
             }
 
-        }.onAppear {
-//            viewModel.loggedInUser()
+        }.sheet(isPresented: $showSheet) {
+            UpdateEmailSettings(showSheet: $showSheet)
+        }
+        .onAppear {
+            viewModel.loggedInUser()
 //            print(viewModel.selectedUser?.password ?? "test")
         }
 
