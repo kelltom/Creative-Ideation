@@ -14,8 +14,6 @@ final class UserAccountViewModel: ObservableObject {
     // private var dbService : DBService! 
     private var db = Firestore.firestore()
 
-    private var user = User()
-
     @Published var authSuccess = false
     @Published var createSuccess = false
     @Published var msg = ""
@@ -25,6 +23,7 @@ final class UserAccountViewModel: ObservableObject {
         self.showBanner = false
 
         // Populate User object
+        var user = User()
         user.email = email
         user.password = password
 
@@ -52,6 +51,7 @@ final class UserAccountViewModel: ObservableObject {
         self.showBanner = false
 
         // Populate User object
+        var user = User()
         user.name = name
         user.email = email
         user.password = password
@@ -74,8 +74,8 @@ final class UserAccountViewModel: ObservableObject {
 
                 // Mirror user in DB (ideally, it would take the User object and convert to document
                 self.db.collection("users").document((authResult?.user.uid)! as String).setData([
-                    "name": self.user.name,
-                    "email": self.user.email,
+                    "name": user.name,
+                    "email": user.email,
                     "id": authResult?.user.uid as Any
                 ]) { err in
                     if let err = err {
