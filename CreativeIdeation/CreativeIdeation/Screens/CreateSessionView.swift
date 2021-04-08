@@ -16,6 +16,7 @@ struct CreateSessionView: View {
     @EnvironmentObject var sessionViewModel: SessionViewModel
     @EnvironmentObject var groupViewModel: GroupViewModel
     @EnvironmentObject var teamViewModel: TeamViewModel
+    @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
 
     var body: some View {
 
@@ -35,16 +36,19 @@ struct CreateSessionView: View {
                     MenuTextField(title: "Description", input: $sessionViewModel.newSession.sessionDescription)
 
                     HStack {
-                        ActivityTypeTile(selected: true)
-                            .padding()
+//                        ActivityTypeTile(selected: true)
+//                            .padding()
                         ActivityTypeTile(
-                            title: "Sticky Notes", symbolName: "doc.on.doc.fill")
+                            title: "Sticky Notes",
+                            symbolName: "doc.on.doc.fill",
+                            selected: true)
                             .padding()
                     }
 
                     Button {
                         sessionViewModel.createSession(teamId: teamViewModel.selectedTeam?.teamId,
                                                        groupId: groupViewModel.selectedGroup?.groupId)
+                        sessionItemViewModel.activeSession = sessionViewModel.newSession
                         showSheets = nil
                         showActivity = true
                     } label: {
@@ -59,5 +63,9 @@ struct CreateSessionView: View {
 struct CreateSessionView_Previews: PreviewProvider {
     static var previews: some View {
         CreateSessionView(showSheets: .constant(.session), showActivity: .constant(false))
+            .environmentObject(TeamViewModel())
+            .environmentObject(GroupViewModel())
+            .environmentObject(SessionViewModel())
+            .environmentObject(SessionItemViewModel())
     }
 }

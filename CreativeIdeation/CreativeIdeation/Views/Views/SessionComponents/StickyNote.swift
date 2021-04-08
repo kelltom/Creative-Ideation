@@ -7,14 +7,15 @@
 
 import SwiftUI
 
-struct StickyNote: View {
-
+struct StickyNote: View, Identifiable {
+    var id = UUID()
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
 
     @State var input: String
     @State var location: CGPoint
 
-    var chosenColor: Color? = Color.red
+    var itemId: String
+    @State var chosenColor: Color? = Color.red
     @State var selected: Bool = false
 
     @GestureState private var startLocation: CGPoint?
@@ -24,15 +25,18 @@ struct StickyNote: View {
         VStack(spacing: 0) {
             Rectangle()
                 .foregroundColor(chosenColor)
-                .frame(width: 125, height: 25)
+                .frame(width: 160, height: 30)
                 .simultaneousGesture(longPress)
 
             TextEditor(text: $input)
-                .frame(width: 125, height: 100)
+                .frame(width: 160, height: 130)
                 .opacity(0.7)
                 .background(chosenColor)
                 .foregroundColor(.black)
-
+                .onChange(of: input, perform: {_ in
+                    sessionItemViewModel.updateText(text: input, itemId: itemId)
+                    sessionItemViewModel.updateItem(itemId: itemId)
+                })
         }
         .gesture(simpleDrag)
         .cornerRadius(10)
@@ -43,8 +47,8 @@ struct StickyNote: View {
     var longPress: some Gesture {
         LongPressGesture(minimumDuration: 1)
             .onEnded {_ in
-                self.selected.toggle()
-                sessionItemViewModel.selectedSticky = self
+                self.selected = true
+                sessionItemViewModel.updateSelected(note: self)
             }
     }
 
@@ -55,12 +59,16 @@ struct StickyNote: View {
                 newLocation.x += value.translation.width
                 newLocation.y += value.translation.height
                 self.location = newLocation}
+            .onEnded {_ in
+                sessionItemViewModel.updateLocation(location: location, itemId: itemId)
+                sessionItemViewModel.updateItem(itemId: itemId)
+            }
     }
 }
 
 struct StickyNote_Previews: PreviewProvider {
     static var previews: some View {
-        StickyNote(input: "", location: CGPoint(x: 300, y: 300))
+        StickyNote(input: "", location: CGPoint(x: 300, y: 300), itemId: "")
             .environmentObject(SessionItemViewModel())
     }
 }

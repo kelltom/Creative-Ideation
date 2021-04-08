@@ -31,6 +31,7 @@ struct CreativeIdeationApp: App {
                 .environmentObject(teamViewModel)
                 .environmentObject(groupViewModel)
                 .environmentObject(sessionViewModel)
+                .environmentObject(sessionItemViewModel)
         }
     }
 }

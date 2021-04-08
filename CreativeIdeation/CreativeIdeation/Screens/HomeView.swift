@@ -23,6 +23,7 @@ struct HomeView: View {
     @EnvironmentObject var teamViewModel: TeamViewModel
     @EnvironmentObject var groupViewModel: GroupViewModel
     @EnvironmentObject var sessionViewModel: SessionViewModel
+    @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
 
     let columns = [
         GridItem(.adaptive(minimum: 200))]
@@ -264,6 +265,9 @@ struct HomeView: View {
 
                                             Button {
                                                 // make session clickable
+                                                sessionItemViewModel.activeSession = session
+                                                sessionItemViewModel.loadItems()
+                                                showActivity = true
                                             } label: {
                                                 SessionTile(
                                                     team: teamViewModel.selectedTeam?.teamName ?? "Unknown",
@@ -330,5 +334,6 @@ struct GroupView_Previews: PreviewProvider {
             .environmentObject(TeamViewModel())
             .environmentObject(GroupViewModel())
             .environmentObject(SessionViewModel())
+            .environmentObject(SessionItemViewModel())
     }
 }

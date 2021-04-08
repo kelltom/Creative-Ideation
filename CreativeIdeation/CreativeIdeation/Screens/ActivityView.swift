@@ -10,7 +10,6 @@ import PencilKit
 
 struct ActivityView: View {
 
-    @EnvironmentObject var sessionViewModel: SessionViewModel
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
 
     let colorArray = [Color.init(red: 0.9, green: 0, blue: 0),
@@ -19,17 +18,9 @@ struct ActivityView: View {
                       Color.init(red: 0.9, green: 0.9, blue: 0),
                       Color.init(red: 0.9, green: 0.45, blue: 0.9)]
     // @State private var canvasView = PKCanvasView()
-    @State private var numberOfStickies = 0
-
-    @State private var inputArray: [String] = []
-    @State private var stickyColorArray: [Int] = []
-    @State private var locationArray: [CGPoint] = []
-    @State private var isSelectedArray: [Bool] = []
 
     @State private var selectedColor = -1
-    @State private var selectedSticky: Int = -1
     @State private var randomizeColor: Bool = true
-    @GestureState var isDetectingLongPress = false
 
     @Binding var showActivity: Bool
 
@@ -40,31 +31,9 @@ struct ActivityView: View {
 
             // PKCanvas(canvasView: $canvasView) // Creates the canvasView
 
-            ForEach(sessionItemViewModel.sessionItems, id: \.self) { item in
-                StickyNote(
-                    input: item.input,
-                    location: CGPoint(x: item.location[0], y: item.location[1]),
-                    chosenColor: self.colorArray[item.color],
-                    selected: false
-                )
+            ForEach(sessionItemViewModel.stickyNotes) { note in
+                note
             }
-
-//            ForEach((0 ..< numberOfStickies), id: \.self) { idx in
-//                StickyNote(input: self.inputArray[idx],
-//                           location: self.locationArray[idx],
-//                           chosenColor: self.colorArray[stickyColorArray[idx]],
-//                           selected: self.isSelectedArray[idx])
-//                    .simultaneousGesture(
-//                        LongPressGesture(minimumDuration: 1)
-//                            .onEnded({_ in
-//                                if selectedSticky >= 0 {
-//                                    isSelectedArray[selectedSticky] = false
-//                                }
-//                                selectedSticky = idx
-//                                isSelectedArray[idx] = true
-//                            })
-//                    )
-//            }
 
             VStack {
                 Spacer()
@@ -73,20 +42,8 @@ struct ActivityView: View {
                     Spacer()
                     VStack {
                         Button {
-                            var newSticky = SessionItem()
-                            newSticky.color = randomizeColor ? Int.random(in: 0..<5) : selectedColor
-                            sessionItemViewModel.sessionItems.append(newSticky)
-//                            locationArray.append(CGPoint(x: 400, y: 400))
-//                            inputArray.append("")
-//                            isSelectedArray.append(false)
-//
-//                            if randomizeColor {
-//                                stickyColorArray.append(Int.random(in: 0..<5))
-//                            } else {
-//                                stickyColorArray.append(selectedColor)
-//                            }
-//
-//                            self.numberOfStickies += 1
+                            let newColor = randomizeColor ? Int.random(in: 0..<5) : selectedColor
+                            sessionItemViewModel.createItem(color: newColor)
 
                         } label: {
                             VStack(spacing: 0) {
@@ -110,11 +67,11 @@ struct ActivityView: View {
                         VStack(spacing: 10) {
                             HStack(spacing: 10) {
                                 Button {
-                                    if selectedSticky < 0 {
+                                    if sessionItemViewModel.selectedSticky != nil {
+                                        sessionItemViewModel.colorSelected(color: 0)
+                                    } else {
                                         selectedColor = 0
                                         randomizeColor = false
-                                    } else {
-                                        stickyColorArray[selectedSticky] = 0
                                     }
 
                                 } label: {
@@ -131,11 +88,11 @@ struct ActivityView: View {
                                 }
 
                                 Button {
-                                    if selectedSticky < 0 {
+                                    if sessionItemViewModel.selectedSticky != nil {
+                                        sessionItemViewModel.colorSelected(color: 1)
+                                    } else {
                                         selectedColor = 1
                                         randomizeColor = false
-                                    } else {
-                                        stickyColorArray[selectedSticky] = 1
                                     }
                                 } label: {
                                     ZStack {
@@ -152,11 +109,11 @@ struct ActivityView: View {
                             }
                             HStack(spacing: 10) {
                                 Button {
-                                    if selectedSticky < 0 {
+                                    if sessionItemViewModel.selectedSticky != nil {
+                                        sessionItemViewModel.colorSelected(color: 2)
+                                    } else {
                                         selectedColor = 2
                                         randomizeColor = false
-                                    } else {
-                                        stickyColorArray[selectedSticky] = 2
                                     }
                                 } label: {
                                     ZStack {
@@ -172,11 +129,11 @@ struct ActivityView: View {
                                 }
 
                                 Button {
-                                    if selectedSticky < 0 {
+                                    if sessionItemViewModel.selectedSticky != nil {
+                                        sessionItemViewModel.colorSelected(color: 3)
+                                    } else {
                                         selectedColor = 3
                                         randomizeColor = false
-                                    } else {
-                                        stickyColorArray[selectedSticky] = 3
                                     }
                                 } label: {
                                     ZStack {
@@ -193,11 +150,11 @@ struct ActivityView: View {
                             }
                             HStack(spacing: 10) {
                                 Button {
-                                    if selectedSticky < 0 {
+                                    if sessionItemViewModel.selectedSticky != nil {
+                                        sessionItemViewModel.colorSelected(color: 4)
+                                    } else {
                                         selectedColor = 4
                                         randomizeColor = false
-                                    } else {
-                                        stickyColorArray[selectedSticky] = 4
                                     }
                                 } label: {
                                     ZStack {
@@ -211,27 +168,10 @@ struct ActivityView: View {
                                         }
                                     }
                                 }
-
-                                Button {
-                                    // picker
-                                } label: {
-                                    Circle()
-                                        .fill(LinearGradient(
-                                                gradient: .init(colors: [
-                                                                    .red,
-                                                                    .orange,
-                                                                    .yellow,
-                                                                    .green,
-                                                                    .blue,
-                                                                    .purple,
-                                                                    .pink]),
-                                                startPoint: .topLeading, endPoint: .bottomTrailing))
-                                        .frame(width: 25, height: 25)
-                                }
                             }
 
                             Button {
-                                if selectedSticky < 0 {
+                                if sessionItemViewModel.selectedSticky == nil {
                                     // randomize button
                                     if !randomizeColor {
                                         selectedColor = -1
@@ -240,11 +180,11 @@ struct ActivityView: View {
 
                                 } else {
                                     // confirm button, deselect
-                                    isSelectedArray[selectedSticky] = false
-                                    selectedSticky = -1
+                                    sessionItemViewModel.updateItem(itemId: sessionItemViewModel.selectedItem!.itemId)
+                                    sessionItemViewModel.clearSelected()
                                 }
                             } label: {
-                                if selectedSticky < 0 {
+                                if sessionItemViewModel.selectedSticky == nil {
                                     ZStack {
                                         Image(systemName: "questionmark")
                                             .resizable()
@@ -280,8 +220,25 @@ struct ActivityView: View {
                                         .padding(.top, 5)
                                 }
                             }
+
+                            Button {
+                                if sessionItemViewModel.selectedSticky != nil {
+                                    // delete button
+                                    sessionItemViewModel.deleteSelected()
+                                }
+                            } label: {
+                                    Image(systemName: "trash.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 20, height: 20)
+                                        .foregroundColor(.white)
+                                        .frame(width: 60, height: 30)
+                                        .background(sessionItemViewModel.selectedSticky != nil ? Color.red : Color.init(red: 1.0, green: 0.65, blue: 0.65))
+                                        .cornerRadius(5)
+                            }
+                            .disabled(sessionItemViewModel.selectedSticky == nil)
                         }
-                        .frame(minWidth: 80, minHeight: 160)
+                        .frame(minWidth: 80, minHeight: 200)
                         .background(Color.white)
                         .clipped()
                         .cornerRadius(15)
@@ -339,7 +296,6 @@ struct PKCanvas: UIViewRepresentable {
 struct ActivityView_Previews: PreviewProvider {
     static var previews: some View {
         ActivityView(showActivity: .constant(true))
-            .environmentObject(SessionViewModel())
             .environmentObject(SessionItemViewModel())
     }
 }
