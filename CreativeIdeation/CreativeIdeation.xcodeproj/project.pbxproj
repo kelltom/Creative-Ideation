@@ -14,6 +14,7 @@
 		76731F3D2602880500536836 /* TextEditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F3C2602880500536836 /* TextEditButton.swift */; };
 		76731F4026029A7900536836 /* DeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F3F26029A7900536836 /* DeleteButton.swift */; };
 		767994BE25DDC79A001970B4 /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767994BD25DDC79A001970B4 /* CreateAccountView.swift */; };
+		768315D2261F5A1500F9D593 /* LogOutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768315D1261F5A1500F9D593 /* LogOutButton.swift */; };
 		76996464260699E5005058C7 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76996463260699E5005058C7 /* Group.swift */; };
 		7699646726069A55005058C7 /* GroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7699646626069A55005058C7 /* GroupViewModel.swift */; };
 		76A0956125E745D800917450 /* CreateTeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0956025E745D800917450 /* CreateTeamView.swift */; };
@@ -70,6 +71,7 @@
 		76731F3C2602880500536836 /* TextEditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditButton.swift; sourceTree = "<group>"; };
 		76731F3F26029A7900536836 /* DeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButton.swift; sourceTree = "<group>"; };
 		767994BD25DDC79A001970B4 /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
+		768315D1261F5A1500F9D593 /* LogOutButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOutButton.swift; sourceTree = "<group>"; };
 		76996463260699E5005058C7 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		7699646626069A55005058C7 /* GroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
 		76A0956025E745D800917450 /* CreateTeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTeamView.swift; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 				76731F3C2602880500536836 /* TextEditButton.swift */,
 				76731F3F26029A7900536836 /* DeleteButton.swift */,
 				761F4757261E43CB0019B580 /* SubmitButton.swift */,
+				768315D1261F5A1500F9D593 /* LogOutButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -451,6 +454,7 @@
 				76C0480426054878009ECBAB /* AddTeamMembersView.swift in Sources */,
 				DDDFDA9825E08B0000342B1B /* PreferenceButton.swift in Sources */,
 				761F4751261E212A0019B580 /* UpdateEmailSettings.swift in Sources */,
+				768315D2261F5A1500F9D593 /* LogOutButton.swift in Sources */,
 				DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */,
 				76A0956925E825ED00917450 /* SearchBarView.swift in Sources */,
 				C9F1C92125EA121A00F95F61 /* GroupSidebar.swift in Sources */,

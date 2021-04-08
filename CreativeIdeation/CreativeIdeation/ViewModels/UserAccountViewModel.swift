@@ -17,6 +17,7 @@ final class UserAccountViewModel: ObservableObject {
 
     @Published var authSuccess = false
     @Published var createSuccess = false
+    @Published var logOutSuccess = false
     @Published var msg = ""
     @Published var showBanner = false
     @Published var selectedUser: User?
@@ -49,9 +50,8 @@ final class UserAccountViewModel: ObservableObject {
         }
     }
 
-    func loggedInUser() { // reading the database onAppear in UpdateEmailSettings
-     
-
+    func getCurrentUserInfo() { // reading the database onAppear in UpdateEmailSettings
+        self.showBanner = false
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
@@ -65,11 +65,24 @@ final class UserAccountViewModel: ObservableObject {
                         // Convert document to User object
                         try self.selectedUser = querySnapshot?.data(as: User.self)
                         print("User object mapped successfully")
+                        //print(self.selectedUser!)
                     } catch {
                         print("Error creating object to USER")
                     }
                 }
             }
+    }
+
+    // log out
+    func signOut() {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+            self.logOutSuccess = true
+            print("signed out successfully")
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
     }
 
     // updating db
@@ -87,12 +100,19 @@ final class UserAccountViewModel: ObservableObject {
         guard let currentUser = Auth.auth().currentUser else {
             return
         }
+
         // Error checking before updating to DB
         if email.isEmpty {
             self.msg = "Email cannot be empty"
             self.createSuccess = false
             self.showBanner = true
             print("Email cannot be empty")
+
+        } else if email == user.email {  //needs to query the entire user collection still
+            self.msg = "Email cannot be same as old email"
+            self.createSuccess = false
+            self.showBanner = true
+            print("Email cannot be same as old email")
 
         } else {
             // updates email authentication

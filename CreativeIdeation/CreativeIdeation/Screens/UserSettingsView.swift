@@ -11,13 +11,12 @@ struct UserSettingsView: View {
 
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
     @State var showSheet = false
-    @State private var profanityFilter = true
+    @State private var darkModeFilter = true
 
     var title: String = "User Preferences"
     var userName: String = "Kellen Evoy"
     var email: String = "evoyk@sheridancollege.ca"
     var password: String = "******"
-    var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
 
     var body: some View {
 
@@ -113,7 +112,7 @@ struct UserSettingsView: View {
                     .padding()
 
                 HStack {
-                    Toggle("Dark Mode", isOn: $profanityFilter)
+                    Toggle("Dark Mode", isOn: $darkModeFilter)
                         .padding()
 
                 }
@@ -126,21 +125,18 @@ struct UserSettingsView: View {
 
             Spacer()
 
-            Button {
-                // do something
-            } label: {
-                HStack {
-                    Image(systemName: "arrowshape.turn.up.backward.fill")
-                    Text("Log Out")
-                        .fontWeight(.bold)
-                        .font(.body)
+            NavigationLink(
+                destination: LoginView(),
+                isActive: $userAccountViewModel.logOutSuccess,
+                label: {
+                    EmptyView()
+                })
 
-                }
-                .frame(width: 200, height: 50, alignment: .center)
-                .background(Color(.red))
-                .foregroundColor(.white)
-                .cornerRadius(10)
-                .padding()
+            // LogOutButton
+            Button {
+                userAccountViewModel.signOut()
+            } label: {
+                LogOutButton()
             }
 
         }.sheet(isPresented: $showSheet) {
@@ -148,8 +144,8 @@ struct UserSettingsView: View {
                 .environmentObject(self.userAccountViewModel)
         }
         .onAppear {
-            userAccountViewModel.loggedInUser()
-            
+            userAccountViewModel.getCurrentUserInfo()
+            //userAccountViewModel.getEmail()
         }
 
     }
@@ -157,11 +153,7 @@ struct UserSettingsView: View {
 
 struct UserPrefView_Previews: PreviewProvider {
     static var previews: some View {
-        UserSettingsView(title: "Title",
-                         userName: "Username",
-                         email: "Email@email.com",
-                         password: "*****",
-                         description: "Some description here")
+        UserSettingsView()
             .environmentObject(UserAccountViewModel())
     }
 }

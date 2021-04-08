@@ -15,7 +15,7 @@ struct SubmitButton: View {
                 .font(.body)
 
         }
-        .frame(width: 200, height: 50, alignment: .center)
+        .frame(width: 550, height: 50, alignment: .center)
         .background(Color("brandPrimary"))
         .foregroundColor(.white)
         .cornerRadius(10)
