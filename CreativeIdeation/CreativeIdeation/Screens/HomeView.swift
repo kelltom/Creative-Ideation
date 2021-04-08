@@ -23,6 +23,7 @@ struct HomeView: View {
     @EnvironmentObject var teamViewModel: TeamViewModel
     @EnvironmentObject var groupViewModel: GroupViewModel
     @EnvironmentObject var sessionViewModel: SessionViewModel
+    @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
 
     let columns = [
         GridItem(.adaptive(minimum: 200))]
@@ -167,7 +168,7 @@ struct HomeView: View {
                                     Button {
                                         // make session clickable
                                     } label: {
-                                        SessionItem(team: teamViewModel.selectedTeam?.teamName ?? "Unknown",
+                                        SessionTile(team: teamViewModel.selectedTeam?.teamName ?? "Unknown",
                                                     group: groupViewModel.groups.first(
                                                         where: {$0.groupId == session.groupId})?.groupTitle ?? "Unknown",
                                                     session: session)
@@ -264,8 +265,11 @@ struct HomeView: View {
 
                                             Button {
                                                 // make session clickable
+                                                sessionItemViewModel.activeSession = session
+                                                sessionItemViewModel.loadItems()
+                                                showActivity = true
                                             } label: {
-                                                SessionItem(
+                                                SessionTile(
                                                     team: teamViewModel.selectedTeam?.teamName ?? "Unknown",
                                                     group: groupViewModel.selectedGroup?.groupTitle ?? "Unknown",
                                                     session: session)
@@ -330,5 +334,6 @@ struct GroupView_Previews: PreviewProvider {
             .environmentObject(TeamViewModel())
             .environmentObject(GroupViewModel())
             .environmentObject(SessionViewModel())
+            .environmentObject(SessionItemViewModel())
     }
 }
