@@ -49,6 +49,7 @@ struct CreateSessionView: View {
                         sessionViewModel.createSession(teamId: teamViewModel.selectedTeam?.teamId,
                                                        groupId: groupViewModel.selectedGroup?.groupId)
                         sessionItemViewModel.activeSession = sessionViewModel.newSession
+                        sessionItemViewModel.loadItems()
                         showSheets = nil
                         showActivity = true
                     } label: {

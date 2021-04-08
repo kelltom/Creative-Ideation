@@ -244,6 +244,17 @@ struct ActivityView: View {
                         .clipped()
                         .cornerRadius(15)
                         .shadow(color: .black, radius: 6, y: 4)
+
+                        Button {
+                            // AI Word Generation
+                        } label: {
+                            Image("brainwriting")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 90, height: 90)
+                                .padding(.top, 8)
+                                .shadow(color: .black, radius: 4, y: 4)
+                        }
                     }
                 }
                 Spacer()

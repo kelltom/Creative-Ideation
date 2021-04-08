@@ -92,8 +92,6 @@ final class SessionItemViewModel: ObservableObject {
             let newLocation = localItem!.location
             let newInput = localItem!.input
 
-            print(newInput)
-
             transaction.updateData(["color": newColor,
                                     "input": newInput,
                                     "location": newLocation],
@@ -109,9 +107,6 @@ final class SessionItemViewModel: ObservableObject {
     }
 
     func loadItems() {
-        // Clear sessionItems
-        //print("Arrays Cleared")
-
         // Ensure Team ID is not nil
         guard let activeSession = activeSession else {
             print("Cannot get items: activeSession is nil")
