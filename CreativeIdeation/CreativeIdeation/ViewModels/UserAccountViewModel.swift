@@ -50,11 +50,12 @@ final class UserAccountViewModel: ObservableObject {
     }
 
     func loggedInUser() { // reading the database onAppear in UpdateEmailSettings
+     
+
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
-
-        print(uid)
+        // getting logged in user information
         db.collection("users").document(uid)
             .getDocument { (querySnapshot, err) in
                 if let err = err {
@@ -65,7 +66,7 @@ final class UserAccountViewModel: ObservableObject {
                         try self.selectedUser = querySnapshot?.data(as: User.self)
                         print("User object mapped successfully")
                     } catch {
-                        print("Error createing object to USER")
+                        print("Error creating object to USER")
                     }
                 }
             }
@@ -73,35 +74,56 @@ final class UserAccountViewModel: ObservableObject {
 
     // updating db
     func updateUserInfo(email: String) {
+        self.showBanner = false
 
         var user = User()
         user.email = email
 
-        //getting user ID
+        // getting user ID
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
-        //get current user
+        // get current user
         guard let currentUser = Auth.auth().currentUser else {
             return
         }
+        // Error checking before updating to DB
+        if email.isEmpty {
+            self.msg = "Email cannot be empty"
+            self.createSuccess = false
+            self.showBanner = true
+            print("Email cannot be empty")
 
-        // updates email authentication
-        currentUser.updateEmail(to: email) { error in
-            if error != nil {
-                print(error?.localizedDescription ?? "email update did not work")
-            } else {
-                print("Email update succesfull")
-                //updates email address in document collection
-                self.db.collection("users").document(uid).updateData([
-                    "email": user.email
-                ]) { err in
-                    if let err = err {
-                        print("Error updating user email: \(err)")
-                    } else {
-                        print("user email updated successfully")
+        } else {
+            // updates email authentication
+            currentUser.updateEmail(to: email) { error in
+                if error != nil {
+                    print(error?.localizedDescription ?? "email update did not work")
+                    self.msg = error?.localizedDescription ?? "Error updating email"
+                    self.createSuccess = false
+                } else {
+                    print("Email update succesfull")
+                    // updates email address in document collection
+                    self.db.collection("users").document(uid).updateData([
+                        "email": user.email
+                    ]) { err in
+                        if let err = err {
+                            print("Error updating user email: \(err)")
+                            self.msg = "Error updating user email  \(err)"
+                            self.createSuccess = false
+                        } else {
+                            print("user email updated successfully")
+                            self.msg = "Email updated successfully!"
+                            self.createSuccess = true
+                        }
+                        // Display result to View
+                        withAnimation {
+                            self.showBanner = true
+                            self.delayAlert()
+                        }
                     }
                 }
+
             }
 
         }
@@ -156,10 +178,8 @@ final class UserAccountViewModel: ObservableObject {
                     }
                 }
             }
-
         }
     }
-
 
     // Tells View to stop showing banner after 4 seconds
     private func delayAlert() {

@@ -16,13 +16,20 @@ struct UpdateEmailSettings: View {
 
     var body: some View {
         ZStack {
-
+            if viewModel.showBanner {
+                if !viewModel.createSuccess {
+                    NotificationBanner(image: "exclamationmark.circle.fill", msg: viewModel.msg, color: .red)
+                } else {
+                    NotificationBanner(image: "checkmark.circle.fill", msg: viewModel.msg, color: .green)
+                }
+            }
             VStack {
                 HStack {
                     Spacer()
                     Button {
                         self.showSheet = false
-                    } label: {
+
+                    } label: { 
                         Image(systemName: "xmark")
                             .foregroundColor(Color(.label))
                             .imageScale(.large)
@@ -70,6 +77,7 @@ struct UpdateEmailSettings: View {
                 Button {
                     // save to DB call view model function to update DB
                     viewModel.updateUserInfo(email: newEmail)
+                    newEmail = ""
                 } label: {
                     SubmitButton()
                 }

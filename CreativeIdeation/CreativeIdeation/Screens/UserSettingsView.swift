@@ -9,9 +9,8 @@ import SwiftUI
 
 struct UserSettingsView: View {
 
-    @EnvironmentObject var viewModel: UserAccountViewModel
+    @EnvironmentObject var userAccountViewModel: UserAccountViewModel
     @State var showSheet = false
-
     @State private var profanityFilter = true
 
     var title: String = "User Preferences"
@@ -40,7 +39,6 @@ struct UserSettingsView: View {
                         Text("Take photo")
                     }))
 
-
                 VStack(alignment: .leading ) {
 
                     Text("Full Name")
@@ -48,7 +46,7 @@ struct UserSettingsView: View {
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
 
                     HStack {
-                        Text(viewModel.selectedUser?.name ?? "Unknown")
+                        Text(userAccountViewModel.selectedUser?.name ?? "Unknown")
                             .font(.system(size: 18))
                             .padding(.top)
                             .padding(.bottom)
@@ -62,7 +60,7 @@ struct UserSettingsView: View {
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
 
                     HStack {
-                        Text(viewModel.selectedUser?.email ?? "Unknown")
+                        Text(userAccountViewModel.selectedUser?.email ?? "Unknown")
                             .font(.system(size: 18))
 
                         Spacer()
@@ -147,10 +145,11 @@ struct UserSettingsView: View {
 
         }.sheet(isPresented: $showSheet) {
             UpdateEmailSettings(showSheet: $showSheet)
+                .environmentObject(self.userAccountViewModel)
         }
         .onAppear {
-            viewModel.loggedInUser()
-            //            print(viewModel.selectedUser?.password ?? "test")
+            userAccountViewModel.loggedInUser()
+            
         }
 
     }
