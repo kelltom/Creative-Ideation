@@ -33,10 +33,13 @@ struct StickyNote: View, Identifiable {
                 .opacity(0.7)
                 .background(chosenColor)
                 .foregroundColor(.black)
-                .onChange(of: input, perform: {_ in
-                    sessionItemViewModel.updateText(text: input, itemId: itemId)
-                    sessionItemViewModel.updateItem(itemId: itemId)
-                })
+//                .onChange(of: input, perform: {_ in
+//                    let seconds = 2.0
+//                    DispatchQueue.main.asyncAfter(deadline: (.now() + seconds)) {
+//                        sessionItemViewModel.updateText(text: input, itemId: itemId)
+//                        sessionItemViewModel.updateItem(itemId: itemId)
+//                    }
+//                })
         }
         .gesture(simpleDrag)
         .cornerRadius(10)

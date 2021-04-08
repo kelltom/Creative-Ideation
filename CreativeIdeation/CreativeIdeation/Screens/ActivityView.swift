@@ -17,6 +17,7 @@ struct ActivityView: View {
                       Color.init(red: 0, green: 0.7, blue: 0.9),
                       Color.init(red: 0.9, green: 0.9, blue: 0),
                       Color.init(red: 0.9, green: 0.45, blue: 0.9)]
+
     // @State private var canvasView = PKCanvasView()
 
     @State private var selectedColor = -1

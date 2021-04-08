@@ -52,6 +52,18 @@ final class SessionItemViewModel: ObservableObject {
                 return nil
             }
 
+            guard let _ = itemDocument.data()?["input"] as? String else {
+                let error = NSError(
+                    domain: "AppErrorDomain",
+                    code: -1,
+                    userInfo: [
+                        NSLocalizedDescriptionKey: "Unable to retrieve input from snapshot \(itemDocument)"
+                    ]
+                )
+                errorPointer?.pointee = error
+                return nil
+            }
+
             guard let _ = itemDocument.data()?["color"] as? Int else {
                 let error = NSError(
                     domain: "AppErrorDomain",
@@ -64,9 +76,23 @@ final class SessionItemViewModel: ObservableObject {
                 return nil
             }
 
+            guard let _ = itemDocument.data()?["location"] as? [Int] else {
+                let error = NSError(
+                    domain: "AppErrorDomain",
+                    code: -1,
+                    userInfo: [
+                        NSLocalizedDescriptionKey: "Unable to retrieve location from snapshot \(itemDocument)"
+                    ]
+                )
+                errorPointer?.pointee = error
+                return nil
+            }
+
             let newColor = localItem!.color
             let newLocation = localItem!.location
             let newInput = localItem!.input
+
+            print(newInput)
 
             transaction.updateData(["color": newColor,
                                     "input": newInput,
@@ -84,9 +110,7 @@ final class SessionItemViewModel: ObservableObject {
 
     func loadItems() {
         // Clear sessionItems
-        sessionItems = []
-        stickyNotes = []
-        print("Arrays Cleared")
+        //print("Arrays Cleared")
 
         // Ensure Team ID is not nil
         guard let activeSession = activeSession else {
@@ -94,13 +118,18 @@ final class SessionItemViewModel: ObservableObject {
             return
         }
 
-        // Get list of Sessions that belong to Team ID
         db.collection("session_items").whereField("sessionId", in: [activeSession.sessionId])
-            .getDocuments { (querySnapshot, error) in
-                if let error = error {
-                    print("Error getting session items: \(error)")
-                } else {
-                    for document in querySnapshot!.documents {
+            .addSnapshotListener { (snapshot, error) in
+                switch (snapshot, error) {
+                case(.none, .none):
+                    print("No new data")
+                case(.none, .some(let error)):
+                    print("Error: \(error.localizedDescription)")
+                case(.some(let snapshot), _):
+                    self.sessionItems = []
+                    self.stickyNotes = []
+                    print("Arrays Cleared")
+                    for document in snapshot.documents {
                         do {
                             // Convert document to SessionItem object and append to list of sessionItems
                             let item = try (document.data(as: SessionItem.self)!)
@@ -113,6 +142,26 @@ final class SessionItemViewModel: ObservableObject {
                     }
                 }
             }
+
+        // Get list of Sessions that belong to Team ID
+//        db.collection("session_items").whereField("sessionId", in: [activeSession.sessionId])
+//            .getDocuments { (querySnapshot, error) in
+//                if let error = error {
+//                    print("Error getting session items: \(error)")
+//                } else {
+//                    for document in querySnapshot!.documents {
+//                        do {
+//                            // Convert document to SessionItem object and append to list of sessionItems
+//                            let item = try (document.data(as: SessionItem.self)!)
+//                            self.sessionItems.append(item)
+//                            print("SessionItem object added to list of sessionItems")
+//                            self.createSticky(newItem: item)
+//                        } catch {
+//                            print("Error adding SessionItem object to list of sessionItems")
+//                        }
+//                    }
+//                }
+//            }
     }
 
     func createItem(color: Int) {
