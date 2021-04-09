@@ -73,7 +73,7 @@ final class UserAccountViewModel: ObservableObject {
             }
     }
 
-    // log out
+    // Sign out
     func signOut() {
         let firebaseAuth = Auth.auth()
         do {
@@ -108,14 +108,14 @@ final class UserAccountViewModel: ObservableObject {
             self.showBanner = true
             print("Email cannot be empty")
 
-        } else if email == user.email {  //needs to query the entire user collection still
+        } else if email == user.email {  // needs to query the entire user collection still
             self.msg = "Email cannot be same as old email"
             self.createSuccess = false
             self.showBanner = true
             print("Email cannot be same as old email")
 
         } else {
-            // updates email authentication
+            // update email
             currentUser.updateEmail(to: email) { error in
                 if error != nil {
                     print(error?.localizedDescription ?? "email update did not work")

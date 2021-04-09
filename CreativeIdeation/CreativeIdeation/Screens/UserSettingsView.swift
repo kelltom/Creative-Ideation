@@ -115,6 +115,7 @@ struct UserSettingsView: View {
                     Toggle("Dark Mode", isOn: $darkModeFilter)
                         .padding()
 
+
                 }
 
             }
@@ -134,18 +135,18 @@ struct UserSettingsView: View {
 
             // LogOutButton
             Button {
-                userAccountViewModel.signOut()
+                //userAccountViewModel.signOut()
             } label: {
                 LogOutButton()
             }
 
-        }.sheet(isPresented: $showSheet) {
+        }
+        .sheet(isPresented: $showSheet) {
             UpdateEmailSettings(showSheet: $showSheet)
                 .environmentObject(self.userAccountViewModel)
         }
         .onAppear {
             userAccountViewModel.getCurrentUserInfo()
-            //userAccountViewModel.getEmail()
         }
 
     }

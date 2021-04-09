@@ -42,7 +42,7 @@ struct UpdateEmailSettings: View {
             VStack {
                 Spacer()
 
-                Text("Change email")
+                Text("Change Email")
                     .font(.largeTitle)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
 
