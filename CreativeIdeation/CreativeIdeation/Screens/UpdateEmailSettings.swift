@@ -57,7 +57,7 @@ struct UpdateEmailSettings: View {
                         .padding()
                         .frame(width: 550, height: 60, alignment: .leading)
                         .overlay(RoundedRectangle(cornerRadius: 8.0)
-                                    .stroke(Color.black))//.background(RoundedRectangle(cornerRadius: 8.0).fill(Color.gray))
+                                    .stroke(Color.black))// .background(RoundedRectangle(cornerRadius: 8.0).fill(Color.gray))
                         .font(.title2)
                         .padding(10)
 

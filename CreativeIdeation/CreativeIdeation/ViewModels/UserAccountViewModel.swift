@@ -50,6 +50,18 @@ final class UserAccountViewModel: ObservableObject {
         }
     }
 
+    // Sign out
+    func signOut() {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+            self.authSuccess = false
+            print("signed out successfully")
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
+    }
+
     func getCurrentUserInfo() { // reading the database onAppear in UpdateEmailSettings
         self.showBanner = false
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -65,65 +77,63 @@ final class UserAccountViewModel: ObservableObject {
                         // Convert document to User object
                         try self.selectedUser = querySnapshot?.data(as: User.self)
                         print("User object mapped successfully")
-                        //print(self.selectedUser!)
                     } catch {
-                        print("Error creating object to USER")
+                        print("Error creating object to User")
                     }
                 }
             }
     }
 
-    // Sign out
-    func signOut() {
-        let firebaseAuth = Auth.auth()
-        do {
-            try firebaseAuth.signOut()
-            self.logOutSuccess = true
-            print("signed out successfully")
-        } catch let signOutError as NSError {
-            print("Error signing out: %@", signOutError)
-        }
-    }
-
-    // updating db
+    // Updating db
     func updateUserInfo(email: String) {
         self.showBanner = false
 
-        var user = User()
-        user.email = email
-
-        // getting user ID
+        // Get user ID
         guard let uid = Auth.auth().currentUser?.uid else {
+            print("Could not find signed-in user's ID")
             return
         }
-        // get current user
+
+        // Get current user
         guard let currentUser = Auth.auth().currentUser else {
             return
         }
 
+        // Populate User object
+        var user = User()
+        user.email = email
+        let oldEmail = currentUser.email!
+
         // Error checking before updating to DB
         if email.isEmpty {
             self.msg = "Email cannot be empty"
-            self.createSuccess = false
-            self.showBanner = true
-            print("Email cannot be empty")
+            self.createSuccess = false  // this should probably be changed to "updateSuccess"
+            // Display results to View
+            withAnimation {
+                self.showBanner = true
+                self.delayAlert()
+            }
+            print("Update failed: Email cannot be empty")
 
-        } else if email == user.email {  // needs to query the entire user collection still
-            self.msg = "Email cannot be same as old email"
+        } else if oldEmail.lowercased() == user.email.lowercased() {  // needs to query the entire user collection still
+            self.msg = "Email cannot be same as previous email"
             self.createSuccess = false
-            self.showBanner = true
-            print("Email cannot be same as old email")
+            // Display results to View
+            withAnimation {
+                self.showBanner = true
+                self.delayAlert()
+            }
+            print("Update failed: Email cannot be same as old email")
 
         } else {
-            // update email
+            // Update email
             currentUser.updateEmail(to: email) { error in
                 if error != nil {
-                    print(error?.localizedDescription ?? "email update did not work")
+                    print(error?.localizedDescription ?? "Email update failed")
                     self.msg = error?.localizedDescription ?? "Error updating email"
                     self.createSuccess = false
                 } else {
-                    print("Email update succesfull")
-                    // updates email address in document collection
+                    // Updates email address in corresponding document collection
                     self.db.collection("users").document(uid).updateData([
                         "email": user.email
                     ]) { err in
@@ -132,16 +142,17 @@ final class UserAccountViewModel: ObservableObject {
                             self.msg = "Error updating user email  \(err)"
                             self.createSuccess = false
                         } else {
-                            print("user email updated successfully")
+                            print("User email updated successfully")
                             self.msg = "Email updated successfully!"
                             self.createSuccess = true
                         }
-                        // Display result to View
-                        withAnimation {
-                            self.showBanner = true
-                            self.delayAlert()
-                        }
+
                     }
+                }
+                // Display result to View
+                withAnimation {
+                    self.showBanner = true
+                    self.delayAlert()
                 }
 
             }

@@ -202,13 +202,13 @@
 				C9C67A0B25DDE5A6002D16A9 /* UserInfoView.swift */,
 				76731F332602802200536836 /* TeamSettingsView.swift */,
 				C9C67A1025E7FEDB002D16A9 /* UserSettingsView.swift */,
+				761F4750261E212A0019B580 /* UpdateEmailSettings.swift */,
 				C9C67A2425E8288B002D16A9 /* HomeView.swift */,
 				76A0956025E745D800917450 /* CreateTeamView.swift */,
 				76C0480326054878009ECBAB /* AddTeamMembersView.swift */,
 				76A0956425E80F0500917450 /* CreateGroupView.swift */,
 				C9AE739D25EB19F50090C96B /* CreateSessionView.swift */,
 				C9AE738025EAAD940090C96B /* ActivityView.swift */,
-				761F4750261E212A0019B580 /* UpdateEmailSettings.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";

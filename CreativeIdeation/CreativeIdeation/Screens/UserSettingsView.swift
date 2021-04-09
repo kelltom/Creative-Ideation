@@ -115,7 +115,6 @@ struct UserSettingsView: View {
                     Toggle("Dark Mode", isOn: $darkModeFilter)
                         .padding()
 
-
                 }
 
             }
@@ -126,16 +125,9 @@ struct UserSettingsView: View {
 
             Spacer()
 
-            NavigationLink(
-                destination: LoginView(),
-                isActive: $userAccountViewModel.logOutSuccess,
-                label: {
-                    EmptyView()
-                })
-
             // LogOutButton
             Button {
-                //userAccountViewModel.signOut()
+                userAccountViewModel.signOut()
             } label: {
                 LogOutButton()
             }
@@ -150,6 +142,14 @@ struct UserSettingsView: View {
         }
 
     }
+
+}
+
+prefix func ! (value: Binding<Bool>) -> Binding<Bool> {
+    Binding<Bool>(
+        get: { !value.wrappedValue },
+        set: { value.wrappedValue = !$0 }
+    )
 }
 
 struct UserPrefView_Previews: PreviewProvider {

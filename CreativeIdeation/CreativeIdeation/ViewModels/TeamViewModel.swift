@@ -58,8 +58,8 @@ final class TeamViewModel: ObservableObject {
             "accessCode": code
         ], forDocument: teamRef)
 
-        let userRef = db.collection("users").document(uid)
-        batch.updateData(["teams": FieldValue.arrayUnion([teamRef.documentID])], forDocument: userRef)
+        // let userRef = db.collection("users").document(uid)
+        // batch.updateData(["teams": FieldValue.arrayUnion([teamRef.documentID])], forDocument: userRef)
 
         batch.commit { err in
             if let err = err {
