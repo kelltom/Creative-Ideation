@@ -163,6 +163,64 @@ final class UserAccountViewModel: ObservableObject {
         }
     }
 
+    func updateUserPassword(password: String, confirmPassword: String, oldPassword: String) {
+        self.showBanner = false
+
+        // Get current user
+        guard let currentUser = Auth.auth().currentUser else {
+            return
+        }
+        let currentUsersEmail = currentUser.email!
+        // accessing FireBaseAuth User credentials with EmailAuthProvider
+        let credential = EmailAuthProvider.credential(withEmail: currentUsersEmail, password: oldPassword)
+        // Error Validation
+        //checking for empty text fields
+        if password.isEmpty || confirmPassword.isEmpty || oldPassword.isEmpty {
+            print("Fields cannot be empty")
+            self.msg = "Fields cannot be empty. Please fill out all the fields."
+            self.createSuccess = false
+        // checks if user enters the correct new password
+        } else if password != confirmPassword {
+            print("passwords do not match")
+            self.msg = "The passwords entered do not match. Please re-enter your password."
+            self.createSuccess = false
+
+        } else {
+            // re-authenticate user to check user email
+            currentUser.reauthenticate(with: credential) { authResult, error  in
+                if error != nil{
+                    print("user reuathentication failed")
+                    print(error?.localizedDescription ?? "error reauthenticating")
+                    self.msg = "Password entered is incorrect. Please try again"
+                    self.createSuccess = false
+
+                } else {
+                    print("user authentication passed")
+                    currentUser.updatePassword(to: password) { error in
+                        if error != nil {
+                            print("password update FAILED")
+                            print(error?.localizedDescription ?? "password update failed")
+                        } else {
+                            print("update succesful")
+                        }
+
+                    }
+                }
+            }
+
+            withAnimation {
+                self.showBanner = true
+                self.delayAlert()
+            }
+
+        }
+
+        withAnimation{
+            self.showBanner = true
+            self.delayAlert()
+        }
+    }
+
     func createAccount(name: String, email: String, password: String) {
         self.showBanner = false
 

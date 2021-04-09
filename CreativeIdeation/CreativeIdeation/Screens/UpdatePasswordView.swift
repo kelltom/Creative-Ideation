@@ -11,6 +11,7 @@ struct UpdatePasswordView: View {
 
     @State var newPassword: String = ""
     @State var oldPassword: String = ""
+    @State var confirmPassword: String = ""
     @Binding var showSheet: PreferenceSheet?
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
 
@@ -53,6 +54,7 @@ struct UpdatePasswordView: View {
 
                 VStack(alignment: .leading) {
 
+                    // Enter New Password TextField
                     Text("Enter New Password")
                         .font(.title3)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
@@ -60,25 +62,27 @@ struct UpdatePasswordView: View {
 
                     MenuTextField(title: "new password ", input: $newPassword)
 
+                    // Re-enter New Password Text box
                     Text("Re-enter New Password")
                         .font(.title3)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .padding(.leading)
 
-                    MenuTextField(title: "new password ", input: $newPassword)
+                    MenuTextField(title: "re-enter new password ", input: $confirmPassword)
 
+                    //Confirm change Text Field
                     Text("Old Password")
                         .font(.title3)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .padding(.leading)
 
-                    MenuTextField(title: "enter old password to confirm change ", input: $newPassword)
+                    MenuTextField(title: "enter old password to confirm change ", input: $oldPassword)
 
                 }
                 Button {
-                    // save to DB call view model function to update DB
-                    //userAccountViewModel.updateUserEmail(email: newPassword)
-                    newPassword = ""
+                    //Update to DB
+                    userAccountViewModel.updateUserPassword(password: newPassword,  confirmPassword: confirmPassword, oldPassword: oldPassword)
+                    //newPassword = ""
                 } label: {
                     SubmitButton()
                 }
