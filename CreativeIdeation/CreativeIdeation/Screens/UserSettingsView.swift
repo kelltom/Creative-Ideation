@@ -7,10 +7,17 @@
 
 import SwiftUI
 
+enum PreferenceSheet: Identifiable {
+    case name, email, password
+
+    var id: Int {
+        hashValue
+    }
+}
 struct UserSettingsView: View {
 
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
-    @State var showSheet = false
+    @State var showSheet: PreferenceSheet?
     @State private var darkModeFilter = true
 
     var title: String = "User Preferences"
@@ -51,6 +58,13 @@ struct UserSettingsView: View {
                             .padding(.bottom)
 
                         Spacer()
+                        //edit button for name
+                        Button {
+                            showSheet = .name
+                        } label: {
+                            // button design
+                            TextEditButton()
+                        }
 
                     }
 
@@ -63,10 +77,9 @@ struct UserSettingsView: View {
                             .font(.system(size: 18))
 
                         Spacer()
-
+                        // email text button
                         Button {
-                            // button functionality
-                            self.showSheet.toggle()
+                            showSheet = .email
                         } label: {
                             // button design
                             TextEditButton()
@@ -83,8 +96,8 @@ struct UserSettingsView: View {
 
                         Spacer()
 
-                        Button {
-                            // button functionality
+                        Button { // edit button for password
+                            showSheet = .password
                         } label: {
                             // button design
                             TextEditButton()
@@ -133,9 +146,23 @@ struct UserSettingsView: View {
             }
 
         }
-        .sheet(isPresented: $showSheet) {
-            UpdateEmailSettings(showSheet: $showSheet)
-                .environmentObject(self.userAccountViewModel)
+        .sheet(item: $showSheet) { item in
+            switch item {
+
+            case .email:
+                UpdateEmailView(showSheet: $showSheet)
+                    .environmentObject(self.userAccountViewModel)
+
+            case .password:
+                UpdatePasswordView(showSheet: $showSheet) .environmentObject(self.userAccountViewModel)
+
+            case .name:
+                UpdateNameView(showSheet: $showSheet)
+                    .environmentObject(self.userAccountViewModel)
+
+            }
+
+
         }
         .onAppear {
             userAccountViewModel.getCurrentUserInfo()

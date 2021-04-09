@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct UpdateEmailSettings: View {
+struct UpdateEmailView: View {
     @State var newEmail: String = ""
     @State var currentEmail: String = ""
-    @Binding var showSheet: Bool
+    @Binding var showSheet: PreferenceSheet?
 
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
 
@@ -29,7 +29,7 @@ struct UpdateEmailSettings: View {
                 HStack {
                     Spacer()
                     Button {
-                        self.showSheet = false
+                        showSheet = nil
                     } label: {
                         Image(systemName: "xmark")
                             .foregroundColor(Color(.label))
@@ -87,7 +87,7 @@ struct UpdateEmailSettings: View {
 
 struct UpdateEmailSettings_Previews: PreviewProvider {
     static var previews: some View {
-        UpdateEmailSettings(showSheet: .constant(false))
+        UpdateEmailView(showSheet: .constant(.email))
             .environmentObject(UserAccountViewModel())
 
     }
