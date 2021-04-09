@@ -22,6 +22,8 @@ final class UserAccountViewModel: ObservableObject {
     @Published var showBanner = false
     @Published var selectedUser: User?
 
+    @Published var logOutFlag = false
+
     func authenticate(email: String, password: String) {
         self.showBanner = false
 
@@ -84,7 +86,6 @@ final class UserAccountViewModel: ObservableObject {
                 }
             }
     }
-
     /// Updates user's email with input
     func updateUserEmail(email: String) {
         self.showBanner = false
@@ -207,7 +208,7 @@ final class UserAccountViewModel: ObservableObject {
                     }
                 } else {
                     // update password to db
-                    print("user authentication passed")
+                    //print("user authentication passed")
                     currentUser.updatePassword(to: newPassword) { error in
                         if error != nil {
                             print(error?.localizedDescription ?? "password update failed")
@@ -215,17 +216,20 @@ final class UserAccountViewModel: ObservableObject {
                             print("Password update is successful")
                             self.msg = "Password is successfully updated!"
                             self.createSuccess = true
+                            self.logOutFlag = true
                             withAnimation {
                                 self.showBanner = true
                                 self.delayAlert()
                             }
-                        }
 
+                        }
                     }
                 }
             }
         }
+        
     }
+
 
     func createAccount(name: String, email: String, password: String) {
         self.showBanner = false

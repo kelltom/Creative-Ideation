@@ -166,6 +166,7 @@ struct UserSettingsView: View {
         }
         .onAppear {
             userAccountViewModel.getCurrentUserInfo()
+
         }
     }
 }
