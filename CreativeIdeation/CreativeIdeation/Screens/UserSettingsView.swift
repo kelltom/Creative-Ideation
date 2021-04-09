@@ -14,8 +14,8 @@ struct UserSettingsView: View {
     @State private var darkModeFilter = true
 
     var title: String = "User Preferences"
-    var userName: String = "Kellen Evoy"
-    var email: String = "evoyk@sheridancollege.ca"
+    var userName: String = ""
+    var email: String = ""
     var password: String = "******"
 
     var body: some View {
@@ -140,11 +140,10 @@ struct UserSettingsView: View {
         .onAppear {
             userAccountViewModel.getCurrentUserInfo()
         }
-
     }
-
 }
 
+/// Enables the use of the ! operator on binding variables
 prefix func ! (value: Binding<Bool>) -> Binding<Bool> {
     Binding<Bool>(
         get: { !value.wrappedValue },

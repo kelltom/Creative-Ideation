@@ -50,7 +50,7 @@ final class UserAccountViewModel: ObservableObject {
         }
     }
 
-    // Sign out
+    /// Sign out
     func signOut() {
         let firebaseAuth = Auth.auth()
         do {
@@ -62,6 +62,7 @@ final class UserAccountViewModel: ObservableObject {
         }
     }
 
+    /// Populates selectedUser attribute
     func getCurrentUserInfo() { // reading the database onAppear in UpdateEmailSettings
         self.showBanner = false
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -84,8 +85,8 @@ final class UserAccountViewModel: ObservableObject {
             }
     }
 
-    // Updating db
-    func updateUserInfo(email: String) {
+    /// Updates user's email with input
+    func updateUserEmail(email: String) {
         self.showBanner = false
 
         // Get user ID
@@ -149,6 +150,7 @@ final class UserAccountViewModel: ObservableObject {
                             print("User email updated successfully")
                             self.msg = "Email updated successfully!"
                             self.createSuccess = true
+                            self.selectedUser?.email = user.email
                             // Display result to View
                             withAnimation {
                                 self.showBanner = true
@@ -157,7 +159,6 @@ final class UserAccountViewModel: ObservableObject {
                         }
                     }
                 }
-
             }
         }
     }

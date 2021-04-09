@@ -18,9 +18,11 @@ struct UpdateEmailSettings: View {
         ZStack {
             if userAccountViewModel.showBanner {
                 if !userAccountViewModel.createSuccess {
-                    NotificationBanner(image: "exclamationmark.circle.fill", msg: userAccountViewModel.msg, color: .red)
+                    NotificationBanner(image: "exclamationmark.circle.fill",
+                                       msg: userAccountViewModel.msg, color: .red)
                 } else {
-                    NotificationBanner(image: "checkmark.circle.fill", msg: userAccountViewModel.msg, color: .green)
+                    NotificationBanner(image: "checkmark.circle.fill",
+                                       msg: userAccountViewModel.msg, color: .green)
                 }
             }
             VStack {
@@ -70,7 +72,7 @@ struct UpdateEmailSettings: View {
                 }
                 Button {
                     // save to DB call view model function to update DB
-                    userAccountViewModel.updateUserInfo(email: newEmail)
+                    userAccountViewModel.updateUserEmail(email: newEmail)
                     newEmail = ""
                 } label: {
                     SubmitButton()
