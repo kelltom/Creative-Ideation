@@ -56,8 +56,7 @@ struct UpdateEmailSettings: View {
                     Text(userAccountViewModel.selectedUser?.email ?? "NA").foregroundColor(.blue)
                         .padding()
                         .frame(width: 550, height: 60, alignment: .leading)
-                        .overlay(RoundedRectangle(cornerRadius: 8.0)
-                                    .stroke(Color.black))// .background(RoundedRectangle(cornerRadius: 8.0).fill(Color.gray))
+                        .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color.black))
                         .font(.title2)
                         .padding(10)
 

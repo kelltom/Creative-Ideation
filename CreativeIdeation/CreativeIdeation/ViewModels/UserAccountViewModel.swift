@@ -99,7 +99,6 @@ final class UserAccountViewModel: ObservableObject {
             return
         }
 
-        // Populate User object
         var user = User()
         user.email = email
         let oldEmail = currentUser.email!
@@ -141,24 +140,26 @@ final class UserAccountViewModel: ObservableObject {
                             print("Error updating user email: \(err)")
                             self.msg = "Error updating user email  \(err)"
                             self.createSuccess = false
+                            // Display result to View
+                            withAnimation {
+                                self.showBanner = true
+                                self.delayAlert()
+                            }
                         } else {
                             print("User email updated successfully")
                             self.msg = "Email updated successfully!"
                             self.createSuccess = true
+                            // Display result to View
+                            withAnimation {
+                                self.showBanner = true
+                                self.delayAlert()
+                            }
                         }
-
                     }
-                }
-                // Display result to View
-                withAnimation {
-                    self.showBanner = true
-                    self.delayAlert()
                 }
 
             }
-
         }
-
     }
 
     func createAccount(name: String, email: String, password: String) {
