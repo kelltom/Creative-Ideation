@@ -75,6 +75,16 @@ final class TeamViewModel: ObservableObject {
         getTeams()
     }
 
+    func deleteSelectedTeam(teamId: String) {
+        print("selected Team iD \(teamId)")
+
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+
+        
+    }
+
     /// Populate list of teams associated with current user
     func getTeams() {
 
