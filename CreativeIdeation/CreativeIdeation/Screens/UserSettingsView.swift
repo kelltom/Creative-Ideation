@@ -23,7 +23,7 @@ struct UserSettingsView: View {
     var title: String = "User Preferences"
     var userName: String = ""
     var email: String = ""
-    var password: String = "******"
+    var password: String = "*********"
 
     var body: some View {
 
@@ -49,16 +49,14 @@ struct UserSettingsView: View {
 
                     Text("Full Name")
                         .font(.system(size: 25))
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        .fontWeight(.bold)
 
                     HStack {
                         Text(userAccountViewModel.selectedUser?.name ?? "Unknown")
                             .font(.system(size: 18))
-                            .padding(.top)
-                            .padding(.bottom)
 
                         Spacer()
-                        //edit button for name
+                        // edit button for name
                         Button {
                             showSheet = .name
                         } label: {
@@ -161,8 +159,6 @@ struct UserSettingsView: View {
                     .environmentObject(self.userAccountViewModel)
 
             }
-
-
         }
         .onAppear {
             userAccountViewModel.getCurrentUserInfo()

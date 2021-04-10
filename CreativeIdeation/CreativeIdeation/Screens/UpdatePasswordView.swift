@@ -18,7 +18,7 @@ struct UpdatePasswordView: View {
     var body: some View {
         ZStack {
             if userAccountViewModel.showBanner {
-                if !userAccountViewModel.createSuccess {
+                if !userAccountViewModel.updateSuccess {
                     NotificationBanner(image: "exclamationmark.circle.fill",
                                        msg: userAccountViewModel.msg, color: .red)
                 } else {
