@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct UpdateNameView: View {
+struct UpdateDisplayName: View {
     @State var newName: String = ""
     @State var currentName: String = ""
     @Binding var showSheet: PreferenceSheet?
@@ -47,14 +47,14 @@ struct UpdateNameView: View {
                 Text("Change Display Name")
                     .font(.largeTitle)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-
+                // Display Name
                 VStack(alignment: .leading) {
                     Text("Current Display Name")
                         .font(.title3)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .padding(.leading)
                         .padding(.top)
-
+                    // Display name text view
                     Text(userAccountViewModel.selectedUser?.name ?? "NA").foregroundColor(.blue)
                         .padding()
                         .frame(width: 550, height: 60, alignment: .leading)
@@ -62,6 +62,7 @@ struct UpdateNameView: View {
                         .font(.title2)
                         .padding(10)
 
+                    // New disply name Entry
                     Text("New Display Name")
                         .font(.title3)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
@@ -71,8 +72,9 @@ struct UpdateNameView: View {
 
                 }
                 Button {
-                    // save to DB call view model function to update DB
-                    //userAccountViewModel.updateUserEmail(email: newName)
+                    // save to DB -- we can a profanity check here to make sure that they cant
+                    // have a bad name
+                    userAccountViewModel.updateUserName(name: newName)
                     newName = ""
                 } label: {
                     SubmitButton()
@@ -87,7 +89,7 @@ struct UpdateNameView: View {
 
 struct UpdateNameView_Previews: PreviewProvider {
     static var previews: some View {
-        UpdateNameView(showSheet: .constant(.name))
+        UpdateDisplayName(showSheet: .constant(.name))
             .environmentObject(UserAccountViewModel())
     }
 }

@@ -56,7 +56,7 @@ struct UpdatePasswordView: View {
                     .font(.largeTitle)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     .padding(.bottom)
-                Text("A strong password helps prevent unauthroized access to your account")
+                Text("A strong password helps prevent unauthorized access to your account")
                     .padding()
 
                 VStack(alignment: .leading) {
@@ -91,7 +91,9 @@ struct UpdatePasswordView: View {
                     userAccountViewModel.updateUserPassword(newPassword: newPassword,
                                                             confirmPassword: confirmPassword,
                                                             oldPassword: oldPassword)
-
+                    newPassword = ""
+                    confirmPassword = ""
+                    oldPassword = ""
                 } label: {
                     SubmitButton()
                 }

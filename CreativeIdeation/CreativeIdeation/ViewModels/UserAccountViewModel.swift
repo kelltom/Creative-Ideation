@@ -18,11 +18,11 @@ final class UserAccountViewModel: ObservableObject {
     @Published var authSuccess = false
     @Published var createSuccess = false
     @Published var logOutSuccess = false
+    @Published var logOutFlag = false
     @Published var msg = ""
     @Published var showBanner = false
     @Published var selectedUser: User?
 
-    @Published var logOutFlag = false
 
     func authenticate(email: String, password: String) {
         self.showBanner = false
@@ -86,6 +86,57 @@ final class UserAccountViewModel: ObservableObject {
                 }
             }
     }
+
+    func updateUserName(name: String) {
+        self.showBanner = false
+
+        // Get user ID
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("Could not find signed-in user's ID")
+            return
+        }
+
+        var user = User()
+        user.name = name
+
+        if name.isEmpty {
+            self.msg = "Name cannot be empty."
+            self.createSuccess = false
+            withAnimation {
+                self.showBanner = true
+                self.delayAlert()
+            }
+        } else {
+            // query db and update name in the document
+            db.collection("users").document(uid).updateData([
+                "name": user.name
+            ]) { err in
+                if let err = err {
+                    print("Error updating user name: \(err)")
+                    self.msg = "Error updating user name. Please contact your admin. \(err)"
+                    self.createSuccess = false
+                    // Display result to View
+                    withAnimation {
+                        self.showBanner = true
+                        self.delayAlert()
+                    }
+                } else {
+                    print("User name updated successfully")
+                    self.msg = "Name updated successfully!"
+                    self.createSuccess = true
+                    self.selectedUser?.name = user.name
+                    // Display result to View
+                    withAnimation {
+                        self.showBanner = true
+                        self.delayAlert()
+                    }
+                }
+            }
+
+        }
+
+    }
+
     /// Updates user's email with input
     func updateUserEmail(email: String) {
         self.showBanner = false
@@ -208,7 +259,6 @@ final class UserAccountViewModel: ObservableObject {
                     }
                 } else {
                     // update password to db
-                    //print("user authentication passed")
                     currentUser.updatePassword(to: newPassword) { error in
                         if error != nil {
                             print(error?.localizedDescription ?? "password update failed")
@@ -227,9 +277,7 @@ final class UserAccountViewModel: ObservableObject {
                 }
             }
         }
-        
     }
-
 
     func createAccount(name: String, email: String, password: String) {
         self.showBanner = false

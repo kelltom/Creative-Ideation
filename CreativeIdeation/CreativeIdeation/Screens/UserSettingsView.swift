@@ -157,7 +157,7 @@ struct UserSettingsView: View {
                 UpdatePasswordView(showSheet: $showSheet) .environmentObject(self.userAccountViewModel)
 
             case .name:
-                UpdateNameView(showSheet: $showSheet)
+                UpdateDisplayName(showSheet: $showSheet)
                     .environmentObject(self.userAccountViewModel)
 
             }
