@@ -67,7 +67,7 @@ struct HomeView: View {
                     }.contextMenu {
                         Button(action: {
                             // Delete selected team
-                            teamViewModel.deleteSelectedTeam(teamId: team.teamId)
+                            teamViewModel.deleteSelectedTeam(teamId: team.teamId, teamCreatorId: team.createdBy)
                         }) {
                             HStack {
                                 Text("Delete")
