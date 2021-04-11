@@ -123,7 +123,7 @@ struct TeamSettingsView: View {
             Spacer()
 
             Button {
-                teamViewModel.deleteSelectedTeam()
+                teamViewModel.deleteSelectedTeam(teamId: teamViewModel.selectedTeam?.teamId)
             } label: {
                 DeleteButton()
             }

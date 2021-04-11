@@ -57,10 +57,11 @@ struct HomeView: View {
                     } label: {
                         TeamPic(selected: teamViewModel.selectedTeam?.id == team.id,
                                 teamName: team.teamName)
-                    }.contextMenu {
+                    }
+                    .contextMenu {
                         Button {
                             // Delete selected team
-                            teamViewModel.deleteSelectedTeam()
+                            teamViewModel.deleteSelectedTeam(teamId: team.teamId)
                         } label: {
                             HStack {
                                 Text("Delete")

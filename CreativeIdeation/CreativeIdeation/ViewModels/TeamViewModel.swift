@@ -75,70 +75,71 @@ final class TeamViewModel: ObservableObject {
         getTeams()
     }
 
-    func deleteSelectedTeam() {
-        guard let teamId = selectedTeam?.teamId else {
+    func deleteSelectedTeam(teamId: String?) {
+        guard let teamId = teamId else {
             print("Delete Team: Selected Team ID not found")
             return
         }
 
-        guard let createdBy = selectedTeam?.createdBy else {
+        let team = teams.first(where: {$0.teamId == teamId})
+        guard let createdBy = team?.createdBy else {
             print("Delete Team: Cannot find Team creator ID")
+            return
+        }
+
+        guard let currentUserId = Auth.auth().currentUser?.uid else {
+            print("Delete Team: Current user not found")
+            return
+        }
+
+        // Check if the user deleting the team is the same user who created - "only admin i guess"
+        guard currentUserId == createdBy else {
+            print("Delete Team: User is not creator cannot delete")
             return
         }
 
         let batch = db.batch()
 
-        guard let currentUserId = Auth.auth().currentUser?.uid else {
-            return
-        }
-
-        // check if the user deleting the team is the same user who created - "only admin i guess"
-        if currentUserId != createdBy {
-            print("User is not creator cannot delete")
-
-        } else {
-            print("Current Logged in user is creator. Delete ok")
-
-            db.collection("sessions").whereField("teamId", isEqualTo: teamId)
-                .getDocuments { (querySnapshot, err) in
-                    if let err = err {
-                        print("Error getting documents: \(err)")
-                    } else {
-                        for document in querySnapshot!.documents {
-                            do {
-                                batch.deleteDocument(document.reference)
-                            }
-                        }
-                    }
-                }
-
-            // delete groups
-            db.collection("teams").document(teamId).collection("groups")
-                .whereField("members", arrayContains: createdBy)
-                .getDocuments { (querySnapshot, err) in
-                    if let err = err {
-                        print("Error getting documents: \(err)")
-                    } else {
-                        for document in querySnapshot!.documents {
+        // Delete Sessions
+        db.collection("sessions").whereField("teamId", isEqualTo: teamId)
+            .getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        do {
                             batch.deleteDocument(document.reference)
                         }
                     }
                 }
+            }
 
-            // Delete Actual Team
-            let teamRef = db.collection("teams").document(teamId)
-            batch.deleteDocument(teamRef)
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                batch.commit { err in
-                    if let err = err {
-                        print("Error writing batch \(err)")
-                    } else {
-                        print("Batch write succeeded.")
+        // Delete groups
+        db.collection("teams").document(teamId).collection("groups")
+            .whereField("members", arrayContains: createdBy)
+            .getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        batch.deleteDocument(document.reference)
                     }
                 }
-                self.getTeams()
-                self.selectedTeam = nil
+            }
+
+        // Delete Actual Team
+        let teamRef = db.collection("teams").document(teamId)
+        batch.deleteDocument(teamRef)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            batch.commit { err in
+                if let err = err {
+                    print("Error writing batch \(err)")
+                } else {
+                    print("Batch write succeeded.")
+                    self.getTeams()
+                    self.selectedTeam = nil
+                }
             }
         }
     }
