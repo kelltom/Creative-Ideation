@@ -71,7 +71,7 @@ final class SessionItemViewModel: ObservableObject {
                                     "location": newLocation],
                                    forDocument: itemReference)
             return nil
-        }) { (_, error) in
+        }) {(_, error) in
             if let error = error {
                 print("Error updating item: \(error)")
             } else {
@@ -189,7 +189,7 @@ final class SessionItemViewModel: ObservableObject {
         // Delete the selected sticky
         let selectedItemId = selectedSticky!.itemId
 
-        db.collection("session_items").document(selectedItemId).delete() { err in
+        db.collection("session_items").document(selectedItemId).delete { err in
             if let err = err {
                 print("Error deleting session item: \(err)")
             } else {

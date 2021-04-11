@@ -15,7 +15,7 @@ struct StickyNote: View, Identifiable {
     @State var location: CGPoint
 
     var itemId: String
-    @State var timer: Timer? = nil
+    @State var timer: Timer?
     @State var chosenColor: Color? = Color.red
     @State var selected: Bool = false
 
@@ -37,7 +37,7 @@ struct StickyNote: View, Identifiable {
                 .foregroundColor(.black)
                 .onChange(of: input, perform: {_ in
                     timer?.invalidate()
-                    timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
+                    timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
                         sessionItemViewModel.updateText(text: input, itemId: itemId)
                         sessionItemViewModel.updateItem(itemId: itemId)
                     }

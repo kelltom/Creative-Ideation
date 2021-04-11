@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct SessionItem: Identifiable, Codable, Hashable {
     var id = UUID()
 

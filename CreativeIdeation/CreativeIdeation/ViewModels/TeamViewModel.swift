@@ -58,8 +58,8 @@ final class TeamViewModel: ObservableObject {
             "accessCode": code
         ], forDocument: teamRef)
 
-        let userRef = db.collection("users").document(uid)
-        batch.updateData(["teams": FieldValue.arrayUnion([teamRef.documentID])], forDocument: userRef)
+        // let userRef = db.collection("users").document(uid)
+        // batch.updateData(["teams": FieldValue.arrayUnion([teamRef.documentID])], forDocument: userRef)
 
         batch.commit { err in
             if let err = err {
@@ -73,6 +73,75 @@ final class TeamViewModel: ObservableObject {
 
         // Reload list of teams
         getTeams()
+    }
+
+    func deleteSelectedTeam(teamId: String?) {
+        guard let teamId = teamId else {
+            print("Delete Team: Selected Team ID not found")
+            return
+        }
+
+        let team = teams.first(where: {$0.teamId == teamId})
+        guard let createdBy = team?.createdBy else {
+            print("Delete Team: Cannot find Team creator ID")
+            return
+        }
+
+        guard let currentUserId = Auth.auth().currentUser?.uid else {
+            print("Delete Team: Current user not found")
+            return
+        }
+
+        // Check if the user deleting the team is the same user who created - "only admin i guess"
+        guard currentUserId == createdBy else {
+            print("Delete Team: User is not creator cannot delete")
+            return
+        }
+
+        let batch = db.batch()
+
+        // Delete Sessions
+        db.collection("sessions").whereField("teamId", isEqualTo: teamId)
+            .getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        do {
+                            batch.deleteDocument(document.reference)
+                        }
+                    }
+                }
+            }
+
+        // Delete groups
+        db.collection("teams").document(teamId).collection("groups")
+            .whereField("members", arrayContains: createdBy)
+            .getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        batch.deleteDocument(document.reference)
+                    }
+                }
+            }
+
+        // Delete Actual Team
+        let teamRef = db.collection("teams").document(teamId)
+        batch.deleteDocument(teamRef)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            batch.commit { err in
+                if let err = err {
+                    print("Error writing batch \(err)")
+                } else {
+                    print("Batch write succeeded.")
+                    self.getTeams()
+                    self.selectedTeam = nil
+                }
+            }
+        }
     }
 
     /// Populate list of teams associated with current user

@@ -6,12 +6,18 @@
 //
 
 import Foundation
+import FirebaseFirestoreSwift
 
-struct User {
+struct User: Codable, Identifiable {
+    var userId = UUID()
     var id = ""
     var name = ""
     var email = ""
     var password = ""
 
-    var listOfTeams: [String] = []
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case email
+    }
 }
