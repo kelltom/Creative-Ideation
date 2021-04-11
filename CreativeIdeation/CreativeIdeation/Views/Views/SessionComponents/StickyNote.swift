@@ -15,6 +15,7 @@ struct StickyNote: View, Identifiable {
     @State var location: CGPoint
 
     var itemId: String
+    @State var timer: Timer?
     @State var chosenColor: Color? = Color.red
     @State var selected: Bool = false
 
@@ -27,6 +28,7 @@ struct StickyNote: View, Identifiable {
                 .foregroundColor(chosenColor)
                 .frame(width: 160, height: 30)
                 .simultaneousGesture(longPress)
+                .simultaneousGesture(simpleDrag)
 
             TextEditor(text: $input)
                 .frame(width: 160, height: 130)
@@ -34,17 +36,25 @@ struct StickyNote: View, Identifiable {
                 .background(chosenColor)
                 .foregroundColor(.black)
                 .onChange(of: input, perform: {_ in
-                    let seconds = 2.0
-                    DispatchQueue.main.asyncAfter(deadline: (.now() + seconds)) {
+                    timer?.invalidate()
+                    timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
                         sessionItemViewModel.updateText(text: input, itemId: itemId)
-//                        sessionItemViewModel.updateItem(itemId: itemId)
+                        sessionItemViewModel.updateItem(itemId: itemId)
                     }
                 })
         }
-        .gesture(simpleDrag)
         .cornerRadius(10)
         .shadow(color: selected ? Color.black : Color.clear, radius: 6, y: 4 )
         .position(location)
+        .onAppear {
+            if selected {
+                sessionItemViewModel.updateSelected(note: self)
+            }
+        }
+    }
+
+    func getSelected() -> Bool {
+        return selected
     }
 
     var longPress: some Gesture {
@@ -61,6 +71,9 @@ struct StickyNote: View, Identifiable {
                 var newLocation = startLocation ?? location
                 newLocation.x += value.translation.width
                 newLocation.y += value.translation.height
+                if newLocation.y < 80 {
+                    newLocation.y = 80
+                }
                 self.location = newLocation}
             .onEnded {_ in
                 sessionItemViewModel.updateLocation(location: location, itemId: itemId)

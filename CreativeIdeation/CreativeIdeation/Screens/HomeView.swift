@@ -171,7 +171,9 @@ struct HomeView: View {
                             LazyHStack(spacing: 50) {
                                 ForEach(sessionViewModel.teamSessions) { session in
                                     Button {
-                                        // make session clickable
+                                        sessionItemViewModel.activeSession = session
+                                        sessionItemViewModel.loadItems()
+                                        showActivity = true
                                     } label: {
                                         SessionTile(team: teamViewModel.selectedTeam?.teamName ?? "N/A",
                                                     group: groupViewModel.groups.first(
