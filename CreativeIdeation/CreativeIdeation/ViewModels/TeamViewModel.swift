@@ -20,7 +20,7 @@ final class TeamViewModel: ObservableObject {
     @Published var msg = ""
     @Published var isShowingBanner = false
     @Published var didOperationSucceed = false
-    //var session_val = ""
+
     /// Creates a single team
     func createTeam(teamName: String, teamDescription: String) {
 
@@ -76,7 +76,6 @@ final class TeamViewModel: ObservableObject {
     }
 
     func deleteSelectedTeam(teamId: String, teamCreatorId: String) {
-        // print("selected Team iD \(teamId)")
         let batch = db.batch()
 
         guard let currentUserId = Auth.auth().currentUser?.uid else {
@@ -97,7 +96,6 @@ final class TeamViewModel: ObservableObject {
                     } else {
                         for document in querySnapshot!.documents {
                             do {
-                                // document.reference.delete()
                                 batch.deleteDocument(document.reference)
                             }
                         }
@@ -113,8 +111,6 @@ final class TeamViewModel: ObservableObject {
                     } else {
                         for document in querySnapshot!.documents {
                             batch.deleteDocument(document.reference)
-                            // document.reference.delete()
-
                         }
                     }
                 }
@@ -124,7 +120,7 @@ final class TeamViewModel: ObservableObject {
             batch.deleteDocument(teamRef)
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                batch.commit() { err in
+                batch.commit { err in
                     if let err = err {
                         print("Error writing batch \(err)")
                     } else {
@@ -132,6 +128,7 @@ final class TeamViewModel: ObservableObject {
                     }
                 }
                 self.getTeams()
+                self.selectedTeam = nil
             }
         }
     }
