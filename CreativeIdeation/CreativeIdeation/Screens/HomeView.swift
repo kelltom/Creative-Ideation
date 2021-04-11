@@ -85,9 +85,10 @@ struct HomeView: View {
             .background(Color("brandPrimary"))
             .edgesIgnoringSafeArea(.all)
 
-            // Top Title Bar
+            // Mid Screen
             VStack {
 
+                // Top Title Bar
                 HStack(spacing: 20) {
                     Text(teamViewModel.selectedTeam?.teamName ?? "Home")
                         .font(.largeTitle)
@@ -168,9 +169,9 @@ struct HomeView: View {
                                     Button {
                                         // make session clickable
                                     } label: {
-                                        SessionTile(team: teamViewModel.selectedTeam?.teamName ?? "Unknown",
+                                        SessionTile(team: teamViewModel.selectedTeam?.teamName ?? "N/A",
                                                     group: groupViewModel.groups.first(
-                                                        where: {$0.groupId == session.groupId})?.groupTitle ?? "Unknown",
+                                                        where: {$0.groupId == session.groupId})?.groupTitle ?? "N/A",
                                                     session: session)
                                     }
                                 }
