@@ -100,13 +100,13 @@ final class TeamViewModel: ObservableObject {
                                 // document.reference.delete()
                                 batch.deleteDocument(document.reference)
                             }
-
                         }
                     }
                 }
 
             // delete groups
-            db.collection("teams").document(teamId).collection("groups").whereField("members", arrayContains: teamCreatorId)
+            db.collection("teams").document(teamId).collection("groups")
+                .whereField("members", arrayContains: teamCreatorId)
                 .getDocuments { (querySnapshot, err) in
                     if let err = err {
                         print("Error getting documents: \(err)")
