@@ -14,6 +14,7 @@ import FirebaseFirestoreSwift
 final class SessionItemViewModel: ObservableObject {
 
     private var db = Firestore.firestore()
+    private var listener: ListenerRegistration?
 
     @Published var activeSession: Session?        // Session object of the currently active Session
 
@@ -28,6 +29,15 @@ final class SessionItemViewModel: ObservableObject {
                       Color.init(red: 0, green: 0.7, blue: 0.9),
                       Color.init(red: 0.9, green: 0.9, blue: 0),
                       Color.init(red: 0.9, green: 0.45, blue: 0.9)]
+
+    func resetModel() {
+        listener?.remove()
+        activeSession = nil
+        selectedItem = nil
+        sessionItems = []
+        selectedSticky = nil
+        stickyNotes = []
+    }
 
     func updateLocation(location: CGPoint, itemId: String) {
         let locx = Int(location.x)
@@ -52,42 +62,6 @@ final class SessionItemViewModel: ObservableObject {
                 return nil
             }
 
-            guard let _ = itemDocument.data()?["input"] as? String else {
-                let error = NSError(
-                    domain: "AppErrorDomain",
-                    code: -1,
-                    userInfo: [
-                        NSLocalizedDescriptionKey: "Unable to retrieve input from snapshot \(itemDocument)"
-                    ]
-                )
-                errorPointer?.pointee = error
-                return nil
-            }
-
-            guard let _ = itemDocument.data()?["color"] as? Int else {
-                let error = NSError(
-                    domain: "AppErrorDomain",
-                    code: -1,
-                    userInfo: [
-                        NSLocalizedDescriptionKey: "Unable to retrieve color from snapshot \(itemDocument)"
-                    ]
-                )
-                errorPointer?.pointee = error
-                return nil
-            }
-
-            guard let _ = itemDocument.data()?["location"] as? [Int] else {
-                let error = NSError(
-                    domain: "AppErrorDomain",
-                    code: -1,
-                    userInfo: [
-                        NSLocalizedDescriptionKey: "Unable to retrieve location from snapshot \(itemDocument)"
-                    ]
-                )
-                errorPointer?.pointee = error
-                return nil
-            }
-
             let newColor = localItem!.color
             let newLocation = localItem!.location
             let newInput = localItem!.input
@@ -97,7 +71,7 @@ final class SessionItemViewModel: ObservableObject {
                                     "location": newLocation],
                                    forDocument: itemReference)
             return nil
-        }){(_, error) in
+        }) { (_, error) in
             if let error = error {
                 print("Error updating item: \(error)")
             } else {
@@ -113,50 +87,54 @@ final class SessionItemViewModel: ObservableObject {
             return
         }
 
-        db.collection("session_items").whereField("sessionId", in: [activeSession.sessionId])
-            .addSnapshotListener { (snapshot, error) in
-                switch (snapshot, error) {
-                case(.none, .none):
-                    print("No new data")
-                case(.none, .some(let error)):
-                    print("Error: \(error.localizedDescription)")
-                case(.some(let snapshot), _):
-                    self.sessionItems = []
-                    self.stickyNotes = []
-                    print("Arrays Cleared")
-                    for document in snapshot.documents {
+        listener = db.collection("session_items").whereField("sessionId", in: [activeSession.sessionId])
+            .addSnapshotListener { querySnapshot, error in
+                guard let snapshot = querySnapshot else {
+                    print("Error fetching snapshots: \(error!)")
+                    return
+                }
+                snapshot.documentChanges.forEach { diff in
+                    if diff.type == .added {
+                        // Add new item locally
                         do {
-                            // Convert document to SessionItem object and append to list of sessionItems
-                            let item = try (document.data(as: SessionItem.self)!)
-                            self.sessionItems.append(item)
-                            print("SessionItem object added to list of sessionItems")
-                            self.createSticky(newItem: item)
+                            let newItem = try (diff.document.data(as: SessionItem.self)!)
+                            self.sessionItems.append(newItem)
+                            self.createSticky(newItem: newItem)
                         } catch {
-                            print("Error adding SessionItem object to list of sessionItems")
+                            print("Error reading new item from DB: \(error)")
                         }
+                    }
+                    if diff.type == .modified {
+                        // Modify local item
+                        do {
+                            let mockItem = try (diff.document.data(as: SessionItem.self)!)
+                            let docID = diff.document.documentID
+                            let selectedItemIndex = self.sessionItems.firstIndex(where: {$0.itemId == docID})
+                            let selectedStickyIndex = self.stickyNotes.firstIndex(where: {$0.itemId == docID})
+
+                            self.sessionItems[selectedItemIndex!].color = mockItem.color
+                            self.sessionItems[selectedItemIndex!].location = mockItem.location
+                            self.sessionItems[selectedItemIndex!].input = mockItem.input
+
+                            self.stickyNotes.remove(at: selectedStickyIndex!)
+                            self.createSticky(newItem: self.sessionItems[selectedItemIndex!], selected: self.selectedSticky?.itemId == docID)
+
+                        } catch {
+                            print("Error reading modified item from DB: \(error)")
+                        }
+                    }
+                    if diff.type == .removed {
+                        // Remove item locally
+                        let selectedItemId = diff.document.documentID
+                        let selectedItemIndex = self.sessionItems.firstIndex(where: {$0.itemId == selectedItemId})
+                        let selectedStickyIndex = self.stickyNotes.firstIndex(where: {$0.itemId == selectedItemId})
+
+                        self.sessionItems.remove(at: selectedItemIndex!)
+                        self.stickyNotes.remove(at: selectedStickyIndex!)
+
                     }
                 }
             }
-
-        // Get list of Sessions that belong to Team ID
-//        db.collection("session_items").whereField("sessionId", in: [activeSession.sessionId])
-//            .getDocuments { (querySnapshot, error) in
-//                if let error = error {
-//                    print("Error getting session items: \(error)")
-//                } else {
-//                    for document in querySnapshot!.documents {
-//                        do {
-//                            // Convert document to SessionItem object and append to list of sessionItems
-//                            let item = try (document.data(as: SessionItem.self)!)
-//                            self.sessionItems.append(item)
-//                            print("SessionItem object added to list of sessionItems")
-//                            self.createSticky(newItem: item)
-//                        } catch {
-//                            print("Error adding SessionItem object to list of sessionItems")
-//                        }
-//                    }
-//                }
-//            }
     }
 
     func createItem(color: Int) {
@@ -164,9 +142,6 @@ final class SessionItemViewModel: ObservableObject {
         var newItem = SessionItem()
         newItem.color = color
         newItem.sessionId = activeSession!.sessionId
-        sessionItems.append(newItem)
-
-        createSticky(newItem: newItem)
 
         let itemRef = db.collection("session_items").document()
         let batch = db.batch()
@@ -187,13 +162,13 @@ final class SessionItemViewModel: ObservableObject {
         }
     }
 
-    func createSticky(newItem: SessionItem) {
+    func createSticky(newItem: SessionItem, selected: Bool = false) {
         let newSticky = StickyNote(
             input: newItem.input,
             location: CGPoint(x: newItem.location[0], y: newItem.location[1]),
             itemId: newItem.itemId,
             chosenColor: self.colorArray[newItem.color],
-            selected: false
+            selected: selected
         )
         stickyNotes.append(newSticky)
     }
@@ -212,14 +187,9 @@ final class SessionItemViewModel: ObservableObject {
 
     func deleteSelected() {
         // Delete the selected sticky
-        let selectedItemIndex = sessionItems.firstIndex(where: {$0.itemId == selectedSticky!.itemId})
-        let selectedStickyIndex = stickyNotes.firstIndex(where: {$0.id == selectedSticky!.id})
         let selectedItemId = selectedSticky!.itemId
 
-        sessionItems.remove(at: selectedItemIndex!)
-        stickyNotes.remove(at: selectedStickyIndex!)
-
-        db.collection("session_items").document(selectedItemId).delete(){ err in
+        db.collection("session_items").document(selectedItemId).delete() { err in
             if let err = err {
                 print("Error deleting session item: \(err)")
             } else {

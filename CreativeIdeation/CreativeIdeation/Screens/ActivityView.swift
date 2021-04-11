@@ -18,6 +18,7 @@ struct ActivityView: View {
                       Color.init(red: 0.9, green: 0.9, blue: 0),
                       Color.init(red: 0.9, green: 0.45, blue: 0.9)]
 
+    let shadowColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
     // @State private var canvasView = PKCanvasView()
 
     @State private var selectedColor = -1
@@ -37,8 +38,36 @@ struct ActivityView: View {
             }
 
             VStack {
-                Spacer()
-                    .frame(height: 75)
+                HStack {
+
+                    Button {
+                        showActivity = false
+                        sessionItemViewModel.resetModel()
+                    } label: {
+                        ZStack {
+                            Circle()
+                                .foregroundColor(.white)
+                                .frame(width: 80, height: 80)
+
+                            Circle().stroke(lineWidth: 2)
+                                .foregroundColor(.black)
+                                .frame(width: 80, height: 80)
+
+                            Image(systemName: "arrow.left")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 40, height: 40)
+                                .foregroundColor(.black)
+                        }
+                        .frame(width: 85, height: 85)
+                        .clipped()
+                        .padding(.leading, 45)
+                        .padding(.top, 20)
+                        .shadow(color: shadowColor, radius: 4, y: 4)
+                    }
+
+                    Spacer()
+                }
                 HStack {
                     Spacer()
                     VStack {
@@ -61,7 +90,7 @@ struct ActivityView: View {
                                     .background(Color.red)
                             }
                             .cornerRadius(18)
-                            .shadow(color: .black, radius: 6, y: 4)
+                            .shadow(color: shadowColor, radius: 6, y: 4)
                             .padding()
                         }
 
@@ -243,7 +272,7 @@ struct ActivityView: View {
                         .background(Color.white)
                         .clipped()
                         .cornerRadius(15)
-                        .shadow(color: .black, radius: 6, y: 4)
+                        .shadow(color: shadowColor, radius: 6, y: 4)
 
                         Button {
                             // AI Word Generation
@@ -253,24 +282,16 @@ struct ActivityView: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 90, height: 90)
                                 .padding(.top, 8)
-                                .shadow(color: .black, radius: 4, y: 4)
+                                .shadow(color: shadowColor, radius: 4, y: 4)
                         }
                     }
                 }
                 Spacer()
             }
-
-            HStack {
-                ActivityToolbar()
-                Spacer()
-                VStack {
-                    ActiveMembers()
-                    Spacer()
-                }
-            }
-            .hidden()
         }
-        .edgesIgnoringSafeArea(.all)
+        .navigationTitle("Session")
+        .navigationBarHidden(true)
+        // .edgesIgnoringSafeArea(.all)
     }
 
 }
