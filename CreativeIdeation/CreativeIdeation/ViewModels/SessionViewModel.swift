@@ -54,6 +54,8 @@ final class SessionViewModel: ObservableObject {
 
         // Save new session to DB - using batch
         let sessionRef = db.collection("sessions").document()
+        newSession.sessionId = sessionRef.documentID
+
         let batch = db.batch()
         batch.setData([
             "sessionId": sessionRef.documentID,
