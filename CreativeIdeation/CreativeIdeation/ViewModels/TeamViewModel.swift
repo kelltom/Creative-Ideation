@@ -58,8 +58,8 @@ final class TeamViewModel: ObservableObject {
             "accessCode": code
         ], forDocument: teamRef)
 
-        let userRef = db.collection("users").document(uid)
-        batch.updateData(["teams": FieldValue.arrayUnion([teamRef.documentID])], forDocument: userRef)
+        // let userRef = db.collection("users").document(uid)
+        // batch.updateData(["teams": FieldValue.arrayUnion([teamRef.documentID])], forDocument: userRef)
 
         batch.commit { err in
             if let err = err {
@@ -75,7 +75,17 @@ final class TeamViewModel: ObservableObject {
         getTeams()
     }
 
-    func deleteSelectedTeam(teamId: String, teamCreatorId: String) {
+    func deleteSelectedTeam() {
+        guard let teamId = selectedTeam?.teamId else {
+            print("Delete Team: Selected Team ID not found")
+            return
+        }
+
+        guard let createdBy = selectedTeam?.createdBy else {
+            print("Delete Team: Cannot find Team creator ID")
+            return
+        }
+
         let batch = db.batch()
 
         guard let currentUserId = Auth.auth().currentUser?.uid else {
@@ -83,8 +93,8 @@ final class TeamViewModel: ObservableObject {
         }
 
         // check if the user deleting the team is the same user who created - "only admin i guess"
-        if currentUserId != teamCreatorId {
-            print("user is not creator cannot delete")
+        if currentUserId != createdBy {
+            print("User is not creator cannot delete")
 
         } else {
             print("Current Logged in user is creator. Delete ok")
@@ -104,7 +114,7 @@ final class TeamViewModel: ObservableObject {
 
             // delete groups
             db.collection("teams").document(teamId).collection("groups")
-                .whereField("members", arrayContains: teamCreatorId)
+                .whereField("members", arrayContains: createdBy)
                 .getDocuments { (querySnapshot, err) in
                     if let err = err {
                         print("Error getting documents: \(err)")

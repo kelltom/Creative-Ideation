@@ -15,6 +15,8 @@ struct TeamSettingsView: View {
     var userName: String = "Kellen Evoy"
     var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
 
+    @EnvironmentObject var teamViewModel: TeamViewModel
+
     var body: some View {
 
         VStack {
@@ -121,7 +123,7 @@ struct TeamSettingsView: View {
             Spacer()
 
             Button {
-                // do something
+                teamViewModel.deleteSelectedTeam()
             } label: {
                 DeleteButton()
             }

@@ -7,15 +7,23 @@
 
 import SwiftUI
 
+enum PreferenceSheet: Identifiable {
+    case name, email, password
+
+    var id: Int {
+        hashValue
+    }
+}
 struct UserSettingsView: View {
 
-    @State private var profanityFilter = true
+    @EnvironmentObject var userAccountViewModel: UserAccountViewModel
+    @State var showSheet: PreferenceSheet?
+    @State private var darkModeFilter = true
 
     var title: String = "User Preferences"
-    var userName: String = "Kellen Evoy"
-    var email: String = "evoyk@sheridancollege.ca"
-    var password: String = "******"
-    var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+    var userName: String = ""
+    var email: String = ""
+    var password: String = "*********"
 
     var body: some View {
 
@@ -29,31 +37,33 @@ struct UserSettingsView: View {
 
             VStack {
 
-                Button {
-                    // do stuff
-                } label: {
-                    PreferencePic().padding()
-                }
+                ProfilePic(size: 60)
+                    .shadow(color: .black, radius: 4, y: 4)
+                    .padding()
+                    .contextMenu(ContextMenu(menuItems: {
+                        Text("Upload from gallery")
+                        Text("Take photo")
+                    }))
 
                 VStack(alignment: .leading ) {
 
                     Text("Full Name")
                         .font(.system(size: 25))
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        .fontWeight(.bold)
 
                     HStack {
-
-                        Text(userName)
+                        Text(userAccountViewModel.selectedUser?.name ?? "Unknown")
                             .font(.system(size: 18))
 
                         Spacer()
-
+                        // edit button for name
                         Button {
-                            // button functionality
+                            showSheet = .name
                         } label: {
                             // button design
                             TextEditButton()
                         }
+
                     }
 
                     Text("Email")
@@ -61,13 +71,13 @@ struct UserSettingsView: View {
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
 
                     HStack {
-                        Text(email)
+                        Text(userAccountViewModel.selectedUser?.email ?? "Unknown")
                             .font(.system(size: 18))
 
                         Spacer()
-
+                        // email text button
                         Button {
-                            // button functionality
+                            showSheet = .email
                         } label: {
                             // button design
                             TextEditButton()
@@ -84,8 +94,8 @@ struct UserSettingsView: View {
 
                         Spacer()
 
-                        Button {
-                            // button functionality
+                        Button { // edit button for password
+                            showSheet = .password
                         } label: {
                             // button design
                             TextEditButton()
@@ -113,7 +123,7 @@ struct UserSettingsView: View {
                     .padding()
 
                 HStack {
-                    Toggle("Dark Mode", isOn: $profanityFilter)
+                    Toggle("Dark Mode", isOn: $darkModeFilter)
                         .padding()
 
                 }
@@ -126,34 +136,48 @@ struct UserSettingsView: View {
 
             Spacer()
 
+            // LogOutButton
             Button {
-                // do something
+                userAccountViewModel.signOut()
             } label: {
-                HStack {
-                    Image(systemName: "arrowshape.turn.up.backward.fill")
-                    Text("Log Out")
-                        .fontWeight(.bold)
-                        .font(.body)
-
-                }
-                .frame(width: 200, height: 50, alignment: .center)
-                .background(Color(.red))
-                .foregroundColor(.white)
-                .cornerRadius(10)
-                .padding()
+                LogOutButton()
             }
 
         }
+        .sheet(item: $showSheet) { item in
+            switch item {
 
+            case .email:
+                UpdateEmailView(showSheet: $showSheet)
+                    .environmentObject(self.userAccountViewModel)
+
+            case .password:
+                UpdatePasswordView(showSheet: $showSheet) .environmentObject(self.userAccountViewModel)
+
+            case .name:
+                UpdateDisplayName(showSheet: $showSheet)
+                    .environmentObject(self.userAccountViewModel)
+
+            }
+        }
+        .onAppear {
+            userAccountViewModel.getCurrentUserInfo()
+
+        }
     }
+}
+
+/// Enables the use of the ! operator on binding variables
+prefix func ! (value: Binding<Bool>) -> Binding<Bool> {
+    Binding<Bool>(
+        get: { !value.wrappedValue },
+        set: { value.wrappedValue = !$0 }
+    )
 }
 
 struct UserPrefView_Previews: PreviewProvider {
     static var previews: some View {
-        UserSettingsView(title: "Title",
-                         userName: "Username",
-                         email: "Email@email.com",
-                         password: "*****",
-                         description: "Some description here")
+        UserSettingsView()
+            .environmentObject(UserAccountViewModel())
     }
 }

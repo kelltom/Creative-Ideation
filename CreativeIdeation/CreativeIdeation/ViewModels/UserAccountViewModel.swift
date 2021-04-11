@@ -8,6 +8,7 @@
 import Foundation
 import Firebase
 import SwiftUI
+import FirebaseFirestoreSwift
 
 final class UserAccountViewModel: ObservableObject {
 
@@ -16,8 +17,11 @@ final class UserAccountViewModel: ObservableObject {
 
     @Published var authSuccess = false
     @Published var createSuccess = false
+    @Published var updateSuccess = false
+    @Published var logOutFlag = false
     @Published var msg = ""
     @Published var showBanner = false
+    @Published var selectedUser: User?
 
     func authenticate(email: String, password: String) {
         self.showBanner = false
@@ -43,6 +47,243 @@ final class UserAccountViewModel: ObservableObject {
             withAnimation {
                 self.showBanner = true
                 self.delayAlert()
+            }
+        }
+    }
+
+    /// Sign out
+    func signOut() {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+            self.authSuccess = false
+            print("signed out successfully")
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
+    }
+
+    /// Populates selectedUser attribute
+    func getCurrentUserInfo() { // reading the database onAppear in UpdateEmailSettings
+        self.showBanner = false
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        // getting logged in user information
+        db.collection("users").document(uid)
+            .getDocument { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    do {
+                        // Convert document to User object
+                        try self.selectedUser = querySnapshot?.data(as: User.self)
+                        print("User object mapped successfully")
+                    } catch {
+                        print("Error creating object to User")
+                    }
+                }
+            }
+    }
+    /// updating user name to  db
+    func updateUserName(name: String) {
+        self.showBanner = false
+
+        // Get user ID
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("Could not find signed-in user's ID")
+            return
+        }
+
+        var user = User()
+        user.name = name
+        let oldName = self.selectedUser?.name
+
+        // Error Validation
+        if name.isEmpty {
+            self.msg = "Name cannot be empty."
+            self.updateSuccess = false
+            withAnimation {
+                self.showBanner = true
+                self.delayAlert()
+            }
+        } else if name == oldName {
+            self.msg = "New name cannot be the same as current name."
+            self.updateSuccess = false
+            withAnimation {
+                self.showBanner = true
+                self.delayAlert()
+            }
+        } else {
+            // query db and update name in the document
+            db.collection("users").document(uid).updateData([
+                "name": user.name
+            ]) { err in
+                if let err = err {
+                    self.msg = "Error updating user name. Please contact your admin. \(err)"
+                    self.updateSuccess = false
+                    // Display result to View
+                    withAnimation {
+                        self.showBanner = true
+                        self.delayAlert()
+                    }
+                    print("Error updating user name")
+                } else {
+                    self.msg = "Name updated successfully!"
+                    self.updateSuccess = true
+                    self.selectedUser?.name = user.name  // update view
+                    // Display result to View
+                    withAnimation {
+                        self.showBanner = true
+                        self.delayAlert()
+                    }
+                    print("User name updated successfully")
+                }
+            }
+
+        }
+
+    }
+
+    /// Updates user's email with input
+    func updateUserEmail(email: String) {
+        self.showBanner = false
+
+        // Get user ID
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("Could not find signed-in user's ID")
+            return
+        }
+
+        // Get current user
+        guard let currentUser = Auth.auth().currentUser else {
+            return
+        }
+
+        var user = User()
+        user.email = email
+        let oldEmail = currentUser.email!
+
+        // Error checking before updating to DB
+        if email.isEmpty {
+            self.msg = "Email cannot be empty"
+            self.updateSuccess = false
+            // Display results to View
+            withAnimation {
+                self.showBanner = true
+                self.delayAlert()
+            }
+            print("Update failed: Email cannot be empty")
+
+        } else if oldEmail.lowercased() == user.email.lowercased() {
+            self.msg = "Email cannot be same as previous email"
+            self.updateSuccess = false
+            // Display results to View
+            withAnimation {
+                self.showBanner = true
+                self.delayAlert()
+            }
+            print("Update failed: Email cannot be same as old email")
+
+        } else {
+            // Update email
+            currentUser.updateEmail(to: email) { error in
+                if error != nil {
+                    print(error?.localizedDescription ?? "Email update failed")
+                    self.msg = error?.localizedDescription ?? "Error updating email"
+                    self.updateSuccess = false
+                } else {
+                    // Updates email address in corresponding document collection
+                    self.db.collection("users").document(uid).updateData([
+                        "email": user.email
+                    ]) { err in
+                        if let err = err {
+                            print("Error updating user email: \(err)")
+                            self.msg = "Error updating user email  \(err)"
+                            self.updateSuccess = false
+                            // Display result to View
+                            withAnimation {
+                                self.showBanner = true
+                                self.delayAlert()
+                            }
+                        } else {
+                            print("User email updated successfully")
+                            self.msg = "Email updated successfully!"
+                            self.updateSuccess = true
+                            self.selectedUser?.email = user.email
+                            // Display result to View
+                            withAnimation {
+                                self.showBanner = true
+                                self.delayAlert()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    func updateUserPassword(newPassword: String, confirmPassword: String, oldPassword: String) {
+        self.showBanner = false
+
+        // Get current user
+        guard let currentUser = Auth.auth().currentUser else {
+            return
+        }
+        let currentUsersEmail = currentUser.email!
+
+        // accessing FireBaseAuth User credentials with EmailAuthProvider
+        let credential = EmailAuthProvider.credential(withEmail: currentUsersEmail, password: oldPassword)
+
+        // Error Validation
+        if newPassword.isEmpty || confirmPassword.isEmpty || oldPassword.isEmpty {
+            self.msg = "Fields cannot be empty. Please fill out all the fields."
+            self.updateSuccess = false
+            withAnimation {
+                self.showBanner = true
+                self.delayAlert()
+            }
+            print("Fields cannot be empty")
+
+        // checks if user enters the correct new password
+        } else if newPassword != confirmPassword {
+            self.msg = "The passwords entered do not match. Please re-enter your password."
+            self.updateSuccess = false
+            withAnimation {
+                self.showBanner = true
+                self.delayAlert()
+            }
+            print("passwords do not match")
+
+        } else {
+            // re-authenticate user to check user password is correct
+            currentUser.reauthenticate(with: credential) { _, error  in
+                if error != nil {
+                    self.msg = "Password entered is incorrect. Please try again"
+                    self.updateSuccess = false
+                    withAnimation {
+                        self.showBanner = true
+                        self.delayAlert()
+                    }
+                    print(error?.localizedDescription ?? "error reauthenticating failed")
+                } else {
+                    // update password to db
+                    currentUser.updatePassword(to: newPassword) { error in
+                        if error != nil {
+                            print(error?.localizedDescription ?? "password update failed")
+                        } else {
+                            print("Password update is successful")
+                            self.msg = "Password is successfully updated!"
+                            self.updateSuccess = true
+                            self.logOutFlag = true
+                            withAnimation {
+                                self.showBanner = true
+                                self.delayAlert()
+                            }
+
+                        }
+                    }
+                }
             }
         }
     }
@@ -95,7 +336,6 @@ final class UserAccountViewModel: ObservableObject {
                     }
                 }
             }
-
         }
     }
 

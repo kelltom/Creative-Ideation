@@ -60,7 +60,7 @@ struct HomeView: View {
                     }.contextMenu {
                         Button {
                             // Delete selected team
-                            teamViewModel.deleteSelectedTeam(teamId: team.teamId, teamCreatorId: team.createdBy)
+                            teamViewModel.deleteSelectedTeam()
                         } label: {
                             HStack {
                                 Text("Delete")
@@ -88,9 +88,10 @@ struct HomeView: View {
             .background(Color("brandPrimary"))
             .edgesIgnoringSafeArea(.all)
 
-            // Top Title Bar
+            // Mid Screen
             VStack {
 
+                // Top Title Bar
                 HStack(spacing: 20) {
                     Text(teamViewModel.selectedTeam?.teamName ?? "Home")
                         .font(.largeTitle)
@@ -171,9 +172,9 @@ struct HomeView: View {
                                     Button {
                                         // make session clickable
                                     } label: {
-                                        SessionTile(team: teamViewModel.selectedTeam?.teamName ?? "Unknown",
+                                        SessionTile(team: teamViewModel.selectedTeam?.teamName ?? "N/A",
                                                     group: groupViewModel.groups.first(
-                                                        where: {$0.groupId == session.groupId})?.groupTitle ?? "Unknown",
+                                                        where: {$0.groupId == session.groupId})?.groupTitle ?? "N/A",
                                                     session: session)
                                     }
                                 }
@@ -214,20 +215,14 @@ struct HomeView: View {
                                                 if groupViewModel.selectedGroup?.id == group.id {
                                                     // if already selected, un-select
                                                     groupViewModel.selectedGroup = nil
-                                                    sessionViewModel.groupSessions = []  // empty list of group sessions
                                                 } else {
                                                     groupViewModel.selectedGroup = group
-                                                    sessionViewModel.getGroupSessions(groupId: group.groupId)
                                                 }
                                             } label: {
-                                                if group.groupId == groupViewModel.selectedGroup?.groupId {
-                                                    GroupButton(title: group.groupTitle, selected: true)
-                                                        .padding(.top)
-                                                } else {
-                                                    GroupButton(title: group.groupTitle, selected: false)
-                                                        .padding(.top)
-                                                }
-
+                                                GroupButton(
+                                                    title: group.groupTitle,
+                                                    selected: group.groupId == groupViewModel.selectedGroup?.groupId)
+                                                    .padding(.top)
                                             }
                                         }
 
@@ -331,6 +326,9 @@ struct HomeView: View {
             groupViewModel.selectedGroup = nil
             groupViewModel.getGroups(teamId: teamViewModel.selectedTeam?.teamId)
             sessionViewModel.getAllSessions(teamId: teamViewModel.selectedTeam?.teamId)
+            sessionViewModel.getGroupSessions(groupId: groupViewModel.selectedGroup?.groupId)
+        }
+        .onChange(of: groupViewModel.selectedGroup) { _ in
             sessionViewModel.getGroupSessions(groupId: groupViewModel.selectedGroup?.groupId)
         }
 
