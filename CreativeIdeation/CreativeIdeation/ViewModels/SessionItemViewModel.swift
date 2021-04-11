@@ -129,6 +129,11 @@ final class SessionItemViewModel: ObservableObject {
                         let selectedItemIndex = self.sessionItems.firstIndex(where: {$0.itemId == selectedItemId})
                         let selectedStickyIndex = self.stickyNotes.firstIndex(where: {$0.itemId == selectedItemId})
 
+                        if self.selectedSticky?.itemId == selectedItemId {
+                            self.selectedSticky = nil
+                            self.selectedItem = nil
+                        }
+
                         self.sessionItems.remove(at: selectedItemIndex!)
                         self.stickyNotes.remove(at: selectedStickyIndex!)
 
