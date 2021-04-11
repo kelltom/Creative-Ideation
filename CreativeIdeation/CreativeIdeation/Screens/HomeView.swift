@@ -43,10 +43,6 @@ struct HomeView: View {
                 // Home Team button
                 Button {
                     teamViewModel.selectedTeam = nil
-                    groupViewModel.selectedGroup = nil
-                    groupViewModel.groups = []
-                    sessionViewModel.teamSessions = []
-                    sessionViewModel.groupSessions = []
                 } label: {
                     TeamPic(selected: teamViewModel.selectedTeam == nil,
                             symbolName: "house",
@@ -58,12 +54,20 @@ struct HomeView: View {
 
                     Button {
                         teamViewModel.selectedTeam = team
-                        groupViewModel.selectedGroup = nil
-                        groupViewModel.getGroups(teamId: team.teamId)
-                        sessionViewModel.getAllSessions(teamId: team.teamId)
                     } label: {
                         TeamPic(selected: teamViewModel.selectedTeam?.id == team.id,
                                 teamName: team.teamName)
+                    }
+                    .contextMenu {
+                        Button {
+                            // Delete selected team
+                            teamViewModel.deleteSelectedTeam(teamId: team.teamId)
+                        } label: {
+                            HStack {
+                                Text("Delete")
+                                Image(systemName: "trash")
+                            }
+                        }
                     }
                 }
 
@@ -212,20 +216,14 @@ struct HomeView: View {
                                                 if groupViewModel.selectedGroup?.id == group.id {
                                                     // if already selected, un-select
                                                     groupViewModel.selectedGroup = nil
-                                                    sessionViewModel.groupSessions = []  // empty list of group sessions
                                                 } else {
                                                     groupViewModel.selectedGroup = group
-                                                    sessionViewModel.getGroupSessions(groupId: group.groupId)
                                                 }
                                             } label: {
-                                                if group.groupId == groupViewModel.selectedGroup?.groupId {
-                                                    GroupButton(title: group.groupTitle, selected: true)
-                                                        .padding(.top)
-                                                } else {
-                                                    GroupButton(title: group.groupTitle, selected: false)
-                                                        .padding(.top)
-                                                }
-
+                                                GroupButton(
+                                                    title: group.groupTitle,
+                                                    selected: group.groupId == groupViewModel.selectedGroup?.groupId)
+                                                    .padding(.top)
                                             }
                                         }
 
@@ -323,6 +321,15 @@ struct HomeView: View {
         .onAppear {
             teamViewModel.getTeams()
             sessionViewModel.getAllSessions(teamId: teamViewModel.selectedTeam?.teamId)
+            sessionViewModel.getGroupSessions(groupId: groupViewModel.selectedGroup?.groupId)
+        }
+        .onChange(of: teamViewModel.selectedTeam) {_ in
+            groupViewModel.selectedGroup = nil
+            groupViewModel.getGroups(teamId: teamViewModel.selectedTeam?.teamId)
+            sessionViewModel.getAllSessions(teamId: teamViewModel.selectedTeam?.teamId)
+            sessionViewModel.getGroupSessions(groupId: groupViewModel.selectedGroup?.groupId)
+        }
+        .onChange(of: groupViewModel.selectedGroup) { _ in
             sessionViewModel.getGroupSessions(groupId: groupViewModel.selectedGroup?.groupId)
         }
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Group: Codable, Identifiable {
+struct Group: Codable, Identifiable, Equatable {
     var id = UUID()  // used for looping
     var groupId = ""
     var groupTitle = ""
