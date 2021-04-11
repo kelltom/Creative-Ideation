@@ -23,7 +23,6 @@ final class UserAccountViewModel: ObservableObject {
     @Published var showBanner = false
     @Published var selectedUser: User?
 
-
     func authenticate(email: String, password: String) {
         self.showBanner = false
 
@@ -132,7 +131,7 @@ final class UserAccountViewModel: ObservableObject {
                 } else {
                     self.msg = "Name updated successfully!"
                     self.updateSuccess = true
-                    self.selectedUser?.name = user.name  // reassignming selected user name on success to ensure our values get updated on view
+                    self.selectedUser?.name = user.name  // update view
                     // Display result to View
                     withAnimation {
                         self.showBanner = true

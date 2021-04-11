@@ -30,14 +30,7 @@ struct UpdatePasswordView: View {
                 HStack {
                     Spacer()
                     Button {
-                        // if flag is true means update is sucessful and log user out
-                        if !userAccountViewModel.logOutFlag {
-                            showSheet = nil
-                        } else {
-                            showSheet = nil
-                            userAccountViewModel.signOut()
-                        }
-
+                        showSheet = nil
                     } label: {
                         Image(systemName: "xmark")
                             .foregroundColor(Color(.label))
@@ -101,7 +94,14 @@ struct UpdatePasswordView: View {
             }
 
         }
-
+        .onDisappear {
+            // if flag is true means update is sucessful and log user out
+            if userAccountViewModel.logOutFlag {
+                userAccountViewModel.logOutFlag = false
+                userAccountViewModel.signOut()
+            }
+            showSheet = nil
+        }
     }
 }
 
