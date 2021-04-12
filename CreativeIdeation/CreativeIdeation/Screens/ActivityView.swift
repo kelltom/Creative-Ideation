@@ -279,6 +279,7 @@ struct ActivityView: View {
 
                         Button {
                             // AI Word Generation
+                            sessionItemViewModel.generateIdeas()
                         } label: {
                             Image("brainwriting")
                                 .resizable()
