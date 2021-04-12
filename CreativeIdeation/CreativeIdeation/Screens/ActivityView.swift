@@ -263,7 +263,10 @@ struct ActivityView: View {
                                         .frame(width: 20, height: 20)
                                         .foregroundColor(.white)
                                         .frame(width: 60, height: 30)
-                                        .background(sessionItemViewModel.selectedSticky != nil ? Color.red : Color.init(red: 1.0, green: 0.65, blue: 0.65))
+                                        .background(sessionItemViewModel.selectedSticky != nil ?
+                                                        Color.red : Color.init(red: 1.0,
+                                                                               green: 0.65,
+                                                                               blue: 0.65))
                                         .cornerRadius(5)
                             }
                             .disabled(sessionItemViewModel.selectedSticky == nil)

@@ -53,6 +53,7 @@ final class SessionItemViewModel: ObservableObject {
         let itemReference = db.collection("session_items").document(itemId)
         let localItem = sessionItems.first(where: {$0.itemId == itemId})
 
+        // swiftlint:disable multiple_closures_with_trailing_closure
         db.runTransaction({ (transaction, errorPointer) -> Any? in
             let itemDocument: DocumentSnapshot
             do {
@@ -71,13 +72,14 @@ final class SessionItemViewModel: ObservableObject {
                                     "location": newLocation],
                                    forDocument: itemReference)
             return nil
-        }) {(_, error) in
+        }) { (_, error) in
             if let error = error {
                 print("Error updating item: \(error)")
             } else {
                 print("Item Updated")
             }
         }
+        // swiftlint:enable multiple_closures_with_trailing_closure
     }
 
     func loadItems() {
@@ -117,7 +119,8 @@ final class SessionItemViewModel: ObservableObject {
                             self.sessionItems[selectedItemIndex!].input = mockItem.input
 
                             self.stickyNotes.remove(at: selectedStickyIndex!)
-                            self.createSticky(newItem: self.sessionItems[selectedItemIndex!], selected: self.selectedSticky?.itemId == docID)
+                            self.createSticky(newItem: self.sessionItems[selectedItemIndex!],
+                                              selected: self.selectedSticky?.itemId == docID)
 
                         } catch {
                             print("Error reading modified item from DB: \(error)")

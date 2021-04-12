@@ -4,3 +4,6 @@ identifier_name:
     - db
     - URL
     - GlobalAPIKey
+disabled_rules:
+  - function_body_length
+  - type_body_length
