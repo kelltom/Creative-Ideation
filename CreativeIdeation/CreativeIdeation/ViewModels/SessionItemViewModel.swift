@@ -213,4 +213,26 @@ final class SessionItemViewModel: ObservableObject {
         sessionItems[sessionItems.firstIndex(where: {$0.itemId == selectedSticky!.itemId})!].color = color
         selectedSticky?.chosenColor = self.colorArray[color]
     }
+
+    func generateIdeas() -> [String] {
+        // Get random sticky note's text
+        guard var input = sessionItems.randomElement()?.input else {
+            print("generateIdeas: SessionItem not found or input empty - returning empty array")
+            return []
+        }
+        // Trim the text
+        input = input.trimmingCharacters(in: .whitespacesAndNewlines)
+        // Get all words in input
+        let words = input.components(separatedBy: " ")
+        // Get random word from input and remove any non alpha characters and lowercase it
+        let query = words.randomElement()!
+            .filter("abcdefghijklmnopqrstuvwxyz".contains)
+            .lowercased()
+
+        // Call API that returns an array of Strings
+        var url: String = "https://us-central1-creative-ideation.cloudfunctions.net/hello_http?word=" + query
+
+
+        return []
+    }
 }
