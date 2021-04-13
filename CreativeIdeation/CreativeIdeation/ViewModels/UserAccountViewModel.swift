@@ -160,6 +160,11 @@ final class UserAccountViewModel: ObservableObject {
             return
         }
 
+        // let currentUsersEmail = currentUser.em
+
+        // accessing FireBaseAuth User credentials with EmailAuthProvider
+//        let credential = EmailAuthProvider.credential(withEmail: currentUsersEmail, password: oldPassword)
+
         var user = User()
         user.email = email
         let oldEmail = currentUser.email!

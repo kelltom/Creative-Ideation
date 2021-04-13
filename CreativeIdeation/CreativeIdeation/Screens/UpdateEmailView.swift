@@ -10,6 +10,7 @@ import SwiftUI
 struct UpdateEmailView: View {
     @State var newEmail: String = ""
     @State var currentEmail: String = ""
+    @State var currentPasword: String = ""
     @Binding var showSheet: PreferenceSheet?
 
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
@@ -47,7 +48,7 @@ struct UpdateEmailView: View {
                 Text("Change Email")
                     .font(.largeTitle)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-
+                // displays users email
                 VStack(alignment: .leading) {
                     Text("Current Email")
                         .font(.title3)
@@ -62,12 +63,22 @@ struct UpdateEmailView: View {
                         .font(.title2)
                         .padding(10)
 
+                    // email text input
                     Text("New Email")
                         .font(.title3)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .padding(.leading)
 
                     MenuTextField(title: "new email ", input: $newEmail)
+
+
+                    // password confirmation input
+                    Text("Enter password ")
+                        .font(.title3)
+                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        .padding(.leading)
+
+                    MenuTextField(title: "enter password to confirm ", input: $currentPasword)
 
                 }
                 Button {
