@@ -21,6 +21,10 @@ struct CreateAccountView: View {
     var body: some View {
 
         ZStack {
+            if viewModel.isLoading {
+                ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
+                    .scaleEffect(3)
+            }
 
             if viewModel.showBanner {
                 if viewModel.createSuccess {

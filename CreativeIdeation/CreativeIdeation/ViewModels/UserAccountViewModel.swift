@@ -26,6 +26,7 @@ final class UserAccountViewModel: ObservableObject {
 
     func authenticate(email: String, password: String) {
         self.showBanner = false
+        self.isLoading = true
 
         // Populate User object
         var user = User()
@@ -36,10 +37,12 @@ final class UserAccountViewModel: ObservableObject {
         Auth.auth().signIn(withEmail: user.email, password: user.password) { (_, error) in
             if error != nil {
                 print(error?.localizedDescription ?? "")
+                self.isLoading = false
                 self.msg = error?.localizedDescription ?? ""
                 self.authSuccess = false
             } else {
                 print("Success")
+                self.isLoading = false
                 self.msg = "Success"
                 self.authSuccess = true
             }
@@ -154,7 +157,6 @@ final class UserAccountViewModel: ObservableObject {
     /// Updates user's email with input
     func updateUserEmail(email: String, password: String) {
         self.showBanner = false
-        //self.loadingView()
         self.isLoading = true
         // Get user ID
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -323,6 +325,7 @@ final class UserAccountViewModel: ObservableObject {
 
     func createAccount(name: String, email: String, password: String) {
         self.showBanner = false
+        self.isLoading = true
 
         // Populate User object
         var user = User()
@@ -335,6 +338,7 @@ final class UserAccountViewModel: ObservableObject {
             if error != nil {
                 print(error?.localizedDescription ?? "Error creating account")
                 self.msg = error?.localizedDescription ?? "Error creating account"
+                self.isLoading = false
                 self.createSuccess = false
 
                 // Display results to View
@@ -354,14 +358,15 @@ final class UserAccountViewModel: ObservableObject {
                 ]) { err in
                     if let err = err {
                         print("Error adding document: \(err)")
+                        self.isLoading = false
                         self.msg = "Error adding document: \(err)"
                         self.createSuccess = false
                     } else {
                         print("Document added with")
+                        self.isLoading = false
                         self.msg = "Account created successfully!"
                         self.createSuccess = true
                     }
-                    
                     // Display results to View
                     withAnimation {
                         self.showBanner = true
@@ -374,7 +379,7 @@ final class UserAccountViewModel: ObservableObject {
 
     // Tells View to stop showing banner after 4 seconds
     private func delayAlert() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             withAnimation {
                 self.showBanner = false
             }

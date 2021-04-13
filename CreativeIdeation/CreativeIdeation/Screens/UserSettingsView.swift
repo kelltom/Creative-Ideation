@@ -142,6 +142,12 @@ struct UserSettingsView: View {
             } label: {
                 LogOutButton()
             }
+            NavigationLink(
+                destination: LoginView(),
+                label: {
+                    EmptyView()
+
+                })
 
         }
         .sheet(item: $showSheet) { item in
