@@ -17,6 +17,11 @@ struct UpdatePasswordView: View {
 
     var body: some View {
         ZStack {
+            if userAccountViewModel.isLoading {
+                ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
+                    .scaleEffect(3)
+            }
+
             if userAccountViewModel.showBanner {
                 if !userAccountViewModel.updateSuccess {
                     NotificationBanner(image: "exclamationmark.circle.fill",
@@ -60,7 +65,7 @@ struct UpdatePasswordView: View {
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .padding(.leading)
 
-                    MenuTextField(title: "new password ", input: $newPassword, secure: true)
+                    MenuTextField(title: "new password ", input: $newPassword, secure: true).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
 
                     // Re-enter New Password Text box
                     Text("Re-enter New Password")
@@ -68,7 +73,7 @@ struct UpdatePasswordView: View {
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .padding(.leading)
 
-                    MenuTextField(title: "re-enter new password ", input: $confirmPassword, secure: true)
+                    MenuTextField(title: "re-enter new password ", input: $confirmPassword, secure: true).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
 
                     // Confirm change Text Field
                     Text("Old Password")
@@ -76,7 +81,7 @@ struct UpdatePasswordView: View {
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .padding(.leading)
 
-                    MenuTextField(title: "enter old password to confirm change ", input: $oldPassword, secure: true)
+                    MenuTextField(title: "enter old password to confirm change ", input: $oldPassword, secure: true).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
 
                 }
                 Button {

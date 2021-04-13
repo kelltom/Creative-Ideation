@@ -21,6 +21,7 @@ final class UserAccountViewModel: ObservableObject {
     @Published var logOutFlag = false
     @Published var msg = ""
     @Published var showBanner = false
+    @Published var isLoading = false
     @Published var selectedUser: User?
 
     func authenticate(email: String, password: String) {
@@ -88,6 +89,7 @@ final class UserAccountViewModel: ObservableObject {
     /// updating user name to  db
     func updateUserName(name: String) {
         self.showBanner = false
+        self.isLoading = true
 
         // Get user ID
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -101,6 +103,7 @@ final class UserAccountViewModel: ObservableObject {
 
         // Error Validation
         if name.isEmpty {
+            self.isLoading = false
             self.msg = "Name cannot be empty."
             self.updateSuccess = false
             withAnimation {
@@ -108,6 +111,7 @@ final class UserAccountViewModel: ObservableObject {
                 self.delayAlert()
             }
         } else if name == oldName {
+            self.isLoading = false
             self.msg = "New name cannot be the same as current name."
             self.updateSuccess = false
             withAnimation {
@@ -120,6 +124,7 @@ final class UserAccountViewModel: ObservableObject {
                 "name": user.name
             ]) { err in
                 if let err = err {
+                    self.isLoading = false
                     self.msg = "Error updating user name. Please contact your admin. \(err)"
                     self.updateSuccess = false
                     // Display result to View
@@ -129,6 +134,7 @@ final class UserAccountViewModel: ObservableObject {
                     }
                     print("Error updating user name")
                 } else {
+                    self.isLoading = false
                     self.msg = "Name updated successfully!"
                     self.updateSuccess = true
                     self.selectedUser?.name = user.name  // update view
@@ -146,9 +152,10 @@ final class UserAccountViewModel: ObservableObject {
     }
 
     /// Updates user's email with input
-    func updateUserEmail(email: String) {
+    func updateUserEmail(email: String, password: String) {
         self.showBanner = false
-
+        //self.loadingView()
+        self.isLoading = true
         // Get user ID
         guard let uid = Auth.auth().currentUser?.uid else {
             print("Could not find signed-in user's ID")
@@ -160,27 +167,27 @@ final class UserAccountViewModel: ObservableObject {
             return
         }
 
-        // let currentUsersEmail = currentUser.em
-
-        // accessing FireBaseAuth User credentials with EmailAuthProvider
-//        let credential = EmailAuthProvider.credential(withEmail: currentUsersEmail, password: oldPassword)
-
         var user = User()
         user.email = email
         let oldEmail = currentUser.email!
 
+        // reauthenticating user for email change
+        let credential = EmailAuthProvider.credential(withEmail: oldEmail, password: password)
+
         // Error checking before updating to DB
-        if email.isEmpty {
-            self.msg = "Email cannot be empty"
+        if email.isEmpty || password.isEmpty {
+            self.isLoading = false
+            self.msg = "Email or password cannot be empty"
             self.updateSuccess = false
             // Display results to View
             withAnimation {
                 self.showBanner = true
                 self.delayAlert()
             }
-            print("Update failed: Email cannot be empty")
+            print("Update failed: Email or password cannot be empty")
 
         } else if oldEmail.lowercased() == user.email.lowercased() {
+            self.isLoading = false
             self.msg = "Email cannot be same as previous email"
             self.updateSuccess = false
             // Display results to View
@@ -191,35 +198,51 @@ final class UserAccountViewModel: ObservableObject {
             print("Update failed: Email cannot be same as old email")
 
         } else {
-            // Update email
-            currentUser.updateEmail(to: email) { error in
+            currentUser.reauthenticate(with: credential) { _, error in
                 if error != nil {
-                    print(error?.localizedDescription ?? "Email update failed")
-                    self.msg = error?.localizedDescription ?? "Error updating email"
+                    self.isLoading = false
+                    self.msg = "Password entered is incorrect. Try again."
                     self.updateSuccess = false
+                    withAnimation {
+                        self.showBanner = true
+                        self.delayAlert()
+                    }
+                    print("Update failed: password entered is incorrect")
                 } else {
-                    // Updates email address in corresponding document collection
-                    self.db.collection("users").document(uid).updateData([
-                        "email": user.email
-                    ]) { err in
-                        if let err = err {
-                            print("Error updating user email: \(err)")
-                            self.msg = "Error updating user email  \(err)"
+                    // Update email to auth
+                    currentUser.updateEmail(to: email) { error in
+                        if error != nil {
+                            print(error?.localizedDescription ?? "Email update failed")
+                            self.isLoading = false
+                            self.msg = error?.localizedDescription ?? "Error updating email"
                             self.updateSuccess = false
-                            // Display result to View
-                            withAnimation {
-                                self.showBanner = true
-                                self.delayAlert()
-                            }
                         } else {
-                            print("User email updated successfully")
-                            self.msg = "Email updated successfully!"
-                            self.updateSuccess = true
-                            self.selectedUser?.email = user.email
-                            // Display result to View
-                            withAnimation {
-                                self.showBanner = true
-                                self.delayAlert()
+                            // Updates email address in corresponding document collection
+                            self.db.collection("users").document(uid).updateData([
+                                "email": user.email
+                            ]) { err in
+                                if let err = err {
+                                    print("Error updating user email: \(err)")
+                                    self.msg = "Error updating user email  \(err)"
+                                    self.isLoading = false
+                                    self.updateSuccess = false
+                                    // Display result to View
+                                    withAnimation {
+                                        self.showBanner = true
+                                        self.delayAlert()
+                                    }
+                                } else {
+                                    print("User email updated successfully")
+                                    self.isLoading = false
+                                    self.msg = "Email updated successfully!"
+                                    self.updateSuccess = true
+                                    self.selectedUser?.email = user.email
+                                    // Display result to View
+                                    withAnimation {
+                                        self.showBanner = true
+                                        self.delayAlert()
+                                    }
+                                }
                             }
                         }
                     }
@@ -230,6 +253,7 @@ final class UserAccountViewModel: ObservableObject {
 
     func updateUserPassword(newPassword: String, confirmPassword: String, oldPassword: String) {
         self.showBanner = false
+        self.isLoading = true
 
         // Get current user
         guard let currentUser = Auth.auth().currentUser else {
@@ -242,6 +266,7 @@ final class UserAccountViewModel: ObservableObject {
 
         // Error Validation
         if newPassword.isEmpty || confirmPassword.isEmpty || oldPassword.isEmpty {
+            self.isLoading = false
             self.msg = "Fields cannot be empty. Please fill out all the fields."
             self.updateSuccess = false
             withAnimation {
@@ -250,9 +275,10 @@ final class UserAccountViewModel: ObservableObject {
             }
             print("Fields cannot be empty")
 
-        // checks if user enters the correct new password
+            // checks if user enters the correct new password
         } else if newPassword != confirmPassword {
-            self.msg = "The passwords entered do not match. Please re-enter your password."
+            self.isLoading = false
+            self.msg = "New passwords do not match. Please re-enter your password."
             self.updateSuccess = false
             withAnimation {
                 self.showBanner = true
@@ -264,6 +290,7 @@ final class UserAccountViewModel: ObservableObject {
             // re-authenticate user to check user password is correct
             currentUser.reauthenticate(with: credential) { _, error  in
                 if error != nil {
+                    self.isLoading = false
                     self.msg = "Password entered is incorrect. Please try again"
                     self.updateSuccess = false
                     withAnimation {
@@ -278,6 +305,7 @@ final class UserAccountViewModel: ObservableObject {
                             print(error?.localizedDescription ?? "password update failed")
                         } else {
                             print("Password update is successful")
+                            self.isLoading = false
                             self.msg = "Password is successfully updated!"
                             self.updateSuccess = true
                             self.logOutFlag = true
@@ -333,7 +361,7 @@ final class UserAccountViewModel: ObservableObject {
                         self.msg = "Account created successfully!"
                         self.createSuccess = true
                     }
-
+                    
                     // Display results to View
                     withAnimation {
                         self.showBanner = true
@@ -352,5 +380,4 @@ final class UserAccountViewModel: ObservableObject {
             }
         }
     }
-
 }

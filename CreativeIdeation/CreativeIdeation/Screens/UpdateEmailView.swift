@@ -17,6 +17,11 @@ struct UpdateEmailView: View {
 
     var body: some View {
         ZStack {
+            if userAccountViewModel.isLoading {
+                ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
+                    .scaleEffect(3)
+            }
+
             if userAccountViewModel.showBanner {
                 if !userAccountViewModel.updateSuccess {
                     NotificationBanner(image: "exclamationmark.circle.fill",
@@ -26,6 +31,8 @@ struct UpdateEmailView: View {
                                        msg: userAccountViewModel.msg, color: .green)
                 }
             }
+
+
             VStack {
                 HStack {
                     Spacer()
@@ -78,13 +85,14 @@ struct UpdateEmailView: View {
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .padding(.leading)
 
-                    MenuTextField(title: "enter password to confirm ", input: $currentPasword)
+                    MenuTextField(title: "enter password to confirm ", input: $currentPasword, secure: true).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
 
                 }
                 Button {
                     // save to DB call view model function to update DB
-                    userAccountViewModel.updateUserEmail(email: newEmail)
+                    userAccountViewModel.updateUserEmail(email: newEmail, password: currentPasword)
                     newEmail = ""
+                    currentPasword = ""
                 } label: {
                     SubmitButton()
                 }

@@ -25,7 +25,7 @@ struct NotificationBanner: View {
                     .font(.title2)
                     .foregroundColor(.white)
             }
-            .frame(maxWidth: .infinity, maxHeight: 80)
+            .frame(maxWidth: .infinity, maxHeight: 100)
             .background(color)
             .cornerRadius(25)
             .padding()
