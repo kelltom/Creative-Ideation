@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		761F4751261E212A0019B580 /* UpdateEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761F4750261E212A0019B580 /* UpdateEmailView.swift */; };
 		761F4758261E43CB0019B580 /* SubmitButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761F4757261E43CB0019B580 /* SubmitButton.swift */; };
+		762EB076262655A100466F64 /* JoinTeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762EB075262655A100466F64 /* JoinTeamView.swift */; };
 		76731F342602802200536836 /* TeamSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F332602802200536836 /* TeamSettingsView.swift */; };
 		76731F392602828C00536836 /* PreferencePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F382602828C00536836 /* PreferencePic.swift */; };
 		76731F3D2602880500536836 /* TextEditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F3C2602880500536836 /* TextEditButton.swift */; };
@@ -71,6 +72,7 @@
 /* Begin PBXFileReference section */
 		761F4750261E212A0019B580 /* UpdateEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateEmailView.swift; sourceTree = "<group>"; };
 		761F4757261E43CB0019B580 /* SubmitButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitButton.swift; sourceTree = "<group>"; };
+		762EB075262655A100466F64 /* JoinTeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinTeamView.swift; sourceTree = "<group>"; };
 		76731F332602802200536836 /* TeamSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSettingsView.swift; sourceTree = "<group>"; };
 		76731F382602828C00536836 /* PreferencePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencePic.swift; sourceTree = "<group>"; };
 		76731F3C2602880500536836 /* TextEditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditButton.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				76A0956425E80F0500917450 /* CreateGroupView.swift */,
 				C9AE739D25EB19F50090C96B /* CreateSessionView.swift */,
 				C9AE738025EAAD940090C96B /* ActivityView.swift */,
+				762EB075262655A100466F64 /* JoinTeamView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 				DD3A4CEE25DDCD3A007D68B6 /* LogoBannerView.swift in Sources */,
 				76A0956925E825ED00917450 /* SearchBarView.swift in Sources */,
 				C9F1C92125EA121A00F95F61 /* GroupSidebar.swift in Sources */,
+				762EB076262655A100466F64 /* JoinTeamView.swift in Sources */,
 				C92BA9EA25FD689300FEEADA /* NotificationBanner.swift in Sources */,
 				DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */,
 				C9DC348225EA0BD300CA28BB /* RecentSessionList.swift in Sources */,

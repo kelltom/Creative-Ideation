@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum ActiveSheet: Identifiable {
-    case team, group, session, addTeamMembers
+    case team, group, session, addTeamMembers, joinTeam
 
     var id: Int {
         hashValue
@@ -70,10 +70,14 @@ struct HomeView: View {
                         }
                     }
                 }
-                // PLUS BUTTON
+                // PLUS BUTTON TO ADD OR CREATE TEAM
                 Menu {
-                    Button("Create Team", action: {})
-                    Button("Join a Team", action: {})
+                    Button("Create Team", action: {
+                        activeSheet = .team
+                    })
+                    Button("Join Team", action: {
+                        activeSheet = .joinTeam
+                    })
                 } label: {
 
                     Image(systemName: "plus.circle")
@@ -318,6 +322,10 @@ struct HomeView: View {
                 CreateGroupView(showSheets: $activeSheet)
                     .environmentObject(self.teamViewModel)
                     .environmentObject(self.groupViewModel)
+
+            case .joinTeam:
+                JoinTeamView(showSheets: $activeSheet)
+                    .environmentObject(self.teamViewModel)
 
             }
         }
