@@ -70,18 +70,19 @@ struct HomeView: View {
                         }
                     }
                 }
-
-                // Add/Join Team Button
-                Button {
-                    activeSheet = .team
+                // PLUS BUTTON
+                Menu {
+                    Button("Create Team", action: {})
+                    Button("Join a Team", action: {})
                 } label: {
+
                     Image(systemName: "plus.circle")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 48, height: 48)
-                        .foregroundColor(Color.white)
+                        .frame(width: 40, height: 45)
                         .padding()
                 }
+                .foregroundColor(.white)
 
                 Spacer()
             }
