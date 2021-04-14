@@ -236,27 +236,27 @@ final class SessionItemViewModel: ObservableObject {
 
         // Call API that returns an array of Strings
 
-//        let functions = Functions.functions()
-//
-//        functions.httpsCallable("hello_http").call(["word": query]) { (result, error) in
-//            if let error = error as NSError? {
-//                if error.domain == FunctionsErrorDomain {
-//                    // Errors thrown by server
-//                    let code = FunctionsErrorCode(rawValue: error.code)
-//                    let message = error.localizedDescription
-//                    print("Error \(code!): \(message)")
-//                }
-//                // Handle other errors
-//                print("Cloud function didn't work")
-//            }
-//
-//            // On Completion
-//            print("Generate Ideas CF ran successfully.")
-//            if let response = result?.data as? NSArray {
-//                print("It worked")
-//                print(response as? [String])
-//            }
-//        }
+        let functions = Functions.functions()
+
+        functions.httpsCallable("hello_http").call(["word": query]) { (result, error) in
+            if let error = error as NSError? {
+                if error.domain == FunctionsErrorDomain {
+                    // Errors thrown by server
+                    let code = FunctionsErrorCode(rawValue: error.code)
+                    let message = error.localizedDescription
+                    print("Error \(code!): \(message)")
+                }
+                // Handle other errors
+                print("Cloud function didn't work")
+            }
+
+            // On Completion
+            print("Generate Ideas CF ran successfully.")
+            if let response = result?.data as? NSArray {
+                print("It worked")
+                print(response)
+            }
+        }
 
         return []
     }
