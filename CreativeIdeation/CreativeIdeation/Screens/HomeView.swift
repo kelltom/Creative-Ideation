@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum ActiveSheet: Identifiable {
-    case team, group, session, addTeamMembers
+    case team, group, session, addTeamMembers, joinTeam
 
     var id: Int {
         hashValue
@@ -24,6 +24,7 @@ struct HomeView: View {
     @EnvironmentObject var groupViewModel: GroupViewModel
     @EnvironmentObject var sessionViewModel: SessionViewModel
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
+    @EnvironmentObject var userAccountViewModel: UserAccountViewModel
 
     let columns = [
         GridItem(.adaptive(minimum: 200))]
@@ -70,18 +71,23 @@ struct HomeView: View {
                         }
                     }
                 }
-
-                // Add/Join Team Button
-                Button {
-                    activeSheet = .team
+                // PLUS BUTTON TO ADD OR CREATE TEAM
+                Menu {
+                    Button("Create Team", action: {
+                        activeSheet = .team
+                    })
+                    Button("Join Team", action: {
+                        activeSheet = .joinTeam
+                    })
                 } label: {
+
                     Image(systemName: "plus.circle")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 48, height: 48)
-                        .foregroundColor(Color.white)
+                        .frame(width: 40, height: 45)
                         .padding()
                 }
+                .foregroundColor(.white)
 
                 Spacer()
             }
@@ -310,13 +316,18 @@ struct HomeView: View {
                     .environmentObject(self.teamViewModel)
 
             case .addTeamMembers:
-                AddTeamMembersView(showSheets: $activeSheet)
+                TeamAccessCode(showSheets: $activeSheet)
                     .environmentObject(self.teamViewModel)
 
             case .group:
                 CreateGroupView(showSheets: $activeSheet)
                     .environmentObject(self.teamViewModel)
                     .environmentObject(self.groupViewModel)
+
+            case .joinTeam:
+                JoinTeamView(showSheets: $activeSheet)
+                    .environmentObject(self.teamViewModel)
+                    .environmentObject(self.userAccountViewModel)
 
             }
         }

@@ -16,10 +16,10 @@ final class TeamViewModel: ObservableObject {
 
     @Published var teams: [Team] = []   // populated when navigating to HomeView
     @Published var selectedTeam: Team?  // selected team in the sidebar
-
     @Published var msg = ""
     @Published var isShowingBanner = false
     @Published var didOperationSucceed = false
+    @Published var teamCode = ""
 
     /// Creates a single team
     func createTeam(teamName: String, teamDescription: String) {
@@ -45,7 +45,7 @@ final class TeamViewModel: ObservableObject {
         let batch = db.batch()
 
         // Create randomly generated access code
-        let code = randomGen()
+        let accessCode = randomGen()
 
         let teamRef = db.collection("teams").document()
         batch.setData([
@@ -55,7 +55,7 @@ final class TeamViewModel: ObservableObject {
             "createdBy": uid,
             "admins": FieldValue.arrayUnion([uid]),
             "members": FieldValue.arrayUnion([uid]),
-            "accessCode": code
+            "accessCode": accessCode
         ], forDocument: teamRef)
 
         // let userRef = db.collection("users").document(uid)
@@ -75,6 +75,45 @@ final class TeamViewModel: ObservableObject {
         getTeams()
     }
 
+    // add users to team based on access code
+    func joinTeam(code: String) {
+
+        // get user id
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("Could not find signed-in user's ID")
+            return
+        }
+
+        if code.isEmpty {
+            self.setBanner(message: "Field cannot be empty. Please enter a code.", didSucceed: false)
+            print("code is empty cant be empty")
+        } else {
+            // update members array in teams collection
+            db.collection("teams").whereField("accessCode", isEqualTo: code)
+                .getDocuments { (querySnapshot, err) in
+                    if let err = err {
+                        self.setBanner(message: "Error adding user to teams", didSucceed: false)
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for document in querySnapshot!.documents {
+                            if document.exists {
+                                document.reference.updateData([
+                                    "members": FieldValue.arrayUnion([uid])
+                                ])
+                                self.setBanner(message: "Successfully joined a team!", didSucceed: true)
+                                print("Update team members successful")
+                                self.getTeams()
+                            } else {
+                                self.setBanner(message: "Error in joining a team", didSucceed: true)
+                                print("error in updating teams")
+                            }
+                        }
+                    }
+                }
+        }
+    }
+
+    // Enables delete functionality on home view
     func deleteSelectedTeam(teamId: String?) {
         guard let teamId = teamId else {
             print("Delete Team: Selected Team ID not found")
@@ -94,6 +133,7 @@ final class TeamViewModel: ObservableObject {
 
         // Check if the user deleting the team is the same user who created - "only admin i guess"
         guard currentUserId == createdBy else {
+            setBanner(message: "Access Denied. You do not have permission to delete this team.", didSucceed: false)
             print("Delete Team: User is not creator cannot delete")
             return
         }
@@ -190,6 +230,7 @@ final class TeamViewModel: ObservableObject {
         }
     }
 
+
     // Generates a random code that can be used to join the team
     private func randomGen() -> String {
         let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -197,8 +238,8 @@ final class TeamViewModel: ObservableObject {
         for _ in 1...6 {
             code.append(letters.randomElement()!)
         }
-
         return code
+
     }
 
 }

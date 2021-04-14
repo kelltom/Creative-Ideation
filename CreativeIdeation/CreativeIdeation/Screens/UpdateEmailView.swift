@@ -10,6 +10,7 @@ import SwiftUI
 struct UpdateEmailView: View {
     @State var newEmail: String = ""
     @State var currentEmail: String = ""
+    @State var currentPasword: String = ""
     @Binding var showSheet: PreferenceSheet?
 
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
@@ -25,6 +26,7 @@ struct UpdateEmailView: View {
                                        msg: userAccountViewModel.msg, color: .green)
                 }
             }
+
             VStack {
                 HStack {
                     Spacer()
@@ -42,12 +44,18 @@ struct UpdateEmailView: View {
             }
 
             VStack {
+
                 Spacer()
+                if userAccountViewModel.isLoading {
+                    ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
+                        .scaleEffect(3).padding()
+                }
 
                 Text("Change Email")
                     .font(.largeTitle)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-
+                    .padding(.top)
+                // displays users email
                 VStack(alignment: .leading) {
                     Text("Current Email")
                         .font(.title3)
@@ -62,6 +70,7 @@ struct UpdateEmailView: View {
                         .font(.title2)
                         .padding(10)
 
+                    // email text input
                     Text("New Email")
                         .font(.title3)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
@@ -69,11 +78,21 @@ struct UpdateEmailView: View {
 
                     MenuTextField(title: "new email ", input: $newEmail)
 
+
+                    // password confirmation input
+                    Text("Enter password ")
+                        .font(.title3)
+                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        .padding(.leading)
+
+                    MenuTextField(title: "enter password to confirm ", input: $currentPasword, secure: true).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+
                 }
                 Button {
                     // save to DB call view model function to update DB
-                    userAccountViewModel.updateUserEmail(email: newEmail)
+                    userAccountViewModel.updateUserEmail(email: newEmail, password: currentPasword)
                     newEmail = ""
+                    currentPasword = ""
                 } label: {
                     SubmitButton()
                 }

@@ -16,6 +16,11 @@ struct UpdateDisplayName: View {
 
     var body: some View {
         ZStack {
+            if userAccountViewModel.isLoading {
+                ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
+                    .scaleEffect(3)
+            }
+
             if userAccountViewModel.showBanner {
                 if !userAccountViewModel.updateSuccess {
                     NotificationBanner(image: "exclamationmark.circle.fill",

@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct AddTeamMembersView: View {
+struct TeamAccessCode: View {
 
     @Binding var showSheets: ActiveSheet?
-
+    @State var isCopied: Bool = false
     @EnvironmentObject var teamViewModel: TeamViewModel
 
     var body: some View {
@@ -23,7 +23,7 @@ struct AddTeamMembersView: View {
             }
 
             VStack {
-                Text("Team Code")
+                Text("Team Access Code")
                     .font(.largeTitle)
                     .foregroundColor(Color.white)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
@@ -32,12 +32,18 @@ struct AddTeamMembersView: View {
                 VStack {
                     HStack {
                         Spacer()
-                        Text("tFGT67fF") // temporary value
+                        Text(teamViewModel.selectedTeam?.accessCode ?? "N/A")
                             .font(.title)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         Spacer()
                         Button {
-
+                            // needs to copy to users keyboard
+                            UIPasteboard.general.string = teamViewModel.selectedTeam?.accessCode
+                            // pasteboard string is optional must be unwrapped first
+                            if let content = UIPasteboard.general.string {
+                                isCopied = true
+                                print(content)
+                            }
                         }label: {
                             Image(systemName: "doc.on.doc")
 
@@ -51,6 +57,11 @@ struct AddTeamMembersView: View {
                 .border(Color.white, width: 1.0)
                 .background(Color.white)
 
+                // text show up - kinda ghetto
+                if isCopied {
+                    Text("Copied to clipboard!").foregroundColor(.white).padding()
+                }
+
             }
             .frame(maxWidth: 600, maxHeight: 400, alignment: .center)
             .overlay(
@@ -63,10 +74,18 @@ struct AddTeamMembersView: View {
 
     }
 
+//    private func delayAlert() {
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//            withAnimation {
+//                isCopied = false
+//            }
+//        }
+//    }
+
 }
 
 struct CodeGeneratorView_Previews: PreviewProvider {
     static var previews: some View {
-        AddTeamMembersView(showSheets: .constant(.addTeamMembers))
+        TeamAccessCode(showSheets: .constant(.addTeamMembers))
     }
 }
