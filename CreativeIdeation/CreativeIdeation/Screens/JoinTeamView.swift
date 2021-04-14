@@ -61,9 +61,7 @@ struct JoinTeamView: View {
         }
 
     }
-
 }
-
 struct JoinTeamView_Previews: PreviewProvider {
     static var previews: some View {
         JoinTeamView(showSheets: .constant(.joinTeam))
