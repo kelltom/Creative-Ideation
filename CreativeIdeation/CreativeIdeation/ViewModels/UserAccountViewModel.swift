@@ -61,6 +61,7 @@ final class UserAccountViewModel: ObservableObject {
         do {
             try firebaseAuth.signOut()
             self.authSuccess = false
+            self.showBanner = false
             print("signed out successfully")
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
