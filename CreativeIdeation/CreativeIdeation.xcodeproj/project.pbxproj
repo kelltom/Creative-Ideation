@@ -58,6 +58,7 @@
 		DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3BF92D25D9C97800C368B0 /* CreativeIdeationApp.swift */; };
 		DD3BF93225D9C97800C368B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3BF93125D9C97800C368B0 /* Assets.xcassets */; };
 		DD3BF93525D9C97800C368B0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3BF93425D9C97800C368B0 /* Preview Assets.xcassets */; };
+		DD71EE552624032A00795CE9 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = DD71EE542624032A00795CE9 /* FirebaseFunctions */; };
 		DD7997B026083F5C00392AED /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7997AF26083F5C00392AED /* Session.swift */; };
 		DD7997B32608404500392AED /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7997B22608404500392AED /* SessionViewModel.swift */; };
 		DDC86D7125FBF2DE00296AE6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DDC86D7025FBF2DE00296AE6 /* GoogleService-Info.plist */; };
@@ -139,6 +140,7 @@
 				DDC86D7925FBF4B500296AE6 /* FirebaseFirestoreSwift-Beta in Frameworks */,
 				DDC86D7525FBF4B500296AE6 /* FirebaseAuth in Frameworks */,
 				DDC86D7725FBF4B500296AE6 /* FirebaseFirestore in Frameworks */,
+				DD71EE552624032A00795CE9 /* FirebaseFunctions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,6 +257,7 @@
 			children = (
 				DD3BF92C25D9C97800C368B0 /* CreativeIdeation */,
 				DD3BF92B25D9C97800C368B0 /* Products */,
+				DD71EE532624032A00795CE9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -288,6 +291,13 @@
 				DD3BF93425D9C97800C368B0 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		DD71EE532624032A00795CE9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		DDA4DD132603CCFA008972FD /* ViewModels */ = {
@@ -359,6 +369,7 @@
 				DDC86D7425FBF4B500296AE6 /* FirebaseAuth */,
 				DDC86D7625FBF4B500296AE6 /* FirebaseFirestore */,
 				DDC86D7825FBF4B500296AE6 /* FirebaseFirestoreSwift-Beta */,
+				DD71EE542624032A00795CE9 /* FirebaseFunctions */,
 			);
 			productName = CreativeIdeation;
 			productReference = DD3BF92A25D9C97800C368B0 /* CreativeIdeation.app */;
@@ -692,6 +703,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		DD71EE542624032A00795CE9 /* FirebaseFunctions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DDC86D7325FBF4B500296AE6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFunctions;
+		};
 		DDC86D7425FBF4B500296AE6 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DDC86D7325FBF4B500296AE6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

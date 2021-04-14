@@ -24,6 +24,10 @@ struct ActivityView: View {
     @State private var selectedColor = -1
     @State private var randomizeColor: Bool = true
 
+    @State private var ideas: [String] = []
+    @State private var ideasIndex = 0
+    @State private var idea = ""
+
     @Binding var showActivity: Bool
 
     var body: some View {
@@ -70,7 +74,7 @@ struct ActivityView: View {
                 }
                 HStack {
                     Spacer()
-                    VStack {
+                    VStack(alignment: .trailing) {
                         Button {
                             let newColor = randomizeColor ? Int.random(in: 0..<5) : selectedColor
                             sessionItemViewModel.createItem(color: newColor)
@@ -276,16 +280,82 @@ struct ActivityView: View {
                         .clipped()
                         .cornerRadius(15)
                         .shadow(color: shadowColor, radius: 6, y: 4)
+                        .padding(.trailing, 21)
 
-                        Button {
-                            // AI Word Generation
-                        } label: {
-                            Image("brainwriting")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 90, height: 90)
-                                .padding(.top, 8)
+                        HStack {
+                            // Suggestion carousel
+                            if sessionItemViewModel.generatedIdeas.count > 0 {
+                                HStack {
+                                    // Cycle left
+                                    Button {
+                                        if ideasIndex > 0 {
+                                            ideasIndex -= 1
+                                        } else {
+                                            ideasIndex = sessionItemViewModel.generatedIdeas.count - 1
+                                        }
+                                        idea = sessionItemViewModel.generatedIdeas[ideasIndex]
+                                    } label: {
+                                        Image(systemName: "chevron.left")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 20, height: 20)
+                                    }
+
+                                    // Idea Text
+                                    Menu(sessionItemViewModel.generatedIdeas[ideasIndex]) {
+                                        // Copy Text
+                                        Button {
+                                            UIPasteboard.general.string =
+                                                sessionItemViewModel.generatedIdeas[ideasIndex]
+                                        } label: {
+                                            Label("Copy", systemImage: "doc.on.doc")
+                                        }
+                                        // Close Ideas
+                                        Button {
+                                            sessionItemViewModel.clearIdeas()
+                                        } label: {
+                                            Label("Close", systemImage: "xmark")
+                                        }
+                                    }
+                                    .font(.title2)
+
+                                    // Cycle right
+                                    Button {
+                                        if ideasIndex < sessionItemViewModel.generatedIdeas.count - 1 {
+                                            ideasIndex += 1
+                                        } else {
+                                            ideasIndex = 0
+                                        }
+                                        idea = sessionItemViewModel.generatedIdeas[ideasIndex]
+                                    } label: {
+                                        Image(systemName: "chevron.right")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 20, height: 20)
+                                    }
+                                }
+                                .frame(minWidth: 20)
+                                .padding(10)
+                                .background(Color.white)
+                                .clipped()
+                                .cornerRadius(15)
                                 .shadow(color: shadowColor, radius: 4, y: 4)
+                            }
+
+                            // AI Word Generation button
+                            Button {
+                                sessionItemViewModel.clearIdeas()
+                                ideasIndex = 0
+                                sessionItemViewModel.generateIdeas()
+                            } label: {
+                                Image("brainwriting")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 90, height: 90)
+                                    .padding(.top, 8)
+                                    .shadow(color: shadowColor, radius: 4, y: 4)
+                            }
+                            .padding(.trailing)
                         }
                     }
                 }

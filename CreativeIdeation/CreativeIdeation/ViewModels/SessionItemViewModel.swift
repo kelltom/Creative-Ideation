@@ -10,6 +10,7 @@ import PencilKit
 import Foundation
 import Firebase
 import FirebaseFirestoreSwift
+import FirebaseFunctions
 
 final class SessionItemViewModel: ObservableObject {
 
@@ -23,6 +24,8 @@ final class SessionItemViewModel: ObservableObject {
 
     @Published var selectedSticky: StickyNote?      // Currently selected StickyNote
     @Published var stickyNotes: [StickyNote] = []       // Array of StickyNotes in the session
+
+    @Published var generatedIdeas: [String] = []
 
     let colorArray = [Color.init(red: 0.9, green: 0, blue: 0),
                       Color.init(red: 0, green: 0.9, blue: 0),
@@ -212,5 +215,50 @@ final class SessionItemViewModel: ObservableObject {
         // Change the colour of the selected sticky
         sessionItems[sessionItems.firstIndex(where: {$0.itemId == selectedSticky!.itemId})!].color = color
         selectedSticky?.chosenColor = self.colorArray[color]
+    }
+
+    func generateIdeas() {
+        // Get random sticky note's text
+        guard var input = sessionItems.randomElement()?.input else {
+            print("generateIdeas: SessionItem not found or input empty - returning empty array")
+            return
+        }
+        // Trim the text
+        input = input.trimmingCharacters(in: .whitespacesAndNewlines)
+        // Get all words in input
+        let words = input.components(separatedBy: " ")
+        // Get random word from input and remove any non alpha characters and lowercase it
+        let query = words.randomElement()!
+            .lowercased()
+            .filter("abcdefghijklmnopqrstuvwxyz".contains)
+
+        print(query)
+
+        // Call API that returns an array of Strings
+        let functions = Functions.functions()
+        functions.httpsCallable("generate_ideas").call(["word": query]) { (result, error) in
+            if let error = error as NSError? {
+                if error.domain == FunctionsErrorDomain {
+                    // Errors thrown by server
+                    let code = FunctionsErrorCode(rawValue: error.code)
+                    let message = error.localizedDescription
+                    print("Error \(code!): \(message)")
+                }
+                // Handle other errors
+                print("Cloud function didn't work")
+            } else {
+                // On Completion
+                print("Generate Ideas CF ran successfully.")
+                if let response = result?.data as? NSDictionary {
+                    if let words: [String] = response["result"] as? [String] {
+                        self.generatedIdeas = words
+                    }
+                }
+            }
+        }
+    }
+
+    func clearIdeas() {
+        self.generatedIdeas = []
     }
 }
