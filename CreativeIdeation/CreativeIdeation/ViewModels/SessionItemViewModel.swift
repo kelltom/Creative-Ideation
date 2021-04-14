@@ -217,11 +217,11 @@ final class SessionItemViewModel: ObservableObject {
         selectedSticky?.chosenColor = self.colorArray[color]
     }
 
-    func generateIdeas() -> [String] {
+    func generateIdeas() {
         // Get random sticky note's text
         guard var input = sessionItems.randomElement()?.input else {
             print("generateIdeas: SessionItem not found or input empty - returning empty array")
-            return []
+            return
         }
         // Trim the text
         input = input.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -235,10 +235,9 @@ final class SessionItemViewModel: ObservableObject {
         print(query)
 
         // Call API that returns an array of Strings
-
+        var wordArray: [String] = []
         let functions = Functions.functions()
-
-        functions.httpsCallable("hello_http").call(["word": query]) { (result, error) in
+        functions.httpsCallable("generate_ideas").call(["word": query]) { (result, error) in
             if let error = error as NSError? {
                 if error.domain == FunctionsErrorDomain {
                     // Errors thrown by server
@@ -248,16 +247,19 @@ final class SessionItemViewModel: ObservableObject {
                 }
                 // Handle other errors
                 print("Cloud function didn't work")
-            }
-
-            // On Completion
-            print("Generate Ideas CF ran successfully.")
-            if let response = result?.data as? NSArray {
-                print("It worked")
-                print(response)
+            } else {
+                // On Completion
+                print("Generate Ideas CF ran successfully.")
+                if let response = result?.data as? NSDictionary {
+                    if let words: [String] = response["result"] as? [String] {
+                        wordArray = words
+                    }
+                }
             }
         }
 
-        return []
+        // Process the resulting word array unless empty
+
+        return
     }
 }
