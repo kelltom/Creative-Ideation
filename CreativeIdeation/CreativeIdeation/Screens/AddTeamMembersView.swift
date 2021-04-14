@@ -32,12 +32,12 @@ struct AddTeamMembersView: View {
                 VStack {
                     HStack {
                         Spacer()
-                        Text("tFGT67fF") // temporary value
+                        Text("ffff") // temporary value
                             .font(.title)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         Spacer()
                         Button {
-
+                            // needs to copy to users keyboard
                         }label: {
                             Image(systemName: "doc.on.doc")
 

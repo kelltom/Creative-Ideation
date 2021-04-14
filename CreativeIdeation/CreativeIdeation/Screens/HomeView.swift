@@ -24,6 +24,7 @@ struct HomeView: View {
     @EnvironmentObject var groupViewModel: GroupViewModel
     @EnvironmentObject var sessionViewModel: SessionViewModel
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
+    @EnvironmentObject var userAccountViewModel: UserAccountViewModel
 
     let columns = [
         GridItem(.adaptive(minimum: 200))]
@@ -326,6 +327,7 @@ struct HomeView: View {
             case .joinTeam:
                 JoinTeamView(showSheets: $activeSheet)
                     .environmentObject(self.teamViewModel)
+                    .environmentObject(self.userAccountViewModel)
 
             }
         }

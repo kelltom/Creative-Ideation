@@ -13,6 +13,7 @@ struct JoinTeamView: View {
     @Binding var showSheets: ActiveSheet?
     @State var code: String = ""
     @EnvironmentObject var teamViewModel: TeamViewModel
+    @EnvironmentObject var userTeamModel: UserAccountViewModel
 
     var body: some View {
 

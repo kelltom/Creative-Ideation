@@ -16,10 +16,10 @@ final class TeamViewModel: ObservableObject {
 
     @Published var teams: [Team] = []   // populated when navigating to HomeView
     @Published var selectedTeam: Team?  // selected team in the sidebar
-
     @Published var msg = ""
     @Published var isShowingBanner = false
     @Published var didOperationSucceed = false
+    @Published var teamCode = ""
 
     /// Creates a single team
     func createTeam(teamName: String, teamDescription: String) {
@@ -45,7 +45,7 @@ final class TeamViewModel: ObservableObject {
         let batch = db.batch()
 
         // Create randomly generated access code
-        let code = randomGen()
+        let accessCode = randomGen()
 
         let teamRef = db.collection("teams").document()
         batch.setData([
@@ -55,7 +55,7 @@ final class TeamViewModel: ObservableObject {
             "createdBy": uid,
             "admins": FieldValue.arrayUnion([uid]),
             "members": FieldValue.arrayUnion([uid]),
-            "accessCode": code
+            "accessCode": accessCode
         ], forDocument: teamRef)
 
         // let userRef = db.collection("users").document(uid)
@@ -197,8 +197,8 @@ final class TeamViewModel: ObservableObject {
         for _ in 1...6 {
             code.append(letters.randomElement()!)
         }
-
         return code
+
     }
 
 }
