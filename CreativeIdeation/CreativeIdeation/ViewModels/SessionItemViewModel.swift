@@ -260,6 +260,9 @@ final class SessionItemViewModel: ObservableObject {
 
         // Process the resulting word array unless empty
 
+        // Set generated words list
+        self.generatedIdeas = wordArray
+
         return
     }
 }
