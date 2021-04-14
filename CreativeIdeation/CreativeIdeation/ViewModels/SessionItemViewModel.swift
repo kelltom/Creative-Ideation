@@ -235,7 +235,6 @@ final class SessionItemViewModel: ObservableObject {
         print(query)
 
         // Call API that returns an array of Strings
-        var wordArray: [String] = []
         let functions = Functions.functions()
         functions.httpsCallable("generate_ideas").call(["word": query]) { (result, error) in
             if let error = error as NSError? {
@@ -252,17 +251,14 @@ final class SessionItemViewModel: ObservableObject {
                 print("Generate Ideas CF ran successfully.")
                 if let response = result?.data as? NSDictionary {
                     if let words: [String] = response["result"] as? [String] {
-                        wordArray = words
+                        self.generatedIdeas = words
                     }
                 }
             }
         }
+    }
 
-        // Process the resulting word array unless empty
-
-        // Set generated words list
-        self.generatedIdeas = wordArray
-
-        return
+    func clearIdeas() {
+        self.generatedIdeas = []
     }
 }
