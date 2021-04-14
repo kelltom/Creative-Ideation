@@ -75,6 +75,40 @@ final class TeamViewModel: ObservableObject {
         getTeams()
     }
 
+    // add users to team based on access code
+    func addMembersToTeam(code: String) {
+
+        // get user id
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("Could not find signed-in user's ID")
+            return
+        }
+
+        // update members array in teams collection
+        db.collection("teams").whereField("accessCode", isEqualTo: code)
+            .getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        if document.exists {
+                            document.reference.updateData([
+                                "members": FieldValue.arrayUnion([uid])
+                            ])
+
+                            print("Update team members successful")
+                            self.getTeams()
+                        } else {
+                            print("error in updating teams")
+                        }
+                    }
+                }
+            }
+        // reload list of teams
+       // getTeams()
+    }
+
+    // Enables delete functionality on home view
     func deleteSelectedTeam(teamId: String?) {
         guard let teamId = teamId else {
             print("Delete Team: Selected Team ID not found")
@@ -189,6 +223,7 @@ final class TeamViewModel: ObservableObject {
             }
         }
     }
+
 
     // Generates a random code that can be used to join the team
     private func randomGen() -> String {
