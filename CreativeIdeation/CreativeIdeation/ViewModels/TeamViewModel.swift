@@ -76,7 +76,7 @@ final class TeamViewModel: ObservableObject {
     }
 
     // add users to team based on access code
-    func addMembersToTeam(code: String) {
+    func joinTeam(code: String) {
 
         // get user id
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -84,28 +84,33 @@ final class TeamViewModel: ObservableObject {
             return
         }
 
-        // update members array in teams collection
-        db.collection("teams").whereField("accessCode", isEqualTo: code)
-            .getDocuments { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        if document.exists {
-                            document.reference.updateData([
-                                "members": FieldValue.arrayUnion([uid])
-                            ])
-
-                            print("Update team members successful")
-                            self.getTeams()
-                        } else {
-                            print("error in updating teams")
+        if code.isEmpty {
+            self.setBanner(message: "Field cannot be empty. Please enter a code.", didSucceed: false)
+            print("code is empty cant be empty")
+        } else {
+            // update members array in teams collection
+            db.collection("teams").whereField("accessCode", isEqualTo: code)
+                .getDocuments { (querySnapshot, err) in
+                    if let err = err {
+                        self.setBanner(message: "Error adding user to teams", didSucceed: false)
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for document in querySnapshot!.documents {
+                            if document.exists {
+                                document.reference.updateData([
+                                    "members": FieldValue.arrayUnion([uid])
+                                ])
+                                self.setBanner(message: "Successfully joined a team!", didSucceed: true)
+                                print("Update team members successful")
+                                self.getTeams()
+                            } else {
+                                self.setBanner(message: "Error in joining a team", didSucceed: true)
+                                print("error in updating teams")
+                            }
                         }
                     }
                 }
-            }
-        // reload list of teams
-       // getTeams()
+        }
     }
 
     // Enables delete functionality on home view
@@ -128,6 +133,7 @@ final class TeamViewModel: ObservableObject {
 
         // Check if the user deleting the team is the same user who created - "only admin i guess"
         guard currentUserId == createdBy else {
+            setBanner(message: "Access Denied. You do not have permission to delete this team.", didSucceed: false)
             print("Delete Team: User is not creator cannot delete")
             return
         }

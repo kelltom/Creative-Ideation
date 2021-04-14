@@ -17,10 +17,6 @@ struct UpdatePasswordView: View {
 
     var body: some View {
         ZStack {
-            if userAccountViewModel.isLoading {
-                ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
-                    .scaleEffect(3)
-            }
 
             if userAccountViewModel.showBanner {
                 if !userAccountViewModel.updateSuccess {
@@ -49,11 +45,16 @@ struct UpdatePasswordView: View {
 
             VStack {
                 Spacer()
+                if userAccountViewModel.isLoading {
+                    ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
+                        .scaleEffect(3).padding()
+                }
                 // Sheet Title
                 Text("Change Password")
                     .font(.largeTitle)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     .padding(.bottom)
+                    .padding(.top)
                 Text("A strong password helps prevent unauthorized access to your account")
                     .padding()
 

@@ -39,7 +39,7 @@ struct JoinTeamView: View {
                     MenuTextField(title: "team code", input: $code)
                 }
                 Button {
-                    teamViewModel.addMembersToTeam(code: code)
+                    teamViewModel.joinTeam(code: code)
                     code = ""
                 } label: {
                     BigButton(title: "Join")

@@ -316,7 +316,7 @@ struct HomeView: View {
                     .environmentObject(self.teamViewModel)
 
             case .addTeamMembers:
-                AddTeamMembersView(showSheets: $activeSheet)
+                TeamAccessCode(showSheets: $activeSheet)
                     .environmentObject(self.teamViewModel)
 
             case .group:
