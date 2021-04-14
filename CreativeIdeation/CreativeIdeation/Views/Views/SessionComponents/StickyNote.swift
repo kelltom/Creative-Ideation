@@ -37,7 +37,7 @@ struct StickyNote: View, Identifiable {
                 .foregroundColor(.black)
                 .onChange(of: input, perform: {_ in
                     timer?.invalidate()
-                    timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
+                    timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
                         sessionItemViewModel.updateText(text: input, itemId: itemId)
                         sessionItemViewModel.updateItem(itemId: itemId)
                     }
