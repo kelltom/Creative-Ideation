@@ -83,10 +83,19 @@ final class TeamViewModel: ObservableObject {
             print("Could not find signed-in user's ID")
             return
         }
+        //  get code of current team selected
+        guard let currentTeamCode = selectedTeam?.accessCode else {
+            print("no access code for this team")
+            return
+        }
 
+        // Validation
         if code.isEmpty {
             self.setBanner(message: "Field cannot be empty. Please enter a code.", didSucceed: false)
             print("code is empty cant be empty")
+        } else if currentTeamCode == code {
+            self.setBanner(message: "Cannot join a team you are already in!", didSucceed: false)
+            print("cant join an existing team")
         } else {
             // update members array in teams collection
             db.collection("teams").whereField("accessCode", isEqualTo: code)
