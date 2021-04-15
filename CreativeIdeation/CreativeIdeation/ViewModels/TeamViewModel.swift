@@ -22,7 +22,7 @@ final class TeamViewModel: ObservableObject {
     @Published var teamCode = ""
 
     /// Creates a single team
-    func createTeam(teamName: String, teamDescription: String) {
+    func createTeam(teamName: String, teamDescription: String, isPrivate: Bool = false) {
 
         // Get user ID
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -34,6 +34,7 @@ final class TeamViewModel: ObservableObject {
         var newTeam = Team()
         newTeam.teamName = teamName
         newTeam.teamDescription = teamDescription
+        newTeam.isPrivate = isPrivate
 
         // Make sure Team Name is not empty
         guard !newTeam.teamName.isEmpty else {
@@ -53,6 +54,7 @@ final class TeamViewModel: ObservableObject {
             "teamName": newTeam.teamName,
             "teamDescription": newTeam.teamDescription,
             "createdBy": uid,
+            "isPrivate": newTeam.isPrivate,
             "admins": FieldValue.arrayUnion([uid]),
             "members": FieldValue.arrayUnion([uid]),
             "accessCode": accessCode
@@ -75,7 +77,7 @@ final class TeamViewModel: ObservableObject {
         getTeams()
     }
 
-    // add users to team based on access code
+    // Add users to team based on access code
     func joinTeam(code: String) {
 
         // get user id

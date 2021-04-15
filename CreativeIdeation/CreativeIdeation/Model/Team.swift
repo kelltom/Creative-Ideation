@@ -14,6 +14,7 @@ struct Team: Codable, Identifiable, Equatable {
     var teamDescription = ""
     var createdBy = ""
     var accessCode = ""
+    var isPrivate = false
 
     var members: [String] = []
     var admins: [String] = []
@@ -24,6 +25,7 @@ struct Team: Codable, Identifiable, Equatable {
         case teamDescription
         case createdBy
         case accessCode
+        case isPrivate
         case members
         case admins
     }
