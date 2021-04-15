@@ -16,22 +16,23 @@ struct CreateAccountView: View {
     @State var email: String = ""
     @State var password: String = ""
 
-    @EnvironmentObject var viewModel: UserAccountViewModel
+    @EnvironmentObject var userAccountViewModel: UserAccountViewModel
+    @EnvironmentObject var teamViewModel: TeamViewModel
 
     var body: some View {
 
         ZStack {
-            if viewModel.isLoading {
+            if userAccountViewModel.isLoading {
                 ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
                     .scaleEffect(3)
             }
 
-            if viewModel.showBanner {
-                if viewModel.createSuccess {
+            if userAccountViewModel.showBanner {
+                if userAccountViewModel.createSuccess {
                     // be nice to show a banner for success here
 
                 } else {
-                    NotificationBanner(image: "exclamationmark.circle.fill", msg: viewModel.msg, color: .red)
+                    NotificationBanner(image: "exclamationmark.circle.fill", msg: userAccountViewModel.msg, color: .red)
                 }
             }
 
@@ -54,13 +55,13 @@ struct CreateAccountView: View {
                     // Create Account Link
                     NavigationLink(
                         destination: HomeView(),
-                        isActive: $viewModel.createSuccess,
+                        isActive: $userAccountViewModel.createSuccess,
                         label: {
                             EmptyView()
                         })
 
                     Button {
-                        viewModel.createAccount(name: name, email: email, password: password)
+                        userAccountViewModel.createAccount(name: name, email: email, password: password)
                         // delayAlert()
                     } label: {
                         BigButton(title: "Create Account")
@@ -84,10 +85,14 @@ struct CreateAccountView: View {
             .navigationBarHidden(true)
         }
         .onAppear {
-            viewModel.showBanner = false
+            userAccountViewModel.showBanner = false
         }
         .onDisappear {
-            viewModel.showBanner = false
+            userAccountViewModel.showBanner = false
+        }
+        .onChange(of: userAccountViewModel.createSuccess) {_ in
+            // When a user account is successfully created, make a Private team
+            teamViewModel.createTeam(teamName: "Private", teamDescription: "Private Team for user.")
         }
 
     }
@@ -98,5 +103,6 @@ struct CreateAccountView_Previews: PreviewProvider {
     static var previews: some View {
         CreateAccountView(showLogIn: .constant(false))
             .environmentObject(UserAccountViewModel())
+            .environmentObject(TeamViewModel())
     }
 }

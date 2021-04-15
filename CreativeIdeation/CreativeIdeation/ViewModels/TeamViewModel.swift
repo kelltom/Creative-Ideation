@@ -230,7 +230,6 @@ final class TeamViewModel: ObservableObject {
         }
     }
 
-
     // Generates a random code that can be used to join the team
     private func randomGen() -> String {
         let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"

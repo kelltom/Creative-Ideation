@@ -41,13 +41,13 @@ struct HomeView: View {
                     .fontWeight(.bold)
                     .padding(.top, 20)
 
-                // Home Team button
+                // Private button
                 Button {
                     teamViewModel.selectedTeam = nil
                 } label: {
                     TeamPic(selected: teamViewModel.selectedTeam == nil,
-                            symbolName: "house",
-                            teamName: "Home")
+                            symbolName: "eye.slash",
+                            teamName: "Private")
                 }
 
                 // Add buttons for additional Teams
@@ -149,6 +149,7 @@ struct HomeView: View {
 
                 Divider()
 
+                // Below header bar
                 VStack {
 
                     // Recent Sessions List
