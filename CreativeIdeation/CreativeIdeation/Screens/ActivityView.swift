@@ -28,6 +28,9 @@ struct ActivityView: View {
     @State private var ideasIndex = 0
     @State private var idea = ""
 
+    @State var dockLocation: CGPoint = CGPoint(x: 770, y: 350)
+    @GestureState private var startLocation: CGPoint?
+
     @Binding var showActivity: Bool
 
     var body: some View {
@@ -72,31 +75,52 @@ struct ActivityView: View {
 
                     Spacer()
                 }
-                HStack {
-                    Spacer()
-                    VStack(alignment: .trailing) {
-                        Button {
-                            let newColor = randomizeColor ? Int.random(in: 0..<5) : selectedColor
-                            sessionItemViewModel.createItem(color: newColor)
+                Spacer()
+            }
 
-                        } label: {
-                            VStack(spacing: 0) {
-                                Rectangle()
-                                    .foregroundColor(colorArray[0])
-                                    .frame(width: 90, height: 20)
+            HStack {
+                VStack(alignment: .trailing) {
+                    Button {
+                        let newColor = randomizeColor ? Int.random(in: 0..<5) : selectedColor
+                        sessionItemViewModel.createItem(color: newColor)
 
-                                Image(systemName: "plus")
+                    } label: {
+                        VStack(spacing: 0) {
+                            Rectangle()
+                                .foregroundColor(colorArray[0])
+                                .frame(width: 90, height: 20)
+
+                            Image(systemName: "plus")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(.white)
+                                .frame(width: 90, height: 70)
+                                .background(Color.red)
+                        }
+                        .cornerRadius(18)
+                        .shadow(color: shadowColor, radius: 6, y: 4)
+                        .padding()
+                    }
+
+                    HStack(spacing: -33) {
+
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 15)
+                                .frame(width: 60, height: 50)
+                                .foregroundColor(.white)
+                            HStack {
+                                Image(systemName: "arrow.up.and.down.and.arrow.left.and.right")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .frame(width: 30, height: 30)
-                                    .foregroundColor(.white)
-                                    .frame(width: 90, height: 70)
-                                    .background(Color.red)
+                                    .foregroundColor(shadowColor)
+                                    .frame(width: 15, height: 15)
+                                    .padding(.trailing, 30)
                             }
-                            .cornerRadius(18)
-                            .shadow(color: shadowColor, radius: 6, y: 4)
-                            .padding()
                         }
+                        .clipped()
+                        .shadow(color: shadowColor, radius: 4, y: 4)
+                        .gesture(simpleDrag)
 
                         VStack(spacing: 10) {
                             HStack(spacing: 10) {
@@ -281,90 +305,111 @@ struct ActivityView: View {
                         .cornerRadius(15)
                         .shadow(color: shadowColor, radius: 6, y: 4)
                         .padding(.trailing, 21)
+                    }
 
-                        HStack {
-                            // Suggestion carousel
-                            if sessionItemViewModel.generatedIdeas.count > 0 {
-                                HStack {
-                                    // Cycle left
-                                    Button {
-                                        if ideasIndex > 0 {
-                                            ideasIndex -= 1
-                                        } else {
-                                            ideasIndex = sessionItemViewModel.generatedIdeas.count - 1
-                                        }
-                                        idea = sessionItemViewModel.generatedIdeas[ideasIndex]
-                                    } label: {
-                                        Image(systemName: "chevron.left")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 20, height: 20)
+                    HStack {
+                        // Suggestion carousel
+                        if sessionItemViewModel.generatedIdeas.count > 0 {
+                            HStack {
+                                // Cycle left
+                                Button {
+                                    if ideasIndex > 0 {
+                                        ideasIndex -= 1
+                                    } else {
+                                        ideasIndex = sessionItemViewModel.generatedIdeas.count - 1
                                     }
+                                    idea = sessionItemViewModel.generatedIdeas[ideasIndex]
+                                } label: {
+                                    Image(systemName: "chevron.left")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 20, height: 20)
+                                }
 
-                                    // Idea Text
-                                    Menu(sessionItemViewModel.generatedIdeas[ideasIndex]) {
-                                        // Copy Text
-                                        Button {
-                                            UIPasteboard.general.string =
-                                                sessionItemViewModel.generatedIdeas[ideasIndex]
-                                        } label: {
-                                            Label("Copy", systemImage: "doc.on.doc")
-                                        }
-                                        // Close Ideas
-                                        Button {
-                                            sessionItemViewModel.clearIdeas()
-                                        } label: {
-                                            Label("Close", systemImage: "xmark")
-                                        }
-                                    }
-                                    .font(.title2)
-
-                                    // Cycle right
+                                // Idea Text
+                                Menu(sessionItemViewModel.generatedIdeas[ideasIndex]) {
+                                    // Copy Text
                                     Button {
-                                        if ideasIndex < sessionItemViewModel.generatedIdeas.count - 1 {
-                                            ideasIndex += 1
-                                        } else {
-                                            ideasIndex = 0
-                                        }
-                                        idea = sessionItemViewModel.generatedIdeas[ideasIndex]
+                                        UIPasteboard.general.string =
+                                            sessionItemViewModel.generatedIdeas[ideasIndex]
                                     } label: {
-                                        Image(systemName: "chevron.right")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 20, height: 20)
+                                        Label("Copy", systemImage: "doc.on.doc")
+                                    }
+                                    // Close Ideas
+                                    Button {
+                                        sessionItemViewModel.clearIdeas()
+                                    } label: {
+                                        Label("Close", systemImage: "xmark")
                                     }
                                 }
-                                .frame(minWidth: 20)
-                                .padding(10)
-                                .background(Color.white)
-                                .clipped()
-                                .cornerRadius(15)
-                                .shadow(color: shadowColor, radius: 4, y: 4)
-                            }
+                                .font(.title2)
 
-                            // AI Word Generation button
-                            Button {
-                                sessionItemViewModel.clearIdeas()
-                                ideasIndex = 0
-                                sessionItemViewModel.generateIdeas()
-                            } label: {
-                                Image("brainwriting")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 90, height: 90)
-                                    .padding(.top, 8)
-                                    .shadow(color: shadowColor, radius: 4, y: 4)
+                                // Cycle right
+                                Button {
+                                    if ideasIndex < sessionItemViewModel.generatedIdeas.count - 1 {
+                                        ideasIndex += 1
+                                    } else {
+                                        ideasIndex = 0
+                                    }
+                                    idea = sessionItemViewModel.generatedIdeas[ideasIndex]
+                                } label: {
+                                    Image(systemName: "chevron.right")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 20, height: 20)
+                                }
                             }
-                            .padding(.trailing)
+                            .frame(minWidth: 20)
+                            .padding(10)
+                            .background(Color.white)
+                            .clipped()
+                            .cornerRadius(15)
+                            .shadow(color: shadowColor, radius: 4, y: 4)
                         }
+
+                        // AI Word Generation button
+                        Button {
+                            sessionItemViewModel.clearIdeas()
+                            ideasIndex = 0
+                            sessionItemViewModel.generateIdeas()
+                        } label: {
+                            Image("brainwriting")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 90, height: 90)
+                                .padding(.top, 8)
+                                .shadow(color: shadowColor, radius: 4, y: 4)
+                        }
+                        .padding(.trailing)
                     }
                 }
-                Spacer()
             }
+            .position(dockLocation)
+
         }
         .navigationTitle("Session")
         .navigationBarHidden(true)
         // .edgesIgnoringSafeArea(.all)
+    }
+
+    var simpleDrag: some Gesture {
+        DragGesture()
+            .onChanged { value in
+                var newLocation = startLocation ?? dockLocation
+                newLocation.x += value.translation.width
+                newLocation.y += value.translation.height
+                if newLocation.y < 200 {
+                    newLocation.y = 200
+                } else if newLocation.y > 890{
+                    newLocation.y = 890
+                }
+                if newLocation.x > 770 {
+                    newLocation.x = 770
+                } else if newLocation.x < 80 {
+                    newLocation.x = 80
+                }
+                self.dockLocation = newLocation
+            }
     }
 
 }
