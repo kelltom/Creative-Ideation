@@ -73,8 +73,6 @@ final class TeamViewModel: ObservableObject {
             }
         }
 
-        // Reload list of teams
-        getTeams()
     }
 
     // Add users to team based on access code

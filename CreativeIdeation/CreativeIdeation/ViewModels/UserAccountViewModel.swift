@@ -60,7 +60,11 @@ final class UserAccountViewModel: ObservableObject {
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
-            self.authSuccess = false
+            if authSuccess {
+                self.authSuccess = false
+            } else if createSuccess {
+                self.createSuccess = false
+            }
             self.showBanner = false
             print("signed out successfully")
         } catch let signOutError as NSError {
@@ -90,6 +94,7 @@ final class UserAccountViewModel: ObservableObject {
                 }
             }
     }
+
     /// updating user name to  db
     func updateUserName(name: String) {
         self.showBanner = false

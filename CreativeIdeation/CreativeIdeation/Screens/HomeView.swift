@@ -41,14 +41,14 @@ struct HomeView: View {
                     .fontWeight(.bold)
                     .padding(.top, 20)
 
-                // Private button
-                Button {
-                    teamViewModel.selectedTeam = nil
-                } label: {
-                    TeamPic(selected: teamViewModel.selectedTeam == nil,
-                            symbolName: "eye.slash",
-                            teamName: "Private")
-                }
+//                // Private button
+//                Button {
+//                    teamViewModel.selectedTeam = nil
+//                } label: {
+//                    TeamPic(selected: teamViewModel.selectedTeam == nil,
+//                            symbolName: "eye.slash",
+//                            teamName: "Private")
+//                }
 
                 // Add buttons for additional Teams
                 ForEach(teamViewModel.teams) { team in
@@ -100,7 +100,7 @@ struct HomeView: View {
 
                 // Top Title Bar
                 HStack(spacing: 20) {
-                    Text(teamViewModel.selectedTeam?.teamName ?? "Home")
+                    Text(teamViewModel.selectedTeam?.teamName ?? "N/A")
                         .font(.largeTitle)
 
                     Button {

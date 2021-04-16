@@ -62,7 +62,6 @@ struct CreateAccountView: View {
 
                     Button {
                         userAccountViewModel.createAccount(name: name, email: email, password: password)
-                        // delayAlert()
                     } label: {
                         BigButton(title: "Create Account")
                     }
@@ -90,15 +89,13 @@ struct CreateAccountView: View {
         .onDisappear {
             userAccountViewModel.showBanner = false
         }
-        .onChange(of: userAccountViewModel.createSuccess) {_ in
+        .onChange(of: userAccountViewModel.createSuccess == true) { _ in
             // When a user account is successfully created, make a Private team
             teamViewModel.createTeam(teamName: "Private",
                                      teamDescription: "Private Team for user.",
                                      isPrivate: true)
         }
-
     }
-
 }
 
 struct CreateAccountView_Previews: PreviewProvider {
