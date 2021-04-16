@@ -18,8 +18,8 @@ struct GroupButton: View {
                 HStack {
                     Text(title)
                         .font(.title3)
-                        // .fontWeight(selected ? .bold : .regular)
-                        .foregroundColor(selected ? Color.white : Color.black)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color.white)
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: 140, alignment: .center)
                 }
@@ -33,8 +33,8 @@ struct GroupButton: View {
                 HStack {
                     Text(title)
                         .font(.title3)
-                        .fontWeight(selected ? .bold : .regular)
-                        .foregroundColor(selected ? Color.white : Color.black)
+                        .fontWeight(.regular)
+                        .foregroundColor(Color.black)
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: 140, alignment: .center)
                 }
@@ -51,6 +51,6 @@ struct GroupButton: View {
 
 struct SubGroup_Previews: PreviewProvider {
     static var previews: some View {
-        GroupButton(title: "Example", selected: false)
+        GroupButton(title: "Example", selected: true)
     }
 }
