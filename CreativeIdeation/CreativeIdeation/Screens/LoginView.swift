@@ -19,7 +19,7 @@ struct LoginView: View {
     @State var email: String = ""
     @State var password: String = ""
 
-    @EnvironmentObject var viewModel: UserAccountViewModel
+    @EnvironmentObject var userAccountViewModel: UserAccountViewModel
 
     var body: some View {
 
@@ -31,16 +31,18 @@ struct LoginView: View {
 //                        .scaleEffect(3)
 //                }
 
-                if viewModel.showBanner {
-                    if !viewModel.authSuccess {
-                        NotificationBanner(image: "exclamationmark.circle.fill", msg: viewModel.msg, color: .red)
+                if userAccountViewModel.showBanner {
+                    if !userAccountViewModel.authSuccess {
+                        NotificationBanner(image: "exclamationmark.circle.fill",
+                                           msg: userAccountViewModel.msg,
+                                           color: .red)
                     }
                 }
 
                 VStack {
 
                     Spacer()
-                    if viewModel.isLoading {
+                    if userAccountViewModel.isLoading {
                         ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
                             .scaleEffect(3).padding()
                     }
@@ -58,14 +60,14 @@ struct LoginView: View {
                         // Log In Link
                         NavigationLink(
                             destination: HomeView(),
-                            isActive: $viewModel.authSuccess,
+                            isActive: $userAccountViewModel.authSuccess,
                             label: {
                                 EmptyView()
                             })
 
                         // Log In Button
                         Button {
-                            viewModel.authenticate(email: email, password: password)
+                            userAccountViewModel.authenticate(email: email, password: password)
                         } label: {
                             BigButton(title: "Log In")
                         }

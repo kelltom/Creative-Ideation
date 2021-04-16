@@ -17,6 +17,8 @@ enum PreferenceSheet: Identifiable {
 struct UserSettingsView: View {
 
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
+    @EnvironmentObject var teamViewModel: TeamViewModel
+
     @State var showSheet: PreferenceSheet?
     @State private var darkModeFilter = true
 
@@ -139,6 +141,7 @@ struct UserSettingsView: View {
             // LogOutButton
             Button {
                 userAccountViewModel.signOut()
+                teamViewModel.clear()
             } label: {
                 LogOutButton()
             }

@@ -87,9 +87,9 @@ final class UserAccountViewModel: ObservableObject {
                     do {
                         // Convert document to User object
                         try self.selectedUser = querySnapshot?.data(as: User.self)
-                        print("User object mapped successfully")
+                        print("User Settings: User object mapped successfully")
                     } catch {
-                        print("Error creating object to User")
+                        print("User Settings: Error creating object to User")
                     }
                 }
             }
