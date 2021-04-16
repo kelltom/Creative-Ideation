@@ -32,18 +32,14 @@ struct TeamAccessCode: View {
                 VStack {
                     HStack {
                         Spacer()
-                        Text(teamViewModel.selectedTeam?.accessCode ?? "N/A")
+                        Text(teamViewModel.selectedTeam?.accessCode ?? "Select a team")
                             .font(.title)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         Spacer()
                         Button {
                             // needs to copy to users keyboard
                             UIPasteboard.general.string = teamViewModel.selectedTeam?.accessCode
-                            // pasteboard string is optional must be unwrapped first
-                            if let content = UIPasteboard.general.string {
                                 isCopied = true
-                                print(content)
-                            }
                         }label: {
                             Image(systemName: "doc.on.doc")
 
@@ -57,11 +53,11 @@ struct TeamAccessCode: View {
                 .border(Color.white, width: 1.0)
                 .background(Color.white)
 
-                // text show up - kinda ghetto
-                if isCopied {
-                    Text("Copied to clipboard!").foregroundColor(.white).padding()
+                ZStack {
+                    if isCopied {
+                        Text("Copied to clipboard!").foregroundColor(.white)
+                    }
                 }
-
             }
             .frame(maxWidth: 600, maxHeight: 400, alignment: .center)
             .overlay(

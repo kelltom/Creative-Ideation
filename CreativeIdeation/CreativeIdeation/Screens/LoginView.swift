@@ -26,10 +26,6 @@ struct LoginView: View {
         NavigationView {
 
             ZStack {
-//                if viewModel.isLoading {
-//                    ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
-//                        .scaleEffect(3)
-//                }
 
                 if userAccountViewModel.showBanner {
                     if !userAccountViewModel.authSuccess {
@@ -104,6 +100,7 @@ struct LoginView: View {
 
         }
         .navigationViewStyle(StackNavigationViewStyle())
+
 
     }
 
