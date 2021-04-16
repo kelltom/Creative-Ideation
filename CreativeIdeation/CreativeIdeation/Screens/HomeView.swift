@@ -45,6 +45,7 @@ struct HomeView: View {
                     .foregroundColor(.white)
                     .fontWeight(.bold)
                     .padding(.top, 20)
+                    .padding(.horizontal, 10)
 
                 // Add buttons for Teams
                 ForEach(teamViewModel.teams) { team in
@@ -145,7 +146,7 @@ struct HomeView: View {
                         label: {
                             ProfilePic(size: 70)
                                 .shadow(color: .black, radius: 4, y: 4)
-
+                                .padding(.trailing, 5)
                         })
 
                 }
@@ -303,7 +304,12 @@ struct HomeView: View {
                 } else {
                     // No Team Selected
                     Text("Try creating or selecting a Team in the sidebar!")
-                        
+                        .padding()
+                        .frame(width: .infinity)
+                        .background(RoundedRectangle(cornerRadius: 5)
+                                        .stroke(Color.black))
+                        .font(.title2)
+                        .padding()
 
                     Spacer()
                 }
