@@ -155,7 +155,7 @@ struct HomeView: View {
                 Divider()
 
                 // Below title bar (preview variable temporary)
-                if !preview || teamViewModel.selectedTeam?.id != nil {
+                if preview || teamViewModel.selectedTeam?.id != nil {
                     VStack {
 
                         // Recent Sessions List
