@@ -305,7 +305,7 @@ struct HomeView: View {
                     // No Team Selected
                     Text("Try creating or selecting a Team in the sidebar!")
                         .padding()
-                        .frame(width: .infinity)
+                        .frame(minWidth: 50)
                         .background(RoundedRectangle(cornerRadius: 5)
                                         .stroke(Color.black))
                         .font(.title2)
