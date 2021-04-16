@@ -11,9 +11,11 @@ struct TeamSettingsView: View {
 
     @State private var profanityFilter = true
 
-    var title: String = "Team Settings"
-    var userName: String = "Kellen Evoy"
+    var teamName: String = "My Team"
     var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+
+    /// Indicates whether current Team is private, which disables/enables certain fields
+    var isPrivate: Bool
 
     @EnvironmentObject var teamViewModel: TeamViewModel
 
@@ -21,7 +23,7 @@ struct TeamSettingsView: View {
 
         VStack {
 
-            Text(title)
+            Text("Team Settings")
                 .font(.system(size: 40))
                 .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                 .padding()
@@ -42,7 +44,7 @@ struct TeamSettingsView: View {
 
                     HStack {
 
-                        Text(userName)
+                        Text(teamName)
                             .font(.system(size: 18))
 
                         Spacer()
@@ -125,15 +127,16 @@ struct TeamSettingsView: View {
             Button {
                 teamViewModel.deleteSelectedTeam(teamId: teamViewModel.selectedTeam?.teamId)
             } label: {
-                DeleteButton()
+                DeleteButton(backgroundColor: isPrivate ? .gray : .red)
             }
-
+            .disabled(isPrivate)
         }
     }
 }
 
 struct TeamSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        TeamSettingsView(title: "Title", userName: "Username", description: "Some description here")
+        TeamSettingsView(teamName: "Team Name", description: "Some description here", isPrivate: false)
+            .environmentObject(TeamViewModel())
     }
 }

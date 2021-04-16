@@ -111,7 +111,7 @@ struct HomeView: View {
 
                         // Team Settings Button
                         NavigationLink(
-                            destination: TeamSettingsView(),
+                            destination: TeamSettingsView(isPrivate: teamViewModel.selectedTeam?.isPrivate ?? true),
                             label: {
                                 Image(systemName: "gearshape.fill")
                                     .resizable()
@@ -123,6 +123,7 @@ struct HomeView: View {
 
                     Spacer()
 
+                    // Notifications Bell
                     Button {
                         // view notifications
                     } label: {
@@ -133,6 +134,7 @@ struct HomeView: View {
                             .foregroundColor(Color.yellow)
                     }
 
+                    // User Profile Icon
                     NavigationLink(
                         destination: UserSettingsView(),
                         label: {
