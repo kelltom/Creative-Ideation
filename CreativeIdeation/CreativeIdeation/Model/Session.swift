@@ -15,7 +15,7 @@ struct Session: Identifiable, Codable {
     var sessionDescription = ""
     var type = "" // this should probably be an enum
     var inProgress = true
-    var dateCreated = "" // should probably be some time of datetime object
+    var dateCreated: Date = Date()
     var dateModified = ""
     var createdBy = ""
 

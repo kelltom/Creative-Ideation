@@ -16,12 +16,15 @@ struct Group: Codable, Identifiable, Equatable {
     var members: [String] = []
     var sessions: [String] = []
 
+    var dateCreated: Date = Date()
+
     enum CodingKeys: String, CodingKey {
         case groupId
         case groupTitle
         case admins
         case members
         case sessions
+        case dateCreated
     }
 
 }
