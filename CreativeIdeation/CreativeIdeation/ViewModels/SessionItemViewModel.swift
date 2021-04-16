@@ -215,6 +215,7 @@ final class SessionItemViewModel: ObservableObject {
         // Change the colour of the selected sticky
         sessionItems[sessionItems.firstIndex(where: {$0.itemId == selectedSticky!.itemId})!].color = color
         selectedSticky?.chosenColor = self.colorArray[color]
+        self.updateText(text: selectedSticky!.input, itemId: selectedSticky!.itemId)
     }
 
     func generateIdeas() {

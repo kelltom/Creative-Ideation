@@ -15,6 +15,7 @@ struct StickyNote: View, Identifiable {
     @State var location: CGPoint
 
     var itemId: String
+    @State var textChanged: Bool = false
     @State var timer: Timer?
     @State var chosenColor: Color? = Color.red
     @State var selected: Bool = false
@@ -23,27 +24,42 @@ struct StickyNote: View, Identifiable {
     @GestureState var isDetectingLongPress = false
 
     var body: some View {
-        VStack(spacing: 0) {
-            Rectangle()
-                .foregroundColor(chosenColor)
-                .frame(width: 160, height: 30)
-                .simultaneousGesture(longPress)
-                .simultaneousGesture(simpleDrag)
+        ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
+            VStack(spacing: 0) {
+                Rectangle()
+                    .foregroundColor(chosenColor)
+                    .frame(width: 160, height: 30)
+                    .simultaneousGesture(longPress)
+                    .simultaneousGesture(simpleDrag)
 
-            TextEditor(text: $input)
-                .frame(width: 160, height: 130)
-                .opacity(0.7)
-                .background(chosenColor)
-                .foregroundColor(.black)
-                .onChange(of: input, perform: {_ in
-                    timer?.invalidate()
-                    timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
-                        sessionItemViewModel.updateText(text: input, itemId: itemId)
-                        sessionItemViewModel.updateItem(itemId: itemId)
-                    }
-                })
+                TextEditor(text: $input)
+                    .frame(width: 160, height: 130)
+                    .opacity(0.7)
+                    .background(chosenColor)
+                    .foregroundColor(.black)
+                    .onChange(of: input, perform: {_ in
+                        textChanged = true
+                    })
+            }
+            .cornerRadius(10)
+
+            if textChanged {
+                Button {
+                    // Save text to DB
+                    sessionItemViewModel.updateText(text: input, itemId: itemId)
+                    sessionItemViewModel.updateItem(itemId: itemId)
+                    textChanged = false
+                } label: {
+                    Image(systemName: "checkmark.circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(chosenColor)
+                        .padding(5)
+                }
+            }
         }
-        .cornerRadius(10)
+        .clipped()
         .shadow(color: selected ? Color.black : Color.clear, radius: 6, y: 4 )
         .position(location)
         .onAppear {
@@ -77,6 +93,10 @@ struct StickyNote: View, Identifiable {
                 self.location = newLocation}
             .onEnded {_ in
                 sessionItemViewModel.updateLocation(location: location, itemId: itemId)
+                if textChanged {
+                    sessionItemViewModel.updateText(text: input, itemId: itemId)
+                    textChanged = false
+                }
                 sessionItemViewModel.updateItem(itemId: itemId)
             }
     }

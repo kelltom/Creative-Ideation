@@ -19,7 +19,6 @@ struct ActivityView: View {
                       Color.init(red: 0.9, green: 0.45, blue: 0.9)]
 
     let shadowColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
-    // @State private var canvasView = PKCanvasView()
 
     @State private var selectedColor = -1
     @State private var randomizeColor: Bool = true
@@ -34,8 +33,6 @@ struct ActivityView: View {
         ZStack {
             // Whatever view we use for the canvas will be placed here,
             // so that all other elements are placed above it on the zstack
-
-            // PKCanvas(canvasView: $canvasView) // Creates the canvasView
 
             ForEach(sessionItemViewModel.stickyNotes) { note in
                 note
@@ -368,40 +365,39 @@ struct ActivityView: View {
         }
         .navigationTitle("Session")
         .navigationBarHidden(true)
-        // .edgesIgnoringSafeArea(.all)
     }
 
 }
 
-struct PKCanvas: UIViewRepresentable {
-    @Binding var canvasView: PKCanvasView
-    let picker = PKToolPicker.init()
-    var size: Int = 10000
-    var canvasSize: CGSize {
-        return CGSize(width: size, height: size)
-    }
-
-    var center: CGPoint {
-        return CGPoint(x: size/2, y: size/2)
-    }
-
-    func makeUIView(context: Context) -> PKCanvasView {
-        canvasView.drawingPolicy = .anyInput
-        canvasView.contentSize = canvasSize
-        canvasView.contentOffset = center
-        canvasView.tool = PKInkingTool(.pen, color: .black, width: 12)
-        canvasView.becomeFirstResponder()
-        return canvasView
-    }
-
-    func updateUIView(_ canvasView: PKCanvasView, context: Context) {
-        picker.addObserver(canvasView)
-        picker.setVisible(true, forFirstResponder: canvasView)
-        DispatchQueue.main.async {
-            canvasView.becomeFirstResponder()
-        }
-    }
-}
+//struct PKCanvas: UIViewRepresentable {
+//    @Binding var canvasView: PKCanvasView
+//    let picker = PKToolPicker.init()
+//    var size: Int = 10000
+//    var canvasSize: CGSize {
+//        return CGSize(width: size, height: size)
+//    }
+//
+//    var center: CGPoint {
+//        return CGPoint(x: size/2, y: size/2)
+//    }
+//
+//    func makeUIView(context: Context) -> PKCanvasView {
+//        canvasView.drawingPolicy = .anyInput
+//        canvasView.contentSize = canvasSize
+//        canvasView.contentOffset = center
+//        canvasView.tool = PKInkingTool(.pen, color: .black, width: 12)
+//        canvasView.becomeFirstResponder()
+//        return canvasView
+//    }
+//
+//    func updateUIView(_ canvasView: PKCanvasView, context: Context) {
+//        picker.addObserver(canvasView)
+//        picker.setVisible(true, forFirstResponder: canvasView)
+//        DispatchQueue.main.async {
+//            canvasView.becomeFirstResponder()
+//        }
+//    }
+//}
 
 struct ActivityView_Previews: PreviewProvider {
     static var previews: some View {
