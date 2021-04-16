@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		761F4751261E212A0019B580 /* UpdateEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761F4750261E212A0019B580 /* UpdateEmailView.swift */; };
 		761F4758261E43CB0019B580 /* SubmitButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761F4757261E43CB0019B580 /* SubmitButton.swift */; };
-		762787A72629145800307F42 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762787A62629145800307F42 /* SplashView.swift */; };
 		762EB076262655A100466F64 /* JoinTeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762EB075262655A100466F64 /* JoinTeamView.swift */; };
 		76731F342602802200536836 /* TeamSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F332602802200536836 /* TeamSettingsView.swift */; };
 		76731F392602828C00536836 /* PreferencePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F382602828C00536836 /* PreferencePic.swift */; };
@@ -74,7 +73,6 @@
 /* Begin PBXFileReference section */
 		761F4750261E212A0019B580 /* UpdateEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateEmailView.swift; sourceTree = "<group>"; };
 		761F4757261E43CB0019B580 /* SubmitButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitButton.swift; sourceTree = "<group>"; };
-		762787A62629145800307F42 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		762EB075262655A100466F64 /* JoinTeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinTeamView.swift; sourceTree = "<group>"; };
 		76731F332602802200536836 /* TeamSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSettingsView.swift; sourceTree = "<group>"; };
 		76731F382602828C00536836 /* PreferencePic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencePic.swift; sourceTree = "<group>"; };
@@ -229,7 +227,6 @@
 				76A0956425E80F0500917450 /* CreateGroupView.swift */,
 				C9AE739D25EB19F50090C96B /* CreateSessionView.swift */,
 				C9AE738025EAAD940090C96B /* ActivityView.swift */,
-				762787A62629145800307F42 /* SplashView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -485,7 +482,6 @@
 				C9F230C225F29D98006590DA /* SessionTile.swift in Sources */,
 				76731F392602828C00536836 /* PreferencePic.swift in Sources */,
 				76A184D125FD979B0070251D /* XDismissButton.swift in Sources */,
-				762787A72629145800307F42 /* SplashView.swift in Sources */,
 				C9F230BD25F29D8D006590DA /* GroupButton.swift in Sources */,
 				C9F230BA25F29D53006590DA /* TeamPic.swift in Sources */,
 				76C0480426054878009ECBAB /* TeamAccessCode.swift in Sources */,
