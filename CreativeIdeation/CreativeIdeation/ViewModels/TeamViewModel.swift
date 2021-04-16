@@ -57,7 +57,8 @@ final class TeamViewModel: ObservableObject {
             "isPrivate": newTeam.isPrivate,
             "admins": FieldValue.arrayUnion([uid]),
             "members": FieldValue.arrayUnion([uid]),
-            "accessCode": accessCode
+            "accessCode": accessCode,
+            "dateCreated": FieldValue.serverTimestamp()
         ], forDocument: teamRef)
 
         // let userRef = db.collection("users").document(uid)
@@ -213,6 +214,9 @@ final class TeamViewModel: ObservableObject {
                         }
 
                     }
+                    self.teams = self.teams.sorted(by: {
+                        $0.dateCreated.compare($1.dateCreated) == .orderedAscending
+                    })
                 }
             }
     }

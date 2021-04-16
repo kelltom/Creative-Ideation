@@ -19,6 +19,8 @@ struct Team: Codable, Identifiable, Equatable {
     var members: [String] = []
     var admins: [String] = []
 
+    var dateCreated: Date = Date()
+
     enum CodingKeys: String, CodingKey {
         case teamId
         case teamName
@@ -28,5 +30,6 @@ struct Team: Codable, Identifiable, Equatable {
         case isPrivate
         case members
         case admins
+        case dateCreated
     }
 }

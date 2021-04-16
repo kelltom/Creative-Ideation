@@ -300,7 +300,7 @@ struct HomeView: View {
                     }
                 } else {
                     // No Team Selected
-                    Text("Hey")
+                    Text("No Team selected. Try tapping a Team icon on the left, or create a new Team!")
                     Spacer()
                 }
 
