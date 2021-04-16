@@ -20,6 +20,8 @@ struct HomeView: View {
     @State var activeSheet: ActiveSheet?
     @State var showActivity: Bool = false
 
+    private let shadowColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
+
     @EnvironmentObject var teamViewModel: TeamViewModel
     @EnvironmentObject var groupViewModel: GroupViewModel
     @EnvironmentObject var sessionViewModel: SessionViewModel
@@ -152,7 +154,7 @@ struct HomeView: View {
                 Divider()
 
                 // Below title bar (preview variable temporary)
-                if preview || teamViewModel.selectedTeam?.id != nil {
+                if !preview || teamViewModel.selectedTeam?.id != nil {
                     VStack {
 
                         // Recent Sessions List
@@ -300,7 +302,14 @@ struct HomeView: View {
                     }
                 } else {
                     // No Team Selected
-                    Text("No Team selected. Try tapping a Team icon on the left, or create a new Team!")
+                    Text("Try creating or selecting a Team in the sidebar!")
+                        .font(.title2)
+                        .frame(width: .infinity)
+                        .padding()
+                        .border(Color.black)
+                        .padding(.top)
+                        .cornerRadius(15)
+                        .shadow(color: shadowColor, radius: 4, y: 4)
                     Spacer()
                 }
 
