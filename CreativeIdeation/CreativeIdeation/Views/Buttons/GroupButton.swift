@@ -21,12 +21,7 @@ struct GroupButton: View {
                         // .fontWeight(selected ? .bold : .regular)
                         .foregroundColor(selected ? Color.white : Color.black)
                         .multilineTextAlignment(.center)
-                        .frame(maxWidth: 140, alignment: .leading)
-                        .padding(.leading)
-
-                    OptionsButton()
-                        .foregroundColor(selected ? Color.white : Color.black)
-                        .padding(.trailing)
+                        .frame(maxWidth: 140, alignment: .center)
                 }
 
             }
@@ -41,12 +36,7 @@ struct GroupButton: View {
                         .fontWeight(selected ? .bold : .regular)
                         .foregroundColor(selected ? Color.white : Color.black)
                         .multilineTextAlignment(.center)
-                        .frame(maxWidth: 140, alignment: .leading)
-                        .padding(.leading)
-
-                    OptionsButton()
-                        .foregroundColor(selected ? Color.white : Color.black)
-                        .padding(.trailing)
+                        .frame(maxWidth: 140, alignment: .center)
                 }
 
             }

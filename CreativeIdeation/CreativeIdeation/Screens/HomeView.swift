@@ -303,13 +303,8 @@ struct HomeView: View {
                 } else {
                     // No Team Selected
                     Text("Try creating or selecting a Team in the sidebar!")
-                        .font(.title2)
-                        .frame(width: .infinity)
-                        .padding()
-                        .border(Color.black)
-                        .padding(.top)
-                        .cornerRadius(15)
-                        .shadow(color: shadowColor, radius: 4, y: 4)
+                        
+
                     Spacer()
                 }
 
