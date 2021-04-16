@@ -26,6 +26,9 @@ struct HomeView: View {
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
 
+    /// Temporary way to show conditional views in preview canvas
+    var preview: Bool = false
+
     let columns = [
         GridItem(.adaptive(minimum: 200))]
 
@@ -148,149 +151,157 @@ struct HomeView: View {
 
                 Divider()
 
-                // Below header bar
-                VStack {
+                // Below title bar (preview variable temporary)
+                if preview || teamViewModel.selectedTeam?.id != nil {
+                    VStack {
 
-                    // Recent Sessions List
-                    VStack(alignment: .leading) {
+                        // Recent Sessions List
+                        VStack(alignment: .leading) {
 
-                        HStack {
-                            Text("Recent Sessions")
-                                .font(.title)
-
-                            Image(systemName: "clock.arrow.circlepath")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 40, height: 40)
-                                .foregroundColor(Color.red)
-
-                            Spacer()
-
-                            GroupMemberPanel()
-                                .hidden()
-
-                        }
-                        .padding(.leading)
-
-                        // Generate list of recent Sessions for Team
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            LazyHStack(spacing: 50) {
-                                ForEach(sessionViewModel.teamSessions) { session in
-                                    Button {
-                                        sessionItemViewModel.activeSession = session
-                                        sessionItemViewModel.loadItems()
-                                        showActivity = true
-                                    } label: {
-                                        SessionTile(team: teamViewModel.selectedTeam?.teamName ?? "N/A",
-                                                    group: groupViewModel.groups.first(
-                                                        where: {$0.groupId == session.groupId})?.groupTitle ?? "N/A",
-                                                    session: session)
-                                    }
-                                }
-                            }
-                            .padding(.leading)
-                        }
-                        .frame(maxHeight: 225)
-
-                        Divider()
-
-                        HStack(spacing: 0) {
-
-                            VStack {
-
-                                Text("Groups")
+                            HStack {
+                                Text("Recent Sessions")
                                     .font(.title)
 
-                                // Add Group button
-                                Button {
-                                    activeSheet = .group
-                                } label: {
-                                    Text("Add Group")
-                                        .foregroundColor(Color.black)
-                                    Image(systemName: "plus")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 20, height: 15)
-                                }
+                                Image(systemName: "clock.arrow.circlepath")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 40, height: 40)
+                                    .foregroundColor(Color.red)
 
-                                // Groups Column
-                                ScrollView {
+                                Spacer()
 
-                                    LazyVStack {
-
-                                        ForEach(groupViewModel.groups) { group in
-
-                                            Button {
-                                                if groupViewModel.selectedGroup?.id == group.id {
-                                                    // if already selected, un-select
-                                                    groupViewModel.selectedGroup = nil
-                                                } else {
-                                                    groupViewModel.selectedGroup = group
-                                                }
-                                            } label: {
-                                                GroupButton(
-                                                    title: group.groupTitle,
-                                                    selected: group.groupId == groupViewModel.selectedGroup?.groupId)
-                                                    .padding(.top)
-                                            }
-                                        }
-
-                                    }
-                                }
+                                GroupMemberPanel()
+                                    .hidden()
 
                             }
-                            .frame(width: 230)
+                            .padding(.leading)
+
+                            // Generate list of recent Sessions for Team
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                LazyHStack(spacing: 50) {
+                                    ForEach(sessionViewModel.teamSessions) { session in
+                                        Button {
+                                            sessionItemViewModel.activeSession = session
+                                            sessionItemViewModel.loadItems()
+                                            showActivity = true
+                                        } label: {
+                                            SessionTile(team: teamViewModel.selectedTeam?.teamName ?? "N/A",
+                                                        group: groupViewModel.groups
+                                                            .first(where: {
+                                                                    $0.groupId == session.groupId
+                                                            })?.groupTitle ?? "N/A",
+                                                        session: session)
+                                        }
+                                    }
+                                }
+                                .padding(.leading)
+                            }
+                            .frame(maxHeight: 225)
 
                             Divider()
 
-                            // Sessions Column
-                            VStack {
+                            HStack(spacing: 0) {
 
-                                Text("Sessions")
-                                    .font(.title)
+                                VStack {
 
-                                // List of Sessions
-                                ScrollView(showsIndicators: false) {
+                                    Text("Groups")
+                                        .font(.title)
 
-                                    LazyVGrid(columns: columns, spacing: 40) {
+                                    // Add Group button
+                                    Button {
+                                        activeSheet = .group
+                                    } label: {
+                                        Text("Add Group")
+                                            .foregroundColor(Color.black)
+                                        Image(systemName: "plus")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 20, height: 15)
+                                    }
 
-                                        // Create Session button
-                                        Button {
-                                            activeSheet = .session
-                                        } label: {
-                                            Image(systemName: "plus")
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: 50, height: 50)
-                                                .frame(width: 200, height: 200)
-                                                .overlay(RoundedRectangle(cornerRadius: 25.0)
-                                                            .stroke(Color.black, lineWidth: 2.0))
-                                        }
+                                    // Groups Column
+                                    ScrollView {
 
-                                        // Generate list of Sessions for selected group
-                                        ForEach(sessionViewModel.groupSessions) { session in
+                                        LazyVStack {
 
-                                            Button {
-                                                // make session clickable
-                                                sessionItemViewModel.activeSession = session
-                                                sessionItemViewModel.loadItems()
-                                                showActivity = true
-                                            } label: {
-                                                SessionTile(
-                                                    team: teamViewModel.selectedTeam?.teamName ?? "Unknown",
-                                                    group: groupViewModel.selectedGroup?.groupTitle ?? "Unknown",
-                                                    session: session)
+                                            ForEach(groupViewModel.groups) { group in
+
+                                                Button {
+                                                    if groupViewModel.selectedGroup?.id == group.id {
+                                                        // if already selected, un-select
+                                                        groupViewModel.selectedGroup = nil
+                                                    } else {
+                                                        groupViewModel.selectedGroup = group
+                                                    }
+                                                } label: {
+                                                    GroupButton(
+                                                        title: group.groupTitle,
+                                                        selected: group.groupId == groupViewModel.selectedGroup?.groupId)
+                                                        .padding(.top)
+                                                }
                                             }
+
                                         }
                                     }
-                                    .padding()
-                                }
-                                .padding(.top)
-                            }
-                        }
 
+                                }
+                                .frame(width: 230)
+
+                                Divider()
+
+                                // Sessions Column
+                                VStack {
+
+                                    Text("Sessions")
+                                        .font(.title)
+
+                                    // List of Sessions
+                                    ScrollView(showsIndicators: false) {
+
+                                        LazyVGrid(columns: columns, spacing: 40) {
+
+                                            // Create Session button
+                                            Button {
+                                                activeSheet = .session
+                                            } label: {
+                                                Image(systemName: "plus")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(width: 50, height: 50)
+                                                    .frame(width: 200, height: 200)
+                                                    .overlay(RoundedRectangle(cornerRadius: 25.0)
+                                                                .stroke(Color.black, lineWidth: 2.0))
+                                            }
+
+                                            // Generate list of Sessions for selected group
+                                            ForEach(sessionViewModel.groupSessions) { session in
+
+                                                Button {
+                                                    // make session clickable
+                                                    sessionItemViewModel.activeSession = session
+                                                    sessionItemViewModel.loadItems()
+                                                    showActivity = true
+                                                } label: {
+                                                    SessionTile(
+                                                        team: teamViewModel.selectedTeam?.teamName ?? "Unknown",
+                                                        group: groupViewModel.selectedGroup?.groupTitle ?? "Unknown",
+                                                        session: session)
+                                                }
+                                            }
+                                        }
+                                        .padding()
+                                    }
+                                    .padding(.top)
+                                }
+                            }
+
+                        }
+                        .frame(maxWidth: .infinity)
                     }
-                    .frame(maxWidth: .infinity)
+                } else {
+                    // No Team Selected
+                    Text("Hey")
+                    Spacer()
                 }
 
             }
@@ -351,7 +362,7 @@ struct HomeView: View {
 
 struct GroupView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        HomeView(preview: true)
             .environmentObject(TeamViewModel())
             .environmentObject(GroupViewModel())
             .environmentObject(SessionViewModel())
