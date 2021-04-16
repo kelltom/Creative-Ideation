@@ -41,16 +41,7 @@ struct HomeView: View {
                     .fontWeight(.bold)
                     .padding(.top, 20)
 
-//                // Private button
-//                Button {
-//                    teamViewModel.selectedTeam = nil
-//                } label: {
-//                    TeamPic(selected: teamViewModel.selectedTeam == nil,
-//                            symbolName: "eye.slash",
-//                            teamName: "Private")
-//                }
-
-                // Add buttons for additional Teams
+                // Add buttons for Teams
                 ForEach(teamViewModel.teams) { team in
 
                     Button {
@@ -100,29 +91,35 @@ struct HomeView: View {
 
                 // Top Title Bar
                 HStack(spacing: 20) {
-                    Text(teamViewModel.selectedTeam?.teamName ?? "N/A")
+                    Text(teamViewModel.selectedTeam?.teamName ?? "No Team Selected")
                         .font(.largeTitle)
 
-                    Button {
-                        // add person to group
-                        activeSheet = .addTeamMembers
-                    } label: {
-                        Image(systemName: "person.badge.plus.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(Color.black)
-                    }
-
-                    NavigationLink(
-                        destination: TeamSettingsView(),
-                        label: {
-                            Image(systemName: "gearshape.fill")
+                    // Add Members and Settings Gear (do not display if selected Team nil)
+                    if teamViewModel.selectedTeam?.id != nil {
+                        // Add Members Button
+                        Button {
+                            activeSheet = .addTeamMembers
+                        } label: {
+                            Image(systemName: "person.badge.plus.fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 40, height: 40)
-                                .foregroundColor(Color.black)
-                        })
+                                .foregroundColor(teamViewModel.selectedTeam?.isPrivate ?? true ?
+                                                    Color.gray : Color.black)
+                        }
+                        .disabled(teamViewModel.selectedTeam?.isPrivate ?? true)
+
+                        // Team Settings Button
+                        NavigationLink(
+                            destination: TeamSettingsView(),
+                            label: {
+                                Image(systemName: "gearshape.fill")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 40, height: 40)
+                                    .foregroundColor(Color.black)
+                            })
+                    }
 
                     Spacer()
 
