@@ -221,6 +221,15 @@ final class TeamViewModel: ObservableObject {
             }
     }
 
+    func clear() {
+        teams = []
+        selectedTeam = nil
+        msg = ""
+        isShowingBanner = false
+        didOperationSucceed = false
+        teamCode = ""
+    }
+
     private func setBanner(message: String, didSucceed: Bool) {
         msg = message
         didOperationSucceed = didSucceed
