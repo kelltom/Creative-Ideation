@@ -82,7 +82,9 @@ struct ActivityView: View {
                         } label: {
                             VStack(spacing: 0) {
                                 Rectangle()
-                                    .foregroundColor(colorArray[0])
+                                    .foregroundColor((selectedColor != -1) ?
+                                                        colorArray[selectedColor].darker(by: 10) :
+                                                        colorArray[0].darker(by: 10))
                                     .frame(width: 90, height: 20)
 
                                 Image(systemName: "plus")
@@ -91,7 +93,9 @@ struct ActivityView: View {
                                     .frame(width: 30, height: 30)
                                     .foregroundColor(.white)
                                     .frame(width: 90, height: 70)
-                                    .background(Color.red)
+                                    .background((selectedColor != -1) ?
+                                                    colorArray[selectedColor] :
+                                                    colorArray[0])
                             }
                             .cornerRadius(18)
                             .shadow(color: shadowColor, radius: 6, y: 4)
@@ -403,5 +407,43 @@ struct ActivityView_Previews: PreviewProvider {
     static var previews: some View {
         ActivityView(showActivity: .constant(true))
             .environmentObject(SessionItemViewModel())
+    }
+}
+
+// swiftlint:disable large_tuple
+// swiftlint:disable identifier_name
+// From: https://stackoverflow.com/questions/38435308/get-lighter-and-darker-color-variations-for-a-given-uicolor
+extension Color {
+    var components: (red: CGFloat, green: CGFloat, blue: CGFloat, opacity: CGFloat) {
+        #if canImport(UIKit)
+        typealias NativeColor = UIColor
+        #elseif canImport(AppKit)
+        typealias NativeColor = NSColor
+        #endif
+
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var o: CGFloat = 0
+
+        guard NativeColor(self).getRed(&r, green: &g, blue: &b, alpha: &o) else {
+            return (0, 0, 0, 0)
+        }
+        return (r, g, b, o)
+    }
+
+    func lighter(by percentage: CGFloat = 30.0) -> Color {
+        return self.adjust(by: abs(percentage) )
+    }
+
+    func darker(by percentage: CGFloat = 30.0) -> Color {
+        return self.adjust(by: -1 * abs(percentage) )
+    }
+
+    func adjust(by percentage: CGFloat = 30.0) -> Color {
+        return Color(red: min(Double(self.components.red + percentage/100), 1.0),
+                     green: min(Double(self.components.green + percentage/100), 1.0),
+                     blue: min(Double(self.components.blue + percentage/100), 1.0),
+                     opacity: Double(self.components.opacity))
     }
 }

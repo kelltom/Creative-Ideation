@@ -22,7 +22,7 @@ final class TeamViewModel: ObservableObject {
     @Published var teamCode = ""
 
     /// Creates a single team
-    func createTeam(teamName: String, teamDescription: String) {
+    func createTeam(teamName: String, teamDescription: String, isPrivate: Bool = false) {
 
         // Get user ID
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -34,6 +34,7 @@ final class TeamViewModel: ObservableObject {
         var newTeam = Team()
         newTeam.teamName = teamName
         newTeam.teamDescription = teamDescription
+        newTeam.isPrivate = isPrivate
 
         // Make sure Team Name is not empty
         guard !newTeam.teamName.isEmpty else {
@@ -53,9 +54,11 @@ final class TeamViewModel: ObservableObject {
             "teamName": newTeam.teamName,
             "teamDescription": newTeam.teamDescription,
             "createdBy": uid,
+            "isPrivate": newTeam.isPrivate,
             "admins": FieldValue.arrayUnion([uid]),
             "members": FieldValue.arrayUnion([uid]),
-            "accessCode": accessCode
+            "accessCode": accessCode,
+            "dateCreated": FieldValue.serverTimestamp()
         ], forDocument: teamRef)
 
         // let userRef = db.collection("users").document(uid)
@@ -71,11 +74,9 @@ final class TeamViewModel: ObservableObject {
             }
         }
 
-        // Reload list of teams
-        getTeams()
     }
 
-    // add users to team based on access code
+    // Add users to team based on access code
     func joinTeam(code: String) {
 
         // get user id
@@ -213,6 +214,9 @@ final class TeamViewModel: ObservableObject {
                         }
 
                     }
+                    self.teams = self.teams.sorted(by: {
+                        $0.dateCreated.compare($1.dateCreated) == .orderedAscending
+                    })
                 }
             }
     }
@@ -229,7 +233,6 @@ final class TeamViewModel: ObservableObject {
             }
         }
     }
-
 
     // Generates a random code that can be used to join the team
     private func randomGen() -> String {

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DeleteButton: View {
     var image: String = "trash.fill"
+    var backgroundColor: Color = .red
     var body: some View {
 
         HStack {
@@ -19,7 +20,7 @@ struct DeleteButton: View {
 
         }
         .frame(width: 200, height: 50, alignment: .center)
-        .background(Color(.red))
+        .background(backgroundColor)
         .foregroundColor(.white)
         .cornerRadius(10)
         .padding()

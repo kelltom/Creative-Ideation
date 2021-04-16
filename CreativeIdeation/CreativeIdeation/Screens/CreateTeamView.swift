@@ -70,6 +70,9 @@ struct CreateTeamView: View {
                 }
             }
         }
+        .onDisappear {
+            teamViewModel.getTeams()
+        }
 
     }
 

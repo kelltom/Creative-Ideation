@@ -14,9 +14,12 @@ struct Team: Codable, Identifiable, Equatable {
     var teamDescription = ""
     var createdBy = ""
     var accessCode = ""
+    var isPrivate = false
 
     var members: [String] = []
     var admins: [String] = []
+
+    var dateCreated: Date = Date()
 
     enum CodingKeys: String, CodingKey {
         case teamId
@@ -24,7 +27,9 @@ struct Team: Codable, Identifiable, Equatable {
         case teamDescription
         case createdBy
         case accessCode
+        case isPrivate
         case members
         case admins
+        case dateCreated
     }
 }

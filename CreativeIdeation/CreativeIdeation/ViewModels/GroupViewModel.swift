@@ -72,7 +72,8 @@ final class GroupViewModel: ObservableObject {
             "groupTitle": group.groupTitle,
             "admins": FieldValue.arrayUnion([uid]),
             "members": FieldValue.arrayUnion([uid]),
-            "sessions": FieldValue.arrayUnion([])
+            "sessions": FieldValue.arrayUnion([]),
+            "dateCreated": FieldValue.serverTimestamp()
         ]) { err in
             if let err = err {
                 self.setBanner(message: "Error adding document: \(err)", didSucceed: false)
@@ -83,7 +84,6 @@ final class GroupViewModel: ObservableObject {
             }
         }
 
-        getGroups(teamId: teamId)
     }
 
     /// Populates list of groups within GroupViewModel according to given teamId
@@ -121,6 +121,9 @@ final class GroupViewModel: ObservableObject {
                         }
 
                     }
+                    self.groups = self.groups.sorted(by: {
+                        $0.dateCreated.compare($1.dateCreated) == .orderedAscending
+                    })
                 }
             }
     }

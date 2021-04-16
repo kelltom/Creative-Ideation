@@ -63,7 +63,7 @@ final class SessionViewModel: ObservableObject {
             "sessionDescription": self.newSession.sessionDescription,
             "type": "",
             "inProgress": true,
-            "dateCreated": "",  // should get timestamp
+            "dateCreated": FieldValue.serverTimestamp(),
             "dateModified": "",  // should get timestamp
             "createdBy": uid,
             "groupId": groupId,
@@ -114,6 +114,9 @@ final class SessionViewModel: ObservableObject {
                             print("Error adding Session object to list of teamSessions")
                         }
                     }
+                    self.teamSessions = self.teamSessions.sorted(by: {
+                        $0.dateCreated.compare($1.dateCreated) == .orderedDescending
+                    })
                 }
             }
     }
@@ -144,6 +147,9 @@ final class SessionViewModel: ObservableObject {
                             print("Error adding Session object to list of groupSessions")
                         }
                     }
+                    self.groupSessions = self.groupSessions.sorted(by: {
+                        $0.dateCreated.compare($1.dateCreated) == .orderedDescending
+                    })
                 }
             }
     }
