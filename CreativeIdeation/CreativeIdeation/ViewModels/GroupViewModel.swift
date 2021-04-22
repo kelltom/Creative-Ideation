@@ -106,7 +106,7 @@ final class GroupViewModel: ObservableObject {
 
         // Query db to get references to all groups where current user's ID appears in members list
         // Create an instance of Group for each and add them to list of groups
-        db.collection("teams").document(teamId).collection("groups").whereField("members", arrayContains: uid)
+        db.collection("teams").document(teamId).collection("groups")//.whereField("members", arrayContains: uid)
             .getDocuments { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
