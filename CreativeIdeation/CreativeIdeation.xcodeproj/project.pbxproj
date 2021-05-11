@@ -127,6 +127,7 @@
 		DD7997AF26083F5C00392AED /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		DD7997B22608404500392AED /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
 		DDC86D7025FBF2DE00296AE6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DDD77417264ADF8C00680E65 /* CreativeIdeation.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CreativeIdeation.entitlements; sourceTree = "<group>"; };
 		DDDFDA8D25E0830800342B1B /* BigButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigButton.swift; sourceTree = "<group>"; };
 		DDDFDA9325E086EC00342B1B /* MenuTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTextField.swift; sourceTree = "<group>"; };
 		DDDFDA9725E08B0000342B1B /* PreferenceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceButton.swift; sourceTree = "<group>"; };
@@ -272,6 +273,7 @@
 		DD3BF92C25D9C97800C368B0 /* CreativeIdeation */ = {
 			isa = PBXGroup;
 			children = (
+				DDD77417264ADF8C00680E65 /* CreativeIdeation.entitlements */,
 				DD3A4CE225DDC18E007D68B6 /* Views */,
 				DD3A4CE125DDC186007D68B6 /* Model */,
 				DDA4DD132603CCFA008972FD /* ViewModels */,
@@ -629,9 +631,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CreativeIdeation/CreativeIdeation.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"CreativeIdeation/Preview Content\"";
-				DEVELOPMENT_TEAM = RMHN57NYZQ;
+				DEVELOPMENT_TEAM = SY6XBMC34U;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = CreativeIdeation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -639,8 +645,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kvm.creativeideation;
+				PRODUCT_BUNDLE_IDENTIFIER = "-B7KJQCFCP.maccatalyst.com.mvk.creativeideation";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -651,9 +659,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CreativeIdeation/CreativeIdeation.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"CreativeIdeation/Preview Content\"";
-				DEVELOPMENT_TEAM = RMHN57NYZQ;
+				DEVELOPMENT_TEAM = SY6XBMC34U;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = CreativeIdeation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -661,8 +673,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kvm.creativeideation;
+				PRODUCT_BUNDLE_IDENTIFIER = "-B7KJQCFCP.maccatalyst.com.mvk.creativeideation";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
