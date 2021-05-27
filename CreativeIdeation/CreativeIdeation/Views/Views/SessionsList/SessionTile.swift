@@ -62,8 +62,6 @@ struct SessionTile: View {
                     .foregroundColor(Color("FadedColor"))
 
                 Spacer()
-
-                OptionsButton()
             }
             .padding(.bottom, 5)
             .padding(.horizontal, 10)
