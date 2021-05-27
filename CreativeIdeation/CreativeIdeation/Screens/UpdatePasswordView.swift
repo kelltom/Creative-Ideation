@@ -18,6 +18,8 @@ struct UpdatePasswordView: View {
     var body: some View {
         ZStack {
 
+            Color("BackgroundColor")
+
             if userAccountViewModel.showBanner {
                 if !userAccountViewModel.updateSuccess {
                     NotificationBanner(image: "exclamationmark.circle.fill",
@@ -113,6 +115,6 @@ struct UpdatePasswordView: View {
 
 struct UpdatePasswordSetttings_Previews: PreviewProvider {
     static var previews: some View {
-        UpdatePasswordView(showSheet: .constant(.password)).environmentObject(UserAccountViewModel())
+        UpdatePasswordView(showSheet: .constant(.password)).preferredColorScheme(.dark).environmentObject(UserAccountViewModel())
     }
 }

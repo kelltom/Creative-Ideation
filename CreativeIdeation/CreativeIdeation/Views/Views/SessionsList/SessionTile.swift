@@ -35,29 +35,31 @@ struct SessionTile: View {
             HStack {
                 Text(activity)
                     .font(.caption)
-                    .foregroundColor(.gray)
+                    .foregroundColor(Color("FadedColor"))
 
                 Spacer()
 
                 Text(date)
                     .font(.caption)
-                    .foregroundColor(.gray)
+                    .foregroundColor(Color("FadedColor"))
             }
             .padding(3)
 
             Text(session.sessionTitle)
                 .font(.title3)
+                .foregroundColor(Color("StrokeColor"))
 
             Text(team + " - " + group)
                 .font(.caption)
                 .italic()
+                .foregroundColor(Color("StrokeColor"))
 
             HStack(alignment: .bottom, spacing: 5) {
                 ProfilePic(size: 30)
 
                 Text("Owner")
                     .font(.caption)
-                    .foregroundColor(.gray)
+                    .foregroundColor(Color("FadedColor"))
 
                 Spacer()
 
@@ -69,7 +71,7 @@ struct SessionTile: View {
         .frame(width: 200, height: 200)
         .cornerRadius(25)
         .overlay(RoundedRectangle(cornerRadius: 25.0)
-                    .stroke(Color.black, lineWidth: 2.0))
+                    .stroke(Color("StrokeColor"), lineWidth: 2.0))
     }
 }
 

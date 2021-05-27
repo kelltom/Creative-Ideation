@@ -30,7 +30,7 @@ struct AddButton: View {
         }
         .frame(width: 200, height: 80)
         .cornerRadius(25)
-        .border(Color.gray)
+        .border(Color("FadedColor"))
 
     }
 }

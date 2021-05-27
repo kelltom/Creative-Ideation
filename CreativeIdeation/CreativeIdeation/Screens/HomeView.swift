@@ -36,336 +36,346 @@ struct HomeView: View {
 
     var body: some View {
 
-        HStack(spacing: 0) {
+        ZStack {
 
-            VStack {
+            Color("BackgroundColor")
 
-                Text("Teams")
-                    .font(.title3)
-                    .foregroundColor(.white)
-                    .fontWeight(.bold)
-                    .padding(.top, 20)
-                    .padding(.horizontal, 10)
+            HStack(spacing: 0) {
 
-                // Add buttons for Teams
-                ForEach(teamViewModel.teams) { team in
+                VStack {
 
-                    Button {
-                        teamViewModel.selectedTeam = team
-                    } label: {
-                        TeamPic(selected: teamViewModel.selectedTeam?.id == team.id,
-                                teamName: team.teamName)
-                    }
-                    .contextMenu {
+                    Text("Teams")
+                        .font(.title3)
+                        .foregroundColor(.white)
+                        .fontWeight(.bold)
+                        .padding(.top, 20)
+                        .padding(.horizontal, 10)
+
+                    // Add buttons for Teams
+                    ForEach(teamViewModel.teams) { team in
+
                         Button {
-                            // Delete selected team
-                            teamViewModel.deleteSelectedTeam(teamId: team.teamId)
+                            teamViewModel.selectedTeam = team
                         } label: {
-                            HStack {
-                                Text("Delete")
-                                Image(systemName: "trash")
+                            TeamPic(selected: teamViewModel.selectedTeam?.id == team.id,
+                                    teamName: team.teamName)
+                        }
+                        .contextMenu {
+                            Button {
+                                // Delete selected team
+                                teamViewModel.deleteSelectedTeam(teamId: team.teamId)
+                            } label: {
+                                HStack {
+                                    Text("Delete")
+                                    Image(systemName: "trash")
+                                }
                             }
                         }
                     }
+                    // PLUS BUTTON TO ADD OR CREATE TEAM
+                    Menu {
+                        Button("Create Team", action: {
+                            activeSheet = .team
+                        })
+                        Button("Join Team", action: {
+                            activeSheet = .joinTeam
+                        })
+                    } label: {
+
+                        Image(systemName: "plus.circle")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 40, height: 45)
+                            .padding()
+                    }
+                    .foregroundColor(.white)
+
+                    Spacer()
                 }
-                // PLUS BUTTON TO ADD OR CREATE TEAM
-                Menu {
-                    Button("Create Team", action: {
-                        activeSheet = .team
-                    })
-                    Button("Join Team", action: {
-                        activeSheet = .joinTeam
-                    })
-                } label: {
+                .frame(maxHeight: .infinity)
+                .background(Color("brandPrimary"))
+                .edgesIgnoringSafeArea(.all)
 
-                    Image(systemName: "plus.circle")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 40, height: 45)
-                        .padding()
-                }
-                .foregroundColor(.white)
+                // Mid Screen
+                VStack {
 
-                Spacer()
-            }
-            .frame(maxHeight: .infinity)
-            .background(Color("brandPrimary"))
-            .edgesIgnoringSafeArea(.all)
+                    // Top Title Bar
+                    HStack(spacing: 20) {
+                        Text(teamViewModel.selectedTeam?.teamName ?? "No Team Selected")
+                            .font(.largeTitle)
 
-            // Mid Screen
-            VStack {
+                        // Add Members and Settings Gear (do not display if selected Team nil)
+                        if teamViewModel.selectedTeam?.id != nil {
+                            // Add Members Button
+                            Button {
+                                activeSheet = .addTeamMembers
+                            } label: {
+                                Image(systemName: "person.badge.plus.fill")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 40, height: 40)
+                                    .foregroundColor(teamViewModel.selectedTeam?.isPrivate ?? true ?
+                                                        Color("FadedColor") : Color("StrokeColor"))
+                            }
+                            .disabled(teamViewModel.selectedTeam?.isPrivate ?? true)
 
-                // Top Title Bar
-                HStack(spacing: 20) {
-                    Text(teamViewModel.selectedTeam?.teamName ?? "No Team Selected")
-                        .font(.largeTitle)
+                            // Team Settings Button
+                            NavigationLink(
+                                destination: TeamSettingsView(isPrivate: teamViewModel.selectedTeam?.isPrivate ?? true),
+                                label: {
+                                    Image(systemName: "gearshape.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 40, height: 40)
+                                        .foregroundColor(Color("StrokeColor"))
+                                })
+                        }
 
-                    // Add Members and Settings Gear (do not display if selected Team nil)
-                    if teamViewModel.selectedTeam?.id != nil {
-                        // Add Members Button
+                        Spacer()
+
+                        // Notifications Bell
                         Button {
-                            activeSheet = .addTeamMembers
+                            // view notifications
                         } label: {
-                            Image(systemName: "person.badge.plus.fill")
+                            Image(systemName: "bell.fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 40, height: 40)
-                                .foregroundColor(teamViewModel.selectedTeam?.isPrivate ?? true ?
-                                                    Color.gray : Color.black)
+                                .foregroundColor(Color.yellow)
                         }
-                        .disabled(teamViewModel.selectedTeam?.isPrivate ?? true)
 
-                        // Team Settings Button
+                        // User Profile Icon
                         NavigationLink(
-                            destination: TeamSettingsView(isPrivate: teamViewModel.selectedTeam?.isPrivate ?? true),
+                            destination: UserSettingsView(),
                             label: {
-                                Image(systemName: "gearshape.fill")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 40, height: 40)
-                                    .foregroundColor(Color.black)
+                                ProfilePic(size: 70)
+                                    .shadow(color: .black, radius: 4, y: 4)
+                                    .padding(.trailing, 5)
                             })
+
                     }
+                    .padding()
 
-                    Spacer()
+                    Divider()
+                        .background(Color("FadedColor"))
 
-                    // Notifications Bell
-                    Button {
-                        // view notifications
-                    } label: {
-                        Image(systemName: "bell.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(Color.yellow)
-                    }
+                    // Below title bar (preview variable temporary)
+                    if preview || teamViewModel.selectedTeam?.id != nil {
+                        VStack {
 
-                    // User Profile Icon
-                    NavigationLink(
-                        destination: UserSettingsView(),
-                        label: {
-                            ProfilePic(size: 70)
-                                .shadow(color: .black, radius: 4, y: 4)
-                                .padding(.trailing, 5)
-                        })
+                            // Recent Sessions List
+                            VStack(alignment: .leading) {
 
-                }
-                .padding()
+                                HStack {
+                                    Text("Recent Sessions")
+                                        .font(.title)
 
-                Divider()
+                                    Image(systemName: "clock.arrow.circlepath")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 40, height: 40)
+                                        .foregroundColor(Color.red)
 
-                // Below title bar (preview variable temporary)
-                if preview || teamViewModel.selectedTeam?.id != nil {
-                    VStack {
+                                    Spacer()
 
-                        // Recent Sessions List
-                        VStack(alignment: .leading) {
+                                    GroupMemberPanel()
+                                        .hidden()
 
-                            HStack {
-                                Text("Recent Sessions")
-                                    .font(.title)
-
-                                Image(systemName: "clock.arrow.circlepath")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 40, height: 40)
-                                    .foregroundColor(Color.red)
-
-                                Spacer()
-
-                                GroupMemberPanel()
-                                    .hidden()
-
-                            }
-                            .padding(.leading)
-
-                            // Generate list of recent Sessions for Team
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                LazyHStack(spacing: 50) {
-                                    ForEach(sessionViewModel.teamSessions) { session in
-                                        Button {
-                                            sessionItemViewModel.activeSession = session
-                                            sessionItemViewModel.loadItems()
-                                            showActivity = true
-                                        } label: {
-                                            SessionTile(team: teamViewModel.selectedTeam?.teamName ?? "N/A",
-                                                        group: groupViewModel.groups
-                                                            .first(where: {
-                                                                    $0.groupId == session.groupId
-                                                            })?.groupTitle ?? "N/A",
-                                                        session: session)
-                                        }
-                                    }
                                 }
                                 .padding(.leading)
-                            }
-                            .frame(maxHeight: 225)
 
-                            Divider()
-
-                            HStack(spacing: 0) {
-
-                                VStack {
-
-                                    Text("Groups")
-                                        .font(.title)
-
-                                    // Add Group button
-                                    Button {
-                                        activeSheet = .group
-                                    } label: {
-                                        Text("Add Group")
-                                            .foregroundColor(Color.black)
-                                        Image(systemName: "plus")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 20, height: 15)
-                                    }
-
-                                    // Groups Column
-                                    ScrollView {
-
-                                        LazyVStack {
-
-                                            ForEach(groupViewModel.groups) { group in
-
-                                                Button {
-                                                    if groupViewModel.selectedGroup?.id == group.id {
-                                                        // if already selected, un-select
-                                                        groupViewModel.selectedGroup = nil
-                                                    } else {
-                                                        groupViewModel.selectedGroup = group
-                                                    }
-                                                } label: {
-                                                    GroupButton(
-                                                        title: group.groupTitle,
-                                                        selected: group.groupId == groupViewModel.selectedGroup?.groupId)
-                                                        .padding(.top)
-                                                }
+                                // Generate list of recent Sessions for Team
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    LazyHStack(spacing: 50) {
+                                        ForEach(sessionViewModel.teamSessions) { session in
+                                            Button {
+                                                sessionItemViewModel.activeSession = session
+                                                sessionItemViewModel.loadItems()
+                                                showActivity = true
+                                            } label: {
+                                                SessionTile(team: teamViewModel.selectedTeam?.teamName ?? "N/A",
+                                                            group: groupViewModel.groups
+                                                                .first(where: {
+                                                                        $0.groupId == session.groupId
+                                                                })?.groupTitle ?? "N/A",
+                                                            session: session)
                                             }
-
                                         }
                                     }
-
+                                    .padding(.leading)
                                 }
-                                .frame(width: 230)
+                                .frame(maxHeight: 225)
 
                                 Divider()
+                                    .background(Color("FadedColor"))
 
-                                // Sessions Column
-                                VStack {
+                                HStack(spacing: 0) {
 
-                                    Text("Sessions")
-                                        .font(.title)
+                                    VStack {
 
-                                    // List of Sessions
-                                    ScrollView(showsIndicators: false) {
+                                        Text("Groups")
+                                            .font(.title)
 
-                                        LazyVGrid(columns: columns, spacing: 40) {
+                                        // Add Group button
+                                        Button {
+                                            activeSheet = .group
+                                        } label: {
+                                            Text("Add Group")
+                                            Image(systemName: "plus")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 20, height: 15)
+                                        }
+                                        .foregroundColor(Color("StrokeColor"))
 
-                                            // Create Session button
-                                            Button {
-                                                activeSheet = .session
-                                            } label: {
-                                                Image(systemName: "plus")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .frame(width: 50, height: 50)
-                                                    .frame(width: 200, height: 200)
-                                                    .overlay(RoundedRectangle(cornerRadius: 25.0)
-                                                                .stroke(Color.black, lineWidth: 2.0))
-                                            }
+                                        // Groups Column
+                                        ScrollView {
 
-                                            // Generate list of Sessions for selected group
-                                            ForEach(sessionViewModel.groupSessions) { session in
+                                            LazyVStack {
 
-                                                Button {
-                                                    // make session clickable
-                                                    sessionItemViewModel.activeSession = session
-                                                    sessionItemViewModel.loadItems()
-                                                    showActivity = true
-                                                } label: {
-                                                    SessionTile(
-                                                        team: teamViewModel.selectedTeam?.teamName ?? "Unknown",
-                                                        group: groupViewModel.selectedGroup?.groupTitle ?? "Unknown",
-                                                        session: session)
+                                                ForEach(groupViewModel.groups) { group in
+
+                                                    Button {
+                                                        if groupViewModel.selectedGroup?.id == group.id {
+                                                            // if already selected, un-select
+                                                            groupViewModel.selectedGroup = nil
+                                                        } else {
+                                                            groupViewModel.selectedGroup = group
+                                                        }
+                                                    } label: {
+                                                        GroupButton(
+                                                            title: group.groupTitle,
+                                                            selected: group.groupId == groupViewModel.selectedGroup?.groupId)
+                                                            .padding(.top)
+                                                    }
                                                 }
+
                                             }
                                         }
-                                        .padding()
+
                                     }
-                                    .padding(.top)
+                                    .frame(width: 230)
+
+                                    Divider()
+                                        .background(Color("FadedColor"))
+
+                                    // Sessions Column
+                                    VStack {
+
+                                        Text("Sessions")
+                                            .font(.title)
+
+                                        // List of Sessions
+                                        ScrollView(showsIndicators: false) {
+
+                                            LazyVGrid(columns: columns, spacing: 40) {
+
+                                                // Create Session button
+                                                Button {
+                                                    activeSheet = .session
+                                                } label: {
+                                                    Image(systemName: "plus")
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: 50, height: 50)
+                                                        .frame(width: 200, height: 200)
+                                                        .foregroundColor(Color("StrokeColor"))
+                                                        .overlay(RoundedRectangle(cornerRadius: 25.0)
+                                                                    .stroke(Color("StrokeColor"), lineWidth: 2.0))
+                                                }
+
+                                                // Generate list of Sessions for selected group
+                                                ForEach(sessionViewModel.groupSessions) { session in
+
+                                                    Button {
+                                                        // make session clickable
+                                                        sessionItemViewModel.activeSession = session
+                                                        sessionItemViewModel.loadItems()
+                                                        showActivity = true
+                                                    } label: {
+                                                        SessionTile(
+                                                            team: teamViewModel.selectedTeam?.teamName ?? "Unknown",
+                                                            group: groupViewModel.selectedGroup?.groupTitle ?? "Unknown",
+                                                            session: session)
+                                                    }
+                                                }
+                                            }
+                                            .padding()
+                                        }
+                                        .padding(.top)
+                                    }
                                 }
+
                             }
-
+                            .frame(maxWidth: .infinity)
                         }
-                        .frame(maxWidth: .infinity)
-                    }
-                } else {
-                    // No Team Selected
-                    Text("Try creating or selecting a Team in the sidebar!")
-                        .padding()
-                        .frame(minWidth: 50)
-                        .background(RoundedRectangle(cornerRadius: 5)
-                                        .stroke(Color.black))
-                        .font(.title2)
-                        .padding()
+                    } else {
+                        // No Team Selected
+                        Text("Try creating or selecting a Team in the sidebar!")
+                            .padding()
+                            .frame(minWidth: 50)
+                            .background(RoundedRectangle(cornerRadius: 5)
+                                            .stroke(Color("StrokeColor")))
+                            .font(.title2)
+                            .padding()
 
-                    Spacer()
+                        Spacer()
+                    }
+
                 }
 
+                NavigationLink(destination: ActivityView(
+                                showActivity: self.$showActivity), isActive: self.$showActivity) {
+                    EmptyView()
+                }
             }
+            .navigationTitle("Home")
+            .navigationBarHidden(true)
+            .sheet(item: $activeSheet) { item in
+                switch item {
 
-            NavigationLink(destination: ActivityView(
-                            showActivity: self.$showActivity), isActive: self.$showActivity) {
-                EmptyView()
+                case .session:
+                    CreateSessionView(sessionName: "", showSheets: $activeSheet, showActivity: $showActivity)
+                        .environmentObject(self.groupViewModel)
+                        .environmentObject(self.teamViewModel)
+                        .environmentObject(self.sessionViewModel)
+
+                case .team:
+                    CreateTeamView(showSheets: $activeSheet)
+                        .environmentObject(self.teamViewModel)
+
+                case .addTeamMembers:
+                    TeamAccessCode(showSheets: $activeSheet)
+                        .environmentObject(self.teamViewModel)
+
+                case .group:
+                    CreateGroupView(showSheets: $activeSheet)
+                        .environmentObject(self.teamViewModel)
+                        .environmentObject(self.groupViewModel)
+
+                case .joinTeam:
+                    JoinTeamView(showSheets: $activeSheet)
+                        .environmentObject(self.teamViewModel)
+                        .environmentObject(self.userAccountViewModel)
+
+                }
+            }
+            .onAppear {
+                teamViewModel.getTeams()
+                sessionViewModel.getAllSessions(teamId: teamViewModel.selectedTeam?.teamId)
+                sessionViewModel.getGroupSessions(groupId: groupViewModel.selectedGroup?.groupId)
+            }
+            .onChange(of: teamViewModel.selectedTeam) {_ in
+                groupViewModel.selectedGroup = nil
+                groupViewModel.getGroups(teamId: teamViewModel.selectedTeam?.teamId)
+                sessionViewModel.getAllSessions(teamId: teamViewModel.selectedTeam?.teamId)
+                sessionViewModel.getGroupSessions(groupId: groupViewModel.selectedGroup?.groupId)
+            }
+            .onChange(of: groupViewModel.selectedGroup) { _ in
+                sessionViewModel.getGroupSessions(groupId: groupViewModel.selectedGroup?.groupId)
             }
         }
-        .navigationTitle("Home")
-        .navigationBarHidden(true)
-        .sheet(item: $activeSheet) { item in
-            switch item {
-
-            case .session:
-                CreateSessionView(sessionName: "", showSheets: $activeSheet, showActivity: $showActivity)
-                    .environmentObject(self.groupViewModel)
-                    .environmentObject(self.teamViewModel)
-                    .environmentObject(self.sessionViewModel)
-
-            case .team:
-                CreateTeamView(showSheets: $activeSheet)
-                    .environmentObject(self.teamViewModel)
-
-            case .addTeamMembers:
-                TeamAccessCode(showSheets: $activeSheet)
-                    .environmentObject(self.teamViewModel)
-
-            case .group:
-                CreateGroupView(showSheets: $activeSheet)
-                    .environmentObject(self.teamViewModel)
-                    .environmentObject(self.groupViewModel)
-
-            case .joinTeam:
-                JoinTeamView(showSheets: $activeSheet)
-                    .environmentObject(self.teamViewModel)
-                    .environmentObject(self.userAccountViewModel)
-
-            }
-        }
-        .onAppear {
-            teamViewModel.getTeams()
-            sessionViewModel.getAllSessions(teamId: teamViewModel.selectedTeam?.teamId)
-            sessionViewModel.getGroupSessions(groupId: groupViewModel.selectedGroup?.groupId)
-        }
-        .onChange(of: teamViewModel.selectedTeam) {_ in
-            groupViewModel.selectedGroup = nil
-            groupViewModel.getGroups(teamId: teamViewModel.selectedTeam?.teamId)
-            sessionViewModel.getAllSessions(teamId: teamViewModel.selectedTeam?.teamId)
-            sessionViewModel.getGroupSessions(groupId: groupViewModel.selectedGroup?.groupId)
-        }
-        .onChange(of: groupViewModel.selectedGroup) { _ in
-            sessionViewModel.getGroupSessions(groupId: groupViewModel.selectedGroup?.groupId)
-        }
+        .edgesIgnoringSafeArea(.vertical)
 
     }
 }

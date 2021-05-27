@@ -22,6 +22,8 @@ struct CreateAccountView: View {
     var body: some View {
 
         ZStack {
+            Color("BackgroundColor")
+
             if userAccountViewModel.isLoading {
                 ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
                     .scaleEffect(3)
@@ -83,6 +85,7 @@ struct CreateAccountView: View {
             }
             .navigationBarHidden(true)
         }
+        .edgesIgnoringSafeArea(.vertical)
         .onAppear {
             userAccountViewModel.showBanner = false
         }
@@ -101,6 +104,7 @@ struct CreateAccountView: View {
 struct CreateAccountView_Previews: PreviewProvider {
     static var previews: some View {
         CreateAccountView(showLogIn: .constant(false))
+            .preferredColorScheme(.dark)
             .environmentObject(UserAccountViewModel())
             .environmentObject(TeamViewModel())
     }

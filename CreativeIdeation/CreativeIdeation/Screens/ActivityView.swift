@@ -18,8 +18,6 @@ struct ActivityView: View {
                       Color.init(red: 0.9, green: 0.9, blue: 0),
                       Color.init(red: 0.9, green: 0.45, blue: 0.9)]
 
-    let shadowColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
-
     @State private var selectedColor = -1
     @State private var randomizeColor: Bool = true
 
@@ -34,6 +32,8 @@ struct ActivityView: View {
             // Whatever view we use for the canvas will be placed here,
             // so that all other elements are placed above it on the zstack
 
+            Color("BackgroundColor")
+
             ForEach(sessionItemViewModel.stickyNotes) { note in
                 note
             }
@@ -47,24 +47,24 @@ struct ActivityView: View {
                     } label: {
                         ZStack {
                             Circle()
-                                .foregroundColor(.white)
+                                .foregroundColor(Color("BackgroundColor"))
                                 .frame(width: 80, height: 80)
 
                             Circle().stroke(lineWidth: 2)
-                                .foregroundColor(.black)
+                                .foregroundColor(Color("StrokeColor"))
                                 .frame(width: 80, height: 80)
 
                             Image(systemName: "arrow.left")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 40, height: 40)
-                                .foregroundColor(.black)
+                                .foregroundColor(Color("StrokeColor"))
                         }
                         .frame(width: 85, height: 85)
                         .clipped()
                         .padding(.leading, 45)
                         .padding(.top, 20)
-                        .shadow(color: shadowColor, radius: 4, y: 4)
+                        .shadow(radius: 4, y: 4)
                     }
 
                     Spacer()
@@ -95,7 +95,7 @@ struct ActivityView: View {
                                                     colorArray[0])
                             }
                             .cornerRadius(18)
-                            .shadow(color: shadowColor, radius: 6, y: 4)
+                            .shadow(radius: 6, y: 4)
                             .padding()
                         }
 
@@ -116,7 +116,7 @@ struct ActivityView: View {
                                             .frame(width: 25, height: 25)
                                         if selectedColor == 0 {
                                             Circle()
-                                                .stroke(Color.white, lineWidth: 2)
+                                                .stroke(Color("BackgroundColor"), lineWidth: 2)
                                                 .frame(width: 19, height: 19)
                                         }
                                     }
@@ -136,7 +136,7 @@ struct ActivityView: View {
                                             .frame(width: 25, height: 25)
                                         if selectedColor == 1 {
                                             Circle()
-                                                .stroke(Color.white, lineWidth: 2)
+                                                .stroke(Color("BackgroundColor"), lineWidth: 2)
                                                 .frame(width: 19, height: 19)
                                         }
                                     }
@@ -157,7 +157,7 @@ struct ActivityView: View {
                                             .frame(width: 25, height: 25)
                                         if selectedColor == 2 {
                                             Circle()
-                                                .stroke(Color.white, lineWidth: 2)
+                                                .stroke(Color("BackgroundColor"), lineWidth: 2)
                                                 .frame(width: 19, height: 19)
                                         }
                                     }
@@ -177,7 +177,7 @@ struct ActivityView: View {
                                             .frame(width: 25, height: 25)
                                         if selectedColor == 3 {
                                             Circle()
-                                                .stroke(Color.white, lineWidth: 2)
+                                                .stroke(Color("BackgroundColor"), lineWidth: 2)
                                                 .frame(width: 19, height: 19)
                                         }
                                     }
@@ -198,7 +198,7 @@ struct ActivityView: View {
                                             .frame(width: 25, height: 25)
                                         if selectedColor == 4 {
                                             Circle()
-                                                .stroke(Color.white, lineWidth: 2)
+                                                .stroke(Color("BackgroundColor"), lineWidth: 2)
                                                 .frame(width: 19, height: 19)
                                         }
                                     }
@@ -233,7 +233,7 @@ struct ActivityView: View {
 
                                         if randomizeColor {
                                             RoundedRectangle(cornerRadius: 5)
-                                                .stroke(Color.white, lineWidth: 2)
+                                                .stroke(Color("BackgroundColor"), lineWidth: 2)
                                                 .frame(width: 54, height: 24)
                                                 .padding(.top, 5)
                                         } else {
@@ -268,19 +268,17 @@ struct ActivityView: View {
                                         .frame(width: 20, height: 20)
                                         .foregroundColor(.white)
                                         .frame(width: 60, height: 30)
-                                        .background(sessionItemViewModel.selectedSticky != nil ?
-                                                        Color.red : Color.init(red: 1.0,
-                                                                               green: 0.65,
-                                                                               blue: 0.65))
+                                        .background(Color.red)
+                                        .opacity(sessionItemViewModel.selectedSticky != nil ? 1 : 0.5)
                                         .cornerRadius(5)
                             }
                             .disabled(sessionItemViewModel.selectedSticky == nil)
                         }
                         .frame(minWidth: 80, minHeight: 200)
-                        .background(Color.white)
+                        .background(Color("BackgroundColor"))
                         .clipped()
                         .cornerRadius(15)
-                        .shadow(color: shadowColor, radius: 6, y: 4)
+                        .shadow(radius: 6, y: 4)
                         .padding(.trailing, 21)
 
                         HStack {
@@ -340,7 +338,7 @@ struct ActivityView: View {
                                 .background(Color.white)
                                 .clipped()
                                 .cornerRadius(15)
-                                .shadow(color: shadowColor, radius: 4, y: 4)
+                                .shadow(radius: 4, y: 4)
                             }
 
                             // AI Word Generation button
@@ -354,7 +352,7 @@ struct ActivityView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 90, height: 90)
                                     .padding(.top, 8)
-                                    .shadow(color: shadowColor, radius: 4, y: 4)
+                                    .shadow(radius: 4, y: 4)
                             }
                             .padding(.trailing)
                         }

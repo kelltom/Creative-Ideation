@@ -22,6 +22,8 @@ struct CreateTeamView: View {
 
         ZStack {
 
+            Color("BackgroundColor")
+
             if teamViewModel.isShowingBanner {
                 if teamViewModel.didOperationSucceed {
                     NotificationBanner(image: "checkmark.circle.fill", msg: teamViewModel.msg, color: .green)
@@ -88,6 +90,7 @@ struct CreateTeamView: View {
 struct CreateTeamView_Previews: PreviewProvider {
     static var previews: some View {
         CreateTeamView(showSheets: .constant(.team))
+            .preferredColorScheme(.dark)
             .environmentObject(TeamViewModel())
     }
 }

@@ -26,6 +26,7 @@ struct LoginView: View {
         NavigationView {
 
             ZStack {
+                Color("BackgroundColor")
 
                 if userAccountViewModel.showBanner {
                     if !userAccountViewModel.authSuccess {
@@ -97,6 +98,8 @@ struct LoginView: View {
                 }
                 .navigationBarHidden(true)
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .edgesIgnoringSafeArea(.vertical)
 
         }
         .navigationViewStyle(StackNavigationViewStyle())
@@ -109,6 +112,7 @@ struct LoginView: View {
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()
+            .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
             .environmentObject(UserAccountViewModel())
     }
 }

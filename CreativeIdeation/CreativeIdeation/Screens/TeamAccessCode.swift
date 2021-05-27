@@ -17,6 +17,8 @@ struct TeamAccessCode: View {
 
         ZStack {
 
+            Color("BackgroundColor")
+
             VStack {
                 XDismissButton(isShowingSheet: $showSheets)
                 Spacer()

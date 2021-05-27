@@ -19,7 +19,7 @@ struct MenuTextField: View {
                 .padding()
                 .frame(width: 550, height: 60, alignment: .center/*@END_MENU_TOKEN@*/)
                 .overlay(RoundedRectangle(cornerRadius: 8.0)
-                            .stroke(Color.black))
+                            .stroke(Color("StrokeColor")))
                 .font(.title2)
                 .padding(10)
         } else {
@@ -27,7 +27,7 @@ struct MenuTextField: View {
                 .padding()
                 .frame(width: 550, height: 60, alignment: .center/*@END_MENU_TOKEN@*/)
                 .overlay(RoundedRectangle(cornerRadius: 8.0)
-                            .stroke(Color.black))
+                            .stroke(Color("StrokeColor")))
                 .font(.title2)
                 .padding(10)
         }

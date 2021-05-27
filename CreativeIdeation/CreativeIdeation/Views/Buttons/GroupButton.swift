@@ -34,7 +34,7 @@ struct GroupButton: View {
                     Text(title)
                         .font(.title3)
                         .fontWeight(.regular)
-                        .foregroundColor(Color.black)
+                        .foregroundColor(Color("StrokeColor"))
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: 140, alignment: .center)
                 }
@@ -43,7 +43,7 @@ struct GroupButton: View {
             .frame(width: 200, height: 80)
             .overlay(
                 RoundedRectangle(cornerRadius: 25.0/*@END_MENU_TOKEN@*/)
-                    .strokeBorder(Color("brandPrimary"), lineWidth: 2)
+                    .strokeBorder(Color("StrokeColor"), lineWidth: 2)
             )
         }
     }

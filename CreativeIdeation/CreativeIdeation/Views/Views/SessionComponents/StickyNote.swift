@@ -23,6 +23,7 @@ struct StickyNote: View, Identifiable {
     @GestureState private var startLocation: CGPoint?
     @GestureState var isDetectingLongPress = false
 
+
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
             VStack(spacing: 0) {
@@ -34,9 +35,8 @@ struct StickyNote: View, Identifiable {
 
                 TextEditor(text: $input)
                     .frame(width: 160, height: 130)
-                    .opacity(0.7)
-                    .background(chosenColor)
-                    .foregroundColor(.black)
+                    .background(chosenColor.opacity(0.5))
+                    .foregroundColor(Color("StrokeColor"))
                     .onChange(of: input, perform: {_ in
                         textChanged = true
                     })
@@ -67,6 +67,9 @@ struct StickyNote: View, Identifiable {
                 sessionItemViewModel.updateSelected(note: self)
             }
         }
+        .onAppear(perform: {
+            UITextView.appearance().backgroundColor = .clear
+        })
     }
 
     func getSelected() -> Bool {

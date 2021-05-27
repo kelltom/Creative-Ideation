@@ -22,6 +22,8 @@ struct CreateSessionView: View {
 
         ZStack {
 
+            Color("BackgroundColor")
+
             VStack {
                 XDismissButton(isShowingSheet: $showSheets)
                 Spacer()

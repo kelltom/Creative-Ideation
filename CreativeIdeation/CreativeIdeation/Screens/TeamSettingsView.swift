@@ -21,122 +21,129 @@ struct TeamSettingsView: View {
 
     var body: some View {
 
-        VStack {
+        ZStack {
 
-            Text("Team Settings")
-                .font(.system(size: 40))
-                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                .padding()
+            Color("BackgroundColor")
 
             VStack {
 
-                Button {
-                    // do stuff
-                } label: {
-                    PreferencePic().padding()
-                }
-
-                VStack(alignment: .leading ) {
-
-                    Text("Team Name")
-                        .font(.system(size: 25))
-                        .fontWeight(.bold)
-
-                    HStack {
-
-                        Text(teamName)
-                            .font(.system(size: 18))
-
-                        Spacer()
-
-                        Button {
-                            // button functionality
-                        } label: {
-                            // button design
-                            TextEditButton()
-                        }
-                    }
-
-                    Text("Description")
-                        .font(.system(size: 25))
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-
-                    HStack {
-
-                        Text(description)
-                            .font(.system(size: 18))
-
-                        Spacer()
-
-                        Button {
-                            // button functionality
-                        } label: {
-                            // button design
-                            TextEditButton()
-                        }
-
-                    }
-                }
-                .padding()
-                .frame(minWidth: 100, maxWidth: 650, maxHeight: 340, alignment: .leading)
-                .background(Color(.white))
-                .cornerRadius(10)
-
-            }
-            .frame(maxWidth: 700, maxHeight: 500, alignment: .center)
-            .background(Color("brandPrimary"))
-            .cornerRadius(20)
-
-            VStack(alignment: .leading) {
-
-                Text("Profanity Control")
-                    .font(.system(size: 20))
+                Text("Team Settings")
+                    .font(.system(size: 40))
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                    .foregroundColor(.gray)
-                    .padding(.top)
                     .padding()
 
-                HStack {
-                    Toggle("Filter Specfic Words", isOn: $profanityFilter)
-                        .padding()
-                }
-
-                HStack {
-
-                    Text("Blocked Words List")
-                        .padding()
-
-                    Spacer()
+                VStack {
 
                     Button {
-                        // button functionality
+                        // do stuff
                     } label: {
-                        // button design
-                        TextEditButton()
+                        PreferencePic().padding()
                     }
+
+                    VStack(alignment: .leading ) {
+
+                        Text("Team Name")
+                            .font(.system(size: 25))
+                            .fontWeight(.bold)
+
+                        HStack {
+
+                            Text(teamName)
+                                .font(.system(size: 18))
+
+                            Spacer()
+
+                            Button {
+                                // button functionality
+                            } label: {
+                                // button design
+                                TextEditButton()
+                            }
+                        }
+
+                        Text("Description")
+                            .font(.system(size: 25))
+                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+
+                        HStack {
+
+                            Text(description)
+                                .font(.system(size: 18))
+
+                            Spacer()
+
+                            Button {
+                                // button functionality
+                            } label: {
+                                // button design
+                                TextEditButton()
+                            }
+
+                        }
+                    }
+                    .padding()
+                    .frame(minWidth: 100, maxWidth: 650, maxHeight: 340, alignment: .leading)
+                    .background(Color("BackgroundColor"))
+                    .cornerRadius(10)
+
                 }
+                .frame(maxWidth: 700, maxHeight: 500, alignment: .center)
+                .background(Color("brandPrimary"))
+                .cornerRadius(20)
 
+                VStack(alignment: .leading) {
+
+                    Text("Profanity Control")
+                        .font(.system(size: 20))
+                        .fontWeight(.bold)
+                        .padding(.top)
+                        .padding()
+
+                    HStack {
+                        Toggle("Filter Specfic Words", isOn: $profanityFilter)
+                            .padding()
+                    }
+
+                    HStack {
+
+                        Text("Blocked Words List")
+                            .padding()
+
+                        Spacer()
+
+                        Button {
+                            // button functionality
+                        } label: {
+                            // button design
+                            TextEditButton()
+                        }
+                    }
+
+                }
+                .frame(maxWidth: 650, maxHeight: 230)
+
+                Divider()
+                    .frame(maxWidth: 650)
+                    .background(Color("FadedColor"))
+
+                Spacer()
+
+                Button {
+                    teamViewModel.deleteSelectedTeam(teamId: teamViewModel.selectedTeam?.teamId)
+                } label: {
+                    DeleteButton(backgroundColor: isPrivate ? .gray : .red)
+                }
+                .disabled(isPrivate)
             }
-            .frame(maxWidth: 650, maxHeight: 230)
-
-            Divider()
-                .frame(maxWidth: 650).background(Color(.gray))
-
-            Spacer()
-
-            Button {
-                teamViewModel.deleteSelectedTeam(teamId: teamViewModel.selectedTeam?.teamId)
-            } label: {
-                DeleteButton(backgroundColor: isPrivate ? .gray : .red)
-            }
-            .disabled(isPrivate)
         }
+        .edgesIgnoringSafeArea(.vertical)
     }
 }
 
 struct TeamSettingsView_Previews: PreviewProvider {
     static var previews: some View {
         TeamSettingsView(teamName: "Team Name", description: "Some description here", isPrivate: false)
+            .preferredColorScheme(.dark)
             .environmentObject(TeamViewModel())
     }
 }
