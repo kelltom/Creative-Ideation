@@ -8,11 +8,13 @@
 import Foundation
 
 struct Member: Codable, Identifiable, Hashable {
-    let id = UUID()
+    let memberId = UUID()
+    let id: String = ""
     let name: String = ""
     let email: String = ""
 
     enum CodingKeys: String, CodingKey {
+        case id
         case name
         case email
     }
