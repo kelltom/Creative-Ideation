@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct EditButton: View {
+struct EditBtn: View {
     var body: some View {
         Image(systemName: "square.and.pencil")
             .resizable()
@@ -19,6 +19,6 @@ struct EditButton: View {
 
 struct EditButton_Previews: PreviewProvider {
     static var previews: some View {
-        EditButton()
+        EditBtn()
     }
 }

@@ -20,8 +20,68 @@ final class TeamViewModel: ObservableObject {
     @Published var isShowingBanner = false
     @Published var didOperationSucceed = false
     @Published var teamCode = ""
+    @Published var members: [Member] = []
 
-    /// Creates a single team
+    // Update selected team when user makes a selection
+    func selectTeam(team: Team) {
+        selectedTeam = team
+        loadMembers()
+    }
+
+    // Load Members of the selected team
+    func loadMembers() {
+        members = []
+
+        guard let selectedTeam = selectedTeam else {
+            print("selectedTeam is nil, cannot query Members")
+            return
+        }
+
+        let userCollectionRef = db.collection("users")
+        var chunks: Int = selectedTeam.members.count / 10
+        let smallChunk = selectedTeam.members.count % 10
+        if smallChunk != 0 {
+            chunks += 1
+        }
+
+        var chunk = 0
+        var chunkMembers: [String] = []
+
+        print("Starting Chunk Loop")
+        while chunk < chunks {
+            if smallChunk != 0 && chunk == chunks - 1 {
+                chunkMembers = Array(selectedTeam.members[chunk*10...chunk*10+smallChunk-1])
+            } else {
+                chunkMembers = Array(selectedTeam.members[chunk*10...chunk*10+9])
+            }
+
+            print(chunkMembers)
+
+            userCollectionRef.whereField("id", in: chunkMembers)
+                .getDocuments { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for document in querySnapshot!.documents {
+                            do {
+                                // Convert document to Member object and append to list of team members
+                                try self.members.append(document.data(as: Member.self)!)
+                                print("Member object added to list of team members successfully")
+                            } catch {
+                                print("Error adding member to list of team members")
+                            }
+
+                        }
+                        self.members = self.members.sorted(by: {
+                            $0.name.compare($1.name) == .orderedAscending
+                        })
+                    }
+                }
+            chunk += 1
+        }
+    }
+
+    // Creates a single team
     func createTeam(teamName: String, teamDescription: String, isPrivate: Bool = false) {
 
         // Get user ID
