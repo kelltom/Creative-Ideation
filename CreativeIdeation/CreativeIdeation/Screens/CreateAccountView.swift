@@ -44,7 +44,7 @@ struct CreateAccountView: View {
 
                     Text("Create Account")
                         .padding()
-                        .font(.system(size:40))
+                        .font(.system(size: 40))
 
                     MenuTextField(title: "Full name", input: $name)
 
