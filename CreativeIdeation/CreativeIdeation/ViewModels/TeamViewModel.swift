@@ -7,7 +7,9 @@
 
 import Foundation
 import Firebase
+import FirebaseFirestore
 import FirebaseFirestoreSwift
+import FirebaseFunctions
 import SwiftUI
 
 final class TeamViewModel: ObservableObject {
@@ -81,7 +83,7 @@ final class TeamViewModel: ObservableObject {
         }
     }
 
-    // Creates a single team
+    /// Creates a single team
     func createTeam(teamName: String, teamDescription: String, isPrivate: Bool = false) {
 
         // Get user ID

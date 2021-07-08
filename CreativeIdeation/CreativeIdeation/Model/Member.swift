@@ -6,6 +6,9 @@
 //
 
 import Foundation
+import FirebaseCore
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 struct Member: Codable, Identifiable, Hashable {
     let memberId = UUID()
