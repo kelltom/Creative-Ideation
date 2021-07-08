@@ -91,6 +91,11 @@ struct LoginView: View {
                         }
                         .hidden()
 
+                        NavigationLink(destination: EmptyView()) {
+                            EmptyView()
+                        }
+                        .hidden()
+
                     }
 
                     Spacer()
