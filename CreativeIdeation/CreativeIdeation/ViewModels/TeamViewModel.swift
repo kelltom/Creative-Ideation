@@ -22,7 +22,7 @@ final class TeamViewModel: ObservableObject {
     @Published var isShowingBanner = false
     @Published var didOperationSucceed = false
     @Published var teamCode = ""
-    @Published var members: [Member] = []
+    @Published var teamMembers: [Member] = []
 
     // Update selected team when user makes a selection
     func selectTeam(team: Team) {
@@ -32,7 +32,7 @@ final class TeamViewModel: ObservableObject {
 
     // Load Members of the selected team
     func loadMembers() {
-        members = []
+        teamMembers = []
 
         guard let selectedTeam = selectedTeam else {
             print("selectedTeam is nil, cannot query Members")
@@ -67,14 +67,15 @@ final class TeamViewModel: ObservableObject {
                         for document in querySnapshot!.documents {
                             do {
                                 // Convert document to Member object and append to list of team members
-                                try self.members.append(document.data(as: Member.self)!)
+                                try self.teamMembers.append(document.data(as: Member.self)!)
                                 print("Member object added to list of team members successfully")
+                                print(self.teamMembers.last)
                             } catch {
                                 print("Error adding member to list of team members")
                             }
 
                         }
-                        self.members = self.members.sorted(by: {
+                        self.teamMembers = self.teamMembers.sorted(by: {
                             $0.name.compare($1.name) == .orderedAscending
                         })
                     }

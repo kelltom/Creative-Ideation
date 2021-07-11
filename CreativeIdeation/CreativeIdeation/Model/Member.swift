@@ -10,11 +10,11 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-struct Member: Codable, Identifiable, Hashable {
-    let memberId = UUID()
-    let id: String = ""
-    let name: String = ""
-    let email: String = ""
+struct Member: Codable, Identifiable, Equatable, Hashable {
+    var memberId = UUID()
+    var id = ""
+    var name = ""
+    var email = ""
 
     enum CodingKeys: String, CodingKey {
         case id

@@ -20,6 +20,8 @@ final class GroupViewModel: ObservableObject {
     @Published var msg = ""
     @Published var isShowingBanner = false
     @Published var didOperationSucceed = false
+    @Published var groupMembers: [Member] = []
+    @Published var nonMembers: [Member] = []
 
     /// Creates a group within a Team with the given teamId
     func createGroup(teamId: String?, groupTitle: String) {
@@ -128,100 +130,40 @@ final class GroupViewModel: ObservableObject {
             }
     }
 
-//    func getIdsNotInGroup(teamId: String) -> [String] {
-//
-//        var groupMemberIds: [String] = []
-//        var teamMemberIds: [String] = []
-//
-//        guard let selectedGroup = selectedGroup else {
-//            print("Selected Group is nil, cannot query Members")
-//            return []
-//        }
-//
-//        let groupDocRef = db.collection("teams").document(teamId).collection("groups").document(selectedGroup.groupId)
-//        groupDocRef.getDocument { (document, error) in
-//            if let document = document, document.exists {
-//                if let gmIds = document.get("members") as? [String] {
-//                    groupMemberIds = gmIds
-//                }
-//                print("Members array retrieved from selected group")
-//            } else {
-//                print("Document not found")
-//                return
-//            }
-//        }
-//
-//        let teamDocRef = db.collection("teams").document(teamId)
-//        teamDocRef.getDocument { (document, error) in
-//            if let document = document, document.exists {
-//                if let tmIds = document.get("members") as? [String] {
-//                    teamMemberIds = tmIds
-//                }
-//                print("Members array retrieved from selected team")
-//            } else {
-//                print("Document not found")
-//                return
-//            }
-//        }
-//    }
+    func splitMembers(teamMembers: [Member]) {
+        print("Team Members:", teamMembers)
+        nonMembers = teamMembers
+        groupMembers = teamMembers
+        nonMembers.removeAll{
+            selectedGroup!.members.contains($0.id)
+        }
+        groupMembers.removeAll {
+            !selectedGroup!.members.contains($0.id)
+        }
 
-//    func getMembersNotInGroup(teamId: String?) -> [Member] {
-//        var members: [Member] = []
-//
-//        guard let teamId = teamId else {
-//            print("Team ID is nil, cannot query Members")
-//            return []
-//        }
-//
-//
-//        let memberIds = Array(Set(teamMemberIds).subtracting(groupMemberIds))
-//
-//        let userCollectionRef = db.collection("users")
-//        var chunks: Int = memberIds.count / 10
-//        let smallChunk = memberIds.count % 10
-//        if smallChunk != 0 {
-//            chunks += 1
-//        }
-//
-//        var chunk = 0
-//        var chunkMembers: [String] = []
-//
-//        print("Starting Chunk Loop")
-//        while chunk < chunks {
-//            if smallChunk != 0 && chunk == chunks - 1 {
-//                chunkMembers = Array(memberIds[chunk*10...chunk*10+smallChunk])
-//            } else {
-//                chunkMembers = Array(memberIds[chunk*10...chunk*10+9])
-//            }
-//
-//            print(chunkMembers)
-//
-//            userCollectionRef.whereField("id", in: chunkMembers)
-//                .getDocuments { (querySnapshot, err) in
-//                    if let err = err {
-//                        print("Error getting documents: \(err)")
-//                    } else {
-//                        for document in querySnapshot!.documents {
-//                            do {
-//                                // Convert document to Member object and append to list of team members
-//                                try members.append(document.data(as: Member.self)!)
-//                                print("Member object added to list of team members successfully")
-//                            } catch {
-//                                print("Error adding member to list of team members")
-//                            }
-//
-//                        }
-//                        members = members.sorted(by: {
-//                            $0.name.compare($1.name) == .orderedAscending
-//                        })
-//                    }
-//                }
-//            chunk += 1
-//        }
-//
-//        return members
-//
-//    }
+        print("Group Members:", groupMembers)
+        print("Non Members:", nonMembers)
+    }
+
+    func addMembers(teamId: String?, memberIds: Set<String>) {
+        let groupRef = db.collection("teams").document(teamId!).collection("groups").document(selectedGroup!.groupId)
+        let newMemberIds = Array(memberIds)
+        
+        selectedGroup!.members += newMemberIds
+
+        groupRef.updateData([
+            "members": FieldValue.arrayUnion(newMemberIds)
+        ]) { err in
+            if let err = err {
+                self.setBanner(message: "Error adding members: \(err)", didSucceed: false)
+                print("Error adding members: \(err)")
+            } else {
+                self.setBanner(message: "Group Members Added Successfully", didSucceed: true)
+                print("Members added to group successfully")
+            }
+        }
+
+    }
 
     private func setBanner(message: String, didSucceed: Bool) {
         msg = message

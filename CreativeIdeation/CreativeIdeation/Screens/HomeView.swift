@@ -235,6 +235,7 @@ struct HomeView: View {
                                                         groupViewModel.selectedGroup = nil
                                                     } else {
                                                         groupViewModel.selectedGroup = group
+                                                        groupViewModel.splitMembers(teamMembers: teamViewModel.teamMembers)
                                                     }
                                                 } label: {
                                                     GroupButton(
@@ -255,8 +256,30 @@ struct HomeView: View {
                                 // Sessions Column
                                 VStack {
 
-                                    Text("Sessions")
-                                        .font(.title)
+                                    ZStack {
+                                        Text("Sessions")
+                                            .font(.title)
+
+                                        HStack{
+                                            Spacer()
+
+                                            Button {
+                                                activeSheet = .addGroupMembers
+                                            } label: {
+                                                Text("Add Members")
+                                                    .font(.title2)
+                                                    .foregroundColor(.white)
+                                                    .padding(10)
+                                                    .frame(minWidth: 30)
+                                                    .background(Color("brandPrimary"))
+                                                    .cornerRadius(20)
+                                                    .clipped()
+                                                    .shadow(color: .black, radius: 4, y: 4)
+                                                    .padding(.trailing, 10)
+
+                                            }
+                                        }
+                                    }
 
                                     // List of Sessions
                                     ScrollView(showsIndicators: false) {
