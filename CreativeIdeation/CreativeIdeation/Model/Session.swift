@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseFirestoreSwift
 
 struct Session: Identifiable, Codable {
     var id = UUID()

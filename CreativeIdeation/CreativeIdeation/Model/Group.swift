@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseFirestoreSwift
 
 struct Group: Codable, Identifiable, Equatable {
     var id = UUID()  // used for looping

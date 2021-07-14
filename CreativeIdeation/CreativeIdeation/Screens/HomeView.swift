@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum ActiveSheet: Identifiable {
-    case team, group, session, addTeamMembers, joinTeam
+    case team, group, session, addTeamMembers, joinTeam, addGroupMembers
 
     var id: Int {
         hashValue
@@ -51,7 +51,7 @@ struct HomeView: View {
                 ForEach(teamViewModel.teams) { team in
 
                     Button {
-                        teamViewModel.selectedTeam = team
+                        teamViewModel.selectTeam(team: team)
                     } label: {
                         TeamPic(selected: teamViewModel.selectedTeam?.id == team.id,
                                 teamName: team.teamName)
@@ -235,6 +235,7 @@ struct HomeView: View {
                                                         groupViewModel.selectedGroup = nil
                                                     } else {
                                                         groupViewModel.selectedGroup = group
+                                                        groupViewModel.splitMembers(teamMembers: teamViewModel.teamMembers)
                                                     }
                                                 } label: {
                                                     GroupButton(
@@ -255,8 +256,30 @@ struct HomeView: View {
                                 // Sessions Column
                                 VStack {
 
-                                    Text("Sessions")
-                                        .font(.title)
+                                    ZStack {
+                                        Text("Sessions")
+                                            .font(.title)
+
+                                        HStack{
+                                            Spacer()
+
+                                            Button {
+                                                activeSheet = .addGroupMembers
+                                            } label: {
+                                                Text("Add Members")
+                                                    .font(.title2)
+                                                    .foregroundColor(.white)
+                                                    .padding(10)
+                                                    .frame(minWidth: 30)
+                                                    .background(Color("brandPrimary"))
+                                                    .cornerRadius(20)
+                                                    .clipped()
+                                                    .shadow(color: .black, radius: 4, y: 4)
+                                                    .padding(.trailing, 10)
+
+                                            }
+                                        }
+                                    }
 
                                     // List of Sessions
                                     ScrollView(showsIndicators: false) {
@@ -339,6 +362,11 @@ struct HomeView: View {
             case .addTeamMembers:
                 TeamAccessCode(showSheets: $activeSheet)
                     .environmentObject(self.teamViewModel)
+
+            case .addGroupMembers:
+                GroupMembersView(showSheets: $activeSheet)
+                    .environmentObject(self.teamViewModel)
+                    .environmentObject(self.groupViewModel)
 
             case .group:
                 CreateGroupView(showSheets: $activeSheet)

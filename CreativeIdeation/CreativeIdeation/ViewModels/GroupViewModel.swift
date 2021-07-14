@@ -20,6 +20,8 @@ final class GroupViewModel: ObservableObject {
     @Published var msg = ""
     @Published var isShowingBanner = false
     @Published var didOperationSucceed = false
+    @Published var groupMembers: [Member] = []
+    @Published var nonMembers: [Member] = []
 
     /// Creates a group within a Team with the given teamId
     func createGroup(teamId: String?, groupTitle: String) {
@@ -126,6 +128,41 @@ final class GroupViewModel: ObservableObject {
                     })
                 }
             }
+    }
+
+    func splitMembers(teamMembers: [Member]) {
+        print("Team Members:", teamMembers)
+        nonMembers = teamMembers
+        groupMembers = teamMembers
+        nonMembers.removeAll{
+            selectedGroup!.members.contains($0.id)
+        }
+        groupMembers.removeAll {
+            !selectedGroup!.members.contains($0.id)
+        }
+
+        print("Group Members:", groupMembers)
+        print("Non Members:", nonMembers)
+    }
+
+    func addMembers(teamId: String?, memberIds: Set<String>) {
+        let groupRef = db.collection("teams").document(teamId!).collection("groups").document(selectedGroup!.groupId)
+        let newMemberIds = Array(memberIds)
+        
+        selectedGroup!.members += newMemberIds
+
+        groupRef.updateData([
+            "members": FieldValue.arrayUnion(newMemberIds)
+        ]) { err in
+            if let err = err {
+                self.setBanner(message: "Error adding members: \(err)", didSucceed: false)
+                print("Error adding members: \(err)")
+            } else {
+                self.setBanner(message: "Group Members Added Successfully", didSucceed: true)
+                print("Members added to group successfully")
+            }
+        }
+
     }
 
     private func setBanner(message: String, didSucceed: Bool) {

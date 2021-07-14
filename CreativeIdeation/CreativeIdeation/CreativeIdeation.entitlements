@@ -10,7 +10,7 @@
 	<true/>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)7B7KJQCFCP.maccatalyst.com.mvk.creativeideation</string>
+		<string>$(AppIdentifierPrefix)-B7KJQCFCP.maccatalystcom.mvk.creativeideation</string>
 	</array>
 </dict>
 </plist>
