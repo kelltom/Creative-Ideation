@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import FirebaseCore
-import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 struct Member: Codable, Identifiable, Equatable, Hashable {
