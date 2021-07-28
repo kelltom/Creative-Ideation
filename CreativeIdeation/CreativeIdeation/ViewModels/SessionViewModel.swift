@@ -12,7 +12,9 @@ import FirebaseFirestoreSwift
 final class SessionViewModel: ObservableObject {
 
     private var db = Firestore.firestore()
+    private var listener: ListenerRegistration?
 
+    @Published var selectedGroupId: String?
     @Published var groupSessions: [Session] = []    /// List of Sessions from a group that the user belongs to
     @Published var teamSessions: [Session] = []     /// List of Sessions from a team that the user belongs to
     @Published var selectedSession: Session?        /// Session object of the selected Session
@@ -21,6 +23,14 @@ final class SessionViewModel: ObservableObject {
     @Published var msg = ""
     @Published var isShowingBanner = false
     @Published var didOperationSucceed = false
+
+    func clear() {
+        teamSessions = []
+        groupSessions = []
+        selectedSession = nil
+        selectedGroupId = nil
+        listener?.remove()
+    }
 
     /// Creates a Session within a Group with the given groupId
     func createSession(teamId: String?, groupId: String?) {
@@ -63,7 +73,7 @@ final class SessionViewModel: ObservableObject {
             "sessionDescription": self.newSession.sessionDescription,
             "type": "",
             "inProgress": true,
-            "dateCreated": FieldValue.serverTimestamp(),
+            "dateCreated": Date(),
             "dateModified": "",  // should get timestamp
             "createdBy": uid,
             "groupId": groupId,
@@ -90,8 +100,6 @@ final class SessionViewModel: ObservableObject {
 
     /// Populates teamSessions array, storing a Session object for each found in the datastore
     func getAllSessions(teamId: String?) {
-        // Empty list of sessions
-        teamSessions = []
 
         // Ensure Team ID is not nil
         guard let teamId = teamId else {
@@ -99,58 +107,83 @@ final class SessionViewModel: ObservableObject {
             return
         }
 
-        // Get list of Sessions that belong to Team ID
-        db.collection("sessions").whereField("teamId", in: [teamId])
-            .getDocuments { (querySnapshot, error) in
-                if let error = error {
-                    print("Error getting Session: \(error)")
-                } else {
-                    for document in querySnapshot!.documents {
+        listener = db.collection("sessions").whereField("teamId", in: [teamId])
+            .addSnapshotListener { querySnapshot, error in
+                guard let snapshot = querySnapshot else {
+                    print("Error fetching snapshots: \(error!)")
+                    return
+                }
+                snapshot.documentChanges.forEach { diff in
+                    if diff.type == .added {
+                        // Add new session locally
                         do {
-                            // Convert document to Session object and append to list of teamSessions
-                            try self.teamSessions.append(document.data(as: Session.self)!)
-                            print("Session object added to list of teamSessions")
+                            let newSession = try (diff.document.data(as: Session.self)!)
+                            self.teamSessions.append(newSession)
+                            if newSession.groupId == self.selectedGroupId {
+                                self.groupSessions.append(newSession)
+                            }
                         } catch {
-                            print("Error adding Session object to list of teamSessions")
+                            print("Error reading new session from DB: \(error)")
                         }
                     }
-                    self.teamSessions = self.teamSessions.sorted(by: {
-                        $0.dateCreated.compare($1.dateCreated) == .orderedDescending
-                    })
+                    if diff.type == .modified {
+                        // Modify local session
+                        do {
+                            let mockSession = try (diff.document.data(as: Session.self)!)
+                            let docID = diff.document.documentID
+                            let selectedSessionIndex = self.teamSessions.firstIndex(where: {$0.sessionId == docID})
+
+                            self.teamSessions[selectedSessionIndex!].sessionTitle = mockSession.sessionTitle
+                            self.teamSessions[selectedSessionIndex!].sessionDescription = mockSession.sessionDescription
+                            self.teamSessions[selectedSessionIndex!].inProgress = mockSession.inProgress
+                            self.teamSessions[selectedSessionIndex!].dateModified = mockSession.dateModified
+
+                            let selectedSessionGroupIndex = self.groupSessions.firstIndex(where: {$0.sessionId == mockSession.sessionId})
+                            if selectedSessionGroupIndex != nil {
+                                self.groupSessions[selectedSessionGroupIndex!].sessionTitle = mockSession.sessionTitle
+                                self.groupSessions[selectedSessionGroupIndex!].sessionDescription = mockSession.sessionDescription
+                                self.groupSessions[selectedSessionGroupIndex!].inProgress = mockSession.inProgress
+                                self.groupSessions[selectedSessionGroupIndex!].dateModified = mockSession.dateModified
+                            }
+
+                        } catch {
+                            print("Error reading modified session from DB: \(error)")
+                        }
+                    }
+                    if diff.type == .removed {
+                        // Remove session locally
+                        let selectedSessionId = diff.document.documentID
+                        let selectedSessionIndex = self.teamSessions.firstIndex(where: {$0.sessionId == selectedSessionId})
+
+                        if self.selectedSession?.sessionId == selectedSessionId {
+                            self.selectedSession = nil
+                        }
+
+                        self.teamSessions.remove(at: selectedSessionIndex!)
+
+                        let selectedSessionGroupIndex = self.groupSessions.firstIndex(where: {$0.sessionId == selectedSessionId})
+                        if selectedSessionGroupIndex != nil {
+                            self.groupSessions.remove(at: selectedSessionGroupIndex!)
+                        }
+
+                    }
                 }
             }
     }
 
     /// Populates groupSessions array, storing a Session object for each found in the datastore
-    func getGroupSessions(groupId: String?) {
+    func getGroupSessions() {
         // Empty list of sessions
         groupSessions = []
 
         // Ensure Group ID is not nil
-        guard let groupId = groupId else {
+        guard let selectedGroupId = selectedGroupId else {
             print("Cannot get Sessions: Group ID is nil")
             return
         }
 
-        // Get list of Sessions that belong to Group ID
-        db.collection("sessions").whereField("groupId", in: [groupId])
-            .getDocuments { (querySnapshot, error) in
-                if let error = error {
-                    print("Error getting Session: \(error)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        do {
-                            // Convert document to Session object and append to list of groupSessions
-                            try self.groupSessions.append(document.data(as: Session.self)!)
-                            print("Session object added to list of groupSessions")
-                        } catch {
-                            print("Error adding Session object to list of groupSessions")
-                        }
-                    }
-                    self.groupSessions = self.groupSessions.sorted(by: {
-                        $0.dateCreated.compare($1.dateCreated) == .orderedDescending
-                    })
-                }
-            }
+        for session in teamSessions.filter({$0.groupId == selectedGroupId}) {
+                groupSessions.append(session)
+        }
     }
 }

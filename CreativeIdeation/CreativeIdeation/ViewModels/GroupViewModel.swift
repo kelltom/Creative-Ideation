@@ -161,29 +161,6 @@ final class GroupViewModel: ObservableObject {
                     }
                 }
             }
-
-        // Query db to get references to all groups where current user's ID appears in members list
-        // Create an instance of Group for each and add them to list of groups
-//        db.collection("teams").document(teamId).collection("groups").whereField("members", arrayContains: uid)
-//            .getDocuments { (querySnapshot, err) in
-//                if let err = err {
-//                    print("Error getting documents: \(err)")
-//                } else {
-//                    for document in querySnapshot!.documents {
-//                        do {
-//                            // Convert document to Group object and append to list of teams
-//                            try self.groups.append(document.data(as: Group.self)!)
-//                            print("Group object added to list of groups successfully")
-//                        } catch {
-//                            print("Error adding group object to list of groups")
-//                        }
-//
-//                    }
-//                    self.groups = self.groups.sorted(by: {
-//                        $0.dateCreated.compare($1.dateCreated) == .orderedAscending
-//                    })
-//                }
-//            }
     }
 
     func splitMembers(teamMembers: [Member]) {

@@ -380,18 +380,16 @@ struct HomeView: View {
 
             }
         }
-        .onAppear {
-            sessionViewModel.getAllSessions(teamId: teamViewModel.selectedTeam?.teamId)
-            sessionViewModel.getGroupSessions(groupId: groupViewModel.selectedGroup?.groupId)
-        }
         .onChange(of: teamViewModel.selectedTeam) {_ in
             groupViewModel.clear()
             groupViewModel.getGroups(teamId: teamViewModel.selectedTeam?.teamId)
+            sessionViewModel.clear()
             sessionViewModel.getAllSessions(teamId: teamViewModel.selectedTeam?.teamId)
-            sessionViewModel.getGroupSessions(groupId: groupViewModel.selectedGroup?.groupId)
+            sessionViewModel.getGroupSessions()
         }
         .onChange(of: groupViewModel.selectedGroup) { _ in
-            sessionViewModel.getGroupSessions(groupId: groupViewModel.selectedGroup?.groupId)
+            sessionViewModel.selectedGroupId = groupViewModel.selectedGroup?.groupId
+            sessionViewModel.getGroupSessions()
         }
 
     }

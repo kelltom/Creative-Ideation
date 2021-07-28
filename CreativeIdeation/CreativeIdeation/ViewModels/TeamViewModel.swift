@@ -259,9 +259,6 @@ final class TeamViewModel: ObservableObject {
     /// Populate list of teams associated with current user
     func getTeams() {
 
-        // Empty list of teams to avoid repeated appends
-        // teams = []
-
         // Get user ID
         guard let uid = Auth.auth().currentUser?.uid else {
             // setBanner(message: "Failed to find user ID", didSucceed: false)
