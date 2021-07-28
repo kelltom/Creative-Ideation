@@ -381,12 +381,11 @@ struct HomeView: View {
             }
         }
         .onAppear {
-            teamViewModel.getTeams()
             sessionViewModel.getAllSessions(teamId: teamViewModel.selectedTeam?.teamId)
             sessionViewModel.getGroupSessions(groupId: groupViewModel.selectedGroup?.groupId)
         }
         .onChange(of: teamViewModel.selectedTeam) {_ in
-            groupViewModel.selectedGroup = nil
+            groupViewModel.clear()
             groupViewModel.getGroups(teamId: teamViewModel.selectedTeam?.teamId)
             sessionViewModel.getAllSessions(teamId: teamViewModel.selectedTeam?.teamId)
             sessionViewModel.getGroupSessions(groupId: groupViewModel.selectedGroup?.groupId)

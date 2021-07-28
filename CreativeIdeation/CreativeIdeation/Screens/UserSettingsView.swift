@@ -18,6 +18,7 @@ struct UserSettingsView: View {
 
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
     @EnvironmentObject var teamViewModel: TeamViewModel
+    @EnvironmentObject var groupViewModel: GroupViewModel
 
     @State var showSheet: PreferenceSheet?
     @State private var darkModeFilter = true
@@ -142,6 +143,7 @@ struct UserSettingsView: View {
             Button {
                 userAccountViewModel.signOut()
                 teamViewModel.clear()
+                groupViewModel.clear()
             } label: {
                 LogOutButton()
             }

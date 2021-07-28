@@ -24,6 +24,14 @@ final class GroupViewModel: ObservableObject {
     @Published var groupMembers: [Member] = []
     @Published var nonMembers: [Member] = []
 
+    func clear() {
+        listener?.remove()
+        groups = []
+        selectedGroup = nil
+        groupMembers = []
+        nonMembers = []
+    }
+
     /// Creates a group within a Team with the given teamId
     func createGroup(teamId: String?, groupTitle: String) {
 
@@ -130,10 +138,12 @@ final class GroupViewModel: ObservableObject {
                             let docID = diff.document.documentID
                             let selectedGroupIndex = self.groups.firstIndex(where: {$0.groupId == docID})
 
-                            self.groups[selectedGroupIndex!].groupTitle = mockGroup.groupTitle
-                            self.groups[selectedGroupIndex!].members = mockGroup.members
-                            self.groups[selectedGroupIndex!].admins = mockGroup.admins
-                            self.groups[selectedGroupIndex!].sessions = mockGroup.sessions
+                            if selectedGroupIndex != nil {
+                                self.groups[selectedGroupIndex!].groupTitle = mockGroup.groupTitle
+                                self.groups[selectedGroupIndex!].members = mockGroup.members
+                                self.groups[selectedGroupIndex!].admins = mockGroup.admins
+                                self.groups[selectedGroupIndex!].sessions = mockGroup.sessions
+                            }
 
                         } catch {
                             print("Error reading modified group from DB: \(error)")

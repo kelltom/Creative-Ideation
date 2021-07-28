@@ -20,6 +20,7 @@ struct LoginView: View {
     @State var password: String = ""
 
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
+    @EnvironmentObject var teamViewModel: TeamViewModel
 
     var body: some View {
 
@@ -60,6 +61,13 @@ struct LoginView: View {
                             label: {
                                 EmptyView()
                             })
+                            .onChange(of: userAccountViewModel.authSuccess) { (newValue) in
+                                if newValue {
+                                    teamViewModel.getTeams()
+                                } else {
+                                    print("Failure to load teams")
+                                }
+                            }
 
                         // Log In Button
                         Button {

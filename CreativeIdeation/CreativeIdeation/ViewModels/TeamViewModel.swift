@@ -176,7 +176,6 @@ final class TeamViewModel: ObservableObject {
                                 ])
                                 self.setBanner(message: "Successfully joined a team!", didSucceed: true)
                                 print("Update team members successful")
-                                self.getTeams()
                             } else {
                                 self.setBanner(message: "Error in joining a team", didSucceed: true)
                                 print("error in updating teams")
@@ -251,7 +250,6 @@ final class TeamViewModel: ObservableObject {
                     print("Error writing batch \(err)")
                 } else {
                     print("Batch write succeeded.")
-                    self.getTeams()
                     self.selectedTeam = nil
                 }
             }
@@ -293,11 +291,13 @@ final class TeamViewModel: ObservableObject {
                             let docID = diff.document.documentID
                             let selectedTeamIndex = self.teams.firstIndex(where: {$0.teamId == docID})
 
-                            self.teams[selectedTeamIndex!].teamName = mockTeam.teamName
-                            self.teams[selectedTeamIndex!].teamDescription = mockTeam.teamDescription
-                            self.teams[selectedTeamIndex!].isPrivate = mockTeam.isPrivate
-                            self.teams[selectedTeamIndex!].members = mockTeam.members
-                            self.teams[selectedTeamIndex!].admins = mockTeam.admins
+                            if selectedTeamIndex != nil {
+                                self.teams[selectedTeamIndex!].teamName = mockTeam.teamName
+                                self.teams[selectedTeamIndex!].teamDescription = mockTeam.teamDescription
+                                self.teams[selectedTeamIndex!].isPrivate = mockTeam.isPrivate
+                                self.teams[selectedTeamIndex!].members = mockTeam.members
+                                self.teams[selectedTeamIndex!].admins = mockTeam.admins
+                            }
 
                         } catch {
                             print("Error reading modified team from DB: \(error)")
@@ -320,6 +320,7 @@ final class TeamViewModel: ObservableObject {
     }
 
     func clear() {
+        listener?.remove()
         teams = []
         selectedTeam = nil
         msg = ""
