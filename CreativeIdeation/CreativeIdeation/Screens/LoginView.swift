@@ -61,12 +61,8 @@ struct LoginView: View {
                             label: {
                                 EmptyView()
                             })
-                            .onChange(of: userAccountViewModel.authSuccess) { (newValue) in
-                                if newValue {
-                                    teamViewModel.getTeams()
-                                } else {
-                                    print("Failure to load teams")
-                                }
+                            .onChange(of: userAccountViewModel.authSuccess == true) { _ in
+                                teamViewModel.getTeams()
                             }
 
                         // Log In Button
