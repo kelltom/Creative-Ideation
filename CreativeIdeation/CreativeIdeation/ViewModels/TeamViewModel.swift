@@ -122,7 +122,7 @@ final class TeamViewModel: ObservableObject {
             "admins": FieldValue.arrayUnion([uid]),
             "members": FieldValue.arrayUnion([uid]),
             "accessCode": accessCode,
-            "dateCreated": FieldValue.serverTimestamp()
+            "dateCreated": Date()
         ], forDocument: teamRef)
 
         // let userRef = db.collection("users").document(uid)
@@ -291,13 +291,11 @@ final class TeamViewModel: ObservableObject {
                             let docID = diff.document.documentID
                             let selectedTeamIndex = self.teams.firstIndex(where: {$0.teamId == docID})
 
-                            if selectedTeamIndex != nil {
-                                self.teams[selectedTeamIndex!].teamName = mockTeam.teamName
-                                self.teams[selectedTeamIndex!].teamDescription = mockTeam.teamDescription
-                                self.teams[selectedTeamIndex!].isPrivate = mockTeam.isPrivate
-                                self.teams[selectedTeamIndex!].members = mockTeam.members
-                                self.teams[selectedTeamIndex!].admins = mockTeam.admins
-                            }
+                            self.teams[selectedTeamIndex!].teamName = mockTeam.teamName
+                            self.teams[selectedTeamIndex!].teamDescription = mockTeam.teamDescription
+                            self.teams[selectedTeamIndex!].isPrivate = mockTeam.isPrivate
+                            self.teams[selectedTeamIndex!].members = mockTeam.members
+                            self.teams[selectedTeamIndex!].admins = mockTeam.admins
 
                         } catch {
                             print("Error reading modified team from DB: \(error)")

@@ -84,7 +84,7 @@ final class GroupViewModel: ObservableObject {
             "admins": FieldValue.arrayUnion([uid]),
             "members": FieldValue.arrayUnion([uid]),
             "sessions": FieldValue.arrayUnion([]),
-            "dateCreated": FieldValue.serverTimestamp()
+            "dateCreated": Date()
         ]) { err in
             if let err = err {
                 self.setBanner(message: "Error adding document: \(err)", didSucceed: false)
@@ -138,12 +138,10 @@ final class GroupViewModel: ObservableObject {
                             let docID = diff.document.documentID
                             let selectedGroupIndex = self.groups.firstIndex(where: {$0.groupId == docID})
 
-                            if selectedGroupIndex != nil {
-                                self.groups[selectedGroupIndex!].groupTitle = mockGroup.groupTitle
-                                self.groups[selectedGroupIndex!].members = mockGroup.members
-                                self.groups[selectedGroupIndex!].admins = mockGroup.admins
-                                self.groups[selectedGroupIndex!].sessions = mockGroup.sessions
-                            }
+                            self.groups[selectedGroupIndex!].groupTitle = mockGroup.groupTitle
+                            self.groups[selectedGroupIndex!].members = mockGroup.members
+                            self.groups[selectedGroupIndex!].admins = mockGroup.admins
+                            self.groups[selectedGroupIndex!].sessions = mockGroup.sessions
 
                         } catch {
                             print("Error reading modified group from DB: \(error)")
