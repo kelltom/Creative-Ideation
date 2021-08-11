@@ -59,11 +59,7 @@ struct CreateGroupView: View {
                 .padding() // padding padding for title
             }
         }
-        .onDisappear {
-            groupViewModel.getGroups(teamId: teamViewModel.selectedTeam?.teamId)
-        }
     }
-
 }
 
 struct CreateGroupView_Previews: PreviewProvider {

@@ -15,6 +15,7 @@ import SwiftUI
 final class TeamViewModel: ObservableObject {
 
     private var db = Firestore.firestore()
+    private var listener: ListenerRegistration?
 
     @Published var teams: [Team] = []   // populated when navigating to HomeView
     @Published var selectedTeam: Team?  // selected team in the sidebar
@@ -121,7 +122,7 @@ final class TeamViewModel: ObservableObject {
             "admins": FieldValue.arrayUnion([uid]),
             "members": FieldValue.arrayUnion([uid]),
             "accessCode": accessCode,
-            "dateCreated": FieldValue.serverTimestamp()
+            "dateCreated": Date()
         ], forDocument: teamRef)
 
         // let userRef = db.collection("users").document(uid)
@@ -175,7 +176,6 @@ final class TeamViewModel: ObservableObject {
                                 ])
                                 self.setBanner(message: "Successfully joined a team!", didSucceed: true)
                                 print("Update team members successful")
-                                self.getTeams()
                             } else {
                                 self.setBanner(message: "Error in joining a team", didSucceed: true)
                                 print("error in updating teams")
@@ -250,7 +250,6 @@ final class TeamViewModel: ObservableObject {
                     print("Error writing batch \(err)")
                 } else {
                     print("Batch write succeeded.")
-                    self.getTeams()
                     self.selectedTeam = nil
                 }
             }
@@ -260,40 +259,63 @@ final class TeamViewModel: ObservableObject {
     /// Populate list of teams associated with current user
     func getTeams() {
 
-        // Empty list of teams to avoid repeated appends
-        teams = []
-
         // Get user ID
         guard let uid = Auth.auth().currentUser?.uid else {
             // setBanner(message: "Failed to find user ID", didSucceed: false)
             return
         }
 
-        // Query db to get references to all teams where current user's ID appears in members list
-        // Create an instance of Team for each and add them to list of teams
-        db.collection("teams").whereField("members", arrayContains: uid)
-            .getDocuments { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
+        listener = db.collection("teams").whereField("members", arrayContains: uid)
+            .addSnapshotListener { querySnapshot, error in
+                guard let snapshot = querySnapshot else {
+                    print("Error fetching snapshots: \(error!)")
+                    return
+                }
+                snapshot.documentChanges.forEach { diff in
+                    if diff.type == .added {
+                        // Add new item locally
                         do {
-                            // Convert document to Team object and append to list of teams
-                            try self.teams.append(document.data(as: Team.self)!)
-                            print("Team object added to list of teams successfully")
+                            let newTeam = try (diff.document.data(as: Team.self)!)
+                            self.teams.append(newTeam)
                         } catch {
-                            print("Error adding team object to list of teams")
+                            print("Error reading new team from DB: \(error)")
+                        }
+                    }
+                    if diff.type == .modified {
+                        // Modify local item
+                        do {
+                            let mockTeam = try (diff.document.data(as: Team.self)!)
+                            let docID = diff.document.documentID
+                            let selectedTeamIndex = self.teams.firstIndex(where: {$0.teamId == docID})
+
+                            self.teams[selectedTeamIndex!].teamName = mockTeam.teamName
+                            self.teams[selectedTeamIndex!].teamDescription = mockTeam.teamDescription
+                            self.teams[selectedTeamIndex!].isPrivate = mockTeam.isPrivate
+                            self.teams[selectedTeamIndex!].members = mockTeam.members
+                            self.teams[selectedTeamIndex!].admins = mockTeam.admins
+
+                        } catch {
+                            print("Error reading modified team from DB: \(error)")
+                        }
+                    }
+                    if diff.type == .removed {
+                        // Remove item locally
+                        let selectedTeamId = diff.document.documentID
+                        let selectedTeamIndex = self.teams.firstIndex(where: {$0.teamId == selectedTeamId})
+
+                        if self.selectedTeam?.teamId == selectedTeamId {
+                            self.selectedTeam = nil
                         }
 
+                        self.teams.remove(at: selectedTeamIndex!)
+
                     }
-                    self.teams = self.teams.sorted(by: {
-                        $0.dateCreated.compare($1.dateCreated) == .orderedAscending
-                    })
                 }
             }
     }
 
     func clear() {
+        listener?.remove()
         teams = []
         selectedTeam = nil
         msg = ""

@@ -20,6 +20,7 @@ struct LoginView: View {
     @State var password: String = ""
 
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
+    @EnvironmentObject var teamViewModel: TeamViewModel
 
     var body: some View {
 
@@ -61,6 +62,9 @@ struct LoginView: View {
                             label: {
                                 EmptyView()
                             })
+                            .onChange(of: userAccountViewModel.authSuccess == true) { _ in
+                                teamViewModel.getTeams()
+                            }
 
                         // Log In Button
                         Button {

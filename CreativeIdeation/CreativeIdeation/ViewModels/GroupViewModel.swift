@@ -13,6 +13,7 @@ import SwiftUI
 final class GroupViewModel: ObservableObject {
 
     private var db = Firestore.firestore()
+    private var listener: ListenerRegistration?
 
     @Published var groups: [Group] = []   // populated when changing Teams
     @Published var selectedGroup: Group?  // selected group in the listview
@@ -22,6 +23,14 @@ final class GroupViewModel: ObservableObject {
     @Published var didOperationSucceed = false
     @Published var groupMembers: [Member] = []
     @Published var nonMembers: [Member] = []
+
+    func clear() {
+        listener?.remove()
+        groups = []
+        selectedGroup = nil
+        groupMembers = []
+        nonMembers = []
+    }
 
     /// Creates a group within a Team with the given teamId
     func createGroup(teamId: String?, groupTitle: String) {
@@ -75,7 +84,7 @@ final class GroupViewModel: ObservableObject {
             "admins": FieldValue.arrayUnion([uid]),
             "members": FieldValue.arrayUnion([uid]),
             "sessions": FieldValue.arrayUnion([]),
-            "dateCreated": FieldValue.serverTimestamp()
+            "dateCreated": Date()
         ]) { err in
             if let err = err {
                 self.setBanner(message: "Error adding document: \(err)", didSucceed: false)
@@ -106,26 +115,50 @@ final class GroupViewModel: ObservableObject {
             return
         }
 
-        // Query db to get references to all groups where current user's ID appears in members list
-        // Create an instance of Group for each and add them to list of groups
-        db.collection("teams").document(teamId).collection("groups").whereField("members", arrayContains: uid)
-            .getDocuments { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
+        listener = db.collection("teams").document(teamId).collection("groups").whereField("members", arrayContains: uid)
+            .addSnapshotListener { querySnapshot, error in
+                guard let snapshot = querySnapshot else {
+                    print("Error fetching snapshots: \(error!)")
+                    return
+                }
+                snapshot.documentChanges.forEach { diff in
+                    if diff.type == .added {
+                        // Add new item locally
                         do {
-                            // Convert document to Group object and append to list of teams
-                            try self.groups.append(document.data(as: Group.self)!)
-                            print("Group object added to list of groups successfully")
+                            let newGroup = try (diff.document.data(as: Group.self)!)
+                            self.groups.append(newGroup)
                         } catch {
-                            print("Error adding group object to list of groups")
+                            print("Error reading new group from DB: \(error)")
+                        }
+                    }
+                    if diff.type == .modified {
+                        // Modify local item
+                        do {
+                            let mockGroup = try (diff.document.data(as: Group.self)!)
+                            let docID = diff.document.documentID
+                            let selectedGroupIndex = self.groups.firstIndex(where: {$0.groupId == docID})
+
+                            self.groups[selectedGroupIndex!].groupTitle = mockGroup.groupTitle
+                            self.groups[selectedGroupIndex!].members = mockGroup.members
+                            self.groups[selectedGroupIndex!].admins = mockGroup.admins
+                            self.groups[selectedGroupIndex!].sessions = mockGroup.sessions
+
+                        } catch {
+                            print("Error reading modified group from DB: \(error)")
+                        }
+                    }
+                    if diff.type == .removed {
+                        // Remove item locally
+                        let selectedGroupId = diff.document.documentID
+                        let selectedGroupIndex = self.groups.firstIndex(where: {$0.groupId == selectedGroupId})
+
+                        if self.selectedGroup?.groupId == selectedGroupId {
+                            self.selectedGroup = nil
                         }
 
+                        self.groups.remove(at: selectedGroupIndex!)
+
                     }
-                    self.groups = self.groups.sorted(by: {
-                        $0.dateCreated.compare($1.dateCreated) == .orderedAscending
-                    })
                 }
             }
     }

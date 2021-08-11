@@ -72,10 +72,6 @@ struct CreateTeamView: View {
                 }
             }
         }
-        .onDisappear {
-            teamViewModel.getTeams()
-        }
-
     }
 
     private func delayAlert() {
