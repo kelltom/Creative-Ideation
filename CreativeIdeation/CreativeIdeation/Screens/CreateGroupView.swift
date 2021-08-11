@@ -21,6 +21,8 @@ struct CreateGroupView: View {
 
         ZStack {
 
+            Color("BackgroundColor")
+
             if groupViewModel.isShowingBanner {
                 if groupViewModel.didOperationSucceed {
                     NotificationBanner(image: "checkmark.circle.fill", msg: groupViewModel.msg, color: .green)

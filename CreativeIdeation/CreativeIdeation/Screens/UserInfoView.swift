@@ -11,139 +11,146 @@ struct UserInfoView: View {
 
     var body: some View {
 
-        VStack {
+        ZStack {
 
-            Spacer()
+            Color("BackgroundColor")
 
-            HStack {
+            VStack {
 
-                VStack(alignment: .leading) {
+                Spacer()
+
+                HStack {
 
                     VStack(alignment: .leading) {
 
-                        Text("Welcome to Ponder!")
-                            .font(.largeTitle)
-                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        VStack(alignment: .leading) {
 
-                        Text("Help us get to know you better:")
+                            Text("Welcome to Ponder!")
+                                .font(.largeTitle)
+                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+
+                            Text("Help us get to know you better:")
+                                .font(.title)
+
+                        }
+                        .padding()
+
+                        Spacer()
+                            .frame(height: 35)
+
+                        Text("What is your role?")
                             .font(.title)
+                            .padding()
 
-                    }
-                    .padding()
+                        HStack {
 
-                    Spacer()
-                        .frame(height: 35)
+                            Button {
+                                // do something - navigate to different screen
+                            } label: {
+                                PreferenceButton(title: "Student", selected: true)
+                            }
 
-                    Text("What is your role?")
-                        .font(.title)
-                        .padding()
+                            Button {
+                                // do something - navigate to different screen
+                            } label: {
+                                PreferenceButton(title: "Teacher")
+                            }
 
-                    HStack {
-
-                        Button {
-                            // do something - navigate to different screen
-                        } label: {
-                            PreferenceButton(title: "Student", selected: true)
+                            Button {
+                                // do something - navigate to different screen
+                            } label: {
+                                PreferenceButton(title: "Employee")
+                            }
                         }
 
-                        Button {
-                            // do something - navigate to different screen
-                        } label: {
-                            PreferenceButton(title: "Teacher")
+                        HStack {
+
+                            Button {
+                                // do something - navigate to different screen
+                            } label: {
+                                PreferenceButton(title: "Administrator")
+                            }
+
+                            Button {
+                                // do something - navigate to different screen
+                            } label: {
+                                PreferenceButton(title: "Individual")
+                            }
+
+                            Button {
+                                // do something - navigate to different screen
+                            } label: {
+                                PreferenceButton(title: "Other")
+                            }
+
                         }
 
-                        Button {
-                            // do something - navigate to different screen
-                        } label: {
-                            PreferenceButton(title: "Employee")
-                        }
-                    }
+                        Text("What industry do you work in?")
+                            .font(.title)
+                            .padding()
 
-                    HStack {
+                        HStack {
 
-                        Button {
-                            // do something - navigate to different screen
-                        } label: {
-                            PreferenceButton(title: "Administrator")
-                        }
+                            Button {
+                                // do something - navigate to different screen
+                            } label: {
+                                PreferenceButton(title: "Marketing")
+                            }
 
-                        Button {
-                            // do something - navigate to different screen
-                        } label: {
-                            PreferenceButton(title: "Individual")
-                        }
+                            Button {
+                                // do something - navigate to different screen
+                            } label: {
+                                PreferenceButton(title: "Technology", selected: true)
+                            }
 
-                        Button {
-                            // do something - navigate to different screen
-                        } label: {
-                            PreferenceButton(title: "Other")
-                        }
+                            Button {
+                                // do something - navigate to different screen
+                            } label: {
+                                PreferenceButton(title: "Business")
+                            }
 
-                    }
-
-                    Text("What industry do you work in?")
-                        .font(.title)
-                        .padding()
-
-                    HStack {
-
-                        Button {
-                            // do something - navigate to different screen
-                        } label: {
-                            PreferenceButton(title: "Marketing")
                         }
 
-                        Button {
-                            // do something - navigate to different screen
-                        } label: {
-                            PreferenceButton(title: "Technology", selected: true)
+                        HStack {
+
+                            Button {
+                                // do something - navigate to different screen
+                            } label: {
+                                PreferenceButton(title: "Education")
+                            }
+
+                            Button {
+                                // do something - navigate to different screen
+                            } label: {
+                                PreferenceButton(title: "Entertainment")
+                            }
+
+                            Button {
+                                // do something - navigate to different screen
+                            } label: {
+                                PreferenceButton(title: "Other")
+                            }
+
                         }
-
-                        Button {
-                            // do something - navigate to different screen
-                        } label: {
-                            PreferenceButton(title: "Business")
-                        }
-
-                    }
-
-                    HStack {
-
-                        Button {
-                            // do something - navigate to different screen
-                        } label: {
-                            PreferenceButton(title: "Education")
-                        }
-
-                        Button {
-                            // do something - navigate to different screen
-                        } label: {
-                            PreferenceButton(title: "Entertainment")
-                        }
-
-                        Button {
-                            // do something - navigate to different screen
-                        } label: {
-                            PreferenceButton(title: "Other")
-                        }
-
                     }
                 }
-            }
 
-            NavigationLink(destination: HomeView()) {
-                BigButton(title: "Next")
-            }
-            .padding(.top)
+                NavigationLink(destination: HomeView()) {
+                    BigButton(title: "Next")
+                }
+                .padding(.top)
 
-            Spacer()
+                Spacer()
+            }
+            .navigationBarHidden(true)
         }
-        .navigationBarHidden(true)
+        .edgesIgnoringSafeArea(.vertical)
     }
 }
 
 struct UserInfoView_Previews: PreviewProvider {
     static var previews: some View {
         UserInfoView()
+            .preferredColorScheme(.dark)
     }
 }

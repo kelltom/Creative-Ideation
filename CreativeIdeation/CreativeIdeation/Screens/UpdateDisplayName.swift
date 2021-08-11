@@ -16,6 +16,9 @@ struct UpdateDisplayName: View {
 
     var body: some View {
         ZStack {
+
+            Color("BackgroundColor")
+
             if userAccountViewModel.isLoading {
                 ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
                     .scaleEffect(3)
@@ -60,10 +63,10 @@ struct UpdateDisplayName: View {
                         .padding(.leading)
                         .padding(.top)
                     // Display name text view
-                    Text(userAccountViewModel.selectedUser?.name ?? "NA").foregroundColor(.blue)
+                    Text(userAccountViewModel.selectedUser?.name ?? "N/A").foregroundColor(.blue)
                         .padding()
                         .frame(width: 550, height: 60, alignment: .leading)
-                        .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color.black))
+                        .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color("StrokeColor")))
                         .font(.title2)
                         .padding(10)
 
@@ -95,6 +98,7 @@ struct UpdateDisplayName: View {
 struct UpdateNameView_Previews: PreviewProvider {
     static var previews: some View {
         UpdateDisplayName(showSheet: .constant(.name))
+            .preferredColorScheme(.dark)
             .environmentObject(UserAccountViewModel())
     }
 }

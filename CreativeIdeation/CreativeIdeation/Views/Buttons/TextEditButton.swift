@@ -18,6 +18,7 @@ struct TextEditButton: View {
             .foregroundColor(.white)
             .cornerRadius(10)
             .padding()
+            .shadow(radius: 5, x: 5, y: 5)
     }
 }
 

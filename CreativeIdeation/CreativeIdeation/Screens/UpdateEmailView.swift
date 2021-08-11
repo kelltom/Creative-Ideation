@@ -17,6 +17,9 @@ struct UpdateEmailView: View {
 
     var body: some View {
         ZStack {
+
+            Color("BackgroundColor")
+
             if userAccountViewModel.showBanner {
                 if !userAccountViewModel.updateSuccess {
                     NotificationBanner(image: "exclamationmark.circle.fill",
@@ -55,6 +58,7 @@ struct UpdateEmailView: View {
                     .font(.largeTitle)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     .padding(.top)
+
                 // displays users email
                 VStack(alignment: .leading) {
                     Text("Current Email")
@@ -63,10 +67,10 @@ struct UpdateEmailView: View {
                         .padding(.leading)
                         .padding(.top)
 
-                    Text(userAccountViewModel.selectedUser?.email ?? "NA").foregroundColor(.blue)
+                    Text(userAccountViewModel.selectedUser?.email ?? "N/A").foregroundColor(.blue)
                         .padding()
                         .frame(width: 550, height: 60, alignment: .leading)
-                        .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color.black))
+                        .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color("StrokeColor")))
                         .font(.title2)
                         .padding(10)
 
@@ -76,8 +80,7 @@ struct UpdateEmailView: View {
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .padding(.leading)
 
-                    MenuTextField(title: "new email ", input: $newEmail)
-
+                    MenuTextField(title: "Enter New Email ", input: $newEmail)
 
                     // password confirmation input
                     Text("Enter password ")
@@ -85,7 +88,11 @@ struct UpdateEmailView: View {
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .padding(.leading)
 
-                    MenuTextField(title: "enter password to confirm ", input: $currentPasword, secure: true).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+                    MenuTextField(
+                        title: "Enter Password to Confirm ",
+                        input: $currentPasword,
+                        secure: true)
+                        .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
 
                 }
                 Button {
@@ -107,6 +114,7 @@ struct UpdateEmailView: View {
 struct UpdateEmailSettings_Previews: PreviewProvider {
     static var previews: some View {
         UpdateEmailView(showSheet: .constant(.email))
+            .preferredColorScheme(.dark)
             .environmentObject(UserAccountViewModel())
 
     }

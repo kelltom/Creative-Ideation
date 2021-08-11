@@ -17,6 +17,8 @@ struct TeamAccessCode: View {
 
         ZStack {
 
+            Color("BackgroundColor")
+
             VStack {
                 XDismissButton(isShowingSheet: $showSheets)
                 Spacer()
@@ -25,7 +27,7 @@ struct TeamAccessCode: View {
             VStack {
                 Text("Team Access Code")
                     .font(.largeTitle)
-                    .foregroundColor(Color.white)
+                    .foregroundColor(Color("StrokeColor"))
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     .padding()
 
@@ -51,7 +53,7 @@ struct TeamAccessCode: View {
                 .padding()
                 .frame(width: 400, height: 80, alignment: .center)
                 .border(Color.white, width: 1.0)
-                .background(Color.white)
+                .background(Color("BackgroundColor"))
 
                 ZStack {
                     if isCopied {

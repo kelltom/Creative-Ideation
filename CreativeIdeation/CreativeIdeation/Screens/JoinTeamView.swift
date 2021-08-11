@@ -16,6 +16,9 @@ struct JoinTeamView: View {
     var body: some View {
 
         ZStack {
+
+            Color("BackgroundColor")
+
             if teamViewModel.isShowingBanner {
                 if teamViewModel.didOperationSucceed {
                     NotificationBanner(image: "checkmark.circle.fill", msg: teamViewModel.msg, color: .green)
@@ -36,7 +39,7 @@ struct JoinTeamView: View {
                         .font(.title3)
                         .fontWeight(.bold)
                         .padding(.leading)
-                    MenuTextField(title: "team code", input: $code)
+                    MenuTextField(title: "Team Code", input: $code)
                 }
                 Button {
                     teamViewModel.joinTeam(code: code)
@@ -51,6 +54,7 @@ struct JoinTeamView: View {
 struct JoinTeamView_Previews: PreviewProvider {
     static var previews: some View {
         JoinTeamView(showSheets: .constant(.joinTeam))
+            .preferredColorScheme(.dark)
             .environmentObject(TeamViewModel())
     }
 }

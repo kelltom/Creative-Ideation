@@ -19,9 +19,9 @@ struct PreferenceButton: View {
             .font(.title2)
             .frame(width: 200, height: 60, alignment: .center)
             .overlay(RoundedRectangle(cornerRadius: 90.0)
-                        .stroke(selected ? Color.clear : Color.black, lineWidth: 2.0))
-            .background(selected ? Color("brandPrimary") : .white)
-            .foregroundColor(selected ? .white : .black)
+                        .stroke(selected ? Color.clear : Color("StrokeColor"), lineWidth: 2.0))
+            .background(selected ? Color("brandPrimary") : Color("BackgroundColor"))
+            .foregroundColor(selected ? .white : Color("StrokeColor"))
             .cornerRadius(90)
             .padding()
     }
