@@ -23,7 +23,6 @@ struct StickyNote: View, Identifiable {
     @GestureState private var startLocation: CGPoint?
     @GestureState var isDetectingLongPress = false
 
-
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
             VStack(spacing: 0) {

@@ -58,9 +58,9 @@ final class SessionItemViewModel: ObservableObject {
 
         // swiftlint:disable multiple_closures_with_trailing_closure
         db.runTransaction({ (transaction, errorPointer) -> Any? in
-            let itemDocument: DocumentSnapshot
+            // let itemDocument: DocumentSnapshot
             do {
-                try itemDocument = transaction.getDocument(itemReference)
+                _ = try transaction.getDocument(itemReference)
             } catch let fetchError as NSError {
                 errorPointer?.pointee = fetchError
                 return nil

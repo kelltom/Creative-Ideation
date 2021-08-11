@@ -367,7 +367,7 @@ struct ActivityView: View {
 
 }
 
-//struct PKCanvas: UIViewRepresentable {
+// struct PKCanvas: UIViewRepresentable {
 //    @Binding var canvasView: PKCanvasView
 //    let picker = PKToolPicker.init()
 //    var size: Int = 10000
@@ -395,7 +395,7 @@ struct ActivityView: View {
 //            canvasView.becomeFirstResponder()
 //        }
 //    }
-//}
+// }
 
 struct ActivityView_Previews: PreviewProvider {
     static var previews: some View {

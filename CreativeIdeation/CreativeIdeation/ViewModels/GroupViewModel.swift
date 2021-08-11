@@ -167,7 +167,7 @@ final class GroupViewModel: ObservableObject {
         print("Team Members:", teamMembers)
         nonMembers = teamMembers
         groupMembers = teamMembers
-        nonMembers.removeAll{
+        nonMembers.removeAll {
             selectedGroup!.members.contains($0.id)
         }
         groupMembers.removeAll {
@@ -181,7 +181,7 @@ final class GroupViewModel: ObservableObject {
     func addMembers(teamId: String?, memberIds: Set<String>) {
         let groupRef = db.collection("teams").document(teamId!).collection("groups").document(selectedGroup!.groupId)
         let newMemberIds = Array(memberIds)
-        
+
         selectedGroup!.members += newMemberIds
 
         groupRef.updateData([

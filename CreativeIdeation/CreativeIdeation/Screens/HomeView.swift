@@ -265,7 +265,7 @@ struct HomeView: View {
                                             Text("Sessions")
                                                 .font(.title)
 
-                                            HStack{
+                                            HStack {
                                                 Spacer()
 
                                                 Button {

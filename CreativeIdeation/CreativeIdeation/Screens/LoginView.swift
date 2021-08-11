@@ -49,7 +49,7 @@ struct LoginView: View {
 
                         Text("Log In")
                             .padding()
-                            .font(.system(size:40))
+                            .font(.system(size: 40))
 
                         MenuTextField(title: "Email address", input: $email)
 
@@ -112,7 +112,6 @@ struct LoginView: View {
 
         }
         .navigationViewStyle(StackNavigationViewStyle())
-
 
     }
 
