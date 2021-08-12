@@ -10,7 +10,7 @@ import SwiftUI
 struct CreateAccountView: View {
 
     // Allows for popping view back to LogInView
-    @Binding var showLogIn: Bool
+    @Binding var showCreateAcc: Bool
 
     @State var name: String = ""
     @State var email: String = ""
@@ -72,7 +72,7 @@ struct CreateAccountView: View {
                     HStack {
                         Text("Already have an account?")
                         Button {
-                            self.showLogIn = false
+                            self.showCreateAcc = false
                         } label: {
                             Text("Log In.")
                         }
@@ -91,6 +91,9 @@ struct CreateAccountView: View {
         }
         .onDisappear {
             userAccountViewModel.showBanner = false
+            name = ""
+            email = ""
+            password = ""
         }
         .onChange(of: userAccountViewModel.createSuccess == true) { _ in
             // When a user account is successfully created, make a Private team
@@ -104,7 +107,7 @@ struct CreateAccountView: View {
 
 struct CreateAccountView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateAccountView(showLogIn: .constant(false))
+        CreateAccountView(showCreateAcc: .constant(false))
             .preferredColorScheme(.dark)
             .environmentObject(UserAccountViewModel())
             .environmentObject(TeamViewModel())
