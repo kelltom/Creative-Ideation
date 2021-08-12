@@ -164,7 +164,6 @@ final class GroupViewModel: ObservableObject {
     }
 
     func splitMembers(teamMembers: [Member]) {
-        print("Team Members:", teamMembers)
         nonMembers = teamMembers
         groupMembers = teamMembers
         nonMembers.removeAll {
@@ -173,9 +172,6 @@ final class GroupViewModel: ObservableObject {
         groupMembers.removeAll {
             !selectedGroup!.members.contains($0.id)
         }
-
-        print("Group Members:", groupMembers)
-        print("Non Members:", nonMembers)
     }
 
     func addMembers(teamId: String?, memberIds: Set<String>) {
