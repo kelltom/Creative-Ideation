@@ -175,7 +175,6 @@ struct UserSettingsView: View {
             }
             .onAppear {
                 userAccountViewModel.getCurrentUserInfo()
-
             }
         }
         .edgesIgnoringSafeArea(.vertical)

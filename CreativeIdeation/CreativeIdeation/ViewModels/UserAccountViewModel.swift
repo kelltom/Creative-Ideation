@@ -76,8 +76,10 @@ final class UserAccountViewModel: ObservableObject {
     func getCurrentUserInfo() { // reading the database onAppear in UpdateEmailSettings
         self.showBanner = false
         guard let uid = Auth.auth().currentUser?.uid else {
+            print("getCurrentUserInfo: failed to find uid")
             return
         }
+
         // getting logged in user information
         db.collection("users").document(uid)
             .getDocument { (querySnapshot, err) in

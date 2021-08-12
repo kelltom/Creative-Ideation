@@ -11,7 +11,7 @@ import Firebase
 struct LoginView: View {
 
     // Allows for CreateAccount View to jump back to this View
-    @State var showLogIn = false
+    @State var showCreateAcc = false
 
     // May be used later
     // @State private var actionState: Int? = 0
@@ -77,8 +77,8 @@ struct LoginView: View {
                         // Create Acc Button
                         HStack {
                             Text("New user?")
-                            NavigationLink(destination: CreateAccountView(showLogIn: self.$showLogIn),
-                                           isActive: self.$showLogIn) {
+                            NavigationLink(destination: CreateAccountView(showCreateAcc: self.$showCreateAcc),
+                                           isActive: self.$showCreateAcc) {
                                 Text("Create an Account.")
                             }
                         }
@@ -109,6 +109,10 @@ struct LoginView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .edgesIgnoringSafeArea(.vertical)
+            .onDisappear {
+                email = ""
+                password = ""
+            }
 
         }
         .navigationViewStyle(StackNavigationViewStyle())
