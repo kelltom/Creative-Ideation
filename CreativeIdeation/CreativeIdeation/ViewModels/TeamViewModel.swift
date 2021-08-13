@@ -68,7 +68,6 @@ final class TeamViewModel: ObservableObject {
                             do {
                                 // Convert document to Member object and append to list of team members
                                 try self.teamMembers.append(document.data(as: Member.self)!)
-                                print(self.teamMembers.last ?? "nil")
                             } catch {
                                 print("Error adding member to list of team members")
                             }
