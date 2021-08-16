@@ -73,6 +73,7 @@ final class SessionViewModel: ObservableObject {
             "sessionDescription": self.newSession.sessionDescription,
             "type": "",
             "inProgress": true,
+            "isVoting": false,
             "dateCreated": Date(),
             "dateModified": "",  // should get timestamp
             "createdBy": uid,
@@ -136,6 +137,7 @@ final class SessionViewModel: ObservableObject {
                             self.teamSessions[selectedSessionIndex!].sessionTitle = mockSession.sessionTitle
                             self.teamSessions[selectedSessionIndex!].sessionDescription = mockSession.sessionDescription
                             self.teamSessions[selectedSessionIndex!].inProgress = mockSession.inProgress
+                            self.teamSessions[selectedSessionIndex!].isVoting = mockSession.isVoting
                             self.teamSessions[selectedSessionIndex!].dateModified = mockSession.dateModified
 
                             let selectedSessionGroupIndex = self.groupSessions.firstIndex(where: {$0.sessionId == mockSession.sessionId})

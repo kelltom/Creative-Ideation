@@ -8,13 +8,23 @@
 import SwiftUI
 
 struct VotingSheet: View {
+
+    @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack{
+            
+        }
+        .onAppear{
+
+        }
     }
+
 }
 
 struct VotingSheet_Previews: PreviewProvider {
     static var previews: some View {
         VotingSheet()
+            .environmentObject(SessionItemViewModel())
     }
 }

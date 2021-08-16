@@ -85,6 +85,34 @@ final class SessionItemViewModel: ObservableObject {
         // swiftlint:enable multiple_closures_with_trailing_closure
     }
 
+    func castVote(itemId: String) {
+        // function for casting a vote and updating the database with the user id and the new score
+    }
+
+    func populateVotingSheet() -> [StickyNote] {
+        // function for populating the list of stickies to be voted on in the voting sheet
+        var stickies: [StickyNote] = []
+        var votedOn: [String] = []
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("Failed to load user in populateVotingSheet")
+            return []
+        }
+
+        for item in self.sessionItems {
+            if item.haveVoted.contains(uid){
+                votedOn.append(item.itemId)
+            }
+        }
+
+        for sticky in self.stickyNotes {
+            if !votedOn.contains(sticky.itemId){
+                stickies.append(sticky)
+            }
+        }
+
+        return stickies
+    }
+
     func loadItems() {
         // Ensure Team ID is not nil
         guard let activeSession = activeSession else {
@@ -161,7 +189,9 @@ final class SessionItemViewModel: ObservableObject {
             "sessionId": newItem.sessionId,
             "input": newItem.input,
             "location": newItem.location,
-            "color": newItem.color
+            "color": newItem.color,
+            "score": newItem.score,
+            "haveVoted": newItem.haveVoted
         ], forDocument: itemRef)
 
         batch.commit { err in
