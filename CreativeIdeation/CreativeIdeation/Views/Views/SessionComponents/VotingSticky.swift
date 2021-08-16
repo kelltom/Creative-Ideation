@@ -27,7 +27,7 @@ struct VotingSticky: View, Identifiable {
                 // Text area
                 Text(input)
                     .frame(width: geometry.size.width * 0.6, height: geometry.size.height * 0.25)
-                    .background(chosenColor.opacity(0.5))
+                    .background(chosenColor)
                     .foregroundColor(Color("StrokeColor"))
             }
             .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center/*@END_MENU_TOKEN@*/)
