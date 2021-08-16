@@ -16,21 +16,16 @@ struct VotingSheet: View {
 
     var body: some View {
 
-        VStack(alignment: .center) {
-
-            Spacer()
-
-            GeometryReader { _ in
-
-                ZStack {
-                    ForEach(self.stickies) { sticky in
-                        sticky
+        HStack {
+            VStack {
+                GeometryReader { _ in
+                    ZStack {
+                        ForEach(self.stickies) { sticky in
+                            sticky
+                        }
                     }
                 }
             }
-
-            Spacer()
-
         }
         .onAppear {
             // Get list of sticky notes to be voted on

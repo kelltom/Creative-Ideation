@@ -18,7 +18,7 @@ struct VotingSticky: View, Identifiable {
 
     var body: some View {
         GeometryReader { geometry in
-            VStack(alignment: .leading, spacing: 0) {
+            VStack(spacing: 0) {
                 // Header
                 Rectangle()
                     .foregroundColor(chosenColor)
@@ -30,6 +30,7 @@ struct VotingSticky: View, Identifiable {
                     .background(chosenColor.opacity(0.5))
                     .foregroundColor(Color("StrokeColor"))
             }
+            .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center/*@END_MENU_TOKEN@*/)
             .cornerRadius(10)
             .animation(.interactiveSpring())
             .offset(x: self.translation.width, y: 0)
