@@ -15,22 +15,26 @@ struct VotingSheet: View {
     @State private var stickies: [VotingSticky] = []
 
     var body: some View {
+
         VStack(alignment: .center) {
 
             Spacer()
-            GeometryReader { geometry in
 
-                ZStack{
+            GeometryReader { _ in
+
+                ZStack {
                     ForEach(self.stickies) { sticky in
                         sticky
                     }
                 }
             }
+
             Spacer()
-            // space for buttons
+
         }
         .onAppear {
-            stickies = sessionItemViewModel.populateVotingSheet()
+            // Get list of sticky notes to be voted on
+            stickies = sessionItemViewModel.populateVotingList()
         }
     }
 

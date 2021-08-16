@@ -7,9 +7,10 @@
 
 import SwiftUI
 
+/// Represents a sticky note within the Voting sheet
 struct VotingSticky: View, Identifiable {
     var id = UUID()
-    
+
     @State var itemId: String = ""
     @State var chosenColor = Color.red
     @State var input = "Hello"
@@ -18,10 +19,12 @@ struct VotingSticky: View, Identifiable {
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .leading, spacing: 0) {
+                // Header
                 Rectangle()
                     .foregroundColor(chosenColor)
                     .frame(width: geometry.size.width * 0.6, height: geometry.size.height * 0.05)
 
+                // Text area
                 Text(input)
                     .frame(width: geometry.size.width * 0.6, height: geometry.size.height * 0.25)
                     .background(chosenColor.opacity(0.5))
@@ -35,7 +38,7 @@ struct VotingSticky: View, Identifiable {
                 DragGesture()
                     .onChanged { value in
                         self.translation = value.translation
-                    }.onEnded { value in
+                    }.onEnded { _ in
                         self.translation = .zero
                     }
             )
