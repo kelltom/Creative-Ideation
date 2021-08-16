@@ -11,12 +11,26 @@ struct VotingSheet: View {
 
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
 
-    var body: some View {
-        VStack{
-            
-        }
-        .onAppear{
+    @Binding var showSheet: SessionSheet?
+    @State private var stickies: [VotingSticky] = []
 
+    var body: some View {
+        VStack(alignment: .center) {
+
+            Spacer()
+            GeometryReader { geometry in
+
+                ZStack{
+                    ForEach(self.stickies) { sticky in
+                        sticky
+                    }
+                }
+            }
+            Spacer()
+            // space for buttons
+        }
+        .onAppear {
+            stickies = sessionItemViewModel.populateVotingSheet()
         }
     }
 
@@ -24,7 +38,7 @@ struct VotingSheet: View {
 
 struct VotingSheet_Previews: PreviewProvider {
     static var previews: some View {
-        VotingSheet()
+        VotingSheet(showSheet: .constant(.voting))
             .environmentObject(SessionItemViewModel())
     }
 }

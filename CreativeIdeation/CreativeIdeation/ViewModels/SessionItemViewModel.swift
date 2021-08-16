@@ -89,9 +89,9 @@ final class SessionItemViewModel: ObservableObject {
         // function for casting a vote and updating the database with the user id and the new score
     }
 
-    func populateVotingSheet() -> [StickyNote] {
+    func populateVotingSheet() -> [VotingSticky] {
         // function for populating the list of stickies to be voted on in the voting sheet
-        var stickies: [StickyNote] = []
+        var stickies: [VotingSticky] = []
         var votedOn: [String] = []
         guard let uid = Auth.auth().currentUser?.uid else {
             print("Failed to load user in populateVotingSheet")
@@ -106,7 +106,7 @@ final class SessionItemViewModel: ObservableObject {
 
         for sticky in self.stickyNotes {
             if !votedOn.contains(sticky.itemId){
-                stickies.append(sticky)
+                stickies.append(VotingSticky(itemId: sticky.itemId, chosenColor: sticky.chosenColor!, input: sticky.input))
             }
         }
 
