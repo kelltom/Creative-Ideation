@@ -36,11 +36,11 @@ struct VotingSticky: View, Identifiable {
                 // Header
                 Rectangle()
                     .foregroundColor(chosenColor)
-                    .frame(width: geometry.size.width * 0.5, height: geometry.size.height * 0.05)
+                    .frame(width: geometry.size.width * 0.5, height: geometry.size.height * 0.07)
 
                 // Text area
                 Text(input)
-                    .frame(width: geometry.size.width * 0.5, height: geometry.size.height * 0.25)
+                    .frame(width: geometry.size.width * 0.5, height: geometry.size.height * 0.4)
                     .background(chosenColor.lighter())
                     .foregroundColor(Color("StrokeColor"))
             }

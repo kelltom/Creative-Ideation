@@ -38,19 +38,66 @@ struct VotingSheet: View {
     var body: some View {
 
         VStack {
-            GeometryReader { geometry in
-                // Populate stack of votable sticky notes on screen
-                ZStack {
-                    ForEach(self.sessionItemViewModel.votingStickies) { sticky in
-                        if sticky.pos > self.maxPos - 4 {
-                            sticky
-                                .animation(.spring())
-                                .frame(width: self.getStickyNoteWidth(geometry, pos: sticky.pos), height: geometry.size.height)
-                                .offset(x: 0, y: self.getStickyNoteOffset(geometry, pos: sticky.pos))
+            if sessionItemViewModel.votingStickies.count != 0 {
+                GeometryReader { geometry in
+
+                    VStack {
+                        // Title text
+                        Text("Voting")
+                            .font(.system(size: 40, weight: .heavy))
+                            .padding(.top, 50)
+
+                        // Populate stack of votable sticky notes on screen
+                        ZStack {
+                            ForEach(self.sessionItemViewModel.votingStickies) { sticky in
+                                if sticky.pos > self.maxPos - 4 {
+                                    sticky
+                                        .animation(.spring())
+                                        .frame(width: self.getStickyNoteWidth(geometry, pos: sticky.pos), height: geometry.size.height * 0.7)
+                                        .offset(x: 0, y: self.getStickyNoteOffset(geometry, pos: sticky.pos))
+                                }
+                            }
+                        }
+
+                        // Vote buttons (alternative to swiping)
+                        HStack(spacing: 50) {
+                            // Downvote Button
+                            Button {
+
+                            } label: {
+                                Image(systemName: "hand.thumbsdown")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 90, height: 90)
+                                    .foregroundColor(.red)
+                            }
+
+                            // Skip Button
+                            Button {
+
+                            } label: {
+                                Image(systemName: "hand.raised")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 90, height: 90)
+                                    .foregroundColor(.gray)
+                            }
+
+                            // Upvote Button
+                            Button {
+
+                            } label: {
+                                Image(systemName: "hand.thumbsup")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 90, height: 90)
+                                    .foregroundColor(.green)
+                            }
                         }
                     }
                 }
             }
+
         }
         .onAppear {
             // Get list of sticky notes to be voted on
