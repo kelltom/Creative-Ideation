@@ -11,18 +11,18 @@ import SwiftUI
 struct VotingSticky: View, Identifiable {
     var id = UUID()
 
-    @State var itemId: String = "123"
+    @State var itemId: String = "Default ID"  // itemId corresponds to sessionItem's ID in the database
     @State var chosenColor: Color = Color.red
-    @State var input: String = "Text"
+    @State var input: String = "Default Text"
     @State var pos: Int = 0  // the position of the sticky note in the list
 
-    @State private var translation: CGSize = .zero
+    @State private var translation: CGSize = .zero  // horizontal translation of sticky when swiping
 
-    var onRemove: (_ id: String) -> Void
+    var onRemove: (_ id: String) -> Void  // declare function to remove swiped sticky from list (see SessionItemViewModel.populateVotingList())
 
-    var thresholdPercentage: CGFloat = 0.5 // when the user has draged 50% the width of the screen in either direction
+    var thresholdPercentage: CGFloat = 0.5  // when the user has dragged 50% the width of the screen in either direction
 
-    /// What percentage of our own width have we swipped
+    /// What percentage of our own width have we swiped
     /// - Parameters:
     ///   - geometry: The geometry
     ///   - gesture: The current gesture translation value
@@ -55,9 +55,11 @@ struct VotingSticky: View, Identifiable {
                     .onChanged { value in
                         self.translation = value.translation
                     }.onEnded { value in
+                        // after swipe ends, determine if far enough to remove sticky
                         if abs(self.getGesturePercentage(geometry, from: value)) > self.thresholdPercentage {
                             self.onRemove(self.itemId)
                         } else {
+                            // return sticky to center position
                             self.translation = .zero
                         }
                     }

@@ -94,7 +94,7 @@ final class SessionItemViewModel: ObservableObject {
     /// Populate a list of stickies to be voted on in the voting stage of the Sticky Notes activity
     func populateVotingList() {
 
-        votingStickies = []
+        votingStickies = []  // clear current list
         var votedOn: [String] = []  // list of stickies that have already been voted on by user
 
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -112,19 +112,16 @@ final class SessionItemViewModel: ObservableObject {
         // populate list of stickies yet to be voted on
         var pos = 0  // position of sticky in the list
         for sticky in self.stickyNotes {
-            print("populateVotingList: For loop, sticky id: ", sticky.itemId)
             if !votedOn.contains(sticky.itemId) {
                 self.votingStickies.append(VotingSticky(itemId: sticky.itemId, chosenColor: sticky.chosenColor!, input: sticky.input, pos: pos,
                                              onRemove: { removedStickyId in
                                                 self.votingStickies.removeAll {
                                                     $0.itemId == removedStickyId
                                                 }
-                                                print("populateVotingList: RemoveAll anon function, removed id: ", removedStickyId)
                                              }))
                 pos += 1
             }
         }
-        print(votingStickies)
     }
 
     func loadItems() {
