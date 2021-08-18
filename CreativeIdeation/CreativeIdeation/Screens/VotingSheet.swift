@@ -12,19 +12,18 @@ struct VotingSheet: View {
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
 
     @Binding var showSheet: SessionSheet?
-    @State private var stickies: [VotingSticky] = []
 
     // Compute what the max ID in the given users array is.
     private var maxPos: Int {
-        return self.stickies.map { $0.pos }.max() ?? 0
+        return sessionItemViewModel.votingStickies.map { $0.pos }.max() ?? 0
     }
 
     /// Return the CardViews width for the given offset in the array
     /// - Parameters:
     ///   - geometry: The geometry proxy of the parent
-    ///   - pos: The position of the sticky in the list
+    ///   - id: The ID of the current user
     private func getStickyNoteWidth(_ geometry: GeometryProxy, pos: Int) -> CGFloat {
-        let offset: CGFloat = CGFloat(stickies.count - 1 - pos) * 10
+        let offset: CGFloat = CGFloat(sessionItemViewModel.votingStickies.count - 1 - pos) * 10
         return geometry.size.width - offset
     }
 
@@ -33,7 +32,7 @@ struct VotingSheet: View {
     ///   - geometry: The geometry proxy of the parent
     ///   - pos: The position of the sticky in the list
     private func getStickyNoteOffset(_ geometry: GeometryProxy, pos: Int) -> CGFloat {
-        return  CGFloat(stickies.count - 1 - pos) * 10
+        return  CGFloat(sessionItemViewModel.votingStickies.count - 1 - pos) * 12
     }
 
     var body: some View {
@@ -44,8 +43,9 @@ struct VotingSheet: View {
                     ZStack {
                         // Populate stack of sticky notes on screen
                         ForEach(self.sessionItemViewModel.votingStickies) { sticky in
-                            if (self.maxPos - 3)...self.maxPos ~= sticky.pos {
+                            if sticky.pos > self.maxPos - 4 {
                                 sticky
+                                    .animation(.spring())
                                     .frame(width: self.getStickyNoteWidth(geometry, pos: sticky.pos), height: geometry.size.height)
                                     .offset(x: 0, y: self.getStickyNoteOffset(geometry, pos: sticky.pos))
                             }

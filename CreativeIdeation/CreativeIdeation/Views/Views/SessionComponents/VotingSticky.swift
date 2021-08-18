@@ -36,15 +36,16 @@ struct VotingSticky: View, Identifiable {
                 // Header
                 Rectangle()
                     .foregroundColor(chosenColor)
-                    .frame(width: geometry.size.width * 0.6, height: geometry.size.height * 0.05)
+                    .frame(width: geometry.size.width * 0.5, height: geometry.size.height * 0.05)
 
                 // Text area
                 Text(input)
-                    .frame(width: geometry.size.width * 0.6, height: geometry.size.height * 0.25)
+                    .frame(width: geometry.size.width * 0.5, height: geometry.size.height * 0.25)
                     .background(chosenColor.lighter())
                     .foregroundColor(Color("StrokeColor"))
             }
             .cornerRadius(10)
+            .shadow(radius: 4)
             .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center/*@END_MENU_TOKEN@*/)
             .animation(.interactiveSpring())
             .offset(x: self.translation.width, y: 0)
