@@ -108,9 +108,11 @@ final class SessionItemViewModel: ObservableObject {
         }
 
         // populate list of stickies yet to be voted on
+        var pos = 0  // position of sticky in the list
         for sticky in self.stickyNotes {
             if !votedOn.contains(sticky.itemId) {
-                stickies.append(VotingSticky(itemId: sticky.itemId, chosenColor: sticky.chosenColor!, input: sticky.input))
+                stickies.append(VotingSticky(itemId: sticky.itemId, chosenColor: sticky.chosenColor!, input: sticky.input, pos: pos))
+                pos += 1
             }
         }
 

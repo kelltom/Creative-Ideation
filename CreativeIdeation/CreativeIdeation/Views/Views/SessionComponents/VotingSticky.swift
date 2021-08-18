@@ -14,6 +14,7 @@ struct VotingSticky: View, Identifiable {
     @State var itemId: String = ""
     @State var chosenColor = Color.red
     @State var input = "Hello"
+    @State var pos = 0  // the position of the sticky note in the list
     @State private var translation: CGSize = .zero
 
     var body: some View {
@@ -27,11 +28,11 @@ struct VotingSticky: View, Identifiable {
                 // Text area
                 Text(input)
                     .frame(width: geometry.size.width * 0.6, height: geometry.size.height * 0.25)
-                    .background(chosenColor)
+                    .background(chosenColor.lighter())
                     .foregroundColor(Color("StrokeColor"))
             }
-            .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center/*@END_MENU_TOKEN@*/)
             .cornerRadius(10)
+            .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center/*@END_MENU_TOKEN@*/)
             .animation(.interactiveSpring())
             .offset(x: self.translation.width, y: 0)
             .rotationEffect(.degrees(Double(self.translation.width / geometry.size.width) * 25), anchor: .bottom)
