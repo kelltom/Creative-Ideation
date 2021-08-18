@@ -364,20 +364,22 @@ struct ActivityView: View {
                                     .shadow(radius: 4, y: 4)
                             }
                             .padding(.trailing)
-
-                            // Voting Button
-                            Button {
-                                showSheet = .voting
-                            } label: {
-                                Image("brainwriting")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 90, height: 90)
-                                    .padding(.top, 8)
-                                    .shadow(color: .yellow, radius: 4, y: 4)
-                            }
-                            .padding(.trailing)
                         }
+
+                        // Voting Button
+                        Button {
+                            showSheet = .voting
+                        } label: {
+                            Image(systemName: "hand.draw")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundColor(.black)
+                                .frame(width: 70, height: 70)
+                                .padding(.top, 8)
+                                .padding(.trailing, 8)
+                                .shadow(radius: 4)
+                        }
+                        .padding(.trailing)
                     }
                 }
                 Spacer()
