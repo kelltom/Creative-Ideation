@@ -37,18 +37,16 @@ struct VotingSheet: View {
 
     var body: some View {
 
-        HStack {
-            VStack {
-                GeometryReader { geometry in
-                    // Populate stack of votable sticky notes on screen
-                    ZStack {
-                        ForEach(self.sessionItemViewModel.votingStickies) { sticky in
-                            if sticky.pos > self.maxPos - 4 {
-                                sticky
-                                    .animation(.spring())
-                                    .frame(width: self.getStickyNoteWidth(geometry, pos: sticky.pos), height: geometry.size.height)
-                                    .offset(x: 0, y: self.getStickyNoteOffset(geometry, pos: sticky.pos))
-                            }
+        VStack {
+            GeometryReader { geometry in
+                // Populate stack of votable sticky notes on screen
+                ZStack {
+                    ForEach(self.sessionItemViewModel.votingStickies) { sticky in
+                        if sticky.pos > self.maxPos - 4 {
+                            sticky
+                                .animation(.spring())
+                                .frame(width: self.getStickyNoteWidth(geometry, pos: sticky.pos), height: geometry.size.height)
+                                .offset(x: 0, y: self.getStickyNoteOffset(geometry, pos: sticky.pos))
                         }
                     }
                 }
