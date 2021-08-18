@@ -25,6 +25,8 @@ final class SessionItemViewModel: ObservableObject {
     @Published var selectedSticky: StickyNote?      // Currently selected StickyNote
     @Published var stickyNotes: [StickyNote] = []       // Array of StickyNotes in the session
 
+    @Published var votingStickies: [VotingSticky] = []  // Stickies to be voted on
+
     @Published var generatedIdeas: [String] = []
 
     let colorArray = [Color.init(red: 0.9, green: 0, blue: 0),
@@ -90,14 +92,14 @@ final class SessionItemViewModel: ObservableObject {
     }
 
     /// Populate a list of stickies to be voted on in the voting stage of the Sticky Notes activity
-    func populateVotingList() -> [VotingSticky] {
+    func populateVotingList() {
 
+        votingStickies = []
         var votedOn: [String] = []  // list of stickies that have already been voted on by user
-        var stickies: [VotingSticky] = []  // list of sticky notes yet to be voted on
 
         guard let uid = Auth.auth().currentUser?.uid else {
             print("populateVotingSheetin: Failed to get uid")
-            return []
+            return
         }
 
         // identify stickies that user already voted on
@@ -110,13 +112,19 @@ final class SessionItemViewModel: ObservableObject {
         // populate list of stickies yet to be voted on
         var pos = 0  // position of sticky in the list
         for sticky in self.stickyNotes {
+            print("populateVotingList: For loop, sticky id: ", sticky.itemId)
             if !votedOn.contains(sticky.itemId) {
-                stickies.append(VotingSticky(itemId: sticky.itemId, chosenColor: sticky.chosenColor!, input: sticky.input, pos: pos))
+                self.votingStickies.append(VotingSticky(itemId: sticky.itemId, chosenColor: sticky.chosenColor!, input: sticky.input, pos: pos,
+                                             onRemove: { removedStickyId in
+                                                self.votingStickies.removeAll {
+                                                    $0.itemId == removedStickyId
+                                                }
+                                                print("populateVotingList: RemoveAll anon function, removed id: ", removedStickyId)
+                                             }))
                 pos += 1
             }
         }
-
-        return stickies
+        print(votingStickies)
     }
 
     func loadItems() {

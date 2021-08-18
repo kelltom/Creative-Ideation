@@ -11,11 +11,24 @@ import SwiftUI
 struct VotingSticky: View, Identifiable {
     var id = UUID()
 
-    @State var itemId: String = ""
-    @State var chosenColor = Color.red
-    @State var input = "Hello"
-    @State var pos = 0  // the position of the sticky note in the list
+    @State var itemId: String = "123"
+    @State var chosenColor: Color = Color.red
+    @State var input: String = "Text"
+    @State var pos: Int = 0  // the position of the sticky note in the list
+
     @State private var translation: CGSize = .zero
+
+    var onRemove: (_ id: String) -> Void
+
+    var thresholdPercentage: CGFloat = 0.5 // when the user has draged 50% the width of the screen in either direction
+
+    /// What percentage of our own width have we swipped
+    /// - Parameters:
+    ///   - geometry: The geometry
+    ///   - gesture: The current gesture translation value
+    private func getGesturePercentage(_ geometry: GeometryProxy, from gesture: DragGesture.Value) -> CGFloat {
+        gesture.translation.width / geometry.size.width
+    }
 
     var body: some View {
         GeometryReader { geometry in
@@ -40,8 +53,12 @@ struct VotingSticky: View, Identifiable {
                 DragGesture()
                     .onChanged { value in
                         self.translation = value.translation
-                    }.onEnded { _ in
-                        self.translation = .zero
+                    }.onEnded { value in
+                        if abs(self.getGesturePercentage(geometry, from: value)) > self.thresholdPercentage {
+                            self.onRemove(self.itemId)
+                        } else {
+                            self.translation = .zero
+                        }
                     }
             )
         }
@@ -50,6 +67,8 @@ struct VotingSticky: View, Identifiable {
 
 struct VotingSticky_Previews: PreviewProvider {
     static var previews: some View {
-        VotingSticky()
+        VotingSticky(itemId: "123", chosenColor: Color.red, input: "Test", pos: 2, onRemove: { _ in
+            // do nothing
+        })
     }
 }

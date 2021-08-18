@@ -14,6 +14,11 @@ struct VotingSheet: View {
     @Binding var showSheet: SessionSheet?
     @State private var stickies: [VotingSticky] = []
 
+    // Compute what the max ID in the given users array is.
+    private var maxPos: Int {
+        return self.stickies.map { $0.pos }.max() ?? 0
+    }
+
     /// Return the CardViews width for the given offset in the array
     /// - Parameters:
     ///   - geometry: The geometry proxy of the parent
@@ -38,10 +43,13 @@ struct VotingSheet: View {
                 GeometryReader { geometry in
                     ZStack {
                         // Populate stack of sticky notes on screen
-                        ForEach(self.stickies) { sticky in
-                            sticky
-                                .frame(width: self.getStickyNoteWidth(geometry, pos: sticky.pos), height: geometry.size.height)
-                                .offset(x: 0, y: self.getStickyNoteOffset(geometry, pos: sticky.pos))
+                        ForEach(self.sessionItemViewModel.votingStickies) { sticky in
+                            if (self.maxPos - 3)...self.maxPos ~= sticky.pos {
+                                sticky
+                                    .frame(width: self.getStickyNoteWidth(geometry, pos: sticky.pos), height: geometry.size.height)
+                                    .offset(x: 0, y: self.getStickyNoteOffset(geometry, pos: sticky.pos))
+                            }
+
                         }
                     }
                 }
@@ -49,7 +57,7 @@ struct VotingSheet: View {
         }
         .onAppear {
             // Get list of sticky notes to be voted on
-            stickies = sessionItemViewModel.populateVotingList()
+            sessionItemViewModel.populateVotingList()
         }
     }
 
