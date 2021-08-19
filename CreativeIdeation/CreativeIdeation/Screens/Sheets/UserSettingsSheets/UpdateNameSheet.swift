@@ -86,7 +86,7 @@ struct UpdateNameSheet: View {
                         userAccountViewModel.updateUserName(name: newName)
                         newName = ""
                     } label: {
-                        SubmitButton()
+                        BigButton(title: "Submit")
                     }
                     Spacer()
                 }

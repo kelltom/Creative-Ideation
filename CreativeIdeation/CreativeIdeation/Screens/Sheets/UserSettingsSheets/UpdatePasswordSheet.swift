@@ -96,7 +96,7 @@ struct UpdatePasswordSheet: View {
                         confirmPassword = ""
                         oldPassword = ""
                     } label: {
-                        SubmitButton()
+                        BigButton(title: "Submit")
                     }
                     Spacer()
                 }
