@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CreateSessionView: View {
+struct CreateSessionSheet: View {
 
     @State var sessionName: String = ""
     @Binding var showSheets: ActiveSheet?
@@ -65,7 +65,7 @@ struct CreateSessionView: View {
 
 struct CreateSessionView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateSessionView(showSheets: .constant(.session), showActivity: .constant(false))
+        CreateSessionSheet(showSheets: .constant(.session), showActivity: .constant(false))
             .environmentObject(TeamViewModel())
             .environmentObject(GroupViewModel())
             .environmentObject(SessionViewModel())

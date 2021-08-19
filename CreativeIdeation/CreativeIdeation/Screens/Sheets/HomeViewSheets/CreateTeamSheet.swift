@@ -8,7 +8,7 @@
 import SwiftUI
 import Firebase
 
-struct CreateTeamView: View {
+struct CreateTeamSheet: View {
 
     @State private var showBanner: Bool = false
     @Binding var showSheets: ActiveSheet?
@@ -85,7 +85,7 @@ struct CreateTeamView: View {
 
 struct CreateTeamView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateTeamView(showSheets: .constant(.team))
+        CreateTeamSheet(showSheets: .constant(.team))
             .preferredColorScheme(.dark)
             .environmentObject(TeamViewModel())
     }

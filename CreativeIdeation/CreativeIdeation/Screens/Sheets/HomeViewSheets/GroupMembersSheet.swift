@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct GroupMembersView: View {
+struct GroupMembersSheet: View {
 
     @EnvironmentObject var groupViewModel: GroupViewModel
     @EnvironmentObject var teamViewModel: TeamViewModel
@@ -68,7 +68,7 @@ struct GroupMembersView: View {
 
 struct GroupMembersView_Previews: PreviewProvider {
     static var previews: some View {
-        GroupMembersView(showSheets: .constant(.addGroupMembers))
+        GroupMembersSheet(showSheets: .constant(.addGroupMembers))
             .environmentObject(GroupViewModel())
             .environmentObject(TeamViewModel())
     }

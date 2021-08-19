@@ -1,18 +1,18 @@
 //
-//  UpdateEmailSettings.swift
+//  UpdatePasswordSetttings.swift
 //  CreativeIdeation
 //
-//  Created by Vanessa Li on 2021-04-07.
+//  Created by Vanessa Li on 2021-04-09.
 //
 
 import SwiftUI
 
-struct UpdateEmailView: View {
-    @State var newEmail: String = ""
-    @State var currentEmail: String = ""
-    @State var currentPasword: String = ""
-    @Binding var showSheet: PreferenceSheet?
+struct UpdatePasswordSheet: View {
 
+    @State var newPassword: String = ""
+    @State var oldPassword: String = ""
+    @State var confirmPassword: String = ""
+    @Binding var showSheet: PreferenceSheet?
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
 
     var body: some View {
@@ -29,7 +29,6 @@ struct UpdateEmailView: View {
                                        msg: userAccountViewModel.msg, color: .green)
                 }
             }
-
             VStack {
                 HStack {
                     Spacer()
@@ -47,59 +46,55 @@ struct UpdateEmailView: View {
             }
 
             VStack {
-
                 Spacer()
                 if userAccountViewModel.isLoading {
                     ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
                         .scaleEffect(3).padding()
                 }
-
-                Text("Change Email")
+                // Sheet Title
+                Text("Change Password")
                     .font(.largeTitle)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .padding(.bottom)
                     .padding(.top)
+                Text("A strong password helps prevent unauthorized access to your account")
+                    .padding()
 
-                // displays users email
                 VStack(alignment: .leading) {
-                    Text("Current Email")
-                        .font(.title3)
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                        .padding(.leading)
-                        .padding(.top)
 
-                    Text(userAccountViewModel.selectedUser?.email ?? "N/A").foregroundColor(.blue)
-                        .padding()
-                        .frame(width: 550, height: 60, alignment: .leading)
-                        .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color("StrokeColor")))
-                        .font(.title2)
-                        .padding(10)
-
-                    // email text input
-                    Text("New Email")
+                    // Enter New Password TextField
+                    Text("Enter New Password")
                         .font(.title3)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .padding(.leading)
 
-                    MenuTextField(title: "Enter New Email ", input: $newEmail)
+                    MenuTextField(title: "new password ", input: $newPassword, secure: true).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
 
-                    // password confirmation input
-                    Text("Enter password ")
+                    // Re-enter New Password Text box
+                    Text("Re-enter New Password")
                         .font(.title3)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .padding(.leading)
 
-                    MenuTextField(
-                        title: "Enter Password to Confirm ",
-                        input: $currentPasword,
-                        secure: true)
-                        .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+                    MenuTextField(title: "re-enter new password ", input: $confirmPassword, secure: true).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+
+                    // Confirm change Text Field
+                    Text("Old Password")
+                        .font(.title3)
+                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        .padding(.leading)
+
+                    MenuTextField(title: "enter old password to confirm change ", input: $oldPassword, secure: true).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
 
                 }
                 Button {
-                    // save to DB call view model function to update DB
-                    userAccountViewModel.updateUserEmail(email: newEmail, password: currentPasword)
-                    newEmail = ""
-                    currentPasword = ""
+                    // Update to DB
+                    userAccountViewModel.updateUserPassword(newPassword: newPassword,
+                                                            confirmPassword: confirmPassword,
+                                                            oldPassword: oldPassword)
+                    newPassword = ""
+                    confirmPassword = ""
+                    oldPassword = ""
                 } label: {
                     SubmitButton()
                 }
@@ -107,15 +102,19 @@ struct UpdateEmailView: View {
             }
 
         }
-
+        .onDisappear {
+            // if flag is true means update is sucessful and log user out
+            if userAccountViewModel.logOutFlag {
+                userAccountViewModel.logOutFlag = false
+                userAccountViewModel.signOut()
+            }
+            showSheet = nil
+        }
     }
 }
 
-struct UpdateEmailSettings_Previews: PreviewProvider {
+struct UpdatePasswordSetttings_Previews: PreviewProvider {
     static var previews: some View {
-        UpdateEmailView(showSheet: .constant(.email))
-            .preferredColorScheme(.dark)
-            .environmentObject(UserAccountViewModel())
-
+        UpdatePasswordSheet(showSheet: .constant(.password)).preferredColorScheme(.dark).environmentObject(UserAccountViewModel())
     }
 }

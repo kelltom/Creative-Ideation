@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CreateGroupView: View {
+struct CreateGroupSheet: View {
 
     @State var groupTitle: String = ""
     @State var groupDescription: String = ""
@@ -64,6 +64,6 @@ struct CreateGroupView: View {
 
 struct CreateGroupView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateGroupView(showSheets: .constant(.group))
+        CreateGroupSheet(showSheets: .constant(.group))
     }
 }

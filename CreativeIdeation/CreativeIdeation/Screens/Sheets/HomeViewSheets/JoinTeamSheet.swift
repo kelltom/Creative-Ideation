@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct JoinTeamView: View {
+struct JoinTeamSheet: View {
     @State private var showBanner: Bool = false
     @Binding var showSheets: ActiveSheet?
     @State var code: String = ""
@@ -53,7 +53,7 @@ struct JoinTeamView: View {
 }
 struct JoinTeamView_Previews: PreviewProvider {
     static var previews: some View {
-        JoinTeamView(showSheets: .constant(.joinTeam))
+        JoinTeamSheet(showSheets: .constant(.joinTeam))
             .preferredColorScheme(.dark)
             .environmentObject(TeamViewModel())
     }
