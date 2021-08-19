@@ -46,7 +46,7 @@ struct JoinTeamSheet: View {
                         teamViewModel.joinTeam(code: code)
                         code = ""
                     } label: {
-                        BigButton(title: "Join")
+                        BigButton(title: "Join", geometry: geometry, widthScale: 0.75)
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)

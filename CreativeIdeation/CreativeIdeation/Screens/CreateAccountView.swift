@@ -65,7 +65,7 @@ struct CreateAccountView: View {
                         Button {
                             userAccountViewModel.createAccount(name: name, email: email, password: password)
                         } label: {
-                            BigButton(title: "Create Account")
+                            BigButton(title: "Create Account", geometry: geometry)
                         }
 
                         // Already have account Button

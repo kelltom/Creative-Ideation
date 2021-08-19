@@ -56,7 +56,7 @@ struct CreateSessionSheet: View {
                             showSheets = nil
                             showActivity = true
                         } label: {
-                            BigButton(title: "Start").padding()
+                            BigButton(title: "Start", geometry: geometry, widthScale: 0.75).padding()
                         }
                     }
                 }

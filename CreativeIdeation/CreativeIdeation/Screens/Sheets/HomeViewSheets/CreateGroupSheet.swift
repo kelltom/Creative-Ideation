@@ -51,7 +51,7 @@ struct CreateGroupSheet: View {
                                                            groupTitle: groupTitle)
                                 groupTitle = ""
                             } label: {
-                                BigButton(title: "Create").padding()
+                                BigButton(title: "Create", geometry: geometry, widthScale: 0.75).padding()
                             }
                         }
 

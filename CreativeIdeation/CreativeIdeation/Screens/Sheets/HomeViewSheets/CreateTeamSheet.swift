@@ -54,7 +54,7 @@ struct CreateTeamSheet: View {
                             teamName = ""
                             teamDescription = ""
                         } label: {
-                            BigButton(title: "Create")
+                            BigButton(title: "Create", geometry: geometry, widthScale: 0.75)
                                 .padding(.top, 5)
                         }
 

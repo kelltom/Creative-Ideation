@@ -71,7 +71,7 @@ struct LoginView: View {
                             Button {
                                 userAccountViewModel.authenticate(email: email, password: password)
                             } label: {
-                                BigButton(title: "Log In")
+                                BigButton(title: "Log In", geometry: geometry)
                             }
                             .padding(.top)
 

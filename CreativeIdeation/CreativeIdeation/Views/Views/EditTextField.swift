@@ -36,9 +36,3 @@ struct EditTextField: View {
 
     }
 }
-
-//struct MenuTextFieldView2_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MenuTextField2(title: "Test title", input: .constant("test"), secure: false, geometry: GeometryProxy())
-//    }
-//}

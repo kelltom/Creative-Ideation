@@ -103,7 +103,7 @@ struct UpdateEmailSheet: View {
                         newEmail = ""
                         currentPasword = ""
                     } label: {
-                        BigButton(title: "Submit")
+                        BigButton(title: "Submit", geometry: geometry, widthScale: 0.75)
                     }
                     Spacer()
                 }
