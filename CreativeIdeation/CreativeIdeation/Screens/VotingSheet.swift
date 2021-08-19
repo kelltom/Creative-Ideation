@@ -60,38 +60,80 @@ struct VotingSheet: View {
                         }
 
                         // Vote buttons (alternative to swiping)
-                        HStack(spacing: 50) {
+                        HStack(spacing: 95) {
                             // Downvote Button
                             Button {
 
                             } label: {
-                                Image(systemName: "hand.thumbsdown")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 90, height: 90)
-                                    .foregroundColor(.red)
+                                ZStack {
+                                    Circle()
+                                        .foregroundColor(Color("BackgroundColor"))
+                                        .frame(width: geometry.size.width * 0.15, height: geometry.size.height * 0.3)
+
+                                    Circle().stroke(lineWidth: 4)
+                                        .foregroundColor(Color.red)
+                                        .frame(width: geometry.size.width * 0.15, height: geometry.size.height * 0.3)
+
+                                    Image(systemName: "hand.thumbsdown")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: geometry.size.width * 0.075, height: geometry.size.height * 0.15)
+                                        .padding(.top, 10)
+                                        .foregroundColor(.red)
+                                }
+                                .frame(width: 110, height: 110)
+                                .clipped()
+                                .shadow(radius: 4, y: 4)
                             }
 
                             // Skip Button
                             Button {
 
                             } label: {
-                                Image(systemName: "hand.raised")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 90, height: 90)
-                                    .foregroundColor(.gray)
+                                ZStack {
+                                    Circle()
+                                        .foregroundColor(Color("BackgroundColor"))
+                                        .frame(width: geometry.size.width * 0.15, height: geometry.size.height * 0.3)
+
+                                    Circle().stroke(lineWidth: 4)
+                                        .foregroundColor(Color.gray)
+                                        .frame(width: geometry.size.width * 0.15, height: geometry.size.height * 0.3)
+
+                                    Image(systemName: "hand.raised")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: geometry.size.width * 0.075, height: geometry.size.height * 0.15)
+                                        .padding(.leading, 4)
+                                        .foregroundColor(.gray)
+                                }
+                                .frame(width: 110, height: 110)
+                                .clipped()
+                                .shadow(radius: 4, y: 4)
                             }
 
                             // Upvote Button
                             Button {
 
                             } label: {
-                                Image(systemName: "hand.thumbsup")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 90, height: 90)
-                                    .foregroundColor(.green)
+                                ZStack {
+                                    Circle()
+                                        .foregroundColor(Color("BackgroundColor"))
+                                        .frame(width: geometry.size.width * 0.15, height: geometry.size.height * 0.3)
+
+                                    Circle().stroke(lineWidth: 4)
+                                        .foregroundColor(Color.green)
+                                        .frame(width: geometry.size.width * 0.15, height: geometry.size.height * 0.3)
+
+                                    Image(systemName: "hand.thumbsup")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: geometry.size.width * 0.075, height: geometry.size.height * 0.15)
+                                        .padding(.bottom, 10)
+                                        .foregroundColor(.green)
+                                }
+                                .frame(width: 110, height: 110)
+                                .clipped()
+                                .shadow(radius: 4, y: 4)
                             }
                         }
                     }
