@@ -356,31 +356,31 @@ struct HomeView: View {
                 switch item {
 
                 case .session:
-                    CreateSessionView(sessionName: "", showSheets: $activeSheet, showActivity: $showActivity)
+                    CreateSessionSheet(sessionName: "", showSheets: $activeSheet, showActivity: $showActivity)
                         .environmentObject(self.groupViewModel)
                         .environmentObject(self.teamViewModel)
                         .environmentObject(self.sessionViewModel)
 
                 case .team:
-                    CreateTeamView(showSheets: $activeSheet)
+                    CreateTeamSheet(showSheets: $activeSheet)
                         .environmentObject(self.teamViewModel)
 
                 case .addTeamMembers:
-                    TeamAccessCode(showSheets: $activeSheet)
+                    TeamCodeSheet(showSheets: $activeSheet)
                         .environmentObject(self.teamViewModel)
 
                 case .addGroupMembers:
-                    GroupMembersView(showSheets: $activeSheet)
+                    GroupMembersSheet(showSheets: $activeSheet)
                         .environmentObject(self.teamViewModel)
                         .environmentObject(self.groupViewModel)
 
                 case .group:
-                    CreateGroupView(showSheets: $activeSheet)
+                    CreateGroupSheet(showSheets: $activeSheet)
                         .environmentObject(self.teamViewModel)
                         .environmentObject(self.groupViewModel)
 
                 case .joinTeam:
-                    JoinTeamView(showSheets: $activeSheet)
+                    JoinTeamSheet(showSheets: $activeSheet)
                         .environmentObject(self.teamViewModel)
                         .environmentObject(self.userAccountViewModel)
 

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct JoinTeamView: View {
+struct JoinTeamSheet: View {
     @State private var showBanner: Bool = false
     @Binding var showSheets: ActiveSheet?
     @State var code: String = ""
@@ -30,30 +30,33 @@ struct JoinTeamView: View {
                 XDismissButton(isShowingSheet: $showSheets)
                 Spacer()
             }
-            VStack {
-                Text("Join a Team ")
-                    .font(.system(size: 40))
-                    .padding()
-                VStack(alignment: .leading) {
-                    Text("Enter Your Team Code")
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .padding(.leading)
-                    MenuTextField(title: "Team Code", input: $code)
+            GeometryReader { geometry in
+                VStack {
+                    Text("Join a Team ")
+                        .font(.system(size: 40))
+                        .padding()
+                    VStack(alignment: .leading) {
+                        Text("Enter Your Team Code")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .padding(.leading)
+                        EditTextField(title: "Team Code", input: $code, geometry: geometry, widthScale: 0.75)
+                    }
+                    Button {
+                        teamViewModel.joinTeam(code: code)
+                        code = ""
+                    } label: {
+                        BigButton(title: "Join", geometry: geometry, widthScale: 0.75)
+                    }
                 }
-                Button {
-                    teamViewModel.joinTeam(code: code)
-                    code = ""
-                } label: {
-                    BigButton(title: "Join")
-                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
     }
 }
 struct JoinTeamView_Previews: PreviewProvider {
     static var previews: some View {
-        JoinTeamView(showSheets: .constant(.joinTeam))
+        JoinTeamSheet(showSheets: .constant(.joinTeam))
             .preferredColorScheme(.dark)
             .environmentObject(TeamViewModel())
     }
