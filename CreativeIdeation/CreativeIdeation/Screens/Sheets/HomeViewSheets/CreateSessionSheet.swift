@@ -29,35 +29,38 @@ struct CreateSessionSheet: View {
                 Spacer()
             }
 
-            VStack {
-                Text("Create a Session").font(.system(size: 40, weight: .heavy)).padding()
-
+            GeometryReader { geometry in
                 VStack {
-                    MenuTextField(title: "Session Name", input: $sessionViewModel.newSession.sessionTitle)
+                    Text("Create a Session").font(.system(size: 40, weight: .heavy)).padding()
 
-                    MenuTextField(title: "Description", input: $sessionViewModel.newSession.sessionDescription)
+                    VStack {
+                        EditTextField(title: "Session Name", input: $sessionViewModel.newSession.sessionTitle, geometry: geometry, widthScale: 0.75)
 
-                    HStack {
-//                        ActivityTypeTile(selected: true)
-//                            .padding()
-                        ActivityTypeTile(
-                            title: "Sticky Notes",
-                            symbolName: "doc.on.doc.fill",
-                            selected: true)
-                            .padding()
-                    }
+                        EditTextField(title: "Description", input: $sessionViewModel.newSession.sessionDescription, geometry: geometry, widthScale: 0.75)
 
-                    Button {
-                        sessionViewModel.createSession(teamId: teamViewModel.selectedTeam?.teamId,
-                                                       groupId: groupViewModel.selectedGroup?.groupId)
-                        sessionItemViewModel.activeSession = sessionViewModel.newSession
-                        sessionItemViewModel.loadItems()
-                        showSheets = nil
-                        showActivity = true
-                    } label: {
-                        BigButton(title: "Start").padding()
+                        HStack {
+    //                        ActivityTypeTile(selected: true)
+    //                            .padding()
+                            ActivityTypeTile(
+                                title: "Sticky Notes",
+                                symbolName: "doc.on.doc.fill",
+                                selected: true)
+                                .padding()
+                        }
+
+                        Button {
+                            sessionViewModel.createSession(teamId: teamViewModel.selectedTeam?.teamId,
+                                                           groupId: groupViewModel.selectedGroup?.groupId)
+                            sessionItemViewModel.activeSession = sessionViewModel.newSession
+                            sessionItemViewModel.loadItems()
+                            showSheets = nil
+                            showActivity = true
+                        } label: {
+                            BigButton(title: "Start").padding()
+                        }
                     }
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
     }

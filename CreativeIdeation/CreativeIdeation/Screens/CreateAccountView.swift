@@ -37,53 +37,55 @@ struct CreateAccountView: View {
                     NotificationBanner(image: "exclamationmark.circle.fill", msg: userAccountViewModel.msg, color: .red)
                 }
             }
-
-            VStack {
-
-                Spacer()
-
+            GeometryReader { geometry in
                 VStack {
 
-                    Text("Create Account")
-                        .padding()
-                        .font(.system(size: 40))
+                    Spacer()
 
-                    MenuTextField(title: "Full name", input: $name)
+                    VStack {
 
-                    MenuTextField(title: "Email address", input: $email)
+                        Text("Create Account")
+                            .padding()
+                            .font(.system(size: 40))
 
-                    MenuTextField(title: "Password", input: $password, secure: true)
+                        EditTextField(title: "Full name", input: $name, geometry: geometry)
 
-                    // Create Account Link
-                    NavigationLink(
-                        destination: HomeView(),
-                        isActive: $userAccountViewModel.createSuccess,
-                        label: {
-                            EmptyView()
-                        })
+                        EditTextField(title: "Email address", input: $email, geometry: geometry)
 
-                    Button {
-                        userAccountViewModel.createAccount(name: name, email: email, password: password)
-                    } label: {
-                        BigButton(title: "Create Account")
-                    }
+                        EditTextField(title: "Password", input: $password, secure: true, geometry: geometry)
 
-                    // Already have account Button
-                    HStack {
-                        Text("Already have an account?")
+                        // Create Account Link
+                        NavigationLink(
+                            destination: HomeView(),
+                            isActive: $userAccountViewModel.createSuccess,
+                            label: {
+                                EmptyView()
+                            })
+
                         Button {
-                            self.showCreateAcc = false
+                            userAccountViewModel.createAccount(name: name, email: email, password: password)
                         } label: {
-                            Text("Log In.")
+                            BigButton(title: "Create Account")
                         }
+
+                        // Already have account Button
+                        HStack {
+                            Text("Already have an account?")
+                            Button {
+                                self.showCreateAcc = false
+                            } label: {
+                                Text("Log In.")
+                            }
+                        }
+                        .padding(.top, 20)
+
                     }
-                    .padding(.top, 20)
 
+                    Spacer()
                 }
-
-                Spacer()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .navigationBarHidden(true)
             }
-            .navigationBarHidden(true)
         }
         .edgesIgnoringSafeArea(.vertical)
         .onAppear {

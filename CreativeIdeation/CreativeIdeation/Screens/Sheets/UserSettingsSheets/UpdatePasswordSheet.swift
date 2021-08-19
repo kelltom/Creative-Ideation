@@ -44,61 +44,63 @@ struct UpdatePasswordSheet: View {
                 .padding()
                 Spacer()
             }
-
-            VStack {
-                Spacer()
-                if userAccountViewModel.isLoading {
-                    ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
-                        .scaleEffect(3).padding()
-                }
-                // Sheet Title
-                Text("Change Password")
-                    .font(.largeTitle)
-                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                    .padding(.bottom)
-                    .padding(.top)
-                Text("A strong password helps prevent unauthorized access to your account")
-                    .padding()
-
-                VStack(alignment: .leading) {
-
-                    // Enter New Password TextField
-                    Text("Enter New Password")
-                        .font(.title3)
+            GeometryReader { geometry in
+                VStack {
+                    Spacer()
+                    if userAccountViewModel.isLoading {
+                        ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
+                            .scaleEffect(3).padding()
+                    }
+                    // Sheet Title
+                    Text("Change Password")
+                        .font(.largeTitle)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                        .padding(.leading)
+                        .padding(.bottom)
+                        .padding(.top)
+                    Text("A strong password helps prevent unauthorized access to your account")
+                        .padding()
 
-                    MenuTextField(title: "new password ", input: $newPassword, secure: true).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+                    VStack(alignment: .leading) {
 
-                    // Re-enter New Password Text box
-                    Text("Re-enter New Password")
-                        .font(.title3)
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                        .padding(.leading)
+                        // Enter New Password TextField
+                        Text("Enter New Password")
+                            .font(.title3)
+                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            .padding(.leading)
 
-                    MenuTextField(title: "re-enter new password ", input: $confirmPassword, secure: true).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+                        EditTextField(title: "new password ", input: $newPassword, secure: true, geometry: geometry, widthScale: 0.75).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
 
-                    // Confirm change Text Field
-                    Text("Old Password")
-                        .font(.title3)
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                        .padding(.leading)
+                        // Re-enter New Password Text box
+                        Text("Re-enter New Password")
+                            .font(.title3)
+                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            .padding(.leading)
 
-                    MenuTextField(title: "enter old password to confirm change ", input: $oldPassword, secure: true).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+                        EditTextField(title: "re-enter new password ", input: $confirmPassword, secure: true, geometry: geometry, widthScale: 0.75).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
 
+                        // Confirm change Text Field
+                        Text("Old Password")
+                            .font(.title3)
+                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            .padding(.leading)
+
+                        EditTextField(title: "enter old password to confirm change ", input: $oldPassword, secure: true, geometry: geometry, widthScale: 0.75).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+
+                    }
+                    Button {
+                        // Update to DB
+                        userAccountViewModel.updateUserPassword(newPassword: newPassword,
+                                                                confirmPassword: confirmPassword,
+                                                                oldPassword: oldPassword)
+                        newPassword = ""
+                        confirmPassword = ""
+                        oldPassword = ""
+                    } label: {
+                        SubmitButton()
+                    }
+                    Spacer()
                 }
-                Button {
-                    // Update to DB
-                    userAccountViewModel.updateUserPassword(newPassword: newPassword,
-                                                            confirmPassword: confirmPassword,
-                                                            oldPassword: oldPassword)
-                    newPassword = ""
-                    confirmPassword = ""
-                    oldPassword = ""
-                } label: {
-                    SubmitButton()
-                }
-                Spacer()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
 
         }

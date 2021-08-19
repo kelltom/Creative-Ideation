@@ -30,23 +30,26 @@ struct JoinTeamSheet: View {
                 XDismissButton(isShowingSheet: $showSheets)
                 Spacer()
             }
-            VStack {
-                Text("Join a Team ")
-                    .font(.system(size: 40))
-                    .padding()
-                VStack(alignment: .leading) {
-                    Text("Enter Your Team Code")
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .padding(.leading)
-                    MenuTextField(title: "Team Code", input: $code)
+            GeometryReader { geometry in
+                VStack {
+                    Text("Join a Team ")
+                        .font(.system(size: 40))
+                        .padding()
+                    VStack(alignment: .leading) {
+                        Text("Enter Your Team Code")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .padding(.leading)
+                        EditTextField(title: "Team Code", input: $code, geometry: geometry, widthScale: 0.75)
+                    }
+                    Button {
+                        teamViewModel.joinTeam(code: code)
+                        code = ""
+                    } label: {
+                        BigButton(title: "Join")
+                    }
                 }
-                Button {
-                    teamViewModel.joinTeam(code: code)
-                    code = ""
-                } label: {
-                    BigButton(title: "Join")
-                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
     }

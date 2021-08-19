@@ -45,65 +45,69 @@ struct UpdateEmailSheet: View {
                 .padding()
                 Spacer()
             }
+            GeometryReader { geometry in
+                VStack {
 
-            VStack {
+                    Spacer()
+                    if userAccountViewModel.isLoading {
+                        ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
+                            .scaleEffect(3).padding()
+                    }
 
-                Spacer()
-                if userAccountViewModel.isLoading {
-                    ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
-                        .scaleEffect(3).padding()
-                }
-
-                Text("Change Email")
-                    .font(.largeTitle)
-                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                    .padding(.top)
-
-                // displays users email
-                VStack(alignment: .leading) {
-                    Text("Current Email")
-                        .font(.title3)
+                    Text("Change Email")
+                        .font(.largeTitle)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                        .padding(.leading)
                         .padding(.top)
 
-                    Text(userAccountViewModel.selectedUser?.email ?? "N/A").foregroundColor(.blue)
-                        .padding()
-                        .frame(width: 550, height: 60, alignment: .leading)
-                        .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color("StrokeColor")))
-                        .font(.title2)
-                        .padding(10)
+                    // displays users email
+                    VStack(alignment: .leading) {
+                        Text("Current Email")
+                            .font(.title3)
+                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            .padding(.leading)
+                            .padding(.top)
 
-                    // email text input
-                    Text("New Email")
-                        .font(.title3)
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                        .padding(.leading)
+                        Text(userAccountViewModel.selectedUser?.email ?? "N/A").foregroundColor(.blue)
+                            .padding()
+                            .frame(width: geometry.size.width * 0.75, height: 60, alignment: .leading)
+                            .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color("StrokeColor")))
+                            .font(.title2)
+                            .padding(10)
 
-                    MenuTextField(title: "Enter New Email ", input: $newEmail)
+                        // email text input
+                        Text("New Email")
+                            .font(.title3)
+                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            .padding(.leading)
 
-                    // password confirmation input
-                    Text("Enter password ")
-                        .font(.title3)
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                        .padding(.leading)
+                        EditTextField(title: "Enter New Email ", input: $newEmail, geometry: geometry, widthScale: 0.75)
 
-                    MenuTextField(
-                        title: "Enter Password to Confirm ",
-                        input: $currentPasword,
-                        secure: true)
-                        .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+                        // password confirmation input
+                        Text("Enter password ")
+                            .font(.title3)
+                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            .padding(.leading)
 
+                        EditTextField(
+                            title: "Enter Password to Confirm ",
+                            input: $currentPasword,
+                            secure: true,
+                            geometry: geometry,
+                            widthScale: 0.75)
+                            .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+
+                    }
+                    Button {
+                        // save to DB call view model function to update DB
+                        userAccountViewModel.updateUserEmail(email: newEmail, password: currentPasword)
+                        newEmail = ""
+                        currentPasword = ""
+                    } label: {
+                        SubmitButton()
+                    }
+                    Spacer()
                 }
-                Button {
-                    // save to DB call view model function to update DB
-                    userAccountViewModel.updateUserEmail(email: newEmail, password: currentPasword)
-                    newEmail = ""
-                    currentPasword = ""
-                } label: {
-                    SubmitButton()
-                }
-                Spacer()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
 
         }

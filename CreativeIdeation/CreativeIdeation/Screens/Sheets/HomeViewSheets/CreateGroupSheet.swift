@@ -35,28 +35,30 @@ struct CreateGroupSheet: View {
                 XDismissButton(isShowingSheet: $showSheets)
                 Spacer()
             }
+            GeometryReader { geometry in
+                VStack {
 
-            VStack {
+                    Text("Create Your Group").font(.system(size: 40, weight: .heavy)).padding()
 
-                Text("Create Your Group").font(.system(size: 40, weight: .heavy)).padding()
+                    HStack {
 
-                HStack {
+                        VStack {
 
-                    VStack {
+                            EditTextField(title: "group name", input: $groupTitle, geometry: geometry, widthScale: 0.75)
 
-                        MenuTextField(title: "group name", input: $groupTitle)
-
-                        Button {
-                            groupViewModel.createGroup(teamId: teamViewModel.selectedTeam?.teamId,
-                                                       groupTitle: groupTitle)
-                            groupTitle = ""
-                        } label: {
-                            BigButton(title: "Create").padding()
+                            Button {
+                                groupViewModel.createGroup(teamId: teamViewModel.selectedTeam?.teamId,
+                                                           groupTitle: groupTitle)
+                                groupTitle = ""
+                            } label: {
+                                BigButton(title: "Create").padding()
+                            }
                         }
-                    }
 
+                    }
+                    .padding() // padding padding for title
                 }
-                .padding() // padding padding for title
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
     }

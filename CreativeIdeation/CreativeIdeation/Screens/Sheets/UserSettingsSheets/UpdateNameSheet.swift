@@ -49,45 +49,48 @@ struct UpdateNameSheet: View {
                 Spacer()
             }
 
-            VStack {
-                Spacer()
-                // main title
-                Text("Change Display Name")
-                    .font(.largeTitle)
-                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                // Display Name
-                VStack(alignment: .leading) {
-                    Text("Current Display Name")
-                        .font(.title3)
+            GeometryReader { geometry in
+                VStack {
+                    Spacer()
+                    // main title
+                    Text("Change Display Name")
+                        .font(.largeTitle)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                        .padding(.leading)
-                        .padding(.top)
-                    // Display name text view
-                    Text(userAccountViewModel.selectedUser?.name ?? "N/A").foregroundColor(.blue)
-                        .padding()
-                        .frame(width: 550, height: 60, alignment: .leading)
-                        .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color("StrokeColor")))
-                        .font(.title2)
-                        .padding(10)
+                    // Display Name
+                    VStack(alignment: .leading) {
+                        Text("Current Display Name")
+                            .font(.title3)
+                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            .padding(.leading)
+                            .padding(.top)
+                        // Display name text view
+                        Text(userAccountViewModel.selectedUser?.name ?? "N/A").foregroundColor(.blue)
+                            .padding()
+                            .frame(width: geometry.size.width * 0.75, height: 60, alignment: .leading)
+                            .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color("StrokeColor")))
+                            .font(.title2)
+                            .padding(10)
 
-                    // New disply name Entry
-                    Text("New Display Name")
-                        .font(.title3)
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                        .padding(.leading)
+                        // New disply name Entry
+                        Text("New Display Name")
+                            .font(.title3)
+                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            .padding(.leading)
 
-                    MenuTextField(title: "new name ", input: $newName)
+                        EditTextField(title: "new name ", input: $newName, geometry: geometry, widthScale: 0.75)
 
+                    }
+                    Button {
+                        // save to DB -- we can a profanity check here to make sure that they cant
+                        // have a bad name
+                        userAccountViewModel.updateUserName(name: newName)
+                        newName = ""
+                    } label: {
+                        SubmitButton()
+                    }
+                    Spacer()
                 }
-                Button {
-                    // save to DB -- we can a profanity check here to make sure that they cant
-                    // have a bad name
-                    userAccountViewModel.updateUserName(name: newName)
-                    newName = ""
-                } label: {
-                    SubmitButton()
-                }
-                Spacer()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
 
         }

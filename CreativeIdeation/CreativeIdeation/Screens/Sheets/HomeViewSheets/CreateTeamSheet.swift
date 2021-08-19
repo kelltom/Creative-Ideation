@@ -36,40 +36,42 @@ struct CreateTeamSheet: View {
                 XDismissButton(isShowingSheet: $showSheets)
                 Spacer()
             }
-
-            VStack {
-
-                Text("Create Your Team")
-                    .font(.system(size: 40))
-                    .padding()
-
+            GeometryReader { geometry in
                 VStack {
 
-                    MenuTextField(title: "Team name", input: $teamName)
+                    Text("Create Your Team")
+                        .font(.system(size: 40))
+                        .padding()
 
-                    MenuTextField(title: "Team description (optional)", input: $teamDescription)
+                    VStack {
 
-                    Button {
-                        teamViewModel.createTeam(teamName: teamName, teamDescription: teamDescription)
-                        teamName = ""
-                        teamDescription = ""
-                    } label: {
-                        BigButton(title: "Create")
-                            .padding(.top, 5)
-                    }
+                        EditTextField(title: "Team name", input: $teamName, geometry: geometry, widthScale: 0.75)
 
-                    Text("or")
+                        EditTextField(title: "Team description (optional)", input: $teamDescription, geometry: geometry, widthScale: 0.75)
+
+                        Button {
+                            teamViewModel.createTeam(teamName: teamName, teamDescription: teamDescription)
+                            teamName = ""
+                            teamDescription = ""
+                        } label: {
+                            BigButton(title: "Create")
+                                .padding(.top, 5)
+                        }
+
+                        Text("or")
+                            .hidden()
+
+                        // Create Acc Button
+                        NavigationLink(destination: EmptyView()) {
+                            Text("Reactivate pre-existing team.")
+                                .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+                        }
+                        .padding(.top)
                         .hidden()
 
-                    // Create Acc Button
-                    NavigationLink(destination: EmptyView()) {
-                        Text("Reactivate pre-existing team.")
-                            .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
                     }
-                    .padding(.top)
-                    .hidden()
-
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
     }
