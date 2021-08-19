@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TeamAccessCode: View {
+struct TeamCodeSheet: View {
 
     @Binding var showSheets: ActiveSheet?
     @State var isCopied: Bool = false
@@ -84,6 +84,6 @@ struct TeamAccessCode: View {
 
 struct CodeGeneratorView_Previews: PreviewProvider {
     static var previews: some View {
-        TeamAccessCode(showSheets: .constant(.addTeamMembers))
+        TeamCodeSheet(showSheets: .constant(.addTeamMembers))
     }
 }

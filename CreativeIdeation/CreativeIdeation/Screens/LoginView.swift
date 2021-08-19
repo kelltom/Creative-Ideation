@@ -37,75 +37,78 @@ struct LoginView: View {
                     }
                 }
 
-                VStack {
-
-                    Spacer()
-                    if userAccountViewModel.isLoading {
-                        ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
-                            .scaleEffect(3).padding()
-                    }
-
+                GeometryReader { geometry in
                     VStack {
 
-                        Text("Log In")
-                            .padding()
-                            .font(.system(size: 40))
-
-                        MenuTextField(title: "Email address", input: $email)
-
-                        MenuTextField(title: "Password", input: $password, secure: true)
-
-                        // Log In Link
-                        NavigationLink(
-                            destination: HomeView(),
-                            isActive: $userAccountViewModel.authSuccess,
-                            label: {
-                                EmptyView()
-                            })
-                            .onChange(of: userAccountViewModel.authSuccess == true) { _ in
-                                teamViewModel.getTeams()
-                            }
-
-                        // Log In Button
-                        Button {
-                            userAccountViewModel.authenticate(email: email, password: password)
-                        } label: {
-                            BigButton(title: "Log In")
+                        Spacer()
+                        if userAccountViewModel.isLoading {
+                            ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
+                                .scaleEffect(3).padding()
                         }
-                        .padding(.top)
 
-                        // Create Acc Button
-                        HStack {
-                            Text("New user?")
-                            NavigationLink(destination: CreateAccountView(showCreateAcc: self.$showCreateAcc),
-                                           isActive: self.$showCreateAcc) {
-                                Text("Create an Account.")
+                        VStack {
+
+                            Text("Log In")
+                                .padding()
+                                .font(.system(size: 40))
+
+                            EditTextField(title: "Email address", input: $email, geometry: geometry)
+
+                            EditTextField(title: "Password", input: $password, secure: true, geometry: geometry)
+
+                            // Log In Link
+                            NavigationLink(
+                                destination: HomeView(),
+                                isActive: $userAccountViewModel.authSuccess,
+                                label: {
+                                    EmptyView()
+                                })
+                                .onChange(of: userAccountViewModel.authSuccess == true) { _ in
+                                    teamViewModel.getTeams()
+                                }
+
+                            // Log In Button
+                            Button {
+                                userAccountViewModel.authenticate(email: email, password: password)
+                            } label: {
+                                BigButton(title: "Log In", geometry: geometry)
                             }
-                        }
-                        .padding(.top, 20)
+                            .padding(.top)
 
-                        Text("or")
+                            // Create Acc Button
+                            HStack {
+                                Text("New user?")
+                                NavigationLink(destination: CreateAccountView(showCreateAcc: self.$showCreateAcc),
+                                               isActive: self.$showCreateAcc) {
+                                    Text("Create an Account.")
+                                }
+                            }
+                            .padding(.top, 20)
+
+                            Text("or")
+                                .hidden()
+
+                            // Sign In with Google Button
+                            Button {
+                                // code here for Google Auth
+                                // actionState = 1
+                            } label: {
+                                GoogleButton()
+                            }
                             .hidden()
 
-                        // Sign In with Google Button
-                        Button {
-                            // code here for Google Auth
-                            // actionState = 1
-                        } label: {
-                            GoogleButton()
-                        }
-                        .hidden()
+                            NavigationLink(destination: EmptyView()) {
+                                EmptyView()
+                            }
+                            .hidden()
 
-                        NavigationLink(destination: EmptyView()) {
-                            EmptyView()
                         }
-                        .hidden()
 
+                        Spacer()
                     }
-
-                    Spacer()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .navigationBarHidden(true)
                 }
-                .navigationBarHidden(true)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .edgesIgnoringSafeArea(.vertical)

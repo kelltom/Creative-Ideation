@@ -161,14 +161,14 @@ struct UserSettingsView: View {
                 switch item {
 
                 case .email:
-                    UpdateEmailView(showSheet: $showSheet)
+                    UpdateEmailSheet(showSheet: $showSheet)
                         .environmentObject(self.userAccountViewModel)
 
                 case .password:
-                    UpdatePasswordView(showSheet: $showSheet) .environmentObject(self.userAccountViewModel)
+                    UpdatePasswordSheet(showSheet: $showSheet) .environmentObject(self.userAccountViewModel)
 
                 case .name:
-                    UpdateDisplayName(showSheet: $showSheet)
+                    UpdateNameSheet(showSheet: $showSheet)
                         .environmentObject(self.userAccountViewModel)
 
                 }
