@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct JoinTeamSheet: View {
+
     @State private var showBanner: Bool = false
     @Binding var showSheets: ActiveSheet?
     @State var code: String = ""
     @EnvironmentObject var teamViewModel: TeamViewModel
     @EnvironmentObject var userTeamModel: UserAccountViewModel
+
     var body: some View {
 
         ZStack {
@@ -31,17 +33,42 @@ struct JoinTeamSheet: View {
                 Spacer()
             }
             GeometryReader { geometry in
+
                 VStack {
                     Text("Join a Team ")
                         .font(.system(size: 40))
                         .padding()
+
                     VStack(alignment: .leading) {
                         Text("Enter Your Team Code")
                             .font(.title3)
                             .fontWeight(.bold)
                             .padding(.leading)
-                        EditTextField(title: "Team Code", input: $code, geometry: geometry, widthScale: 0.75)
+
+                        // Text area
+                        ZStack {
+                            EditTextField(title: "Team Code", input: $code, geometry: geometry, widthScale: 0.75)
+
+                            HStack {
+
+                                Spacer()
+
+                                // QR scan button
+                                Button {
+
+                                } label: {
+                                    Image(systemName: "qrcode.viewfinder")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 50, height: 50)
+                                        .padding(.trailing, 20)
+                                        .foregroundColor(Color("StrokeColor"))
+                                }
+                            }
+                        }
+                        .frame(width: geometry.size.width * 0.75, height: 60)
                     }
+
                     Button {
                         teamViewModel.joinTeam(code: code)
                         code = ""
