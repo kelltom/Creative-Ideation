@@ -5,6 +5,7 @@
 //  Created by Vanessa Li on 2021-04-13.
 //
 
+import CodeScanner
 import SwiftUI
 
 struct JoinTeamSheet: View {
@@ -14,6 +15,9 @@ struct JoinTeamSheet: View {
     @State var code: String = ""
     @EnvironmentObject var teamViewModel: TeamViewModel
     @EnvironmentObject var userTeamModel: UserAccountViewModel
+
+    // To handle QR scanning
+    @State private var isShowingScanner = false
 
     var body: some View {
 
@@ -55,7 +59,7 @@ struct JoinTeamSheet: View {
 
                                 // QR scan button
                                 Button {
-
+                                    self.isShowingScanner = true
                                 } label: {
                                     Image(systemName: "qrcode.viewfinder")
                                         .resizable()
@@ -79,8 +83,24 @@ struct JoinTeamSheet: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
+        .sheet(isPresented: $isShowingScanner) {
+            CodeScannerView(codeTypes: [.qr], simulatedData: "Paul Hudson\npaul@hackingwithswift.com", completion: self.handleScan)
+        }
+    }
+
+    func handleScan(result: Result<String, CodeScannerView.ScanError>) {
+        self.isShowingScanner = false
+
+        switch result {
+        case .success(let code):
+            let details = code.components(separatedBy: "\n")
+            self.code = details[0]
+        case .failure(let error):
+            print("Scanning failed: ", error)
+        }
     }
 }
+
 struct JoinTeamView_Previews: PreviewProvider {
     static var previews: some View {
         JoinTeamSheet(showSheets: .constant(.joinTeam))
