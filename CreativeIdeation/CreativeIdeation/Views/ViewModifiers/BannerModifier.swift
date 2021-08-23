@@ -69,13 +69,27 @@ struct BannerModifier: ViewModifier {
                             Text(data.detail)
                                 .font(Font.system(size: 15, weight: Font.Weight.light, design: Font.Design.default))
                         }
-                        .foregroundColor(Color.white)
-                        .padding(12)
-                        .background(data.type.tintColor)
-                        .cornerRadius(8)
                     }
+                    .foregroundColor(Color.white)
+                    .padding(12)
+                    .background(data.type.tintColor)
+                    .cornerRadius(8)
                     Spacer()
                 }
+                .padding()
+                .animation(.easeInOut)
+                .transition(AnyTransition.move(edge: .top).combined(with: .opacity))
+                .onTapGesture {
+                    withAnimation {
+                        self.show = false
+                    }
+                }.onAppear(perform: {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                        withAnimation {
+                            self.show = false
+                        }
+                    }
+                })
             }
             content
         }
