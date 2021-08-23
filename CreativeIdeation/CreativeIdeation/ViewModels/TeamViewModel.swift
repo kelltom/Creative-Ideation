@@ -20,7 +20,6 @@ final class TeamViewModel: ObservableObject {
     @Published var teams: [Team] = []   // populated when navigating to HomeView
     @Published var selectedTeam: Team?  // selected team in the sidebar
     @Published var msg = ""
-    @Published var didOperationSucceed = false
     @Published var teamCode = ""
     @Published var teamMembers: [Member] = []
 
@@ -365,7 +364,6 @@ final class TeamViewModel: ObservableObject {
         selectedTeam = nil
         msg = ""
         showBanner = false
-        didOperationSucceed = false
         teamCode = ""
     }
 
