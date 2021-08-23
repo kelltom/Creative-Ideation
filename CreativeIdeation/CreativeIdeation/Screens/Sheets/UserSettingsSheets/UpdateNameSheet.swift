@@ -24,6 +24,7 @@ struct UpdateNameSheet: View {
                     .scaleEffect(3)
             }
 
+            // Exit button
             VStack {
                 HStack {
                     Spacer()
@@ -40,13 +41,18 @@ struct UpdateNameSheet: View {
                 Spacer()
             }
 
+            // Main page content
             GeometryReader { geometry in
+
                 VStack {
+
                     Spacer()
+
                     // main title
                     Text("Change Display Name")
                         .font(.largeTitle)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+
                     // Display Name
                     VStack(alignment: .leading) {
                         Text("Current Display Name")
@@ -68,9 +74,9 @@ struct UpdateNameSheet: View {
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                             .padding(.leading)
 
-                        EditTextField(title: "new name ", input: $newName, geometry: geometry, widthScale: 0.75)
-
+                        EditTextField(title: "Enter new name ", input: $newName, geometry: geometry, widthScale: 0.75)
                     }
+
                     Button {
                         // save to DB -- we can a profanity check here to make sure that they cant
                         // have a bad name
@@ -79,6 +85,7 @@ struct UpdateNameSheet: View {
                     } label: {
                         BigButton(title: "Submit", geometry: geometry, widthScale: 0.75)
                     }
+
                     Spacer()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)

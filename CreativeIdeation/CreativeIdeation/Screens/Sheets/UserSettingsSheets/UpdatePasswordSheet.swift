@@ -20,15 +20,11 @@ struct UpdatePasswordSheet: View {
 
             Color("BackgroundColor")
 
-            if userAccountViewModel.showBanner {
-                if !userAccountViewModel.updateSuccess {
-                    NotificationBanner(image: "exclamationmark.circle.fill",
-                                       msg: userAccountViewModel.msg, color: .red)
-                } else {
-                    NotificationBanner(image: "checkmark.circle.fill",
-                                       msg: userAccountViewModel.msg, color: .green)
-                }
+            if userAccountViewModel.isLoading {
+                ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
+                    .scaleEffect(3)
             }
+
             VStack {
                 HStack {
                     Spacer()
@@ -44,19 +40,19 @@ struct UpdatePasswordSheet: View {
                 .padding()
                 Spacer()
             }
+
             GeometryReader { geometry in
                 VStack {
+
                     Spacer()
-                    if userAccountViewModel.isLoading {
-                        ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
-                            .scaleEffect(3).padding()
-                    }
+
                     // Sheet Title
                     Text("Change Password")
                         .font(.largeTitle)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .padding(.bottom)
                         .padding(.top)
+
                     Text("A strong password helps prevent unauthorized access to your account")
                         .padding()
 
@@ -68,7 +64,7 @@ struct UpdatePasswordSheet: View {
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                             .padding(.leading)
 
-                        EditTextField(title: "new password ", input: $newPassword, secure: true, geometry: geometry, widthScale: 0.75).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+                        EditTextField(title: "Enter new password ", input: $newPassword, secure: true, geometry: geometry, widthScale: 0.75).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
 
                         // Re-enter New Password Text box
                         Text("Re-enter New Password")
@@ -76,7 +72,7 @@ struct UpdatePasswordSheet: View {
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                             .padding(.leading)
 
-                        EditTextField(title: "re-enter new password ", input: $confirmPassword, secure: true, geometry: geometry, widthScale: 0.75).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+                        EditTextField(title: "Re-enter new password ", input: $confirmPassword, secure: true, geometry: geometry, widthScale: 0.75).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
 
                         // Confirm change Text Field
                         Text("Old Password")
@@ -84,9 +80,10 @@ struct UpdatePasswordSheet: View {
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                             .padding(.leading)
 
-                        EditTextField(title: "enter old password to confirm change ", input: $oldPassword, secure: true, geometry: geometry, widthScale: 0.75).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+                        EditTextField(title: "Enter old password to confirm change", input: $oldPassword, secure: true, geometry: geometry, widthScale: 0.75).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
 
                     }
+
                     Button {
                         // Update to DB
                         userAccountViewModel.updateUserPassword(newPassword: newPassword,
@@ -102,7 +99,8 @@ struct UpdatePasswordSheet: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-
+            .banner(data: $userAccountViewModel.bannerData,
+                    show: $userAccountViewModel.showBanner)
         }
         .onDisappear {
             // if flag is true means update is sucessful and log user out

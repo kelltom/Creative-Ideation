@@ -104,7 +104,6 @@ final class UserAccountViewModel: ObservableObject {
 
     /// updating user name to  db
     func updateUserName(name: String) {
-        self.showBanner = false
         self.isLoading = true
 
         // Get user ID
@@ -152,7 +151,7 @@ final class UserAccountViewModel: ObservableObject {
                     self.selectedUser?.name = user.name  // update view
 
                     // Set banner
-                    self.setBannerData(title: "Name change success", details: "Name updated successfully!", type: .success)
+                    self.setBannerData(title: "Success", details: "Name updated successfully!", type: .success)
                     self.showBanner = true
 
                     print("updateUserName: User name updated successfully")
@@ -163,8 +162,8 @@ final class UserAccountViewModel: ObservableObject {
 
     /// Updates user's email with input
     func updateUserEmail(email: String, password: String) {
-        self.showBanner = false
         self.isLoading = true
+
         // Get user ID
         guard let uid = Auth.auth().currentUser?.uid else {
             print("Could not find signed-in user's ID")
@@ -261,7 +260,6 @@ final class UserAccountViewModel: ObservableObject {
     }
 
     func updateUserPassword(newPassword: String, confirmPassword: String, oldPassword: String) {
-        self.showBanner = false
         self.isLoading = true
 
         // Get current user
@@ -276,36 +274,34 @@ final class UserAccountViewModel: ObservableObject {
         // Error Validation
         if newPassword.isEmpty || confirmPassword.isEmpty || oldPassword.isEmpty {
             self.isLoading = false
-            self.msg = "Fields cannot be empty. Please fill out all the fields."
             self.updateSuccess = false
-            withAnimation {
-                self.showBanner = true
-                self.delayAlert()
-            }
-            print("Fields cannot be empty")
 
-            // checks if user enters the correct new password
+            // Set Banner
+            self.setBannerData(title: "Cannot change password", details: "Fields cannot be empty. Please fill out all the fields.", type: .warning)
+            self.showBanner = true
+
+            print("Fields cannot be empty")
+        // checks if user enters the correct new password
         } else if newPassword != confirmPassword {
             self.isLoading = false
-            self.msg = "New passwords do not match. Please re-enter your password."
             self.updateSuccess = false
-            withAnimation {
-                self.showBanner = true
-                self.delayAlert()
-            }
-            print("passwords do not match")
 
+            // Set Banner
+            self.setBannerData(title: "Cannot change password", details: "New passwords do not match. Please re-enter your password.", type: .warning)
+            self.showBanner = true
+
+            print("passwords do not match")
         } else {
             // re-authenticate user to check user password is correct
             currentUser.reauthenticate(with: credential) { _, error  in
                 if error != nil {
                     self.isLoading = false
-                    self.msg = "Password entered is incorrect. Please try again"
                     self.updateSuccess = false
-                    withAnimation {
-                        self.showBanner = true
-                        self.delayAlert()
-                    }
+
+                    // Set Banner
+                    self.setBannerData(title: "Cannot change password", details: "Password entered is incorrect. Please try again.", type: .warning)
+                    self.showBanner = true
+
                     print(error?.localizedDescription ?? "error reauthenticating failed")
                 } else {
                     // update password to db
@@ -315,14 +311,14 @@ final class UserAccountViewModel: ObservableObject {
                         } else {
                             print("Password update is successful")
                             self.isLoading = false
-                            self.msg = "Password is successfully updated!"
                             self.updateSuccess = true
                             self.logOutFlag = true
-                            withAnimation {
-                                self.showBanner = true
-                                self.delayAlert()
-                            }
 
+                            // Set Banner
+                            self.setBannerData(title: "Success",
+                                               details: "Password is successfully updated!",
+                                               type: .success)
+                            self.showBanner = true
                         }
                     }
                 }
