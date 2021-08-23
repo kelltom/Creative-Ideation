@@ -19,10 +19,15 @@ final class UserAccountViewModel: ObservableObject {
     @Published var createSuccess = false
     @Published var updateSuccess = false
     @Published var logOutFlag = false
-    @Published var msg = ""
-    @Published var showBanner = false
     @Published var isLoading = false
     @Published var selectedUser: User?
+    @Published var msg: String = ""
+
+    @Published var showBanner = false
+    @Published var bannerData: BannerModifier.BannerData =
+        BannerModifier.BannerData(title: "Default Title",
+                                  detail: "Default detail message.",
+                                  type: .info)
 
     func authenticate(email: String, password: String) {
         self.showBanner = false
@@ -115,20 +120,18 @@ final class UserAccountViewModel: ObservableObject {
         // Error Validation
         if name.isEmpty {
             self.isLoading = false
-            self.msg = "Name cannot be empty."
             self.updateSuccess = false
-            withAnimation {
-                self.showBanner = true
-                self.delayAlert()
-            }
+
+            // Set banner
+            setBannerData(title: "Cannot change name", details: "New name cannot be empty", type: .warning)
+            self.showBanner = true
         } else if name == oldName {
             self.isLoading = false
-            self.msg = "New name cannot be the same as current name."
             self.updateSuccess = false
-            withAnimation {
-                self.showBanner = true
-                self.delayAlert()
-            }
+
+            // Set banner
+            self.setBannerData(title: "Cannot change name", details: "New name cannot be the same as current name.", type: .warning)
+            self.showBanner = true
         } else {
             // query db and update name in the document
             db.collection("users").document(uid).updateData([
@@ -136,30 +139,26 @@ final class UserAccountViewModel: ObservableObject {
             ]) { err in
                 if let err = err {
                     self.isLoading = false
-                    self.msg = "Error updating user name. Please contact your admin. \(err)"
                     self.updateSuccess = false
-                    // Display result to View
-                    withAnimation {
-                        self.showBanner = true
-                        self.delayAlert()
-                    }
-                    print("Error updating user name")
+
+                    // Set banner
+                    self.setBannerData(title: "Cannot change name", details: "Error updating user name. Please contact your admin. \(err)", type: .error)
+                    self.showBanner = true
+
+                    print("updateUserName: Error updating user name")
                 } else {
                     self.isLoading = false
-                    self.msg = "Name updated successfully!"
                     self.updateSuccess = true
                     self.selectedUser?.name = user.name  // update view
-                    // Display result to View
-                    withAnimation {
-                        self.showBanner = true
-                        self.delayAlert()
-                    }
-                    print("User name updated successfully")
+
+                    // Set banner
+                    self.setBannerData(title: "Name change success", details: "Name updated successfully!", type: .success)
+                    self.showBanner = true
+
+                    print("updateUserName: User name updated successfully")
                 }
             }
-
         }
-
     }
 
     /// Updates user's email with input
@@ -392,5 +391,12 @@ final class UserAccountViewModel: ObservableObject {
                 self.showBanner = false
             }
         }
+    }
+
+    /// Assigns values to the published BannerData object
+    private func setBannerData(title: String, details: String, type: BannerModifier.BannerType) {
+        bannerData.title = title
+        bannerData.detail = details
+        bannerData.type = type
     }
 }

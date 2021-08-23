@@ -24,15 +24,6 @@ struct UpdateNameSheet: View {
                     .scaleEffect(3)
             }
 
-            if userAccountViewModel.showBanner {
-                if !userAccountViewModel.updateSuccess {
-                    NotificationBanner(image: "exclamationmark.circle.fill",
-                                       msg: userAccountViewModel.msg, color: .red)
-                } else {
-                    NotificationBanner(image: "checkmark.circle.fill",
-                                       msg: userAccountViewModel.msg, color: .green)
-                }
-            }
             VStack {
                 HStack {
                     Spacer()
@@ -92,9 +83,9 @@ struct UpdateNameSheet: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-
+            .banner(data: $userAccountViewModel.bannerData,
+                    show: $userAccountViewModel.showBanner)
         }
-
     }
 }
 
