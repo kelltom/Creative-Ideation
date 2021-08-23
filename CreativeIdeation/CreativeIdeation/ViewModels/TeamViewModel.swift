@@ -20,7 +20,6 @@ final class TeamViewModel: ObservableObject {
     @Published var teams: [Team] = []   // populated when navigating to HomeView
     @Published var selectedTeam: Team?  // selected team in the sidebar
     @Published var msg = ""
-    @Published var isShowingBanner = false
     @Published var didOperationSucceed = false
     @Published var teamCode = ""
     @Published var teamMembers: [Member] = []
@@ -242,8 +241,12 @@ final class TeamViewModel: ObservableObject {
 
         // Check if the user deleting the team is the same user who created - "only admin i guess"
         guard currentUserId == createdBy else {
-            setBanner(message: "Access Denied. You do not have permission to delete this team.", didSucceed: false)
-            print("Delete Team: User is not creator cannot delete")
+            // Set banner
+            self.setBannerData(title: "Cannot delete Team",
+                               details: "Access Denied. You do not have permission to delete this team.",
+                               type: .warning)
+            self.showBanner = true
+            print("Delete Team: User is not creator of Team, so they cannot delete it.")
             return
         }
 
@@ -287,6 +290,12 @@ final class TeamViewModel: ObservableObject {
                 } else {
                     print("Batch write succeeded.")
                     self.selectedTeam = nil
+
+                    // Set banner
+                    self.setBannerData(title: "Success",
+                                       details: "The Team has been deleted.",
+                                       type: .success)
+                    self.showBanner = true
                 }
             }
         }
@@ -355,22 +364,9 @@ final class TeamViewModel: ObservableObject {
         teams = []
         selectedTeam = nil
         msg = ""
-        isShowingBanner = false
+        showBanner = false
         didOperationSucceed = false
         teamCode = ""
-    }
-
-    private func setBanner(message: String, didSucceed: Bool) {
-        msg = message
-        didOperationSucceed = didSucceed
-        withAnimation {
-            self.isShowingBanner = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                withAnimation {
-                    self.isShowingBanner = false
-                }
-            }
-        }
     }
 
     // Generates a random code that can be used to join the team
