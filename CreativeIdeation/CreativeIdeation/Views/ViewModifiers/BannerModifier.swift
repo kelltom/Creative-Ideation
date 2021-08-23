@@ -62,12 +62,15 @@ struct BannerModifier: ViewModifier {
                     // HStack to fill width of screen
                     HStack {
                         // Banner content here
-                        Image.init(systemName: data.type.sfSymbol)
+                        Image(systemName: data.type.sfSymbol)
+                            .resizable()
+                            .frame(width: 30, height: 30)
                         VStack(alignment: .leading, spacing: 2) {
                             Text(data.title)
+                                .font(.title2)
                                 .bold()
                             Text(data.detail)
-                                .font(Font.system(size: 15, weight: Font.Weight.light, design: Font.Design.default))
+                                .font(.body)
                         }
                     }
                     .foregroundColor(Color.white)

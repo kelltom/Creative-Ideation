@@ -21,7 +21,6 @@ final class UserAccountViewModel: ObservableObject {
     @Published var logOutFlag = false
     @Published var isLoading = false
     @Published var selectedUser: User?
-    @Published var msg: String = ""
 
     @Published var showBanner = false
     @Published var bannerData: BannerModifier.BannerData =
@@ -30,7 +29,6 @@ final class UserAccountViewModel: ObservableObject {
                                   type: .info)
 
     func authenticate(email: String, password: String) {
-        self.showBanner = false
         self.isLoading = true
 
         // Populate User object
@@ -43,19 +41,23 @@ final class UserAccountViewModel: ObservableObject {
             if error != nil {
                 print(error?.localizedDescription ?? "")
                 self.isLoading = false
-                self.msg = error?.localizedDescription ?? ""
                 self.authSuccess = false
+
+                // Set banner
+                self.setBannerData(title: "Cannot authenticate",
+                                   details: "Cannot authenticate credentials. \(error?.localizedDescription ?? "Unknown error.")",
+                                   type: .error)
+                self.showBanner = true
             } else {
                 print("Success")
                 self.isLoading = false
-                self.msg = "Success"
                 self.authSuccess = true
-            }
 
-            // Display result to View
-            withAnimation {
+                // Set banner
+                self.setBannerData(title: "Success",
+                                   details: "Authenticated credentials successfully.",
+                                   type: .success)
                 self.showBanner = true
-                self.delayAlert()
             }
         }
     }
@@ -122,14 +124,18 @@ final class UserAccountViewModel: ObservableObject {
             self.updateSuccess = false
 
             // Set banner
-            setBannerData(title: "Cannot change name", details: "New name cannot be empty", type: .warning)
+            setBannerData(title: "Cannot change name",
+                          details: "New name cannot be empty",
+                          type: .warning)
             self.showBanner = true
         } else if name == oldName {
             self.isLoading = false
             self.updateSuccess = false
 
             // Set banner
-            self.setBannerData(title: "Cannot change name", details: "New name cannot be the same as current name.", type: .warning)
+            self.setBannerData(title: "Cannot change name",
+                               details: "New name cannot be the same as current name.",
+                               type: .warning)
             self.showBanner = true
         } else {
             // query db and update name in the document
@@ -141,7 +147,9 @@ final class UserAccountViewModel: ObservableObject {
                     self.updateSuccess = false
 
                     // Set banner
-                    self.setBannerData(title: "Cannot change name", details: "Error updating user name. Please contact your admin. \(err)", type: .error)
+                    self.setBannerData(title: "Cannot change name",
+                                       details: "Error updating user name. Please contact your admin. \(err)",
+                                       type: .error)
                     self.showBanner = true
 
                     print("updateUserName: Error updating user name")
@@ -151,7 +159,9 @@ final class UserAccountViewModel: ObservableObject {
                     self.selectedUser?.name = user.name  // update view
 
                     // Set banner
-                    self.setBannerData(title: "Success", details: "Name updated successfully!", type: .success)
+                    self.setBannerData(title: "Success",
+                                       details: "Name updated successfully!",
+                                       type: .success)
                     self.showBanner = true
 
                     print("updateUserName: User name updated successfully")
@@ -188,7 +198,9 @@ final class UserAccountViewModel: ObservableObject {
             self.updateSuccess = false
 
             // Set Banner
-            self.setBannerData(title: "Cannot change email", details: "Email or password cannot be empty.", type: .warning)
+            self.setBannerData(title: "Cannot change email",
+                               details: "Email or password cannot be empty.",
+                               type: .warning)
             self.showBanner = true
 
             print("Update failed: Email or password cannot be empty")
@@ -198,7 +210,9 @@ final class UserAccountViewModel: ObservableObject {
             self.updateSuccess = false
 
             // Set Banner
-            self.setBannerData(title: "Cannot change email", details: "Email cannot be same as previous email.", type: .warning)
+            self.setBannerData(title: "Cannot change email",
+                               details: "Email cannot be same as previous email.",
+                               type: .warning)
             self.showBanner = true
 
             print("Update failed: Email cannot be same as old email")
@@ -210,7 +224,9 @@ final class UserAccountViewModel: ObservableObject {
                     self.updateSuccess = false
 
                     // Set Banner
-                    self.setBannerData(title: "Cannot change email", details: "Password entered is incorrect. Try again.", type: .warning)
+                    self.setBannerData(title: "Cannot change email",
+                                       details: "Password entered is incorrect. Try again.",
+                                       type: .warning)
                     self.showBanner = true
 
                     print("Update failed: password entered is incorrect")
@@ -281,7 +297,9 @@ final class UserAccountViewModel: ObservableObject {
             self.updateSuccess = false
 
             // Set Banner
-            self.setBannerData(title: "Cannot change password", details: "Fields cannot be empty. Please fill out all the fields.", type: .warning)
+            self.setBannerData(title: "Cannot change password",
+                               details: "Fields cannot be empty. Please fill out all the fields.",
+                               type: .warning)
             self.showBanner = true
 
             print("Fields cannot be empty")
@@ -291,7 +309,9 @@ final class UserAccountViewModel: ObservableObject {
             self.updateSuccess = false
 
             // Set Banner
-            self.setBannerData(title: "Cannot change password", details: "New passwords do not match. Please re-enter your password.", type: .warning)
+            self.setBannerData(title: "Cannot change password",
+                               details: "New passwords do not match. Please re-enter your password.",
+                               type: .warning)
             self.showBanner = true
 
             print("passwords do not match")
@@ -303,7 +323,9 @@ final class UserAccountViewModel: ObservableObject {
                     self.updateSuccess = false
 
                     // Set Banner
-                    self.setBannerData(title: "Cannot change password", details: "Password entered is incorrect. Please try again.", type: .warning)
+                    self.setBannerData(title: "Cannot change password",
+                                       details: "Password entered is incorrect. Please try again.",
+                                       type: .warning)
                     self.showBanner = true
 
                     print(error?.localizedDescription ?? "error reauthenticating failed")
@@ -344,15 +366,14 @@ final class UserAccountViewModel: ObservableObject {
         Auth.auth().createUser(withEmail: user.email, password: user.password) { authResult, error in
             if error != nil {
                 print(error?.localizedDescription ?? "Error creating account")
-                self.msg = error?.localizedDescription ?? "Error creating account"
                 self.isLoading = false
                 self.createSuccess = false
 
-                // Display results to View
-                withAnimation {
-                    self.showBanner = true
-                    self.delayAlert()
-                }
+                // Set banner
+                self.setBannerData(title: "Error creating account",
+                                   details: "Error: \(error?.localizedDescription ?? "unknown")",
+                                   type: .error)
+                self.showBanner = true
 
             } else {
                 print("Successfully created User auth")
@@ -366,29 +387,25 @@ final class UserAccountViewModel: ObservableObject {
                     if let err = err {
                         print("Error adding document: \(err)")
                         self.isLoading = false
-                        self.msg = "Error adding document: \(err)"
                         self.createSuccess = false
+
+                        // Set banner
+                        self.setBannerData(title: "Error creating account",
+                                           details: "We've encountered an error trying to create your account. Make sure you're connected to the internet and try again. Error: \(err.localizedDescription)",
+                                           type: .error)
+                        self.showBanner = true
                     } else {
                         print("Document added with")
                         self.isLoading = false
-                        self.msg = "Account created successfully!"
                         self.createSuccess = true
-                    }
-                    // Display results to View
-                    withAnimation {
+
+                        // Set banner
+                        self.setBannerData(title: "Success",
+                                           details: "Your account has been successfully created!",
+                                           type: .success)
                         self.showBanner = true
-                        self.delayAlert()
                     }
                 }
-            }
-        }
-    }
-
-    // Tells View to stop showing banner after 4 seconds
-    private func delayAlert() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            withAnimation {
-                self.showBanner = false
             }
         }
     }

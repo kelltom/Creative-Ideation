@@ -13,9 +13,6 @@ struct LoginView: View {
     // Allows for CreateAccount View to jump back to this View
     @State var showCreateAcc = false
 
-    // May be used later
-    // @State private var actionState: Int? = 0
-
     @State var email: String = ""
     @State var password: String = ""
 
@@ -27,24 +24,18 @@ struct LoginView: View {
         NavigationView {
 
             ZStack {
+
                 Color("BackgroundColor")
 
-                if userAccountViewModel.showBanner {
-                    if !userAccountViewModel.authSuccess {
-                        NotificationBanner(image: "exclamationmark.circle.fill",
-                                           msg: userAccountViewModel.msg,
-                                           color: .red)
-                    }
+                if userAccountViewModel.isLoading {
+                    ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
+                        .scaleEffect(3).padding()
                 }
 
                 GeometryReader { geometry in
                     VStack {
 
                         Spacer()
-                        if userAccountViewModel.isLoading {
-                            ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
-                                .scaleEffect(3).padding()
-                        }
 
                         VStack {
 
@@ -109,19 +100,21 @@ struct LoginView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .navigationBarHidden(true)
                 }
+                .banner(data: $userAccountViewModel.bannerData,
+                        show: $userAccountViewModel.showBanner)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .edgesIgnoringSafeArea(.vertical)
+            .onAppear {
+                userAccountViewModel.showBanner = false
+            }
             .onDisappear {
                 email = ""
                 password = ""
             }
-
         }
         .navigationViewStyle(StackNavigationViewStyle())
-
     }
-
 }
 
 struct LoginView_Previews: PreviewProvider {

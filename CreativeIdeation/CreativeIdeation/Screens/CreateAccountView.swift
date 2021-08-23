@@ -29,14 +29,6 @@ struct CreateAccountView: View {
                     .scaleEffect(3)
             }
 
-            if userAccountViewModel.showBanner {
-                if userAccountViewModel.createSuccess {
-                    // be nice to show a banner for success here
-
-                } else {
-                    NotificationBanner(image: "exclamationmark.circle.fill", msg: userAccountViewModel.msg, color: .red)
-                }
-            }
             GeometryReader { geometry in
                 VStack {
 
@@ -86,6 +78,8 @@ struct CreateAccountView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .navigationBarHidden(true)
             }
+            .banner(data: $userAccountViewModel.bannerData,
+                    show: $userAccountViewModel.showBanner)
         }
         .edgesIgnoringSafeArea(.vertical)
         .onAppear {
