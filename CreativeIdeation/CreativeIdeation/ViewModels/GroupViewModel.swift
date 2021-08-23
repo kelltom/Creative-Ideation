@@ -20,9 +20,14 @@ final class GroupViewModel: ObservableObject {
 
     @Published var msg = ""
     @Published var isShowingBanner = false
-    @Published var didOperationSucceed = false
     @Published var groupMembers: [Member] = []
     @Published var nonMembers: [Member] = []
+
+    @Published var showBanner = false
+    @Published var bannerData: BannerModifier.BannerData =
+        BannerModifier.BannerData(title: "Default Title",
+                                  detail: "Default detail message.",
+                                  type: .info)
 
     func clear() {
         listener?.remove()
@@ -30,6 +35,7 @@ final class GroupViewModel: ObservableObject {
         selectedGroup = nil
         groupMembers = []
         nonMembers = []
+        showBanner = false
     }
 
     /// Creates a group within a Team with the given teamId
@@ -37,7 +43,12 @@ final class GroupViewModel: ObservableObject {
 
         // Get user id
         guard let uid = Auth.auth().currentUser?.uid else {
-            setBanner(message: "Failed to find user ID", didSucceed: false)
+            // Set banner
+            self.setBannerData(title: "Cannot create Group",
+                               details: "Failed to find user ID. Make sure you are connected to the internet and try again.",
+                               type: .warning)
+            self.showBanner = true
+
             print("Failed to find user ID")
             return
         }
@@ -50,15 +61,24 @@ final class GroupViewModel: ObservableObject {
 
         // Check to make sure group name is not empty
         guard !group.groupTitle.isEmpty else {
-            setBanner(message: "Group name must not be empty", didSucceed: false)
-            print("Group name must not be empty")
+            // Set banner
+            self.setBannerData(title: "Cannot create Group",
+                               details: "Group name must not be empty.",
+                               type: .warning)
+            self.showBanner = true
+
+            print("createGroup: Group name must not be empty")
             return
         }
 
         // Checks if teamid is nil
         guard let teamId = teamId else {
-            setBanner(message: "Team ID not found, please try again", didSucceed: false)
-            print("Error: Team ID is nil, cannot create Group")
+            // Set banner
+            self.setBannerData(title: "Cannot create Group",
+                               details: "No ID found for selected Team. Make sure you have a Team selected.",
+                               type: .warning)
+            self.showBanner = true
+            print("createGroup: Team ID is nil, cannot create Group")
             return
         }
 
@@ -68,8 +88,13 @@ final class GroupViewModel: ObservableObject {
             if let document = document, document.exists {
 
             } else {
-                self.setBanner(message: "Error: No Team selected, please try again", didSucceed: false)
-                print("Error: Team document does not exist")
+                // Set banner
+                self.setBannerData(title: "Cannot create Group",
+                                   details: "Selected Team ID not found in our database. Team may no longer exist. Wait a few seconds and try again.",
+                                   type: .warning)
+                self.showBanner = true
+
+                print("createGroup: Team document does not exist")
                 return
             }
         }
@@ -87,14 +112,23 @@ final class GroupViewModel: ObservableObject {
             "dateCreated": Date()
         ]) { err in
             if let err = err {
-                self.setBanner(message: "Error adding document: \(err)", didSucceed: false)
-                print("Error adding document: \(err)")
+                // Set banner
+                self.setBannerData(title: "Create Group failed",
+                                   details: "Error: \(err.localizedDescription). Wait a few seconds and try again.",
+                                   type: .error)
+                self.showBanner = true
+
+                print("createGroup: Error adding document: \(err)")
             } else {
-                self.setBanner(message: "Group created successfully", didSucceed: true)
-                print("Group document added successfully")
+                // Set banner
+                self.setBannerData(title: "Success",
+                                   details: "Group created successfully!",
+                                   type: .success)
+                self.showBanner = true
+
+                print("createGroup: Group document added successfully")
             }
         }
-
     }
 
     /// Populates list of groups within GroupViewModel according to given teamId
@@ -184,27 +218,30 @@ final class GroupViewModel: ObservableObject {
             "members": FieldValue.arrayUnion(newMemberIds)
         ]) { err in
             if let err = err {
-                self.setBanner(message: "Error adding members: \(err)", didSucceed: false)
-                print("Error adding members: \(err)")
+                // Set banner
+                self.setBannerData(title: "Failed to add members",
+                                   details: "Error: \(err.localizedDescription).",
+                                   type: .error)
+                self.showBanner = true
+
+                print("addMembers: Error adding members: \(err)")
             } else {
-                self.setBanner(message: "Group Members Added Successfully", didSucceed: true)
-                print("Members added to group successfully")
+                // Set banner
+                self.setBannerData(title: "Success",
+                                   details: "Group members added successfully.",
+                                   type: .success)
+                self.showBanner = true
+
+                print("addMembers: Members added to group successfully")
             }
         }
 
     }
 
-    private func setBanner(message: String, didSucceed: Bool) {
-        msg = message
-        didOperationSucceed = didSucceed
-        withAnimation {
-            self.isShowingBanner = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                withAnimation {
-                    self.isShowingBanner = false
-                }
-            }
-        }
+    /// Assigns values to the published BannerData object
+    private func setBannerData(title: String, details: String, type: BannerModifier.BannerType) {
+        bannerData.title = title
+        bannerData.detail = details
+        bannerData.type = type
     }
-
 }

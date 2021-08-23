@@ -18,20 +18,14 @@ struct GroupMembersSheet: View {
     @State private var multiSelection = Set<String>()
 
     var body: some View {
-        ZStack {
 
-            if groupViewModel.isShowingBanner {
-                if groupViewModel.didOperationSucceed {
-                    NotificationBanner(image: "checkmark.circle.fill", msg: groupViewModel.msg, color: .green)
-                } else {
-                    NotificationBanner(image: "exclamationmark.circle.fill", msg: groupViewModel.msg, color: .red)
-                }
-            }
+        ZStack {
 
             VStack {
                 XDismissButton(isShowingSheet: $showSheets)
                 Spacer()
             }
+
             VStack {
                 List(members, selection: $multiSelection) {
                     Text($0.name)
@@ -59,6 +53,8 @@ struct GroupMembersSheet: View {
                         .padding(.top, 20)
                 }
             }
+            .banner(data: $groupViewModel.bannerData,
+                    show: $groupViewModel.showBanner)
         }
         .onAppear(perform: {
             members = groupViewModel.nonMembers
