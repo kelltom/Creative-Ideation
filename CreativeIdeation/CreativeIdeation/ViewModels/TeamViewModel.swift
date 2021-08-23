@@ -93,7 +93,11 @@ final class TeamViewModel: ObservableObject {
 
         // Get user ID
         guard let uid = Auth.auth().currentUser?.uid else {
-            setBanner(message: "Failed to find user ID", didSucceed: false)
+            // Set banner
+            self.setBannerData(title: "Cannot create Team",
+                               details: "Failed to find user ID. Make sure you are connected to the internet and try again.",
+                               type: .error)
+            self.showBanner = true
             return
         }
 
@@ -105,7 +109,11 @@ final class TeamViewModel: ObservableObject {
 
         // Make sure Team Name is not empty
         guard !newTeam.teamName.isEmpty else {
-            setBanner(message: "Team name must not be empty", didSucceed: false)
+            // Set banner
+            self.setBannerData(title: "Cannot create Team",
+                               details: "Team name must not be empty.",
+                               type: .warning)
+            self.showBanner = true
             return
         }
 
@@ -134,13 +142,20 @@ final class TeamViewModel: ObservableObject {
         batch.commit { err in
             if let err = err {
                 print("Error writing batch for Create Team: \(err)")
-                self.setBanner(message: "Create Team failed. Try again.", didSucceed: false)
+                // Set banner
+                self.setBannerData(title: "Cannot create Team",
+                                   details: "Something went wrong on our end. Wait a few seconds and try again.",
+                                   type: .warning)
+                self.showBanner = true
             } else {
                 print("Team created successfully with id: \(teamRef.documentID)")
-                self.setBanner(message: "Team created successfully!", didSucceed: true)
+                // Set banner
+                self.setBannerData(title: "Success",
+                                   details: "Team created successfully!",
+                                   type: .success)
+                self.showBanner = true
             }
         }
-
     }
 
     // Add users to team based on access code
@@ -160,7 +175,7 @@ final class TeamViewModel: ObservableObject {
         // Validation
         if code.isEmpty {
             // Set banner
-            self.setBannerData(title: "Cannot join team",
+            self.setBannerData(title: "Cannot join Team",
                                details: "Field cannot be empty. Please enter a code.",
                                type: .warning)
             self.showBanner = true

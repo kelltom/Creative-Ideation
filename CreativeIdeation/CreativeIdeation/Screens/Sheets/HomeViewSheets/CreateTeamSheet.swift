@@ -24,18 +24,11 @@ struct CreateTeamSheet: View {
 
             Color("BackgroundColor")
 
-            if teamViewModel.isShowingBanner {
-                if teamViewModel.didOperationSucceed {
-                    NotificationBanner(image: "checkmark.circle.fill", msg: teamViewModel.msg, color: .green)
-                } else {
-                    NotificationBanner(image: "exclamationmark.circle.fill", msg: teamViewModel.msg, color: .red)
-                }
-            }
-
             VStack {
                 XDismissButton(isShowingSheet: $showSheets)
                 Spacer()
             }
+
             GeometryReader { geometry in
                 VStack {
 
@@ -73,6 +66,7 @@ struct CreateTeamSheet: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
+            .banner(data: $teamViewModel.bannerData, show: $teamViewModel.showBanner)
         }
     }
 
