@@ -29,6 +29,12 @@ final class SessionItemViewModel: ObservableObject {
 
     @Published var generatedIdeas: [String] = []
 
+    // Published vars for displaying like/dislike/skip button animations
+    @Published var showingLike = false
+    @Published var showingSkip = false
+    @Published var showingDislike = false
+    private var animationTimer: Timer?
+
     let colorArray = [Color.init(red: 0.9, green: 0, blue: 0),
                       Color.init(red: 0, green: 0.9, blue: 0),
                       Color.init(red: 0, green: 0.7, blue: 0.9),
@@ -80,15 +86,61 @@ final class SessionItemViewModel: ObservableObject {
         }) { (_, error) in
             if let error = error {
                 print("Error updating item: \(error)")
-            } else {
-                print("Item Updated")
             }
         }
         // swiftlint:enable multiple_closures_with_trailing_closure
     }
 
-    func castVote(itemId: String) {
+    func castVote(itemId: String, scoreChange: Int) {
         // function for casting a vote and updating the database with the user id and the new score
+
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("populateVotingSheetin: Failed to get uid")
+            return
+        }
+
+        if scoreChange == 1 {
+            clearAnimations()
+            self.showingLike.toggle()
+            setAnimationTimer()
+        } else {
+            clearAnimations()
+            self.showingDislike.toggle()
+            setAnimationTimer()
+        }
+
+        let itemReference = db.collection("session_items").document(itemId)
+
+        // swiftlint:disable multiple_closures_with_trailing_closure
+        db.runTransaction({ (transaction, errorPointer) -> Any? in
+            // let itemDocument: DocumentSnapshot
+            do {
+                _ = try transaction.getDocument(itemReference)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+
+            transaction.updateData(["score": FieldValue.increment(Int64(scoreChange)),
+                                    "haveVoted": FieldValue.arrayUnion([uid])],
+                                   forDocument: itemReference)
+            return nil
+        }) { (_, error) in
+            if let error = error {
+                print("Error updating item: \(error)")
+            }
+        }
+    }
+
+    @objc func clearAnimations() {
+        self.showingLike = false
+        self.showingSkip = false
+        self.showingDislike = false
+    }
+
+    func setAnimationTimer() {
+        animationTimer?.invalidate()
+        animationTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.clearAnimations), userInfo: nil, repeats: false)
     }
 
     /// Populate a list of stickies to be voted on in the voting stage of the Sticky Notes activity
@@ -159,6 +211,8 @@ final class SessionItemViewModel: ObservableObject {
                             self.sessionItems[selectedItemIndex!].color = mockItem.color
                             self.sessionItems[selectedItemIndex!].location = mockItem.location
                             self.sessionItems[selectedItemIndex!].input = mockItem.input
+                            self.sessionItems[selectedItemIndex!].score = mockItem.score
+                            self.sessionItems[selectedItemIndex!].haveVoted = mockItem.haveVoted
 
                             self.stickyNotes.remove(at: selectedStickyIndex!)
                             self.createSticky(newItem: self.sessionItems[selectedItemIndex!],

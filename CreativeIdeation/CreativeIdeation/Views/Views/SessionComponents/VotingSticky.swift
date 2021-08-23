@@ -11,6 +11,8 @@ import SwiftUI
 struct VotingSticky: View, Identifiable {
     var id = UUID()
 
+    @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
+
     @State var itemId: String = "Default ID"  // itemId corresponds to sessionItem's ID in the database
     @State var chosenColor: Color = Color.red
     @State var input: String = "Default Text"
@@ -20,7 +22,7 @@ struct VotingSticky: View, Identifiable {
 
     var onRemove: (_ id: String) -> Void  // declare function to remove swiped sticky from list (see SessionItemViewModel.populateVotingList())
 
-    var thresholdPercentage: CGFloat = 0.5  // when the user has dragged 50% the width of the screen in either direction
+    var thresholdPercentage: CGFloat = 0.35  // when the user has dragged 50% the width of the screen in either direction
 
     /// What percentage of our own width have we swiped
     /// - Parameters:
@@ -36,11 +38,11 @@ struct VotingSticky: View, Identifiable {
                 // Header
                 Rectangle()
                     .foregroundColor(chosenColor)
-                    .frame(width: geometry.size.width * 0.5, height: geometry.size.height * 0.07)
+                    .frame(width: geometry.size.width * 0.5, height: geometry.size.height * 0.1)
 
                 // Text area
                 Text(input)
-                    .frame(width: geometry.size.width * 0.5, height: geometry.size.height * 0.4)
+                    .frame(width: geometry.size.width * 0.5, height: geometry.size.height * 0.5)
                     .background(chosenColor.lighter())
                     .foregroundColor(Color("StrokeColor"))
             }
@@ -56,8 +58,16 @@ struct VotingSticky: View, Identifiable {
                         self.translation = value.translation
                     }.onEnded { value in
                         // after swipe ends, determine if far enough to remove sticky
-                        if abs(self.getGesturePercentage(geometry, from: value)) > self.thresholdPercentage {
+                        if self.getGesturePercentage(geometry, from: value) > self.thresholdPercentage {
+                            // Upvote, raising score of sticky by 1
+                            self.sessionItemViewModel.castVote(itemId: self.itemId, scoreChange: 1)
                             self.onRemove(self.itemId)
+
+                        } else if self.getGesturePercentage(geometry, from: value) < -self.thresholdPercentage {
+                            // Downvote, lowering score of sticky by 1
+                            self.sessionItemViewModel.castVote(itemId: self.itemId, scoreChange: -1)
+                            self.onRemove(self.itemId)
+
                         } else {
                             // return sticky to center position
                             self.translation = .zero

@@ -179,6 +179,7 @@
 		C93F31D426CEE30400EC835D /* ActivitySheets */ = {
 			isa = PBXGroup;
 			children = (
+				C913C00526CADADE00EE54D1 /* VotingSheet.swift */,
 			);
 			path = ActivitySheets;
 			sourceTree = "<group>";
@@ -229,7 +230,6 @@
 				76731F332602802200536836 /* TeamSettingsView.swift */,
 				C9C67A1025E7FEDB002D16A9 /* UserSettingsView.swift */,
 				C9AE738025EAAD940090C96B /* ActivityView.swift */,
-				C913C00526CADADE00EE54D1 /* VotingSheet.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
