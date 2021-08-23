@@ -69,12 +69,13 @@ struct VotingSheet: View {
                             HStack(spacing: geometry.size.width * 0.15) {
                                 // Downvote Button
                                 Button {
-
-                                    let topSticky = self.sessionItemViewModel.votingStickies.last!
-                                    withAnimation {
-                                        self.sessionItemViewModel.castVote(itemId: topSticky.itemId, scoreChange: -1)
+                                    if sessionItemViewModel.votingStickies.count > 0 {
+                                        let topSticky = self.sessionItemViewModel.votingStickies.last!
+                                        withAnimation {
+                                            self.sessionItemViewModel.castVote(itemId: topSticky.itemId, scoreChange: -1)
+                                        }
+                                        topSticky.onRemove(topSticky.itemId)
                                     }
-                                    topSticky.onRemove(topSticky.itemId)
 
                                 } label: {
                                     ZStack {
@@ -100,15 +101,16 @@ struct VotingSheet: View {
 
                                 // Skip Button
                                 Button {
-                                    withAnimation {
-                                        sessionItemViewModel.clearAnimations()
-                                        sessionItemViewModel.showingSkip.toggle()
-                                        sessionItemViewModel.setAnimationTimer()
+                                    if sessionItemViewModel.votingStickies.count > 0 {
+                                        withAnimation {
+                                            sessionItemViewModel.clearAnimations()
+                                            sessionItemViewModel.showingSkip.toggle()
+                                            sessionItemViewModel.setAnimationTimer()
+                                        }
+
+                                        let topSticky = self.sessionItemViewModel.votingStickies.last!
+                                        topSticky.onRemove(topSticky.itemId)
                                     }
-
-                                    let topSticky = self.sessionItemViewModel.votingStickies.last!
-                                    topSticky.onRemove(topSticky.itemId)
-
                                 } label: {
                                     ZStack {
                                         Circle()
@@ -133,12 +135,13 @@ struct VotingSheet: View {
 
                                 // Upvote Button
                                 Button {
-                                    let topSticky = self.sessionItemViewModel.votingStickies.last!
-                                    withAnimation {
-                                        self.sessionItemViewModel.castVote(itemId: topSticky.itemId, scoreChange: 1)
+                                    if sessionItemViewModel.votingStickies.count > 0 {
+                                        let topSticky = self.sessionItemViewModel.votingStickies.last!
+                                        withAnimation {
+                                            self.sessionItemViewModel.castVote(itemId: topSticky.itemId, scoreChange: 1)
+                                        }
+                                        topSticky.onRemove(topSticky.itemId)
                                     }
-                                    topSticky.onRemove(topSticky.itemId)
-
                                 } label: {
                                     ZStack {
                                         Circle()
@@ -172,32 +175,50 @@ struct VotingSheet: View {
                         Spacer()
                         HStack {
                             if $sessionItemViewModel.showingDislike.wrappedValue {
-                                Text("-1")
-                                    .font(.system(size: 50, weight: .heavy))
-                                    .foregroundColor(.red)
-                                    .transition(.scale(scale: 0.5))
+                                ZStack {
+                                    Image(systemName: "burst.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: geometry.size.width * 0.13, height: geometry.size.width * 0.13)
+                                        .padding(.leading, 4)
+                                        .foregroundColor(.red)
+                                    Text("-1")
+                                        .font(.system(size: 50, weight: .heavy))
+                                        .foregroundColor(.white)
+                                        .transition(.scale(scale: 0.5))
+                                }
                             }
 
                             Spacer()
 
                             if $sessionItemViewModel.showingSkip.wrappedValue {
-                                Text("SKIP")
-                                    .font(.system(size: 50, weight: .heavy))
-                                    .foregroundColor(.gray)
-                                    .padding(.leading, 8)
-                                    .transition(.scale(scale: 0.5))
+                                ZStack {
+                                    Text("SKIP")
+                                        .font(.system(size: 50, weight: .heavy))
+                                        .foregroundColor(.gray)
+                                        .padding(.leading, 8)
+                                        .transition(.scale(scale: 0.5))
+                                }
                             }
 
                             Spacer()
 
                             if $sessionItemViewModel.showingLike.wrappedValue {
-                                Text("+1")
-                                    .font(.system(size: 50, weight: .heavy))
-                                    .foregroundColor(.green)
-                                    .transition(.scale(scale: 0.5))
+                                ZStack {
+                                    Image(systemName: "burst.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: geometry.size.width * 0.13, height: geometry.size.width * 0.13)
+                                        .padding(.leading, 4)
+                                        .foregroundColor(.green)
+                                    Text("+1")
+                                        .font(.system(size: 50, weight: .heavy))
+                                        .foregroundColor(.white)
+                                        .transition(.scale(scale: 0.5))
+                                }
                             }
                         }
-                        .frame(width: geometry.size.width * 0.7)
+                        .frame(width: geometry.size.width * 0.75)
                         Spacer()
                             .frame(height: geometry.size.width * 0.33)
                     }
