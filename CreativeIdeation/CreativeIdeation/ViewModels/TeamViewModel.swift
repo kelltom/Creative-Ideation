@@ -25,6 +25,12 @@ final class TeamViewModel: ObservableObject {
     @Published var teamCode = ""
     @Published var teamMembers: [Member] = []
 
+    @Published var showBanner = false
+    @Published var bannerData: BannerModifier.BannerData =
+        BannerModifier.BannerData(title: "Default Title",
+                                  detail: "Default detail message.",
+                                  type: .info)
+
     // Update selected team when user makes a selection
     func selectTeam(team: Team) {
         selectedTeam = team
@@ -142,7 +148,7 @@ final class TeamViewModel: ObservableObject {
 
         // get user id
         guard let uid = Auth.auth().currentUser?.uid else {
-            print("Could not find signed-in user's ID")
+            print("joinTeam: Could not find signed-in user's ID")
             return
         }
         //  get code of current team selected
@@ -153,29 +159,47 @@ final class TeamViewModel: ObservableObject {
 
         // Validation
         if code.isEmpty {
-            self.setBanner(message: "Field cannot be empty. Please enter a code.", didSucceed: false)
-            print("code is empty cant be empty")
+            // Set banner
+            self.setBannerData(title: "Cannot join team",
+                               details: "Field cannot be empty. Please enter a code.",
+                               type: .warning)
+            self.showBanner = true
 //        } else if currentTeamCode == code {
 //            self.setBanner(message: "Cannot join a team you are already in!", didSucceed: false)
 //            print("cant join an existing team")
         } else {
-            // update members array in teams collection
+            // Update members array in teams collection
             db.collection("teams").whereField("accessCode", isEqualTo: code)
                 .getDocuments { (querySnapshot, err) in
                     if let err = err {
-                        self.setBanner(message: "Error adding user to teams", didSucceed: false)
-                        print("Error getting documents: \(err)")
+                        // Set banner
+                        self.setBannerData(title: "Cannot join team",
+                                           details: "We've encountered an error trying to add user to the Team. Make sure you're connected to the internet and try again.",
+                                           type: .error)
+                        self.showBanner = true
+
+                        print("joinTeam: Error getting documents: \(err)")
                     } else {
                         for document in querySnapshot!.documents {
                             if document.exists {
                                 document.reference.updateData([
                                     "members": FieldValue.arrayUnion([uid])
                                 ])
-                                self.setBanner(message: "Successfully joined a team!", didSucceed: true)
+                                // Set banner
+                                self.setBannerData(title: "Success",
+                                                   details: "Successfully joined a Team!",
+                                                   type: .success)
+                                self.showBanner = true
+
                                 print("Update team members successful")
                             } else {
-                                self.setBanner(message: "Error in joining a team", didSucceed: true)
-                                print("error in updating teams")
+                                // Set banner
+                                self.setBannerData(title: "Cannot join team",
+                                                   details: "Cannot find Team in our database. This Team has likely been deleted.",
+                                                   type: .error)
+                                self.showBanner = true
+
+                                print("joinTeam: Error accessing Team document. Document likely no longer exists.")
                             }
                         }
                     }
@@ -342,7 +366,13 @@ final class TeamViewModel: ObservableObject {
             code.append(letters.randomElement()!)
         }
         return code
+    }
 
+    /// Assigns values to the published BannerData object
+    private func setBannerData(title: String, details: String, type: BannerModifier.BannerType) {
+        bannerData.title = title
+        bannerData.detail = details
+        bannerData.type = type
     }
 
 }
