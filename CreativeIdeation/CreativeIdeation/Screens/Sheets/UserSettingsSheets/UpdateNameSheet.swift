@@ -93,6 +93,9 @@ struct UpdateNameSheet: View {
             .banner(data: $userAccountViewModel.bannerData,
                     show: $userAccountViewModel.showBanner)
         }
+        .onAppear {
+            userAccountViewModel.showBanner = false
+        }
     }
 }
 

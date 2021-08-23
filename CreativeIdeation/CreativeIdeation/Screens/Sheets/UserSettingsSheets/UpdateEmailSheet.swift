@@ -20,14 +20,9 @@ struct UpdateEmailSheet: View {
 
             Color("BackgroundColor")
 
-            if userAccountViewModel.showBanner {
-                if !userAccountViewModel.updateSuccess {
-                    NotificationBanner(image: "exclamationmark.circle.fill",
-                                       msg: userAccountViewModel.msg, color: .red)
-                } else {
-                    NotificationBanner(image: "checkmark.circle.fill",
-                                       msg: userAccountViewModel.msg, color: .green)
-                }
+            if userAccountViewModel.isLoading {
+                ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
+                    .scaleEffect(3).padding()
             }
 
             VStack {
@@ -45,14 +40,11 @@ struct UpdateEmailSheet: View {
                 .padding()
                 Spacer()
             }
+
             GeometryReader { geometry in
                 VStack {
 
                     Spacer()
-                    if userAccountViewModel.isLoading {
-                        ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
-                            .scaleEffect(3).padding()
-                    }
 
                     Text("Change Email")
                         .font(.largeTitle)
@@ -109,7 +101,12 @@ struct UpdateEmailSheet: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
+            .banner(data: $userAccountViewModel.bannerData,
+                    show: $userAccountViewModel.showBanner)
 
+        }
+        .onAppear {
+            userAccountViewModel.showBanner = false
         }
 
     }

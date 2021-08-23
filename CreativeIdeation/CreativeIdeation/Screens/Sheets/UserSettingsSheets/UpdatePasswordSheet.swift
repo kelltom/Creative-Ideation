@@ -102,6 +102,9 @@ struct UpdatePasswordSheet: View {
             .banner(data: $userAccountViewModel.bannerData,
                     show: $userAccountViewModel.showBanner)
         }
+        .onAppear {
+            userAccountViewModel.showBanner = false
+        }
         .onDisappear {
             // if flag is true means update is sucessful and log user out
             if userAccountViewModel.logOutFlag {

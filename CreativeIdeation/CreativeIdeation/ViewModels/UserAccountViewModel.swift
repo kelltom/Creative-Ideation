@@ -185,36 +185,34 @@ final class UserAccountViewModel: ObservableObject {
         // Error checking before updating to DB
         if email.isEmpty || password.isEmpty {
             self.isLoading = false
-            self.msg = "Email or password cannot be empty"
             self.updateSuccess = false
-            // Display results to View
-            withAnimation {
-                self.showBanner = true
-                self.delayAlert()
-            }
+
+            // Set Banner
+            self.setBannerData(title: "Cannot change email", details: "Email or password cannot be empty.", type: .warning)
+            self.showBanner = true
+
             print("Update failed: Email or password cannot be empty")
 
         } else if oldEmail.lowercased() == user.email.lowercased() {
             self.isLoading = false
-            self.msg = "Email cannot be same as previous email"
             self.updateSuccess = false
-            // Display results to View
-            withAnimation {
-                self.showBanner = true
-                self.delayAlert()
-            }
+
+            // Set Banner
+            self.setBannerData(title: "Cannot change email", details: "Email cannot be same as previous email.", type: .warning)
+            self.showBanner = true
+
             print("Update failed: Email cannot be same as old email")
 
         } else {
             currentUser.reauthenticate(with: credential) { _, error in
                 if error != nil {
                     self.isLoading = false
-                    self.msg = "Password entered is incorrect. Try again."
                     self.updateSuccess = false
-                    withAnimation {
-                        self.showBanner = true
-                        self.delayAlert()
-                    }
+
+                    // Set Banner
+                    self.setBannerData(title: "Cannot change email", details: "Password entered is incorrect. Try again.", type: .warning)
+                    self.showBanner = true
+
                     print("Update failed: password entered is incorrect")
                 } else {
                     // Update email to auth
@@ -222,8 +220,14 @@ final class UserAccountViewModel: ObservableObject {
                         if error != nil {
                             print(error?.localizedDescription ?? "Email update failed")
                             self.isLoading = false
-                            self.msg = error?.localizedDescription ?? "Error updating email"
+                            let err = error?.localizedDescription ?? "Error updating email"
                             self.updateSuccess = false
+
+                            // Set Banner
+                            self.setBannerData(title: "Email update failed",
+                                               details: "Failed to update email. Ensure you are connected to the internet. Error: \(err)",
+                                               type: .error)
+                            self.showBanner = true
                         } else {
                             // Updates email address in corresponding document collection
                             self.db.collection("users").document(uid).updateData([
@@ -231,25 +235,25 @@ final class UserAccountViewModel: ObservableObject {
                             ]) { err in
                                 if let err = err {
                                     print("Error updating user email: \(err)")
-                                    self.msg = "Error updating user email  \(err)"
                                     self.isLoading = false
                                     self.updateSuccess = false
-                                    // Display result to View
-                                    withAnimation {
-                                        self.showBanner = true
-                                        self.delayAlert()
-                                    }
+
+                                    // Set Banner
+                                    self.setBannerData(title: "Email update failed",
+                                                       details: "Failed to update email. Ensure you are connected to the internet. Error: \(err)",
+                                                       type: .error)
+                                    self.showBanner = true
                                 } else {
                                     print("User email updated successfully")
                                     self.isLoading = false
-                                    self.msg = "Email updated successfully!"
                                     self.updateSuccess = true
                                     self.selectedUser?.email = user.email
-                                    // Display result to View
-                                    withAnimation {
-                                        self.showBanner = true
-                                        self.delayAlert()
-                                    }
+
+                                    // Set Banner
+                                    self.setBannerData(title: "Success",
+                                                       details: "Email updated successfully!",
+                                                       type: .success)
+                                    self.showBanner = true
                                 }
                             }
                         }
