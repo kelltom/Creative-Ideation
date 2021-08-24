@@ -15,6 +15,8 @@ struct SessionItem: Identifiable, Codable, Hashable {
     var input = ""
     var location: [Int] = [400, 400]
     var color = 0
+    var score = 0
+    var haveVoted: [String] = []
 
     var sessionId = ""  /// The session ID that this item belongs to
 
@@ -23,6 +25,8 @@ struct SessionItem: Identifiable, Codable, Hashable {
         case input
         case location
         case color
+        case score
         case sessionId
+        case haveVoted
     }
 }
