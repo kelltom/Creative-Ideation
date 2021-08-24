@@ -60,12 +60,16 @@ struct VotingSticky: View, Identifiable {
                         // after swipe ends, determine if far enough to remove sticky
                         if self.getGesturePercentage(geometry, from: value) > self.thresholdPercentage {
                             // Upvote, raising score of sticky by 1
-                            self.sessionItemViewModel.castVote(itemId: self.itemId, scoreChange: 1)
+                            withAnimation {
+                                self.sessionItemViewModel.castVote(itemId: self.itemId, scoreChange: 1)
+                            }
                             self.onRemove(self.itemId)
 
                         } else if self.getGesturePercentage(geometry, from: value) < -self.thresholdPercentage {
                             // Downvote, lowering score of sticky by 1
-                            self.sessionItemViewModel.castVote(itemId: self.itemId, scoreChange: -1)
+                            withAnimation {
+                                self.sessionItemViewModel.castVote(itemId: self.itemId, scoreChange: -1)
+                            }
                             self.onRemove(self.itemId)
 
                         } else {

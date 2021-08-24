@@ -12,7 +12,11 @@ struct VotingSheet: View {
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
 
     @Binding var showSheet: SessionSheet?
-    
+
+    var spinAnimation: Animation {
+        Animation.easeInOut
+    }
+
     // Compute the maximum position for the list of remaining vote stickies
     private var maxPos: Int {
         return sessionItemViewModel.votingStickies.map { $0.pos }.max() ?? 0
@@ -40,6 +44,9 @@ struct VotingSheet: View {
         VStack {
             GeometryReader { geometry in
                 ZStack {
+
+                    Color("BackgroundColor")
+
                     HStack {
                         Spacer()
                         VStack {
@@ -185,8 +192,10 @@ struct VotingSheet: View {
                                     Text("-1")
                                         .font(.system(size: 50, weight: .heavy))
                                         .foregroundColor(.white)
-                                        .transition(.scale(scale: 0.5))
                                 }
+                                .rotationEffect(Angle.degrees(sessionItemViewModel.isSpinning ? 10 : -10))
+                                .animation(spinAnimation)
+                                .transition(.scale(scale: 0.5).animation(.easeInOut(duration: 0.2)))
                             }
 
                             Spacer()
@@ -197,8 +206,8 @@ struct VotingSheet: View {
                                         .font(.system(size: 50, weight: .heavy))
                                         .foregroundColor(.gray)
                                         .padding(.leading, 8)
-                                        .transition(.scale(scale: 0.5))
                                 }
+                                .transition(.scale(scale: 0.5).animation(.easeInOut(duration: 0.2)))
                             }
 
                             Spacer()
@@ -214,8 +223,10 @@ struct VotingSheet: View {
                                     Text("+1")
                                         .font(.system(size: 50, weight: .heavy))
                                         .foregroundColor(.white)
-                                        .transition(.scale(scale: 0.5))
                                 }
+                                .rotationEffect(Angle.degrees(sessionItemViewModel.isSpinning ? 10 : -10))
+                                .animation(spinAnimation)
+                                .transition(.scale(scale: 0.5).animation(.easeInOut(duration: 0.2)))
                             }
                         }
                         .frame(width: geometry.size.width * 0.75)

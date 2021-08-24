@@ -33,6 +33,8 @@ final class SessionItemViewModel: ObservableObject {
     @Published var showingLike = false
     @Published var showingSkip = false
     @Published var showingDislike = false
+    @Published var isSpinning = false
+    private var spinTimer: Timer?
     private var animationTimer: Timer?
 
     let colorArray = [Color.init(red: 0.9, green: 0, blue: 0),
@@ -42,7 +44,11 @@ final class SessionItemViewModel: ObservableObject {
                       Color.init(red: 0.9, green: 0.45, blue: 0.9)]
 
     func resetModel() {
+        clearAnimations()
         listener?.remove()
+        spinTimer?.invalidate()
+        animationTimer?.invalidate()
+        votingStickies = []
         activeSession = nil
         selectedItem = nil
         sessionItems = []
@@ -138,6 +144,10 @@ final class SessionItemViewModel: ObservableObject {
         self.showingDislike = false
     }
 
+    @objc func animateSpinning() {
+        self.isSpinning.toggle()
+    }
+
     func setAnimationTimer() {
         animationTimer?.invalidate()
         animationTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.clearAnimations), userInfo: nil, repeats: false)
@@ -148,6 +158,8 @@ final class SessionItemViewModel: ObservableObject {
 
         votingStickies = []  // clear current list
         var votedOn: [String] = []  // list of stickies that have already been voted on by user
+        spinTimer?.invalidate()
+        spinTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(self.animateSpinning), userInfo: nil, repeats: true) // Timer for spin animations on upvote and downvote
 
         guard let uid = Auth.auth().currentUser?.uid else {
             print("populateVotingSheetin: Failed to get uid")
