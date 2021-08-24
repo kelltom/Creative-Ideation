@@ -47,7 +47,7 @@ struct VotingSheet: View {
 
                     Color("BackgroundColor")
 
-                    HStack {
+                    HStack(spacing: 0) {
                         Spacer()
                         VStack {
 
@@ -64,11 +64,17 @@ struct VotingSheet: View {
                                     if sticky.pos > self.maxPos - 4 {
                                         sticky
                                             .animation(.spring())
+                                            .frame(width: self.getStickyNoteWidth(geometry, pos: sticky.pos))
                                             .offset(x: 0, y: self.getStickyNoteOffset(geometry, pos: sticky.pos))
                                     }
                                 }
+                                if sessionItemViewModel.votingStickies.count == 0 {
+                                    Text("No Stickies Left to Vote On!")
+                                        .font(.title)
+                                        .frame(width: self.getStickyNoteWidth(geometry, pos: -2))
+                                }
                             }
-                            .frame(width: .infinity, height: geometry.size.height * 0.5)
+                            .frame(width: geometry.size.width, height: geometry.size.height * 0.5)
 
                             Spacer()
 
