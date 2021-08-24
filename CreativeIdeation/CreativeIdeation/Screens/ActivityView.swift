@@ -8,6 +8,14 @@
 import SwiftUI
 import PencilKit
 
+enum SessionSheet: Identifiable {
+    case voting
+
+    var id: Int {
+        hashValue
+    }
+}
+
 struct ActivityView: View {
 
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
@@ -18,6 +26,7 @@ struct ActivityView: View {
                       Color.init(red: 0.9, green: 0.9, blue: 0),
                       Color.init(red: 0.9, green: 0.45, blue: 0.9)]
 
+    @State var showSheet: SessionSheet?
     @State private var selectedColor = -1
     @State private var randomizeColor: Bool = true
 
@@ -356,9 +365,32 @@ struct ActivityView: View {
                             }
                             .padding(.trailing)
                         }
+
+                        // Voting Button
+                        Button {
+                            showSheet = .voting
+                        } label: {
+                            Image(systemName: "hand.draw")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundColor(.black)
+                                .frame(width: 70, height: 70)
+                                .padding(.top, 8)
+                                .padding(.trailing, 8)
+                                .shadow(radius: 4)
+                        }
+                        .padding(.trailing)
                     }
                 }
                 Spacer()
+            }
+            .sheet(item: $showSheet) { item in
+                switch item {
+
+                case .voting:
+                    VotingSheet(showSheet: $showSheet)
+                        .environmentObject(self.sessionItemViewModel)
+                }
             }
         }
         .navigationTitle("Session")
@@ -366,36 +398,6 @@ struct ActivityView: View {
     }
 
 }
-
-// struct PKCanvas: UIViewRepresentable {
-//    @Binding var canvasView: PKCanvasView
-//    let picker = PKToolPicker.init()
-//    var size: Int = 10000
-//    var canvasSize: CGSize {
-//        return CGSize(width: size, height: size)
-//    }
-//
-//    var center: CGPoint {
-//        return CGPoint(x: size/2, y: size/2)
-//    }
-//
-//    func makeUIView(context: Context) -> PKCanvasView {
-//        canvasView.drawingPolicy = .anyInput
-//        canvasView.contentSize = canvasSize
-//        canvasView.contentOffset = center
-//        canvasView.tool = PKInkingTool(.pen, color: .black, width: 12)
-//        canvasView.becomeFirstResponder()
-//        return canvasView
-//    }
-//
-//    func updateUIView(_ canvasView: PKCanvasView, context: Context) {
-//        picker.addObserver(canvasView)
-//        picker.setVisible(true, forFirstResponder: canvasView)
-//        DispatchQueue.main.async {
-//            canvasView.becomeFirstResponder()
-//        }
-//    }
-// }
 
 struct ActivityView_Previews: PreviewProvider {
     static var previews: some View {

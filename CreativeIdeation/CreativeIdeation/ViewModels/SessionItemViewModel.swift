@@ -25,7 +25,17 @@ final class SessionItemViewModel: ObservableObject {
     @Published var selectedSticky: StickyNote?      // Currently selected StickyNote
     @Published var stickyNotes: [StickyNote] = []       // Array of StickyNotes in the session
 
+    @Published var votingStickies: [VotingSticky] = []  // Stickies to be voted on
+
     @Published var generatedIdeas: [String] = []
+
+    // Published vars for displaying like/dislike/skip button animations
+    @Published var showingLike = false
+    @Published var showingSkip = false
+    @Published var showingDislike = false
+    @Published var isSpinning = false
+    private var spinTimer: Timer?
+    private var animationTimer: Timer?
 
     let colorArray = [Color.init(red: 0.9, green: 0, blue: 0),
                       Color.init(red: 0, green: 0.9, blue: 0),
@@ -34,7 +44,11 @@ final class SessionItemViewModel: ObservableObject {
                       Color.init(red: 0.9, green: 0.45, blue: 0.9)]
 
     func resetModel() {
+        clearAnimations()
         listener?.remove()
+        spinTimer?.invalidate()
+        animationTimer?.invalidate()
+        votingStickies = []
         activeSession = nil
         selectedItem = nil
         sessionItems = []
@@ -78,11 +92,100 @@ final class SessionItemViewModel: ObservableObject {
         }) { (_, error) in
             if let error = error {
                 print("Error updating item: \(error)")
-            } else {
-                print("Item Updated")
             }
         }
         // swiftlint:enable multiple_closures_with_trailing_closure
+    }
+
+    func castVote(itemId: String, scoreChange: Int) {
+        // function for casting a vote and updating the database with the user id and the new score
+
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("populateVotingSheetin: Failed to get uid")
+            return
+        }
+
+        if scoreChange == 1 {
+            clearAnimations()
+            self.showingLike.toggle()
+            setAnimationTimer()
+        } else {
+            clearAnimations()
+            self.showingDislike.toggle()
+            setAnimationTimer()
+        }
+
+        let itemReference = db.collection("session_items").document(itemId)
+
+        // swiftlint:disable multiple_closures_with_trailing_closure
+        db.runTransaction({ (transaction, errorPointer) -> Any? in
+            // let itemDocument: DocumentSnapshot
+            do {
+                _ = try transaction.getDocument(itemReference)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+
+            transaction.updateData(["score": FieldValue.increment(Int64(scoreChange)),
+                                    "haveVoted": FieldValue.arrayUnion([uid])],
+                                   forDocument: itemReference)
+            return nil
+        }) { (_, error) in
+            if let error = error {
+                print("Error updating item: \(error)")
+            }
+        }
+    }
+
+    @objc func clearAnimations() {
+        self.showingLike = false
+        self.showingSkip = false
+        self.showingDislike = false
+    }
+
+    @objc func animateSpinning() {
+        self.isSpinning.toggle()
+    }
+
+    func setAnimationTimer() {
+        animationTimer?.invalidate()
+        animationTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.clearAnimations), userInfo: nil, repeats: false)
+    }
+
+    /// Populate a list of stickies to be voted on in the voting stage of the Sticky Notes activity
+    func populateVotingList() {
+
+        votingStickies = []  // clear current list
+        var votedOn: [String] = []  // list of stickies that have already been voted on by user
+        spinTimer?.invalidate()
+        spinTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(self.animateSpinning), userInfo: nil, repeats: true) // Timer for spin animations on upvote and downvote
+
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("populateVotingSheetin: Failed to get uid")
+            return
+        }
+
+        // identify stickies that user already voted on
+        for item in self.sessionItems {
+            if item.haveVoted.contains(uid) {
+                votedOn.append(item.itemId)
+            }
+        }
+
+        // populate list of stickies yet to be voted on
+        var pos = 0  // position of sticky in the list
+        for sticky in self.stickyNotes {
+            if !votedOn.contains(sticky.itemId) {
+                self.votingStickies.append(VotingSticky(itemId: sticky.itemId, chosenColor: sticky.chosenColor!, input: sticky.input, pos: pos,
+                                             onRemove: { removedStickyId in
+                                                self.votingStickies.removeAll {
+                                                    $0.itemId == removedStickyId
+                                                }
+                                             }))
+                pos += 1
+            }
+        }
     }
 
     func loadItems() {
@@ -120,6 +223,8 @@ final class SessionItemViewModel: ObservableObject {
                             self.sessionItems[selectedItemIndex!].color = mockItem.color
                             self.sessionItems[selectedItemIndex!].location = mockItem.location
                             self.sessionItems[selectedItemIndex!].input = mockItem.input
+                            self.sessionItems[selectedItemIndex!].score = mockItem.score
+                            self.sessionItems[selectedItemIndex!].haveVoted = mockItem.haveVoted
 
                             self.stickyNotes.remove(at: selectedStickyIndex!)
                             self.createSticky(newItem: self.sessionItems[selectedItemIndex!],
@@ -161,7 +266,9 @@ final class SessionItemViewModel: ObservableObject {
             "sessionId": newItem.sessionId,
             "input": newItem.input,
             "location": newItem.location,
-            "color": newItem.color
+            "color": newItem.color,
+            "score": newItem.score,
+            "haveVoted": newItem.haveVoted
         ], forDocument: itemRef)
 
         batch.commit { err in

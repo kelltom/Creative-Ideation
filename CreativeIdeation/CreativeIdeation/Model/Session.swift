@@ -16,6 +16,7 @@ struct Session: Identifiable, Codable {
     var sessionDescription = ""
     var type = "" // this should probably be an enum
     var inProgress = true
+    var isVoting = false
     var dateCreated: Date = Date()
     var dateModified = ""
     var createdBy = ""
@@ -29,6 +30,7 @@ struct Session: Identifiable, Codable {
         case sessionDescription
         case type
         case inProgress
+        case isVoting
         case dateCreated
         case dateModified
         case createdBy
