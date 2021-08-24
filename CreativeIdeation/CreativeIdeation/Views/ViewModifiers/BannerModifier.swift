@@ -54,6 +54,8 @@ struct BannerModifier: ViewModifier {
     @Binding var data: BannerData
     @Binding var show: Bool
 
+    @State var timer: Timer?
+
     func body(content: Content) -> some View {
         // ZStack to overlay on top of content
         ZStack {
@@ -86,12 +88,20 @@ struct BannerModifier: ViewModifier {
                     withAnimation {
                         self.show = false
                     }
-                }.onAppear(perform: {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                        withAnimation {
-                            self.show = false
-                        }
-                    }
+                }
+                .onAppear(perform: {
+                    timer?.invalidate()
+                    timer = Timer.scheduledTimer(withTimeInterval: 4, repeats: false, block: {_ in
+                        self.show = false
+                        timer?.invalidate()
+                    })
+                })
+                .onChange(of: data.detail, perform: { _ in
+                    timer?.invalidate()
+                    timer = Timer.scheduledTimer(withTimeInterval: 4, repeats: false, block: {_ in
+                        self.show = false
+                        timer?.invalidate()
+                    })
                 })
             }
             content
