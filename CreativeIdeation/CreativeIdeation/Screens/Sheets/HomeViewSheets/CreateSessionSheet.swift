@@ -39,8 +39,6 @@ struct CreateSessionSheet: View {
                         EditTextField(title: "Description", input: $sessionViewModel.newSession.sessionDescription, geometry: geometry, widthScale: 0.75)
 
                         HStack {
-    //                        ActivityTypeTile(selected: true)
-    //                            .padding()
                             ActivityTypeTile(
                                 title: "Sticky Notes",
                                 symbolName: "doc.on.doc.fill",
@@ -51,10 +49,6 @@ struct CreateSessionSheet: View {
                         Button {
                             sessionViewModel.createSession(teamId: teamViewModel.selectedTeam?.teamId,
                                                            groupId: groupViewModel.selectedGroup?.groupId)
-                            sessionItemViewModel.activeSession = sessionViewModel.newSession
-                            sessionItemViewModel.loadItems()
-                            showSheets = nil
-                            showActivity = true
                         } label: {
                             BigButton(title: "Start", geometry: geometry, widthScale: 0.75).padding()
                         }
@@ -62,7 +56,20 @@ struct CreateSessionSheet: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
+            .banner(data: $sessionViewModel.bannerData,
+                    show: $sessionViewModel.showBanner)
         }
+        .onChange(of: self.sessionViewModel.didOperationSucceed, perform: { _ in
+            if self.sessionViewModel.didOperationSucceed {
+                // Load session
+                sessionItemViewModel.activeSession = sessionViewModel.newSession
+                sessionItemViewModel.loadItems()
+                // Reset variables
+                showSheets = nil
+                showActivity = true
+                self.sessionViewModel.didOperationSucceed = false
+            }
+        })
     }
 }
 

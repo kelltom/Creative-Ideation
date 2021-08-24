@@ -21,8 +21,13 @@ final class SessionViewModel: ObservableObject {
     @Published var newSession = Session()           /// Session object used when creating new Sessions, binds to UI
 
     @Published var msg = ""
-    @Published var isShowingBanner = false
     @Published var didOperationSucceed = false
+
+    @Published var showBanner = false
+    @Published var bannerData: BannerModifier.BannerData =
+        BannerModifier.BannerData(title: "Default Title",
+                                  detail: "Default detail message.",
+                                  type: .info)
 
     func clear() {
         teamSessions = []
@@ -39,25 +44,48 @@ final class SessionViewModel: ObservableObject {
 
         // Get user ID
         guard let uid = Auth.auth().currentUser?.uid else {
-            // setBanner(message: "Failed to find user ID", didSucceed: false)
+            // Set banner
+            self.setBannerData(title: "Cannot create Session",
+                               details: "Failed to find user ID. Make sure you are connected to the internet and try again.",
+                               type: .warning)
+            self.showBanner = true
+
             print("Failed to find user ID")
             return
         }
 
         // Check to make sure session name is not empty
         guard !newSession.sessionTitle.isEmpty else {
+            // Set banner
+            self.setBannerData(title: "Cannot create Session",
+                               details: "Session name must not be empty.",
+                               type: .warning)
+            self.showBanner = true
+
             print("Session title cannot be empty")
             return
         }
 
         // Check if group is nil - session must belong to a group
         guard let groupId = groupId else {
+            // Set banner
+            self.setBannerData(title: "Cannot create Session",
+                               details: "Cannot find selected Group. Make sure a Group is selected before creating a Session.",
+                               type: .warning)
+            self.showBanner = true
+
             print("groupID is nil - cannot create session")
             return
         }
 
         // Check if team is nil - group must belong to a team
         guard let teamId = teamId else {
+            // Set banner
+            self.setBannerData(title: "Cannot create Session",
+                               details: "Cannot find selected Team. Make sure a Team is selected before creating a Session.",
+                               type: .warning)
+            self.showBanner = true
+
             print("teamID is nil - cannot create session")
             return
         }
@@ -91,10 +119,22 @@ final class SessionViewModel: ObservableObject {
         batch.commit { err in
             if let err = err {
                 print("Error writing batch for Create Session: \(err)")
-                // self.setBanner(message: "Create Session failed. Try again.", didSucceed: false)
+
+                // Set banner
+                self.setBannerData(title: "Failed to create Session",
+                                   details: "Create Session failed. Make sure you're connected to the internet and try again.",
+                                   type: .error)
+                self.showBanner = true
             } else {
                 print("Session created successfully with id: \(sessionRef.documentID)")
-                // self.setBanner(message: "Session created successfully!", didSucceed: true)
+
+                // Set banner
+                self.setBannerData(title: "Success",
+                                   details: "Successfully created Session.",
+                                   type: .success)
+                self.showBanner = true
+
+                self.didOperationSucceed = true
             }
         }
     }
@@ -187,5 +227,12 @@ final class SessionViewModel: ObservableObject {
         for session in teamSessions.filter({$0.groupId == selectedGroupId}) {
                 groupSessions.append(session)
         }
+    }
+
+    /// Assigns values to the published BannerData object
+    private func setBannerData(title: String, details: String, type: BannerModifier.BannerType) {
+        bannerData.title = title
+        bannerData.detail = details
+        bannerData.type = type
     }
 }
