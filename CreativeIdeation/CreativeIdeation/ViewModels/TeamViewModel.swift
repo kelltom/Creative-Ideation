@@ -147,11 +147,14 @@ final class TeamViewModel: ObservableObject {
                 self.showBanner = true
             } else {
                 print("Team created successfully with id: \(teamRef.documentID)")
-                // Set banner
-                self.setBannerData(title: "Success",
-                                   details: "Team created successfully!",
-                                   type: .success)
-                self.showBanner = true
+
+                if !newTeam.isPrivate {
+                    // Set banner
+                    self.setBannerData(title: "Success",
+                                       details: "Team created successfully!",
+                                       type: .success)
+                    self.showBanner = true
+                }
             }
         }
     }
