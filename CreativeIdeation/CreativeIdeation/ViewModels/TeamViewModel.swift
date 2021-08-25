@@ -86,6 +86,25 @@ final class TeamViewModel: ObservableObject {
         }
     }
 
+    /// Returns a list of Member objects belonging to the selected Team
+    func getTeamMembers(includeCurrentUser: Bool) -> [Member] {
+        var members = self.teamMembers
+
+        if !includeCurrentUser {
+            // get user id
+            guard let uid = Auth.auth().currentUser?.uid else {
+                print("getTeamMembers: Could not find signed-in user's ID")
+                return []
+            }
+
+            if let index = members.firstIndex(where: {$0.id == uid}) { // find index of current user
+                members.remove(at: index)
+            }
+        }
+
+        return members
+    }
+
     /// Creates a single team
     func createTeam(teamName: String, teamDescription: String, isPrivate: Bool = false) {
 

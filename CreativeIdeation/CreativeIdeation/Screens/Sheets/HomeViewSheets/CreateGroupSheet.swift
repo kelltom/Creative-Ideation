@@ -12,6 +12,12 @@ struct CreateGroupSheet: View {
     @State var groupTitle: String = ""
     @State var groupDescription: String = ""
 
+    @State private var members: [Member] = []
+    @State private var multiSelection = Set<String>()
+    @State private var editMode: EditMode = .active
+
+    @State private var widthScale: CGFloat = 0.75  // percentage width of screen UI should use
+
     @Binding var showSheets: ActiveSheet?
 
     @EnvironmentObject var groupViewModel: GroupViewModel
@@ -27,39 +33,79 @@ struct CreateGroupSheet: View {
                 XDismissButton(isShowingSheet: $showSheets)
                 Spacer()
             }
+
             GeometryReader { geometry in
+
                 VStack {
 
                     Text("Create Your Group").font(.system(size: 40, weight: .heavy)).padding()
 
-                    HStack {
+                    VStack {
 
-                        VStack {
-
-                            EditTextField(title: "group name", input: $groupTitle, geometry: geometry, widthScale: 0.75)
-
-                            Button {
-                                groupViewModel.createGroup(teamId: teamViewModel.selectedTeam?.teamId,
-                                                           groupTitle: groupTitle)
-                                groupTitle = ""
-                            } label: {
-                                BigButton(title: "Create", geometry: geometry, widthScale: 0.75).padding()
-                            }
+                        // Enter Group Name title
+                        HStack {
+                            Text("Enter Group Name")
+                                .font(.title3)
+                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            Spacer()
                         }
+                        .frame(width: geometry.size.width * widthScale)
 
+                        EditTextField(title: "Group Name", input: $groupTitle, geometry: geometry, widthScale: widthScale)
+
+                        // Select Group Members title
+                        HStack {
+                            Text("Select Group Members")
+                                .font(.title3)
+                                .fontWeight(.bold)
+                            Spacer()
+                        }
+                        .frame(width: geometry.size.width * widthScale)
+
+                        List(teamViewModel.getTeamMembers(includeCurrentUser: false), selection: $multiSelection) {
+                            Text($0.name)
+                                .font(.title2)
+                        }
+                        .environment(\.editMode, self.$editMode)
+                        .frame(width: geometry.size.width * widthScale, height: geometry.size.height * 0.5)
+                        .overlay(RoundedRectangle(cornerRadius: 15).stroke())
+
+                        Button {
+                            groupViewModel.createGroup(teamId: teamViewModel.selectedTeam?.teamId,
+                                                       groupTitle: groupTitle)
+                            groupTitle = ""
+                        } label: {
+                            BigButton(title: "Create", geometry: geometry, widthScale: widthScale)
+                        }
                     }
-                    .padding() // padding padding for title
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(maxWidth: geometry.size.width, maxHeight: geometry.size.height)
             }
             .banner(data: $groupViewModel.bannerData,
                     show: $groupViewModel.showBanner)
         }
+        .onChange(of: groupViewModel.wasCreateSuccess, perform: { _ in
+            // If group creation successful, add selected members to group
+            if groupViewModel.wasCreateSuccess {
+                groupViewModel.selectedGroup = groupViewModel.groups.last
+                groupViewModel.addMembers(teamId: teamViewModel.selectedTeam?.teamId,
+                                          memberIds: multiSelection)
+                groupViewModel.splitMembers(teamMembers: teamViewModel.teamMembers)
+
+                /*  wasCreateSuccess will be toggled false in addMembers function.
+                    This flag determines whether a success banner will be shown for
+                    adding members (not necessary upon creation). */
+
+                // Reset multiselection
+                multiSelection = Set<String>()
+            }
+        })
     }
 }
 
 struct CreateGroupView_Previews: PreviewProvider {
     static var previews: some View {
         CreateGroupSheet(showSheets: .constant(.group))
+            .environmentObject(GroupViewModel())
     }
 }

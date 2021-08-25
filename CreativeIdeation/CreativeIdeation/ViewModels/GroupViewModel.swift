@@ -18,10 +18,9 @@ final class GroupViewModel: ObservableObject {
     @Published var groups: [Group] = []   // populated when changing Teams
     @Published var selectedGroup: Group?  // selected group in the listview
 
-    @Published var msg = ""
-    @Published var isShowingBanner = false
     @Published var groupMembers: [Member] = []
     @Published var nonMembers: [Member] = []
+    @Published var wasCreateSuccess: Bool = false  // indicates Group was successfully created
 
     @Published var showBanner = false
     @Published var bannerData: BannerModifier.BannerData =
@@ -36,6 +35,7 @@ final class GroupViewModel: ObservableObject {
         groupMembers = []
         nonMembers = []
         showBanner = false
+        wasCreateSuccess = false
     }
 
     /// Creates a group within a Team with the given teamId
@@ -125,6 +125,8 @@ final class GroupViewModel: ObservableObject {
                                    details: "Group created successfully!",
                                    type: .success)
                 self.showBanner = true
+
+                self.wasCreateSuccess = true
 
                 print("createGroup: Group document added successfully")
             }
@@ -226,11 +228,16 @@ final class GroupViewModel: ObservableObject {
 
                 print("addMembers: Error adding members: \(err)")
             } else {
-                // Set banner
-                self.setBannerData(title: "Success",
-                                   details: "Group members added successfully.",
-                                   type: .success)
-                self.showBanner = true
+                if self.wasCreateSuccess {
+                    // If team was just created, don't show banner and set creation flag false
+                    self.wasCreateSuccess = false
+                } else {
+                    // Set banner
+                    self.setBannerData(title: "Success",
+                                       details: "Group members added successfully.",
+                                       type: .success)
+                    self.showBanner = true
+                }
 
                 print("addMembers: Members added to group successfully")
             }

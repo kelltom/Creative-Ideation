@@ -39,7 +39,6 @@ struct GroupMembersSheet: View {
                     groupViewModel.addMembers(teamId: teamViewModel.selectedTeam?.teamId,
                                               memberIds: multiSelection)
                     groupViewModel.splitMembers(teamMembers: teamViewModel.teamMembers)
-
                 } label: {
                     Text("Add Selected Members")
                         .font(.title)
