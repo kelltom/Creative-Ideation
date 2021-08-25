@@ -236,10 +236,7 @@ struct HomeView: View {
                                                 ForEach(groupViewModel.groups) { group in
 
                                                     Button {
-                                                        if groupViewModel.selectedGroup?.id == group.id {
-                                                            // if already selected, un-select
-                                                            groupViewModel.selectedGroup = nil
-                                                        } else {
+                                                        if groupViewModel.selectedGroup?.id != group.id {
                                                             groupViewModel.selectedGroup = group
                                                             groupViewModel.splitMembers(teamMembers: teamViewModel.teamMembers)
                                                         }
