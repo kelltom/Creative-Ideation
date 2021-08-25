@@ -107,5 +107,6 @@ struct CreateGroupView_Previews: PreviewProvider {
     static var previews: some View {
         CreateGroupSheet(showSheets: .constant(.group))
             .environmentObject(GroupViewModel())
+            .environmentObject(TeamViewModel())
     }
 }
