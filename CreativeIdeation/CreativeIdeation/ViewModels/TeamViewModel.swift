@@ -87,7 +87,7 @@ final class TeamViewModel: ObservableObject {
     }
 
     /// Returns a list of Member objects belonging to the selected Team
-    func getTeamMembers(includeCurrentUser: Bool) -> [Member] {
+    func getTeamMembers(includeCurrentUser: Bool = true) -> [Member] {
         var members = self.teamMembers
 
         if !includeCurrentUser {
