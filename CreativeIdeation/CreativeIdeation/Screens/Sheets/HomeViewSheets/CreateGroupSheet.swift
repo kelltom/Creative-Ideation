@@ -38,6 +38,9 @@ struct CreateGroupSheet: View {
 
                 VStack {
 
+                    Spacer()
+                        .frame(height: geometry.size.height * 0.1)
+
                     Text("Create Your Group").font(.system(size: 40, weight: .heavy)).padding()
 
                     VStack {
@@ -67,7 +70,7 @@ struct CreateGroupSheet: View {
                                 .font(.title2)
                         }
                         .environment(\.editMode, self.$editMode)
-                        .frame(width: geometry.size.width * widthScale, height: geometry.size.height * 0.5)
+                        .frame(width: geometry.size.width * widthScale)
                         .overlay(RoundedRectangle(cornerRadius: 15).stroke())
 
                         Button {
@@ -78,6 +81,8 @@ struct CreateGroupSheet: View {
                             BigButton(title: "Create", geometry: geometry, widthScale: widthScale)
                         }
                     }
+                    Spacer()
+                        .frame(height: geometry.size.height * 0.1)
                 }
                 .frame(maxWidth: geometry.size.width, maxHeight: geometry.size.height)
             }
