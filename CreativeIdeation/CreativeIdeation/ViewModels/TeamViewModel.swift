@@ -392,6 +392,8 @@ final class TeamViewModel: ObservableObject {
         selectedTeam = nil
         showBanner = false
         teamCode = ""
+        didCreateSuccess = false
+        newTeamId = ""
     }
 
     // Generates a random code that can be used to join the team
