@@ -69,14 +69,6 @@ struct CreateTeamSheet: View {
             .banner(data: $teamViewModel.bannerData, show: $teamViewModel.showBanner)
         }
     }
-
-    private func delayAlert() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-            withAnimation {
-                showBanner = false
-            }
-        }
-    }
 }
 
 struct CreateTeamView_Previews: PreviewProvider {
