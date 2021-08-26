@@ -231,7 +231,7 @@ struct HomeView: View {
                                         // Groups Column
                                         ScrollView {
 
-                                            LazyVStack {
+                                            LazyVStack(spacing: 20) {
 
                                                 ForEach(groupViewModel.groups) { group in
 
@@ -244,7 +244,36 @@ struct HomeView: View {
                                                         GroupButton(
                                                             title: group.groupTitle,
                                                             selected: group.groupId == groupViewModel.selectedGroup?.groupId)
-                                                            .padding(.top)
+                                                    }
+                                                    .contextMenu {
+                                                        Button {
+
+                                                        } label: {
+                                                            HStack {
+                                                                Text("Edit")
+                                                                Image(systemName: "square.and.pencil")
+                                                            }
+                                                        }
+
+                                                        if groupViewModel.isCurrentUserAdmin(groupId: group.groupId) {
+                                                            Button {
+                                                                // Delete group
+                                                            } label: {
+                                                                HStack {
+                                                                    Text("Delete")
+                                                                    Image(systemName: "trash")
+                                                                }
+                                                            }
+                                                        } else {
+                                                            Button {
+                                                                // Leave group
+                                                            } label: {
+                                                                HStack {
+                                                                    Text("Leave")
+                                                                    Image(systemName: "arrowshape.turn.up.backward.fill")
+                                                                }
+                                                            }
+                                                        }
                                                     }
                                                 }
                                             }

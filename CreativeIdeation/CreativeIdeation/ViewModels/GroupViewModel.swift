@@ -199,6 +199,23 @@ final class GroupViewModel: ObservableObject {
             }
     }
 
+    /// Determines if current user is an admin of the selected Group
+    func isCurrentUserAdmin(groupId: String) -> Bool {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("isCurrentUserAdmin: Cannot find uid.")
+            return false  // should probably throw error here
+        }
+
+        guard let index = groups.firstIndex(where: {$0.groupId == groupId}) else {
+            print("isCurrentUserAdmin: Cannot find index of selected group.")
+            return false
+        }
+
+        let group = groups[index]
+
+        return group.admins.contains(uid)
+    }
+
     func splitMembers(teamMembers: [Member]) {
         nonMembers = teamMembers
         groupMembers = teamMembers
