@@ -75,7 +75,8 @@ struct CreateGroupSheet: View {
 
                         Button {
                             groupViewModel.createGroup(teamId: teamViewModel.selectedTeam?.teamId,
-                                                       groupTitle: groupTitle)
+                                                       groupTitle: groupTitle,
+                                                       memberIds: Array(multiSelection))
                             groupTitle = ""
                         } label: {
                             BigButton(title: "Create", geometry: geometry, widthScale: widthScale)
@@ -90,18 +91,8 @@ struct CreateGroupSheet: View {
                     show: $groupViewModel.showBanner)
         }
         .onChange(of: groupViewModel.wasCreateSuccess, perform: { _ in
-            // If group creation successful, add selected members to group
             if groupViewModel.wasCreateSuccess {
                 groupViewModel.selectedGroup = groupViewModel.groups.last
-                groupViewModel.addMembers(teamId: teamViewModel.selectedTeam?.teamId,
-                                          memberIds: multiSelection)
-                groupViewModel.splitMembers(teamMembers: teamViewModel.teamMembers)
-
-                /*  wasCreateSuccess will be toggled false in addMembers function.
-                    This flag determines whether a success banner will be shown for
-                    adding members (not necessary upon creation). */
-
-                // Reset multiselection
                 multiSelection = Set<String>()
             }
         })

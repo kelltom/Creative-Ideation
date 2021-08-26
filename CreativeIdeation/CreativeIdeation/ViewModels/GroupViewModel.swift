@@ -39,7 +39,7 @@ final class GroupViewModel: ObservableObject {
     }
 
     /// Creates a group within a Team with the given teamId
-    func createGroup(teamId: String?, groupTitle: String) {
+    func createGroup(teamId: String?, groupTitle: String, memberIds: [String] = []) {
 
         // Get user id
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -54,6 +54,10 @@ final class GroupViewModel: ObservableObject {
         }
 
         // Check if uid is in admin list
+        var ids = memberIds
+        if !ids.contains(uid) {
+            ids.append(uid)
+        }
 
         // Populate new Group object
         var group = Group()
@@ -107,7 +111,7 @@ final class GroupViewModel: ObservableObject {
             "groupId": groupRef.documentID,
             "groupTitle": group.groupTitle,
             "admins": FieldValue.arrayUnion([uid]),
-            "members": FieldValue.arrayUnion([uid]),
+            "members": FieldValue.arrayUnion(ids),
             "sessions": FieldValue.arrayUnion([]),
             "dateCreated": Date()
         ]) { err in
