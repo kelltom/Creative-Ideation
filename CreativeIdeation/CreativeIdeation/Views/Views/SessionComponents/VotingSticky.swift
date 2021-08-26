@@ -17,6 +17,7 @@ struct VotingSticky: View, Identifiable {
     @State var chosenColor: Color = Color.red
     @State var input: String = "Default Text"
     @State var pos: Int = 0  // the position of the sticky note in the list
+    @State var scoreChange = 0
 
     @State private var translation: CGSize = .zero  // horizontal translation of sticky when swiping
 
@@ -64,6 +65,7 @@ struct VotingSticky: View, Identifiable {
                                 self.sessionItemViewModel.castVote(itemId: self.itemId, scoreChange: 1)
                             }
                             self.onRemove(self.itemId)
+                            sessionItemViewModel.votedOnStack[sessionItemViewModel.votedOnStack.count - 1].1 = 1
 
                         } else if self.getGesturePercentage(geometry, from: value) < -self.thresholdPercentage {
                             // Downvote, lowering score of sticky by 1
@@ -71,6 +73,7 @@ struct VotingSticky: View, Identifiable {
                                 self.sessionItemViewModel.castVote(itemId: self.itemId, scoreChange: -1)
                             }
                             self.onRemove(self.itemId)
+                            sessionItemViewModel.votedOnStack[sessionItemViewModel.votedOnStack.count - 1].1 = -1
 
                         } else {
                             // return sticky to center position
