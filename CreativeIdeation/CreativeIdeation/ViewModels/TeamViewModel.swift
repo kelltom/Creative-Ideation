@@ -223,9 +223,30 @@ final class TeamViewModel: ObservableObject {
                     } else {
                         for document in querySnapshot!.documents {
                             if document.exists {
+
                                 document.reference.updateData([
                                     "members": FieldValue.arrayUnion([uid])
                                 ])
+
+                                document.reference.collection("groups").whereField("isPublic", isEqualTo: true).getDocuments { (querySnapshot, err) in
+                                        if let err = err {
+                                            print("addIdToPublic: Error getting documents: \(err)")
+                                        } else {
+                                            for document in querySnapshot!.documents {
+                                                if document.exists {
+                                                    document.reference.updateData([
+                                                        "members": FieldValue.arrayUnion([uid])
+                                                    ])
+
+                                                    print("addIdToPublic: Added to Public Group successfully.")
+                                                } else {
+
+                                                    print("addIdToPublic: Error accessing Group document. Document likely no longer exists.")
+                                                }
+                                            }
+                                        }
+                                }
+
                                 // Set banner
                                 self.setBannerData(title: "Success",
                                                    details: "Successfully joined a Team!",
@@ -242,6 +263,32 @@ final class TeamViewModel: ObservableObject {
 
                                 print("joinTeam: Error accessing Team document. Document likely no longer exists.")
                             }
+                        }
+                    }
+                }
+        }
+    }
+
+    private func addIdToPublic(ref: DocumentReference) {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("addIdToPublic: Cannot get UID.")
+            return
+        }
+
+        ref.collection("groups").whereField("isPublic", isEqualTo: true).getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("addIdToPublic: Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        if document.exists {
+                            document.reference.updateData([
+                                "members": FieldValue.arrayUnion([uid])
+                            ])
+
+                            print("addIdToPublic: Added to Public Group successfully.")
+                        } else {
+
+                            print("addIdToPublic: Error accessing Group document. Document likely no longer exists.")
                         }
                     }
                 }
