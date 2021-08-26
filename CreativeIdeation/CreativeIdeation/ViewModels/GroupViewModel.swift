@@ -39,15 +39,17 @@ final class GroupViewModel: ObservableObject {
     }
 
     /// Creates a group within a Team with the given teamId
-    func createGroup(teamId: String?, groupTitle: String, memberIds: [String] = []) {
+    func createGroup(teamId: String?, groupTitle: String, memberIds: [String] = [], suppressBanner: Bool = false, isPublic: Bool = false) {
 
         // Get user id
         guard let uid = Auth.auth().currentUser?.uid else {
             // Set banner
-            self.setBannerData(title: "Cannot create Group",
-                               details: "Failed to find user ID. Make sure you are connected to the internet and try again.",
-                               type: .warning)
-            self.showBanner = true
+            if !suppressBanner {
+                self.setBannerData(title: "Cannot create Group",
+                                   details: "Failed to find user ID. Make sure you are connected to the internet and try again.",
+                                   type: .warning)
+                self.showBanner = true
+            }
 
             print("Failed to find user ID")
             return
@@ -66,10 +68,12 @@ final class GroupViewModel: ObservableObject {
         // Check to make sure group name is not empty
         guard !group.groupTitle.isEmpty else {
             // Set banner
-            self.setBannerData(title: "Cannot create Group",
-                               details: "Group name must not be empty.",
-                               type: .warning)
-            self.showBanner = true
+            if !suppressBanner {
+                self.setBannerData(title: "Cannot create Group",
+                                   details: "Group name must not be empty.",
+                                   type: .warning)
+                self.showBanner = true
+            }
 
             print("createGroup: Group name must not be empty")
             return
@@ -78,10 +82,13 @@ final class GroupViewModel: ObservableObject {
         // Checks if teamid is nil
         guard let teamId = teamId else {
             // Set banner
-            self.setBannerData(title: "Cannot create Group",
-                               details: "No ID found for selected Team. Make sure you have a Team selected.",
-                               type: .warning)
-            self.showBanner = true
+            if !suppressBanner {
+                self.setBannerData(title: "Cannot create Group",
+                                   details: "No ID found for selected Team. Make sure you have a Team selected.",
+                                   type: .warning)
+                self.showBanner = true
+            }
+
             print("createGroup: Team ID is nil, cannot create Group")
             return
         }
@@ -93,10 +100,12 @@ final class GroupViewModel: ObservableObject {
 
             } else {
                 // Set banner
-                self.setBannerData(title: "Cannot create Group",
-                                   details: "Selected Team ID not found in our database. Team may no longer exist. Wait a few seconds and try again.",
-                                   type: .warning)
-                self.showBanner = true
+                if !suppressBanner {
+                    self.setBannerData(title: "Cannot create Group",
+                                       details: "Selected Team ID not found in our database. Team may no longer exist. Wait a few seconds and try again.",
+                                       type: .warning)
+                    self.showBanner = true
+                }
 
                 print("createGroup: Team document does not exist")
                 return
@@ -113,22 +122,27 @@ final class GroupViewModel: ObservableObject {
             "admins": FieldValue.arrayUnion([uid]),
             "members": FieldValue.arrayUnion(ids),
             "sessions": FieldValue.arrayUnion([]),
-            "dateCreated": Date()
+            "dateCreated": Date(),
+            "isPublic": isPublic
         ]) { err in
             if let err = err {
                 // Set banner
-                self.setBannerData(title: "Create Group failed",
-                                   details: "Error: \(err.localizedDescription). Wait a few seconds and try again.",
-                                   type: .error)
-                self.showBanner = true
+                if !suppressBanner {
+                    self.setBannerData(title: "Create Group failed",
+                                       details: "Error: \(err.localizedDescription). Wait a few seconds and try again.",
+                                       type: .error)
+                    self.showBanner = true
+                }
 
                 print("createGroup: Error adding document: \(err)")
             } else {
                 // Set banner
-                self.setBannerData(title: "Success",
-                                   details: "Group created successfully!",
-                                   type: .success)
-                self.showBanner = true
+                if !suppressBanner {
+                    self.setBannerData(title: "Success",
+                                       details: "Group created successfully!",
+                                       type: .success)
+                    self.showBanner = true
+                }
 
                 self.wasCreateSuccess = true
 
@@ -198,6 +212,10 @@ final class GroupViewModel: ObservableObject {
 
                         self.groups.remove(at: selectedGroupIndex!)
 
+                    }
+
+                    if self.selectedGroup == nil {
+                        self.selectedGroup = self.groups.first
                     }
                 }
             }

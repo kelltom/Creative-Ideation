@@ -370,6 +370,7 @@ struct HomeView: View {
                 case .team:
                     CreateTeamSheet(showSheets: $activeSheet)
                         .environmentObject(self.teamViewModel)
+                        .environmentObject(self.groupViewModel)
 
                 case .addTeamMembers:
                     TeamCodeSheet(showSheets: $activeSheet)

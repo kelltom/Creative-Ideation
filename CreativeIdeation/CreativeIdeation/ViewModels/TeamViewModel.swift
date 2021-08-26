@@ -22,6 +22,9 @@ final class TeamViewModel: ObservableObject {
     @Published var teamCode = ""
     @Published var teamMembers: [Member] = []
 
+    @Published var didCreateSuccess: Bool = false  // toggles when Team is created
+    @Published var newTeamId: String = ""  // ID of the most recent created Team
+
     @Published var showBanner = false
     @Published var bannerData: BannerModifier.BannerData =
         BannerModifier.BannerData(title: "Default Title",
@@ -172,6 +175,10 @@ final class TeamViewModel: ObservableObject {
                                        details: "Team created successfully!",
                                        type: .success)
                     self.showBanner = true
+
+                    self.newTeamId = teamRef.documentID
+
+                    self.didCreateSuccess = true
                 }
             }
         }

@@ -17,6 +17,7 @@ struct CreateTeamSheet: View {
     @State var teamDescription: String = ""
 
     @EnvironmentObject var teamViewModel: TeamViewModel
+    @EnvironmentObject var groupviewModel: GroupViewModel
 
     var body: some View {
 
@@ -68,6 +69,14 @@ struct CreateTeamSheet: View {
             }
             .banner(data: $teamViewModel.bannerData, show: $teamViewModel.showBanner)
         }
+        .onChange(of: teamViewModel.didCreateSuccess) { didSucceed in
+            if didSucceed {
+                // Create "Everyone" default Group for this Team
+                groupviewModel.createGroup(teamId: teamViewModel.newTeamId, groupTitle: "Public", suppressBanner: true, isPublic: true)
+
+                teamViewModel.didCreateSuccess = false
+            }
+        }
     }
 }
 
@@ -76,5 +85,6 @@ struct CreateTeamView_Previews: PreviewProvider {
         CreateTeamSheet(showSheets: .constant(.team))
             .preferredColorScheme(.dark)
             .environmentObject(TeamViewModel())
+            .environmentObject(GroupViewModel())
     }
 }

@@ -19,6 +19,8 @@ struct Group: Codable, Identifiable, Equatable {
 
     var dateCreated: Date = Date()
 
+    var isPublic: Bool = false
+
     enum CodingKeys: String, CodingKey {
         case groupId
         case groupTitle
@@ -26,6 +28,7 @@ struct Group: Codable, Identifiable, Equatable {
         case members
         case sessions
         case dateCreated
+        case isPublic
     }
 
 }
