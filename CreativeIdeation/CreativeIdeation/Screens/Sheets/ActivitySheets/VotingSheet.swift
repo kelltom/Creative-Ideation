@@ -13,6 +13,8 @@ struct VotingSheet: View {
 
     @Binding var showSheet: SessionSheet?
 
+    @State private var undoRotation: Double = 0
+
     var spinAnimation: Animation {
         Animation.easeInOut
     }
@@ -88,6 +90,7 @@ struct VotingSheet: View {
                                             self.sessionItemViewModel.castVote(itemId: topSticky.itemId, scoreChange: -1)
                                         }
                                         topSticky.onRemove(topSticky.itemId)
+                                        sessionItemViewModel.votedOnStack[sessionItemViewModel.votedOnStack.count - 1].1 = -1
                                     }
 
                                 } label: {
@@ -107,7 +110,7 @@ struct VotingSheet: View {
                                             .padding(.top, 10)
                                             .foregroundColor(.red)
                                     }
-                                    .frame(width: 110, height: 110)
+                                    .frame(width: geometry.size.width * 0.16, height: geometry.size.width * 0.16)
                                     .clipped()
                                     .shadow(radius: 4, y: 4)
                                 }
@@ -131,7 +134,7 @@ struct VotingSheet: View {
                                             .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
 
                                         Circle().stroke(lineWidth: 4)
-                                            .foregroundColor(Color.gray)
+                                            .foregroundColor(Color("FadedColor"))
                                             .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
 
                                         Image(systemName: "hand.raised")
@@ -139,9 +142,9 @@ struct VotingSheet: View {
                                             .aspectRatio(contentMode: .fit)
                                             .frame(width: geometry.size.width * 0.075, height: geometry.size.width * 0.075)
                                             .padding(.leading, 4)
-                                            .foregroundColor(.gray)
+                                            .foregroundColor(Color("FadedColor"))
                                     }
-                                    .frame(width: 110, height: 110)
+                                    .frame(width: geometry.size.width * 0.16, height: geometry.size.width * 0.16)
                                     .clipped()
                                     .shadow(radius: 4, y: 4)
                                 }
@@ -154,6 +157,7 @@ struct VotingSheet: View {
                                             self.sessionItemViewModel.castVote(itemId: topSticky.itemId, scoreChange: 1)
                                         }
                                         topSticky.onRemove(topSticky.itemId)
+                                        sessionItemViewModel.votedOnStack[sessionItemViewModel.votedOnStack.count - 1].1 = 1
                                     }
                                 } label: {
                                     ZStack {
@@ -172,10 +176,39 @@ struct VotingSheet: View {
                                             .padding(.bottom, 10)
                                             .foregroundColor(.green)
                                     }
-                                    .frame(width: 110, height: 110)
+                                    .frame(width: geometry.size.width * 0.16, height: geometry.size.width * 0.16)
                                     .clipped()
                                     .shadow(radius: 4, y: 4)
                                 }
+                            }
+
+                            Button {
+                                // Undo last vote, bringing back the sticky and undoing the score change
+                                sessionItemViewModel.undoVote()
+                                undoRotation -= 360
+                            } label: {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .frame(width: geometry.size.width * 0.75, height: geometry.size.width * 0.11)
+                                        .foregroundColor(Color("BackgroundColor"))
+
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .stroke(lineWidth: 4)
+                                        .frame(width: geometry.size.width * 0.75, height: geometry.size.width * 0.11)
+                                        .foregroundColor(.orange)
+
+                                    Image(systemName: "arrow.counterclockwise")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: geometry.size.width * 0.077, height: geometry.size.width * 0.075)
+                                        .foregroundColor(.orange)
+                                        .rotationEffect(Angle.degrees(undoRotation))
+                                        .animation(spinAnimation)
+                                }
+                                .frame(width: geometry.size.width * 0.78, height: geometry.size.width * 0.12)
+                                .clipped()
+                                .shadow(radius: 4, y: 4)
+                                .padding()
                             }
 
                             Spacer()
@@ -210,7 +243,7 @@ struct VotingSheet: View {
                                 ZStack {
                                     Text("SKIP")
                                         .font(.system(size: 50, weight: .heavy))
-                                        .foregroundColor(.gray)
+                                        .foregroundColor(Color("FadedColor"))
                                         .padding(.leading, 8)
                                 }
                                 .transition(.scale(scale: 0.5).animation(.easeInOut(duration: 0.2)))
@@ -237,7 +270,7 @@ struct VotingSheet: View {
                         }
                         .frame(width: geometry.size.width * 0.75)
                         Spacer()
-                            .frame(height: geometry.size.width * 0.33)
+                            .frame(height: geometry.size.width * 0.42)
                     }
                 }
             }

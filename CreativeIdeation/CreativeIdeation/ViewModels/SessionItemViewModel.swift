@@ -26,10 +26,11 @@ final class SessionItemViewModel: ObservableObject {
     @Published var stickyNotes: [StickyNote] = []       // Array of StickyNotes in the session
 
     @Published var votingStickies: [VotingSticky] = []  // Stickies to be voted on
+    @Published var votedOnStack: [(VotingSticky, Int)] = []   // Stickies that have been voted on in current session
 
     @Published var generatedIdeas: [String] = []
 
-    // Published vars for displaying like/dislike/skip button animations
+    // Published vars for displaying like/dislike/skip/undo button animations
     @Published var showingLike = false
     @Published var showingSkip = false
     @Published var showingDislike = false
@@ -49,6 +50,7 @@ final class SessionItemViewModel: ObservableObject {
         spinTimer?.invalidate()
         animationTimer?.invalidate()
         votingStickies = []
+        votedOnStack = []
         activeSession = nil
         selectedItem = nil
         sessionItems = []
@@ -119,7 +121,6 @@ final class SessionItemViewModel: ObservableObject {
 
         // swiftlint:disable multiple_closures_with_trailing_closure
         db.runTransaction({ (transaction, errorPointer) -> Any? in
-            // let itemDocument: DocumentSnapshot
             do {
                 _ = try transaction.getDocument(itemReference)
             } catch let fetchError as NSError {
@@ -138,6 +139,44 @@ final class SessionItemViewModel: ObservableObject {
         }
     }
 
+    func undoVote() {
+        if votedOnStack.count > 0 {
+
+            guard let uid = Auth.auth().currentUser?.uid else {
+                print("populateVotingSheetin: Failed to get uid")
+                return
+            }
+
+            let poppedSticky = votedOnStack.last!.0
+            let scoreChange = -votedOnStack.last!.1
+            print("Score in undoVote: ", scoreChange)
+
+            votingStickies.append(poppedSticky)
+            votedOnStack.remove(at: votedOnStack.count - 1)
+
+            let itemReference = db.collection("session_items").document(poppedSticky.itemId)
+
+            // swiftlint:disable multiple_closures_with_trailing_closure
+            db.runTransaction({ (transaction, errorPointer) -> Any? in
+                do {
+                    _ = try transaction.getDocument(itemReference)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+
+                transaction.updateData(["score": FieldValue.increment(Int64(scoreChange)),
+                                        "haveVoted": FieldValue.arrayRemove([uid])],
+                                       forDocument: itemReference)
+                return nil
+            }) { (_, error) in
+                if let error = error {
+                    print("Error updating item: \(error)")
+                }
+            }
+        }
+    }
+
     @objc func clearAnimations() {
         self.showingLike = false
         self.showingSkip = false
@@ -149,6 +188,7 @@ final class SessionItemViewModel: ObservableObject {
     }
 
     func setAnimationTimer() {
+        // function for settings timers for like/dislike/skip animations
         animationTimer?.invalidate()
         animationTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.clearAnimations), userInfo: nil, repeats: false)
     }
@@ -179,6 +219,9 @@ final class SessionItemViewModel: ObservableObject {
             if !votedOn.contains(sticky.itemId) {
                 self.votingStickies.append(VotingSticky(itemId: sticky.itemId, chosenColor: sticky.chosenColor!, input: sticky.input, pos: pos,
                                              onRemove: { removedStickyId in
+                                                self.votedOnStack.append((self.votingStickies.first(where: { sticky in
+                                                    sticky.itemId == removedStickyId
+                                                })!, 0))
                                                 self.votingStickies.removeAll {
                                                     $0.itemId == removedStickyId
                                                 }
