@@ -19,6 +19,7 @@ struct HomeView: View {
 
     @State var activeSheet: ActiveSheet?
     @State var showActivity: Bool = false
+    @State var isCollapsed: Bool = true
 
     private let shadowColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
 
@@ -164,17 +165,33 @@ struct HomeView: View {
                         VStack {
 
                             // Recent Sessions List
-                            VStack(alignment: .leading) {
+                            VStack(alignment: .leading, spacing: 10) {
 
-                                HStack {
+                                HStack(spacing: 20) {
                                     Text("Recent Sessions")
                                         .font(.title)
 
-                                    Image(systemName: "clock.arrow.circlepath")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 40, height: 40)
-                                        .foregroundColor(Color.red)
+                                    // Button for collapsing/expanding the recent sessions panel
+                                    Button {
+                                        withAnimation {
+                                            isCollapsed.toggle()
+                                        }
+                                    } label: {
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 15)
+                                                .frame(width: 45, height: 45)
+                                                .foregroundColor(Color("brandPrimary"))
+
+                                            Image(systemName: "chevron.right")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 25, height: 25)
+                                                .foregroundColor(Color.white)
+                                                .padding(.leading, 4)
+                                                .rotationEffect(Angle.degrees(isCollapsed ? 0 : 90))
+                                                .animation(.easeInOut)
+                                        }
+                                    }
 
                                     Spacer()
 
@@ -185,26 +202,39 @@ struct HomeView: View {
                                 .padding(.leading)
 
                                 // Generate list of recent Sessions for Team
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    LazyHStack(spacing: 50) {
-                                        ForEach(sessionViewModel.teamSessions) { session in
-                                            Button {
-                                                sessionItemViewModel.activeSession = session
-                                                sessionItemViewModel.loadItems()
-                                                showActivity = true
-                                            } label: {
-                                                SessionTile(team: teamViewModel.selectedTeam?.teamName ?? "N/A",
-                                                            group: groupViewModel.groups
-                                                                .first(where: {
-                                                                        $0.groupId == session.groupId
-                                                                })?.groupTitle ?? "N/A",
-                                                            session: session)
+                                if !isCollapsed {
+                                    VStack {
+                                        ScrollView(.horizontal, showsIndicators: false) {
+                                            LazyHStack(spacing: 50) {
+                                                ForEach(sessionViewModel.teamSessions) { session in
+                                                    Button {
+                                                        sessionItemViewModel.activeSession = session
+                                                        sessionItemViewModel.loadItems()
+                                                        showActivity = true
+                                                    } label: {
+                                                        SessionTile(team: teamViewModel.selectedTeam?.teamName ?? "N/A",
+                                                                    group: groupViewModel.groups
+                                                                        .first(where: {
+                                                                            $0.groupId == session.groupId
+                                                                        })?.groupTitle ?? "N/A",
+                                                                    session: session)
+                                                    }
+                                                }
                                             }
+                                            .padding(.leading)
                                         }
+                                        .frame(maxHeight: 225)
                                     }
-                                    .padding(.leading)
+                                    .transition(
+                                        .asymmetric(insertion:
+                                                        .opacity
+                                                        .animation(.easeInOut(duration: 0.5)),
+                                                    removal:
+                                                        .slide
+                                                        .animation(.easeInOut(duration: 0.15))
+                                                        .combined(with: .scale(scale: 0.1, anchor: .topTrailing)
+                                                                    .animation(.easeInOut(duration: 0.25)))))
                                 }
-                                .frame(maxHeight: 225)
 
                                 Divider()
                                     .background(Color("FadedColor"))
