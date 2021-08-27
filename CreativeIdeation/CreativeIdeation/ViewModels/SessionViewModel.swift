@@ -103,7 +103,7 @@ final class SessionViewModel: ObservableObject {
             "inProgress": true,
             "isVoting": false,
             "dateCreated": Date(),
-            "dateModified": "",  // should get timestamp
+            "dateModified": Date(),
             "createdBy": uid,
             "groupId": groupId,
             "teamId": teamId
@@ -160,9 +160,12 @@ final class SessionViewModel: ObservableObject {
                         do {
                             let newSession = try (diff.document.data(as: Session.self)!)
                             self.teamSessions.append(newSession)
+                            self.teamSessions = self.teamSessions.sorted(by: {$0.dateModified.compare($1.dateModified) == .orderedAscending})
                             if newSession.groupId == self.selectedGroupId {
                                 self.groupSessions.append(newSession)
+                                self.groupSessions = self.groupSessions.sorted(by: {$0.dateModified.compare($1.dateModified) == .orderedAscending})
                             }
+                            
                         } catch {
                             print("Error reading new session from DB: \(error)")
                         }
@@ -227,6 +230,7 @@ final class SessionViewModel: ObservableObject {
         for session in teamSessions.filter({$0.groupId == selectedGroupId}) {
                 groupSessions.append(session)
         }
+        groupSessions = groupSessions.sorted(by: {$0.dateModified.compare($1.dateModified) == .orderedAscending})
     }
 
     /// Assigns values to the published BannerData object

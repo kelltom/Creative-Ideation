@@ -18,7 +18,7 @@ struct Session: Identifiable, Codable {
     var inProgress = true
     var isVoting = false
     var dateCreated: Date = Date()
-    var dateModified = ""
+    var dateModified: Date = Date()
     var createdBy = ""
 
     var groupId = "" /// The group ID that this session belongs to
