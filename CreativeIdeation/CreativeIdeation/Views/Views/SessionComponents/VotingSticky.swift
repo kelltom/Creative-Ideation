@@ -12,6 +12,7 @@ struct VotingSticky: View, Identifiable {
     var id = UUID()
 
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
+    @EnvironmentObject var sessionViewModel: SessionViewModel
 
     @State var itemId: String = "Default ID"  // itemId corresponds to sessionItem's ID in the database
     @State var chosenColor: Color = Color.red
@@ -66,6 +67,7 @@ struct VotingSticky: View, Identifiable {
                             }
                             self.onRemove(self.itemId)
                             sessionItemViewModel.votedOnStack[sessionItemViewModel.votedOnStack.count - 1].1 = 1
+                            sessionViewModel.updateDateModified()
 
                         } else if self.getGesturePercentage(geometry, from: value) < -self.thresholdPercentage {
                             // Downvote, lowering score of sticky by 1
@@ -74,6 +76,7 @@ struct VotingSticky: View, Identifiable {
                             }
                             self.onRemove(self.itemId)
                             sessionItemViewModel.votedOnStack[sessionItemViewModel.votedOnStack.count - 1].1 = -1
+                            sessionViewModel.updateDateModified()
 
                         } else {
                             // return sticky to center position
