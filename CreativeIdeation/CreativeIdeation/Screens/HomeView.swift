@@ -203,27 +203,37 @@ struct HomeView: View {
 
                                 // Generate list of recent Sessions for Team
                                 if !isCollapsed {
-                                    ScrollView(.horizontal, showsIndicators: false) {
-                                        LazyHStack(spacing: 50) {
-                                            ForEach(sessionViewModel.teamSessions) { session in
-                                                Button {
-                                                    sessionItemViewModel.activeSession = session
-                                                    sessionItemViewModel.loadItems()
-                                                    showActivity = true
-                                                } label: {
-                                                    SessionTile(team: teamViewModel.selectedTeam?.teamName ?? "N/A",
-                                                                group: groupViewModel.groups
-                                                                    .first(where: {
-                                                                        $0.groupId == session.groupId
-                                                                    })?.groupTitle ?? "N/A",
-                                                                session: session)
+                                    VStack {
+                                        ScrollView(.horizontal, showsIndicators: false) {
+                                            LazyHStack(spacing: 50) {
+                                                ForEach(sessionViewModel.teamSessions) { session in
+                                                    Button {
+                                                        sessionItemViewModel.activeSession = session
+                                                        sessionItemViewModel.loadItems()
+                                                        showActivity = true
+                                                    } label: {
+                                                        SessionTile(team: teamViewModel.selectedTeam?.teamName ?? "N/A",
+                                                                    group: groupViewModel.groups
+                                                                        .first(where: {
+                                                                            $0.groupId == session.groupId
+                                                                        })?.groupTitle ?? "N/A",
+                                                                    session: session)
+                                                    }
                                                 }
                                             }
+                                            .padding(.leading)
                                         }
-                                        .padding(.leading)
+                                        .frame(maxHeight: 225)
                                     }
-                                    .frame(maxHeight: 225)
-                                    .transition(.scale(scale: 0.3, anchor: .top).animation(.easeInOut(duration: 0.4)).combined(with: .opacity.animation(.easeInOut(duration: 0.1))))
+                                    .transition(
+                                        .asymmetric(insertion:
+                                                        .opacity
+                                                        .animation(.easeInOut(duration: 0.5)),
+                                                    removal:
+                                                        .slide
+                                                        .animation(.easeInOut(duration: 0.15))
+                                                        .combined(with: .scale(scale: 0.1, anchor: .topTrailing)
+                                                                    .animation(.easeInOut(duration: 0.25)))))
                                 }
 
                                 Divider()
