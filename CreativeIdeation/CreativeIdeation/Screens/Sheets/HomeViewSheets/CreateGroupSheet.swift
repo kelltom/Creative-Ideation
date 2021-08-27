@@ -69,6 +69,7 @@ struct CreateGroupSheet: View {
                             Text($0.name)
                                 .font(.title2)
                         }
+                        .cornerRadius(15)
                         .environment(\.editMode, self.$editMode)
                         .frame(width: geometry.size.width * widthScale)
                         .overlay(RoundedRectangle(cornerRadius: 15).stroke())
