@@ -19,6 +19,7 @@ struct HomeView: View {
 
     @State var activeSheet: ActiveSheet?
     @State var showActivity: Bool = false
+    @State var showGroupSettings: Bool = false
 
     private let shadowColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
 
@@ -245,9 +246,11 @@ struct HomeView: View {
                                                             title: group.groupTitle,
                                                             selected: group.groupId == groupViewModel.selectedGroup?.groupId)
                                                     }
+                                                    .background(NavigationLink("", destination: GroupSettingsView(showGroupSettings: $showGroupSettings, selectedGroup: group), isActive: $showGroupSettings))
                                                     .contextMenu {
+                                                        // Edit Group
                                                         Button {
-
+                                                            showGroupSettings = true
                                                         } label: {
                                                             HStack {
                                                                 Text("Edit")
@@ -355,6 +358,7 @@ struct HomeView: View {
                                 showActivity: self.$showActivity), isActive: self.$showActivity) {
                     EmptyView()
                 }
+
             }
             .navigationTitle("Home")
             .navigationBarHidden(true)
