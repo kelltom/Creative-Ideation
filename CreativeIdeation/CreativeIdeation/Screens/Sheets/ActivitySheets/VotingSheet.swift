@@ -10,6 +10,7 @@ import SwiftUI
 struct VotingSheet: View {
 
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
+    @EnvironmentObject var sessionViewModel: SessionViewModel
 
     @Binding var showSheet: SessionSheet?
 
@@ -91,6 +92,7 @@ struct VotingSheet: View {
                                         }
                                         topSticky.onRemove(topSticky.itemId)
                                         sessionItemViewModel.votedOnStack[sessionItemViewModel.votedOnStack.count - 1].1 = -1
+                                        sessionViewModel.updateDateModified()
                                     }
 
                                 } label: {
@@ -158,6 +160,7 @@ struct VotingSheet: View {
                                         }
                                         topSticky.onRemove(topSticky.itemId)
                                         sessionItemViewModel.votedOnStack[sessionItemViewModel.votedOnStack.count - 1].1 = 1
+                                        sessionViewModel.updateDateModified()
                                     }
                                 } label: {
                                     ZStack {
@@ -186,6 +189,7 @@ struct VotingSheet: View {
                                 // Undo last vote, bringing back the sticky and undoing the score change
                                 sessionItemViewModel.undoVote()
                                 undoRotation -= 360
+                                sessionViewModel.updateDateModified()
                             } label: {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 15)

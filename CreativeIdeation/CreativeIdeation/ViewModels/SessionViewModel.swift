@@ -37,6 +37,34 @@ final class SessionViewModel: ObservableObject {
         listener?.remove()
     }
 
+    // Function for updating DateModified of the selectedSession when a stickyNote is edited
+    func updateDateModified() {
+        guard let activeSession = selectedSession else {
+            print("Could not upate DateModified: No active session")
+            return
+        }
+
+        let sessionReference = db.collection("sessions").document(activeSession.sessionId)
+
+        // swiftlint:disable multiple_closures_with_trailing_closure
+        db.runTransaction({ (transaction, errorPointer) -> Any? in
+            do {
+                _ = try transaction.getDocument(sessionReference)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+
+            transaction.updateData(["dateModified": FieldValue.serverTimestamp()],
+                                   forDocument: sessionReference)
+            return nil
+        }) { (_, error) in
+            if let error = error {
+                print("Error updating session: \(error)")
+            }
+        }
+    }
+
     /// Creates a Session within a Group with the given groupId
     func createSession(teamId: String?, groupId: String?) {
         // This needs to be a batched write. We are writing to both the Group document,
@@ -160,12 +188,11 @@ final class SessionViewModel: ObservableObject {
                         do {
                             let newSession = try (diff.document.data(as: Session.self)!)
                             self.teamSessions.append(newSession)
-                            self.teamSessions = self.teamSessions.sorted(by: {$0.dateModified.compare($1.dateModified) == .orderedAscending})
+                            self.teamSessions = self.teamSessions.sorted(by: {$0.dateModified.compare($1.dateModified) == .orderedDescending})
                             if newSession.groupId == self.selectedGroupId {
                                 self.groupSessions.append(newSession)
-                                self.groupSessions = self.groupSessions.sorted(by: {$0.dateModified.compare($1.dateModified) == .orderedAscending})
+                                self.groupSessions = self.groupSessions.sorted(by: {$0.dateModified.compare($1.dateModified) == .orderedDescending})
                             }
-                            
                         } catch {
                             print("Error reading new session from DB: \(error)")
                         }
@@ -230,7 +257,7 @@ final class SessionViewModel: ObservableObject {
         for session in teamSessions.filter({$0.groupId == selectedGroupId}) {
                 groupSessions.append(session)
         }
-        groupSessions = groupSessions.sorted(by: {$0.dateModified.compare($1.dateModified) == .orderedAscending})
+        groupSessions = groupSessions.sorted(by: {$0.dateModified.compare($1.dateModified) == .orderedDescending})
     }
 
     /// Assigns values to the published BannerData object

@@ -347,6 +347,7 @@ struct HomeView: View {
                                                     Button {
                                                         // make session clickable
                                                         sessionItemViewModel.activeSession = session
+                                                        sessionViewModel.selectedSession = session
                                                         sessionItemViewModel.loadItems()
                                                         showActivity = true
                                                     } label: {

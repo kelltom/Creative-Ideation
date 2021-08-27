@@ -19,6 +19,7 @@ enum SessionSheet: Identifiable {
 struct ActivityView: View {
 
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
+    @EnvironmentObject var sessionViewModel: SessionViewModel
 
     let colorArray = [Color.init(red: 0.9, green: 0, blue: 0),
                       Color.init(red: 0, green: 0.9, blue: 0),
@@ -53,6 +54,7 @@ struct ActivityView: View {
                     Button {
                         showActivity = false
                         sessionItemViewModel.resetModel()
+                        sessionViewModel.selectedSession = nil
                     } label: {
                         ZStack {
                             Circle()
@@ -84,6 +86,7 @@ struct ActivityView: View {
                         Button {
                             let newColor = randomizeColor ? Int.random(in: 0..<5) : selectedColor
                             sessionItemViewModel.createItem(color: newColor)
+                            sessionViewModel.updateDateModified()
 
                         } label: {
                             VStack(spacing: 0) {
@@ -113,6 +116,7 @@ struct ActivityView: View {
                                 Button {
                                     if sessionItemViewModel.selectedSticky != nil {
                                         sessionItemViewModel.colorSelected(color: 0)
+                                        sessionViewModel.updateDateModified()
                                     } else {
                                         selectedColor = 0
                                         randomizeColor = false
@@ -134,6 +138,7 @@ struct ActivityView: View {
                                 Button {
                                     if sessionItemViewModel.selectedSticky != nil {
                                         sessionItemViewModel.colorSelected(color: 1)
+                                        sessionViewModel.updateDateModified()
                                     } else {
                                         selectedColor = 1
                                         randomizeColor = false
@@ -155,6 +160,7 @@ struct ActivityView: View {
                                 Button {
                                     if sessionItemViewModel.selectedSticky != nil {
                                         sessionItemViewModel.colorSelected(color: 2)
+                                        sessionViewModel.updateDateModified()
                                     } else {
                                         selectedColor = 2
                                         randomizeColor = false
@@ -175,6 +181,7 @@ struct ActivityView: View {
                                 Button {
                                     if sessionItemViewModel.selectedSticky != nil {
                                         sessionItemViewModel.colorSelected(color: 3)
+                                        sessionViewModel.updateDateModified()
                                     } else {
                                         selectedColor = 3
                                         randomizeColor = false
@@ -196,6 +203,7 @@ struct ActivityView: View {
                                 Button {
                                     if sessionItemViewModel.selectedSticky != nil {
                                         sessionItemViewModel.colorSelected(color: 4)
+                                        sessionViewModel.updateDateModified()
                                     } else {
                                         selectedColor = 4
                                         randomizeColor = false
@@ -226,6 +234,7 @@ struct ActivityView: View {
                                     // confirm button, deselect
                                     sessionItemViewModel.updateItem(itemId: sessionItemViewModel.selectedItem!.itemId)
                                     sessionItemViewModel.clearSelected()
+                                    sessionViewModel.updateDateModified()
                                 }
                             } label: {
                                 if sessionItemViewModel.selectedSticky == nil {
@@ -269,6 +278,7 @@ struct ActivityView: View {
                                 if sessionItemViewModel.selectedSticky != nil {
                                     // delete button
                                     sessionItemViewModel.deleteSelected()
+                                    sessionViewModel.updateDateModified()
                                 }
                             } label: {
                                     Image(systemName: "trash.fill")
