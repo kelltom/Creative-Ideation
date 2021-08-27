@@ -181,7 +181,7 @@ final class GroupViewModel: ObservableObject {
                         do {
                             let newGroup = try (diff.document.data(as: Group.self)!)
                             self.groups.append(newGroup)
-                            self.groups = self.groups.sorted(by: {$0.dateCreated.compare($1.dateCreated) == .orderedAscending})
+                            self.groups = self.groups.sorted(by: {$0.dateCreated.compare($1.dateCreated) == .orderedDescending})
                         } catch {
                             print("Error reading new group from DB: \(error)")
                         }
