@@ -10,6 +10,7 @@ import SwiftUI
 struct StickyNote: View, Identifiable {
     var id = UUID()
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
+    @EnvironmentObject var sessionViewModel: SessionViewModel
 
     @State var input: String
     @State var location: CGPoint
@@ -47,6 +48,7 @@ struct StickyNote: View, Identifiable {
                     // Save text to DB
                     sessionItemViewModel.updateText(text: input, itemId: itemId)
                     sessionItemViewModel.updateItem(itemId: itemId)
+                    sessionViewModel.updateDateModified()
                     textChanged = false
                 } label: {
                     Image(systemName: "checkmark.circle.fill")
@@ -100,6 +102,7 @@ struct StickyNote: View, Identifiable {
                     textChanged = false
                 }
                 sessionItemViewModel.updateItem(itemId: itemId)
+                sessionViewModel.updateDateModified()
             }
     }
 }
