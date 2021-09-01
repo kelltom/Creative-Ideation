@@ -209,6 +209,7 @@ struct HomeView: View {
                                                 ForEach(sessionViewModel.teamSessions) { session in
                                                     Button {
                                                         sessionItemViewModel.activeSession = session
+                                                        sessionViewModel.selectedSession = session
                                                         sessionItemViewModel.loadItems()
                                                         showActivity = true
                                                     } label: {
