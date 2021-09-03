@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Profanity_Filter
 
 struct CreateSessionSheet: View {
 
@@ -17,6 +18,8 @@ struct CreateSessionSheet: View {
     @EnvironmentObject var groupViewModel: GroupViewModel
     @EnvironmentObject var teamViewModel: TeamViewModel
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
+
+    var pFilter = ProfanityFilter()
 
     var body: some View {
 
@@ -47,8 +50,12 @@ struct CreateSessionSheet: View {
                         }
 
                         Button {
-                            sessionViewModel.createSession(teamId: teamViewModel.selectedTeam?.teamId,
-                                                           groupId: groupViewModel.selectedGroup?.groupId)
+                            if pFilter.containsProfanity(text: sessionViewModel.newSession.sessionTitle).profanities.count == 0 && pFilter.containsProfanity(text: sessionViewModel.newSession.sessionDescription).profanities.count == 0 {
+                                sessionViewModel.createSession(teamId: teamViewModel.selectedTeam?.teamId,
+                                                               groupId: groupViewModel.selectedGroup?.groupId)
+                            } else {
+                                // Create a banner notification to tell the user that they cannot use profanity in the name or description of their session
+                            }
                         } label: {
                             BigButton(title: "Start", geometry: geometry, widthScale: 0.75).padding()
                         }

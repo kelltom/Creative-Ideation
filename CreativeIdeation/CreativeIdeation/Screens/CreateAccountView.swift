@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Profanity_Filter
 
 struct CreateAccountView: View {
 
@@ -18,6 +19,8 @@ struct CreateAccountView: View {
 
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
     @EnvironmentObject var teamViewModel: TeamViewModel
+
+    var pFilter = ProfanityFilter()
 
     var body: some View {
 
@@ -55,7 +58,11 @@ struct CreateAccountView: View {
                             })
 
                         Button {
-                            userAccountViewModel.createAccount(name: name, email: email, password: password)
+                            if pFilter.containsProfanity(text: name).profanities.count == 0 {
+                                userAccountViewModel.createAccount(name: name, email: email, password: password)
+                            } else {
+                                // Create a banner notification telling the user that they cannot use profanity in their name
+                            }
                         } label: {
                             BigButton(title: "Create Account", geometry: geometry)
                         }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Profanity_Filter
 
 struct CreateGroupSheet: View {
 
@@ -22,6 +23,8 @@ struct CreateGroupSheet: View {
 
     @EnvironmentObject var groupViewModel: GroupViewModel
     @EnvironmentObject var teamViewModel: TeamViewModel
+
+    var pFilter = ProfanityFilter()
 
     var body: some View {
 
@@ -75,10 +78,15 @@ struct CreateGroupSheet: View {
                         .overlay(RoundedRectangle(cornerRadius: 15).stroke())
 
                         Button {
-                            groupViewModel.createGroup(teamId: teamViewModel.selectedTeam?.teamId,
-                                                       groupTitle: groupTitle,
-                                                       memberIds: Array(multiSelection))
-                            groupTitle = ""
+                            if pFilter.containsProfanity(text: groupTitle).profanities.count == 0 {
+                                groupViewModel.createGroup(teamId: teamViewModel.selectedTeam?.teamId,
+                                                           groupTitle: groupTitle,
+                                                           memberIds: Array(multiSelection))
+                                groupTitle = ""
+                            } else {
+                                // Create a banner notification telling the user that they cannot
+                                // use profanity in their group title
+                            }
                         } label: {
                             BigButton(title: "Create", geometry: geometry, widthScale: widthScale)
                         }
