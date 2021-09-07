@@ -22,6 +22,20 @@ struct GroupSettingsView: View {
 
             Color("BackgroundColor")
 
+            // Back button required, as NavigationView not used to get to this page
+            VStack {
+                HStack {
+                    Button {
+                        showGroupSettings = false
+                    } label: {
+                        Text("< Back")
+                    }
+                    Spacer()
+                }
+                .padding(.leading, 30)
+                Spacer()
+            }
+
             GeometryReader { geometry in
                 VStack {
                     // Page title
@@ -37,7 +51,7 @@ struct GroupSettingsView: View {
                     .frame(width: geometry.size.width * 0.75,
                            height: geometry.size.height * 0.8)
                     .background(Color("brandPrimary"))
-                    .cornerRadius(20)
+                    .cornerRadius(20, corners: [.bottomLeft, .bottomRight])
 
                     // Delete/Leave button
                     Text("Leave/Delete button here")
@@ -62,5 +76,22 @@ struct GroupSettingsView_Previews: PreviewProvider {
         GroupSettingsView(showGroupSettings: .constant(true), selectedGroup: Group())
             .environmentObject(TeamViewModel())
             .environmentObject(GroupViewModel())
+    }
+}
+
+// The following struct and extension enable adding corner radiuses to specific corners of a view
+struct RoundedCorner: Shape {
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
+    }
+}
+
+extension View {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape( RoundedCorner(radius: radius, corners: corners) )
     }
 }
