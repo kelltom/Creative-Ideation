@@ -9,15 +9,18 @@ import SwiftUI
 
 struct TextEditButton: View {
 
+    @State var text: String = "Edit"
+    @State var hasPadding: Bool = true
+
     var body: some View {
-        Text("Edit")
+        Text(text)
             .fontWeight(.bold)
             .font(.body)
             .frame(width: 100, height: 40, alignment: .center)
             .background(Color("brandPrimary"))
             .foregroundColor(.white)
             .cornerRadius(10)
-            .padding()
+            .padding(hasPadding ? 20 : 0)
             .shadow(radius: 5, x: 5, y: 5)
     }
 }

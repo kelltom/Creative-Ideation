@@ -155,6 +155,7 @@
 				C93F31D226CEE2F400EC835D /* HomeViewSheets */,
 				C93F31D426CEE30400EC835D /* ActivitySheets */,
 				C93F31D326CEE2FA00EC835D /* UserSettingsSheets */,
+				DDEA4C0626E7E8CB00725DBC /* GroupSettingsSheets */,
 			);
 			path = Sheets;
 			sourceTree = "<group>";
@@ -361,6 +362,13 @@
 				C92BA9E925FD689300FEEADA /* NotificationBanner.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		DDEA4C0626E7E8CB00725DBC /* GroupSettingsSheets */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = GroupSettingsSheets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

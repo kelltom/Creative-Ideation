@@ -10,6 +10,7 @@ import SwiftUI
 struct GroupSettingsView: View {
 
     @Binding var showGroupSettings: Bool
+    @State var canOnlyAdminMakeSessions: Bool = true
 
     @EnvironmentObject var teamViewModel: TeamViewModel
     @EnvironmentObject var groupViewModel: GroupViewModel
@@ -46,20 +47,82 @@ struct GroupSettingsView: View {
 
                     // Main content
                     VStack {
-                        Text("hi")
+
+                        // Edit Group Name
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text("Group Name")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+
+                                Text("Unknown")
+                                    .font(.title3)
+                            }
+
+                            Spacer()
+
+                            Button {
+                                // showSheet = .name
+                            } label: {
+                                TextEditButton(hasPadding: false)
+                            }
+                        }
+                        .padding(.bottom, 20)
+
+                        // Only Admin can create Sessions?
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text("Only Admin can create Sessions?")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                            }
+
+                            Spacer()
+
+                            Toggle("", isOn: $canOnlyAdminMakeSessions)
+                                .padding(.trailing)
+                        }
+                        .padding(.bottom, 20)
+
+                        // Edit Members
+                        VStack {
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    // Edit Group Members
+                                    Text("Group Members")
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                }
+
+                                Spacer()
+
+                                Button {
+                                    // showSheet = .name
+                                } label: {
+                                    TextEditButton(text: "Add", hasPadding: false)
+                                }
+                            }
+
+                            // Display list of members
+                            Text("Hi")
+                                .frame(width: geometry.size.width * 0.75,
+                                       height: geometry.size.height * 0.8 * 0.3)
+                                .background(Color.gray)
+                                .padding(.top)
+                        }
+
+                        Spacer()
                     }
                     .frame(width: geometry.size.width * 0.75,
-                           height: geometry.size.height * 0.8)
-                    .background(Color("brandPrimary"))
-                    .cornerRadius(20, corners: [.bottomLeft, .bottomRight])
+                           height: geometry.size.height * 0.8,
+                           alignment: .center)
 
                     // Delete/Leave button
                     Text("Leave/Delete button here")
                         .frame(height: geometry.size.height * 0.1, alignment: .center)
                 }
                 .frame(width: geometry.size.width,
-                       height: geometry.size.height,
-                       alignment: .center)
+                       height: geometry.size.height)
             }
             .banner(data: $groupViewModel.bannerData,
                     show: $groupViewModel.showBanner)
