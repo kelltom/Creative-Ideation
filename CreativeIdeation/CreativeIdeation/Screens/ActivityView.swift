@@ -27,6 +27,9 @@ struct ActivityView: View {
                       Color.init(red: 0.9, green: 0.9, blue: 0),
                       Color.init(red: 0.9, green: 0.45, blue: 0.9)]
 
+    let columns = [
+        GridItem(.adaptive(minimum: 160))]
+
     @State var showSheet: SessionSheet?
     @State private var selectedColor = -1
     @State private var randomizeColor: Bool = true
@@ -43,10 +46,6 @@ struct ActivityView: View {
             // so that all other elements are placed above it on the zstack
 
             Color("BackgroundColor")
-
-            ForEach(sessionItemViewModel.stickyNotes) { note in
-                note
-            }
 
             VStack {
                 HStack {
@@ -80,8 +79,19 @@ struct ActivityView: View {
 
                     Spacer()
                 }
-                HStack {
-                    Spacer()
+                HStack(spacing: 0) {
+                    // Spacer()
+                    ScrollView(.vertical, showsIndicators: false) {
+                        LazyVGrid(columns: columns, spacing: 25) {
+                            ForEach(sessionItemViewModel.stickyNotes) { note in
+                                note
+                            }
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .padding(.top, 18)
+                        .padding(.leading, 10)
+                    }
+
                     VStack(alignment: .trailing) {
                         Button {
                             let newColor = randomizeColor ? Int.random(in: 0..<5) : selectedColor
@@ -390,9 +400,10 @@ struct ActivityView: View {
                                 .shadow(radius: 4)
                         }
                         .padding(.trailing)
+
+                        Spacer()
                     }
                 }
-                Spacer()
             }
             .sheet(item: $showSheet) { item in
                 switch item {
