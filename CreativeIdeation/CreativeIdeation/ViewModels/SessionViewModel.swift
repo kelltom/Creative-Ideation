@@ -8,11 +8,13 @@
 import Foundation
 import Firebase
 import FirebaseFirestoreSwift
+import Profanity_Filter
 
 final class SessionViewModel: ObservableObject {
 
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
+    private var pFilter = ProfanityFilter()
 
     @Published var selectedGroupId: String?
     @Published var groupSessions: [Session] = []    /// List of Sessions from a group that the user belongs to
@@ -69,6 +71,16 @@ final class SessionViewModel: ObservableObject {
     func createSession(teamId: String?, groupId: String?) {
         // This needs to be a batched write. We are writing to both the Group document,
         // and the Session document - adding either ID to either document as foreign keys.
+
+        if pFilter.containsProfanity(text: newSession.sessionTitle).profanities.count > 0 || pFilter.containsProfanity(text: newSession.sessionDescription).profanities.count > 0 {
+            self.setBannerData(title: "Cannot create Session",
+                               details: "Cannot use profanity in session title or description.",
+                               type: .warning)
+            self.showBanner = true
+            newSession.sessionTitle = ""
+            newSession.sessionDescription = ""
+            return
+        }
 
         // Get user ID
         guard let uid = Auth.auth().currentUser?.uid else {

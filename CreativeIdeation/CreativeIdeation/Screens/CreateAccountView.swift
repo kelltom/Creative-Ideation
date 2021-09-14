@@ -58,11 +58,7 @@ struct CreateAccountView: View {
                             })
 
                         Button {
-                            if pFilter.containsProfanity(text: name).profanities.count == 0 {
-                                userAccountViewModel.createAccount(name: name, email: email, password: password)
-                            } else {
-                                // Create a banner notification telling the user that they cannot use profanity in their name
-                            }
+                            userAccountViewModel.createAccount(name: name, email: email, password: password)
                         } label: {
                             BigButton(title: "Create Account", geometry: geometry)
                         }
@@ -90,7 +86,7 @@ struct CreateAccountView: View {
         }
         .edgesIgnoringSafeArea(.vertical)
         .onAppear {
-            userAccountViewModel.showBanner = false
+            //userAccountViewModel.showBanner = false
         }
         .onDisappear {
             userAccountViewModel.showBanner = false

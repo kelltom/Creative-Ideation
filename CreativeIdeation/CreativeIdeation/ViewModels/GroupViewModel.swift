@@ -9,11 +9,13 @@ import Foundation
 import Firebase
 import FirebaseFirestoreSwift
 import SwiftUI
+import Profanity_Filter
 
 final class GroupViewModel: ObservableObject {
 
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
+    private var pFilter = ProfanityFilter()
 
     @Published var groups: [Group] = []   // populated when changing Teams
     @Published var selectedGroup: Group?  // selected group in the listview
@@ -40,6 +42,14 @@ final class GroupViewModel: ObservableObject {
 
     /// Creates a group within a Team with the given teamId
     func createGroup(teamId: String?, groupTitle: String, memberIds: [String] = [], suppressBanner: Bool = false, isPublic: Bool = false) {
+
+        if pFilter.containsProfanity(text: groupTitle).profanities.count > 0 {
+            self.setBannerData(title: "Cannot create Group",
+                               details: "Cannot use profanity in group title.",
+                               type: .warning)
+            self.showBanner = true
+            return
+        }
 
         // Get user id
         guard let uid = Auth.auth().currentUser?.uid else {

@@ -47,14 +47,9 @@ struct CreateTeamSheet: View {
                         EditTextField(title: "Team description (optional)", input: $teamDescription, geometry: geometry, widthScale: 0.75)
 
                         Button {
-                            if pFilter.containsProfanity(text: teamName).profanities.count == 0 &&
-                                pFilter.containsProfanity(text: teamDescription).profanities.count == 0 {
-                                teamViewModel.createTeam(teamName: teamName, teamDescription: teamDescription)
-                                teamName = ""
-                                teamDescription = ""
-                            } else {
-                                // Create banner notification telling the user that they cannot use profanity in their team name or description
-                            }
+                            teamViewModel.createTeam(teamName: teamName, teamDescription: teamDescription)
+                            teamName = ""
+                            teamDescription = ""
                         } label: {
                             BigButton(title: "Create", geometry: geometry, widthScale: 0.75)
                                 .padding(.top, 5)

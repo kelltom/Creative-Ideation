@@ -78,15 +78,10 @@ struct CreateGroupSheet: View {
                         .overlay(RoundedRectangle(cornerRadius: 15).stroke())
 
                         Button {
-                            if pFilter.containsProfanity(text: groupTitle).profanities.count == 0 {
-                                groupViewModel.createGroup(teamId: teamViewModel.selectedTeam?.teamId,
-                                                           groupTitle: groupTitle,
-                                                           memberIds: Array(multiSelection))
-                                groupTitle = ""
-                            } else {
-                                // Create a banner notification telling the user that they cannot
-                                // use profanity in their group title
-                            }
+                            groupViewModel.createGroup(teamId: teamViewModel.selectedTeam?.teamId,
+                                                       groupTitle: groupTitle,
+                                                       memberIds: Array(multiSelection))
+                            groupTitle = ""
                         } label: {
                             BigButton(title: "Create", geometry: geometry, widthScale: widthScale)
                         }

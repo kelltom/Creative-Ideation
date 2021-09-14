@@ -50,12 +50,8 @@ struct CreateSessionSheet: View {
                         }
 
                         Button {
-                            if pFilter.containsProfanity(text: sessionViewModel.newSession.sessionTitle).profanities.count == 0 && pFilter.containsProfanity(text: sessionViewModel.newSession.sessionDescription).profanities.count == 0 {
-                                sessionViewModel.createSession(teamId: teamViewModel.selectedTeam?.teamId,
-                                                               groupId: groupViewModel.selectedGroup?.groupId)
-                            } else {
-                                // Create a banner notification to tell the user that they cannot use profanity in the name or description of their session
-                            }
+                            sessionViewModel.createSession(teamId: teamViewModel.selectedTeam?.teamId,
+                                                           groupId: groupViewModel.selectedGroup?.groupId)
                         } label: {
                             BigButton(title: "Start", geometry: geometry, widthScale: 0.75).padding()
                         }

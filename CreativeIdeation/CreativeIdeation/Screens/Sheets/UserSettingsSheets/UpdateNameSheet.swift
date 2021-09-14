@@ -81,12 +81,8 @@ struct UpdateNameSheet: View {
                     }
 
                     Button {
-                        if pFilter.containsProfanity(text: newName).profanities.count == 0 {
-                            userAccountViewModel.updateUserName(name: newName)
-                            newName = ""
-                        } else {
-                            // Create a banner notification telling the user that they cannot use profanity in their name
-                        }
+                        userAccountViewModel.updateUserName(name: newName)
+                        newName = ""
                     } label: {
                         BigButton(title: "Submit", geometry: geometry, widthScale: 0.75)
                     }
