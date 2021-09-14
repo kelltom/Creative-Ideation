@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Profanity_Filter
 
 struct UpdateNameSheet: View {
     @State var newName: String = ""
@@ -13,6 +14,8 @@ struct UpdateNameSheet: View {
     @Binding var showSheet: PreferenceSheet?
 
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
+
+    var pFilter = ProfanityFilter()
 
     var body: some View {
         ZStack {
@@ -78,8 +81,6 @@ struct UpdateNameSheet: View {
                     }
 
                     Button {
-                        // save to DB -- we can a profanity check here to make sure that they cant
-                        // have a bad name
                         userAccountViewModel.updateUserName(name: newName)
                         newName = ""
                     } label: {

@@ -11,6 +11,7 @@ import Foundation
 import Firebase
 import FirebaseFirestoreSwift
 import FirebaseFunctions
+import Profanity_Filter
 
 final class SessionItemViewModel: ObservableObject {
 
@@ -37,6 +38,7 @@ final class SessionItemViewModel: ObservableObject {
     @Published var isSpinning = false
     private var spinTimer: Timer?
     private var animationTimer: Timer?
+    private var pFilter: ProfanityFilter = ProfanityFilter()
 
     let colorArray = [Color.init(red: 0.9, green: 0, blue: 0),
                       Color.init(red: 0, green: 0.9, blue: 0),
@@ -65,7 +67,7 @@ final class SessionItemViewModel: ObservableObject {
     }
 
     func updateText(text: String, itemId: String) {
-        sessionItems[sessionItems.firstIndex(where: {$0.itemId == itemId})!].input = text
+        sessionItems[sessionItems.firstIndex(where: {$0.itemId == itemId})!].input = pFilter.maskProfanity(text: text)
     }
 
     func updateItem(itemId: String) {

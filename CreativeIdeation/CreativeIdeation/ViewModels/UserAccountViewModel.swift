@@ -9,11 +9,13 @@ import Foundation
 import Firebase
 import SwiftUI
 import FirebaseFirestoreSwift
+import Profanity_Filter
 
 final class UserAccountViewModel: ObservableObject {
 
     // private var dbService : DBService! 
     private var db = Firestore.firestore()
+    private var pFilter = ProfanityFilter()
 
     @Published var authSuccess = false
     @Published var createSuccess = false
@@ -136,6 +138,15 @@ final class UserAccountViewModel: ObservableObject {
             self.setBannerData(title: "Cannot change name",
                                details: "New name cannot be the same as current name.",
                                type: .warning)
+            self.showBanner = true
+        } else if pFilter.containsProfanity(text: name).profanities.count > 0 {
+            self.isLoading = false
+            self.updateSuccess = false
+
+            // Set Banner
+            setBannerData(title: "Cannot change name",
+                          details: "New name cannot contain profanity.",
+                          type: .warning)
             self.showBanner = true
         } else {
             // query db and update name in the document
@@ -355,6 +366,16 @@ final class UserAccountViewModel: ObservableObject {
     func createAccount(name: String, email: String, password: String) {
         self.showBanner = false
         self.isLoading = true
+
+        if pFilter.containsProfanity(text: name).profanities.count > 0 {
+            self.setBannerData(title: "Error creating account",
+                               details: "Cannot use profanity in your name.",
+                               type: .warning)
+            self.showBanner = true
+            self.isLoading = false
+            self.createSuccess = false
+            return
+        }
 
         // Populate User object
         var user = User()

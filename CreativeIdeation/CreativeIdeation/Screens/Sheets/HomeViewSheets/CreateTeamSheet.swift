@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import Profanity_Filter
 
 struct CreateTeamSheet: View {
 
@@ -18,6 +19,8 @@ struct CreateTeamSheet: View {
 
     @EnvironmentObject var teamViewModel: TeamViewModel
     @EnvironmentObject var groupviewModel: GroupViewModel
+
+    var pFilter = ProfanityFilter()
 
     var body: some View {
 

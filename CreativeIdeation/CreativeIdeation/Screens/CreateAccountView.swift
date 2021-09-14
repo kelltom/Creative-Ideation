@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Profanity_Filter
 
 struct CreateAccountView: View {
 
@@ -18,6 +19,8 @@ struct CreateAccountView: View {
 
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
     @EnvironmentObject var teamViewModel: TeamViewModel
+
+    var pFilter = ProfanityFilter()
 
     var body: some View {
 
@@ -83,7 +86,7 @@ struct CreateAccountView: View {
         }
         .edgesIgnoringSafeArea(.vertical)
         .onAppear {
-            userAccountViewModel.showBanner = false
+            //userAccountViewModel.showBanner = false
         }
         .onDisappear {
             userAccountViewModel.showBanner = false

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Profanity_Filter
 
 struct CreateGroupSheet: View {
 
@@ -22,6 +23,8 @@ struct CreateGroupSheet: View {
 
     @EnvironmentObject var groupViewModel: GroupViewModel
     @EnvironmentObject var teamViewModel: TeamViewModel
+
+    var pFilter = ProfanityFilter()
 
     var body: some View {
 
