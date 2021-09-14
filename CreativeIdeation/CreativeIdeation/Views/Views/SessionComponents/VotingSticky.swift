@@ -13,6 +13,7 @@ struct VotingSticky: View, Identifiable {
 
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
     @EnvironmentObject var sessionViewModel: SessionViewModel
+    @Environment(\.colorScheme) var colorScheme
 
     @State var itemId: String = "Default ID"  // itemId corresponds to sessionItem's ID in the database
     @State var chosenColor: Color = Color.red
@@ -39,13 +40,14 @@ struct VotingSticky: View, Identifiable {
             VStack(spacing: 0) {
                 // Header
                 Rectangle()
-                    .foregroundColor(chosenColor)
+                    .foregroundColor(colorScheme == .dark ? chosenColor.darker() : chosenColor)
                     .frame(width: geometry.size.width * 0.5, height: geometry.size.height * 0.1)
 
                 // Text area
                 Text(input)
+                    .frame(width: geometry.size.width * 0.45, height: geometry.size.height * 0.45)
                     .frame(width: geometry.size.width * 0.5, height: geometry.size.height * 0.5)
-                    .background(chosenColor.lighter())
+                    .background(colorScheme == .dark ? chosenColor.darker(by: 15.0) : chosenColor.lighter(by: 20.0))
                     .foregroundColor(Color("StrokeColor"))
             }
             .cornerRadius(10)
@@ -93,5 +95,6 @@ struct VotingSticky_Previews: PreviewProvider {
         VotingSticky(itemId: "123", chosenColor: Color.red, input: "Test", pos: 2, onRemove: { _ in
             // do nothing
         })
+        .preferredColorScheme(.dark)
     }
 }

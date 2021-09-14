@@ -11,6 +11,7 @@ struct StickyNote: View, Identifiable {
     var id = UUID()
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
     @EnvironmentObject var sessionViewModel: SessionViewModel
+    @Environment(\.colorScheme) var colorScheme
 
     @State var input: String
     @State var location: CGPoint
@@ -21,21 +22,21 @@ struct StickyNote: View, Identifiable {
     @State var chosenColor: Color? = Color.red
     @State var selected: Bool = false
 
-    @GestureState private var startLocation: CGPoint?
+    // @GestureState private var startLocation: CGPoint?
     @GestureState var isDetectingLongPress = false
 
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
             VStack(spacing: 0) {
                 Rectangle()
-                    .foregroundColor(chosenColor)
+                    .foregroundColor(colorScheme == .dark ? chosenColor?.darker() : chosenColor)
                     .frame(width: 160, height: 30)
                     .simultaneousGesture(longPress)
-                    .simultaneousGesture(simpleDrag)
+                    // .simultaneousGesture(simpleDrag)
 
                 TextEditor(text: $input)
                     .frame(width: 160, height: 130)
-                    .background(chosenColor.opacity(0.5))
+                    .background(colorScheme == .dark ? chosenColor?.darker(by: 15.0) : chosenColor?.lighter(by: 20.0))
                     .foregroundColor(Color("StrokeColor"))
                     .onChange(of: input, perform: {_ in
                         textChanged = true
@@ -62,7 +63,7 @@ struct StickyNote: View, Identifiable {
         }
         .clipped()
         .shadow(color: selected ? Color.black : Color.clear, radius: 6, y: 4 )
-        .position(location)
+        // .position(location)
         .onAppear {
             if selected {
                 sessionItemViewModel.updateSelected(note: self)
@@ -85,26 +86,26 @@ struct StickyNote: View, Identifiable {
             }
     }
 
-    var simpleDrag: some Gesture {
-        DragGesture()
-            .onChanged { value in
-                var newLocation = startLocation ?? location
-                newLocation.x += value.translation.width
-                newLocation.y += value.translation.height
-                if newLocation.y < 80 {
-                    newLocation.y = 80
-                }
-                self.location = newLocation}
-            .onEnded {_ in
-                sessionItemViewModel.updateLocation(location: location, itemId: itemId)
-                if textChanged {
-                    sessionItemViewModel.updateText(text: input, itemId: itemId)
-                    textChanged = false
-                }
-                sessionItemViewModel.updateItem(itemId: itemId)
-                sessionViewModel.updateDateModified()
-            }
-    }
+//    var simpleDrag: some Gesture {
+//        DragGesture()
+//            .onChanged { value in
+//                var newLocation = startLocation ?? location
+//                newLocation.x += value.translation.width
+//                newLocation.y += value.translation.height
+//                if newLocation.y < 80 {
+//                    newLocation.y = 80
+//                }
+//                self.location = newLocation}
+//            .onEnded {_ in
+//                sessionItemViewModel.updateLocation(location: location, itemId: itemId)
+//                if textChanged {
+//                    sessionItemViewModel.updateText(text: input, itemId: itemId)
+//                    textChanged = false
+//                }
+//                sessionItemViewModel.updateItem(itemId: itemId)
+//                sessionViewModel.updateDateModified()
+//            }
+//    }
 }
 
 struct StickyNote_Previews: PreviewProvider {

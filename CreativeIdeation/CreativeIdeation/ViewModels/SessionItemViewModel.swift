@@ -41,7 +41,7 @@ final class SessionItemViewModel: ObservableObject {
     let colorArray = [Color.init(red: 0.9, green: 0, blue: 0),
                       Color.init(red: 0, green: 0.9, blue: 0),
                       Color.init(red: 0, green: 0.7, blue: 0.9),
-                      Color.init(red: 0.9, green: 0.9, blue: 0),
+                      Color.init(red: 0.9, green: 0.5, blue: 0),
                       Color.init(red: 0.9, green: 0.45, blue: 0.9)]
 
     func resetModel() {
@@ -271,7 +271,8 @@ final class SessionItemViewModel: ObservableObject {
 
                             self.stickyNotes.remove(at: selectedStickyIndex!)
                             self.createSticky(newItem: self.sessionItems[selectedItemIndex!],
-                                              selected: self.selectedSticky?.itemId == docID)
+                                              selected: self.selectedSticky?.itemId == docID,
+                                              index: selectedStickyIndex!)
 
                         } catch {
                             print("Error reading modified item from DB: \(error)")
@@ -323,7 +324,7 @@ final class SessionItemViewModel: ObservableObject {
         }
     }
 
-    func createSticky(newItem: SessionItem, selected: Bool = false) {
+    func createSticky(newItem: SessionItem, selected: Bool = false, index: Int = -1) {
         let newSticky = StickyNote(
             input: newItem.input,
             location: CGPoint(x: newItem.location[0], y: newItem.location[1]),
@@ -331,7 +332,11 @@ final class SessionItemViewModel: ObservableObject {
             chosenColor: self.colorArray[newItem.color],
             selected: selected
         )
-        stickyNotes.append(newSticky)
+        if index < 0 {
+            stickyNotes.append(newSticky)
+        } else {
+            stickyNotes.insert(newSticky, at: index)
+        }
     }
 
     func updateSelected(note: StickyNote) {

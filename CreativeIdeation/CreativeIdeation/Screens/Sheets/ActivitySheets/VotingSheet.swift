@@ -193,23 +193,23 @@ struct VotingSheet: View {
                             } label: {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 15)
-                                        .frame(width: geometry.size.width * 0.75, height: geometry.size.width * 0.11)
+                                        .frame(width: geometry.size.width * 0.77, height: geometry.size.width * 0.11)
                                         .foregroundColor(Color("BackgroundColor"))
 
                                     RoundedRectangle(cornerRadius: 15)
                                         .stroke(lineWidth: 4)
-                                        .frame(width: geometry.size.width * 0.75, height: geometry.size.width * 0.11)
+                                        .frame(width: geometry.size.width * 0.77, height: geometry.size.width * 0.11)
                                         .foregroundColor(.orange)
 
                                     Image(systemName: "arrow.counterclockwise")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(width: geometry.size.width * 0.077, height: geometry.size.width * 0.075)
+                                        .frame(width: geometry.size.width * 0.075, height: geometry.size.width * 0.075)
                                         .foregroundColor(.orange)
                                         .rotationEffect(Angle.degrees(undoRotation))
                                         .animation(spinAnimation)
                                 }
-                                .frame(width: geometry.size.width * 0.78, height: geometry.size.width * 0.12)
+                                .frame(width: geometry.size.width * 0.8, height: geometry.size.width * 0.12)
                                 .clipped()
                                 .shadow(radius: 4, y: 4)
                                 .padding()
