@@ -11,6 +11,7 @@ struct StickyNote: View, Identifiable {
     var id = UUID()
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
     @EnvironmentObject var sessionViewModel: SessionViewModel
+    @Environment(\.colorScheme) var colorScheme
 
     @State var input: String
     @State var location: CGPoint
@@ -35,7 +36,7 @@ struct StickyNote: View, Identifiable {
 
                 TextEditor(text: $input)
                     .frame(width: 160, height: 130)
-                    .background(chosenColor.opacity(0.5))
+                    .background(colorScheme == .dark ? chosenColor?.darker() : chosenColor?.lighter())
                     .foregroundColor(Color("StrokeColor"))
                     .onChange(of: input, perform: {_ in
                         textChanged = true
