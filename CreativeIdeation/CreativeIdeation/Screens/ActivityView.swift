@@ -24,7 +24,7 @@ struct ActivityView: View {
     let colorArray = [Color.init(red: 0.9, green: 0, blue: 0),
                       Color.init(red: 0, green: 0.9, blue: 0),
                       Color.init(red: 0, green: 0.7, blue: 0.9),
-                      Color.init(red: 0.9, green: 0.9, blue: 0),
+                      Color.init(red: 0.9, green: 0.6, blue: 0),
                       Color.init(red: 0.9, green: 0.45, blue: 0.9)]
 
     let columns = [

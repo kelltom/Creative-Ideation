@@ -29,14 +29,14 @@ struct StickyNote: View, Identifiable {
         ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
             VStack(spacing: 0) {
                 Rectangle()
-                    .foregroundColor(chosenColor)
+                    .foregroundColor(colorScheme == .dark ? chosenColor?.darker() : chosenColor)
                     .frame(width: 160, height: 30)
                     .simultaneousGesture(longPress)
                     // .simultaneousGesture(simpleDrag)
 
                 TextEditor(text: $input)
                     .frame(width: 160, height: 130)
-                    .background(colorScheme == .dark ? chosenColor?.darker() : chosenColor?.lighter())
+                    .background(colorScheme == .dark ? chosenColor?.darker(by: 15.0) : chosenColor?.lighter(by: 20.0))
                     .foregroundColor(Color("StrokeColor"))
                     .onChange(of: input, perform: {_ in
                         textChanged = true
