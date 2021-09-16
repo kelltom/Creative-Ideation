@@ -53,6 +53,7 @@ struct ActivityView: View {
                 HStack {
 
                     Button {
+                        timerManager.reset()
                         showActivity = false
                         sessionItemViewModel.resetModel()
                         sessionViewModel.selectedSession = nil
@@ -94,19 +95,13 @@ struct ActivityView: View {
                         }
 
                         Button {
-                            if sessionViewModel.selectedSession!.timerActive {
-                                timerManager.pause()
-                                sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
-                            } else {
-                                timerManager.start()
-                                sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
-                            }
+                            sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
                         } label: {
-                            Image(systemName: sessionViewModel.selectedSession!.timerActive ? "pause.fill" : "play.fill")
+                            Image(systemName: timerManager.mode == .running ? "pause.fill" : "play.fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 40, height: 40)
-                                .foregroundColor(sessionViewModel.selectedSession!.timerActive ? .blue : .green)
+                                .foregroundColor(timerManager.mode == .running ? .blue : .green)
                         }
                     }
                     .padding(.top)
@@ -450,10 +445,14 @@ struct ActivityView: View {
         }
         .navigationTitle("Session")
         .navigationBarHidden(true)
-        .onChange(of: sessionViewModel.selectedSession!.timerActive, perform: { timerNowActive in
+        .onChange(of: sessionViewModel.selectedSession?.timerActive, perform: { value in
+            print("Got into onChange")
+            guard let timerNowActive = value else { return }
             if timerNowActive && (timerManager.mode == .stopped || timerManager.mode == .paused) {
+                print("Starting Timer")
                 timerManager.start()
-            } else if !timerNowActive && timerManager.mode == .running {
+            } else if !timerNowActive {
+                print("Stopping Timer")
                 timerManager.pause()
             }
         })

@@ -20,15 +20,20 @@ class TimerManager: ObservableObject {
     }
 
     func start() {
+        print("Beginning start function")
         mode = .running
+        print("mode is now: ", mode)
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             self.timeRemaining -= 1
+            print(self.timeRemaining)
         }
     }
 
     func pause() {
+        print("Pause time")
         timer.invalidate()
         mode = .paused
+        print(mode)
     }
 
     func reset() {
