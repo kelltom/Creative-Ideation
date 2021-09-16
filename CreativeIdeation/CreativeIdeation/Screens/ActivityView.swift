@@ -30,6 +30,8 @@ struct ActivityView: View {
     let columns = [
         GridItem(.adaptive(minimum: 160))]
 
+    @ObservedObject var timerManager = TimerManager()
+
     @State var showSheet: SessionSheet?
     @State private var selectedColor = -1
     @State private var randomizeColor: Bool = true
@@ -76,6 +78,38 @@ struct ActivityView: View {
                         .padding(.top, 20)
                         .shadow(radius: 4, y: 4)
                     }
+
+                    Spacer()
+
+                    HStack {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(lineWidth: 3)
+                                .frame(width: 140, height: 80)
+                                .padding(.trailing)
+
+                            Text(timerManager.toString())
+                                .font(.largeTitle)
+                                .padding(.trailing)
+                        }
+
+                        Button {
+                            if sessionViewModel.selectedSession!.timerActive {
+                                timerManager.pause()
+                                sessionViewModel.toggleTimer()
+                            } else {
+                                timerManager.start()
+                                sessionViewModel.toggleTimer()
+                            }
+                        } label: {
+                            Image(systemName: sessionViewModel.selectedSession!.timerActive ? "pause.fill" : "play.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 40, height: 40)
+                                .foregroundColor(sessionViewModel.selectedSession!.timerActive ? .blue : .green)
+                        }
+                    }
+                    .padding(.top)
 
                     Spacer()
                 }

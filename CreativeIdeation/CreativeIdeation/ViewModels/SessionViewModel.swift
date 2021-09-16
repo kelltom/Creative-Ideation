@@ -145,6 +145,8 @@ final class SessionViewModel: ObservableObject {
             "dateCreated": Date(),
             "dateModified": Date(),
             "createdBy": uid,
+            "timerEnd": Date(),
+            "timerActive": false,
             "groupId": groupId,
             "teamId": teamId
         ], forDocument: sessionRef)
@@ -221,6 +223,8 @@ final class SessionViewModel: ObservableObject {
                             self.teamSessions[selectedSessionIndex!].inProgress = mockSession.inProgress
                             self.teamSessions[selectedSessionIndex!].isVoting = mockSession.isVoting
                             self.teamSessions[selectedSessionIndex!].dateModified = mockSession.dateModified
+                            self.teamSessions[selectedSessionIndex!].timerEnd = mockSession.timerEnd
+                            self.teamSessions[selectedSessionIndex!].timerActive = mockSession.timerActive
 
                             let selectedSessionGroupIndex = self.groupSessions.firstIndex(where: {$0.sessionId == mockSession.sessionId})
                             if selectedSessionGroupIndex != nil {
@@ -270,6 +274,35 @@ final class SessionViewModel: ObservableObject {
                 groupSessions.append(session)
         }
         groupSessions = groupSessions.sorted(by: {$0.dateModified.compare($1.dateModified) == .orderedDescending})
+    }
+
+    func toggleTimer() {
+        selectedSession?.timerActive.toggle()
+
+        guard let activeSession = selectedSession else {
+            print("Could not upate timerActive: No active session")
+            return
+        }
+
+        let sessionReference = db.collection("sessions").document(activeSession.sessionId)
+
+        // swiftlint:disable multiple_closures_with_trailing_closure
+        db.runTransaction({ (transaction, errorPointer) -> Any? in
+            do {
+                _ = try transaction.getDocument(sessionReference)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+
+            transaction.updateData(["timerActive": activeSession.timerActive],
+                                   forDocument: sessionReference)
+            return nil
+        }) { (_, error) in
+            if let error = error {
+                print("Error updating session: \(error)")
+            }
+        }
     }
 
     /// Assigns values to the published BannerData object
