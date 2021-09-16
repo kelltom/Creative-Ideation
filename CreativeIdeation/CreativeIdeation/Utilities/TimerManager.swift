@@ -11,8 +11,16 @@ import SwiftUI
 class TimerManager: ObservableObject {
     @Published var timeRemaining = 600
     var timer = Timer()
+    var mode: stopWatchMode = .stopped
+
+    enum stopWatchMode {
+        case running
+        case stopped
+        case paused
+    }
 
     func start() {
+        mode = .running
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             self.timeRemaining -= 1
         }
@@ -20,11 +28,13 @@ class TimerManager: ObservableObject {
 
     func pause() {
         timer.invalidate()
+        mode = .paused
     }
 
     func reset() {
         timer.invalidate()
         timeRemaining = 600
+        mode = .stopped
     }
 
     func toString() -> String {

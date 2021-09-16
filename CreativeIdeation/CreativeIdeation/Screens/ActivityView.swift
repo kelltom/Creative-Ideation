@@ -96,10 +96,10 @@ struct ActivityView: View {
                         Button {
                             if sessionViewModel.selectedSession!.timerActive {
                                 timerManager.pause()
-                                sessionViewModel.toggleTimer()
+                                sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
                             } else {
                                 timerManager.start()
-                                sessionViewModel.toggleTimer()
+                                sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
                             }
                         } label: {
                             Image(systemName: sessionViewModel.selectedSession!.timerActive ? "pause.fill" : "play.fill")
@@ -450,6 +450,13 @@ struct ActivityView: View {
         }
         .navigationTitle("Session")
         .navigationBarHidden(true)
+        .onChange(of: sessionViewModel.selectedSession!.timerActive, perform: { timerNowActive in
+            if timerNowActive && (timerManager.mode == .stopped || timerManager.mode == .paused) {
+                timerManager.start()
+            } else if !timerNowActive && timerManager.mode == .running {
+                timerManager.pause()
+            }
+        })
     }
 
 }

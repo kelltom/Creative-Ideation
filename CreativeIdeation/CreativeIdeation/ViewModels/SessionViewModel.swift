@@ -276,12 +276,21 @@ final class SessionViewModel: ObservableObject {
         groupSessions = groupSessions.sorted(by: {$0.dateModified.compare($1.dateModified) == .orderedDescending})
     }
 
-    func toggleTimer() {
+    func toggleTimer(timeRemaining: Double) {
+
         selectedSession?.timerActive.toggle()
 
         guard let activeSession = selectedSession else {
             print("Could not upate timerActive: No active session")
             return
+        }
+
+        var endTime: Date
+
+        if activeSession.timerActive {
+            endTime = Date().addingTimeInterval(timeRemaining)
+        } else {
+            endTime = Date().addingTimeInterval(-timeRemaining)
         }
 
         let sessionReference = db.collection("sessions").document(activeSession.sessionId)
@@ -295,7 +304,8 @@ final class SessionViewModel: ObservableObject {
                 return nil
             }
 
-            transaction.updateData(["timerActive": activeSession.timerActive],
+            transaction.updateData(["timerActive": activeSession.timerActive,
+                                   "timerEnd": endTime],
                                    forDocument: sessionReference)
             return nil
         }) { (_, error) in
