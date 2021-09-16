@@ -11,9 +11,9 @@ import SwiftUI
 class TimerManager: ObservableObject {
     @Published var timeRemaining = 600
     var timer = Timer()
-    var mode: stopWatchMode = .stopped
+    var mode: StopWatchMode = .stopped
 
-    enum stopWatchMode {
+    enum StopWatchMode {
         case running
         case stopped
         case paused
