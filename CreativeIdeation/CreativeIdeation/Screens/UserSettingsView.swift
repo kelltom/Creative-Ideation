@@ -192,7 +192,7 @@ prefix func ! (value: Binding<Bool>) -> Binding<Bool> {
 struct UserPrefView_Previews: PreviewProvider {
     static var previews: some View {
         UserSettingsView()
-            .preferredColorScheme(.dark)
+            .preferredColorScheme(.light)
             .environmentObject(UserAccountViewModel())
     }
 }

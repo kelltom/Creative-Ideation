@@ -105,8 +105,7 @@ struct GroupSettingsView: View {
 
                             // Display list of members
                             Text("Hi")
-                                .frame(width: geometry.size.width * 0.75,
-                                       height: geometry.size.height * 0.8 * 0.3)
+                                .frame(width: geometry.size.width * 0.75)
                                 .background(Color.gray)
                                 .padding(.top)
                         }

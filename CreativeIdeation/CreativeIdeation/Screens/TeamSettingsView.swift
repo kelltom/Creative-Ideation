@@ -143,7 +143,7 @@ struct TeamSettingsView: View {
 struct TeamSettingsView_Previews: PreviewProvider {
     static var previews: some View {
         TeamSettingsView(teamName: "Team Name", description: "Some description here", isPrivate: false)
-            .preferredColorScheme(.dark)
+            .preferredColorScheme(.light)
             .environmentObject(TeamViewModel())
     }
 }
