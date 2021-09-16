@@ -226,6 +226,12 @@ final class SessionViewModel: ObservableObject {
                             self.teamSessions[selectedSessionIndex!].timerEnd = mockSession.timerEnd
                             self.teamSessions[selectedSessionIndex!].timerActive = mockSession.timerActive
 
+                            if self.selectedSession != nil && mockSession.sessionId == self.selectedSession?.sessionId {
+                                self.selectedSession!.timerActive = mockSession.timerActive
+                                self.selectedSession!.timerEnd = mockSession.timerEnd
+                                self.selectedSession!.isVoting = mockSession.isVoting
+                            }
+
                             let selectedSessionGroupIndex = self.groupSessions.firstIndex(where: {$0.sessionId == mockSession.sessionId})
                             if selectedSessionGroupIndex != nil {
                                 self.groupSessions[selectedSessionGroupIndex!].sessionTitle = mockSession.sessionTitle
