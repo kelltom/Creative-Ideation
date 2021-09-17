@@ -16,6 +16,7 @@ struct CreateAccountView: View {
     @State var name: String = ""
     @State var email: String = ""
     @State var password: String = ""
+    @State private var widthScale: CGFloat = 0.75
 
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
     @EnvironmentObject var teamViewModel: TeamViewModel
@@ -40,14 +41,39 @@ struct CreateAccountView: View {
                     VStack {
 
                         Text("Create Account")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
                             .padding()
-                            .font(.system(size: 40))
 
-                        EditTextField(title: "Full name", input: $name, geometry: geometry)
+                        HStack {
+                            Text("Enter Full Name")
+                                .font(.title3)
+                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            Spacer()
+                        }
+                        .frame(width: geometry.size.width * widthScale)
 
-                        EditTextField(title: "Email address", input: $email, geometry: geometry)
+                        EditTextField(title: "Full Name", input: $name, geometry: geometry, widthScale: widthScale)
 
-                        EditTextField(title: "Password", input: $password, secure: true, geometry: geometry)
+                        HStack {
+                            Text("Enter Email Address")
+                                .font(.title3)
+                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            Spacer()
+                        }
+                        .frame(width: geometry.size.width * widthScale)
+
+                        EditTextField(title: "Email Address", input: $email, geometry: geometry, widthScale: widthScale)
+
+                        HStack {
+                            Text("Enter Password")
+                                .font(.title3)
+                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            Spacer()
+                        }
+                        .frame(width: geometry.size.width * widthScale)
+
+                        EditTextField(title: "Password", input: $password, secure: true, geometry: geometry, widthScale: widthScale)
 
                         // Create Account Link
                         NavigationLink(
@@ -60,7 +86,7 @@ struct CreateAccountView: View {
                         Button {
                             userAccountViewModel.createAccount(name: name, email: email, password: password)
                         } label: {
-                            BigButton(title: "Create Account", geometry: geometry)
+                            BigButton(title: "Create Account", geometry: geometry, widthScale: widthScale)
                         }
 
                         // Already have account Button

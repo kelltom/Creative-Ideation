@@ -420,7 +420,7 @@ struct ActivityView: View {
                         Button {
                             showSheet = .voting
                         } label: {
-                            Image(systemName: "hand.draw")
+                            Image("voting")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .foregroundColor(.black)

@@ -12,6 +12,8 @@ struct UpdatePasswordSheet: View {
     @State var newPassword: String = ""
     @State var oldPassword: String = ""
     @State var confirmPassword: String = ""
+    @State private var widthScale: CGFloat = 0.75
+
     @Binding var showSheet: PreferenceSheet?
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
 
@@ -56,31 +58,31 @@ struct UpdatePasswordSheet: View {
                     Text("A strong password helps prevent unauthorized access to your account")
                         .padding()
 
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .center) {
 
                         // Enter New Password TextField
                         Text("Enter New Password")
                             .font(.title3)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                            .padding(.leading)
+                            .frame(width: geometry.size.width * widthScale, alignment: .leading)
 
-                        EditTextField(title: "Enter new password ", input: $newPassword, secure: true, geometry: geometry, widthScale: 0.75).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+                        EditTextField(title: "Enter New Password ", input: $newPassword, secure: true, geometry: geometry, widthScale: widthScale).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
 
                         // Re-enter New Password Text box
                         Text("Re-enter New Password")
                             .font(.title3)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                            .padding(.leading)
+                            .frame(width: geometry.size.width * widthScale, alignment: .leading)
 
-                        EditTextField(title: "Re-enter new password ", input: $confirmPassword, secure: true, geometry: geometry, widthScale: 0.75).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+                        EditTextField(title: "Re-enter New Password ", input: $confirmPassword, secure: true, geometry: geometry, widthScale: widthScale).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
 
                         // Confirm change Text Field
                         Text("Old Password")
                             .font(.title3)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                            .padding(.leading)
+                            .frame(width: geometry.size.width * widthScale, alignment: .leading)
 
-                        EditTextField(title: "Enter old password to confirm change", input: $oldPassword, secure: true, geometry: geometry, widthScale: 0.75).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+                        EditTextField(title: "Enter Old Password to Confirm Change", input: $oldPassword, secure: true, geometry: geometry, widthScale: widthScale).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
 
                     }
 
@@ -93,7 +95,7 @@ struct UpdatePasswordSheet: View {
                         confirmPassword = ""
                         oldPassword = ""
                     } label: {
-                        BigButton(title: "Submit", geometry: geometry, widthScale: 0.75)
+                        BigButton(title: "Submit", geometry: geometry, widthScale: widthScale)
                     }
                     Spacer()
                 }
