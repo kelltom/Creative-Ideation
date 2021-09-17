@@ -121,7 +121,6 @@ final class TeamViewModel: ObservableObject {
             return
         }
 
-
         // Get user ID
         guard let uid = Auth.auth().currentUser?.uid else {
             // Set banner

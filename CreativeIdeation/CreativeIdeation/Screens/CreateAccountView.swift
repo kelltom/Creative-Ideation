@@ -86,7 +86,7 @@ struct CreateAccountView: View {
         }
         .edgesIgnoringSafeArea(.vertical)
         .onAppear {
-            //userAccountViewModel.showBanner = false
+            // userAccountViewModel.showBanner = false
         }
         .onDisappear {
             userAccountViewModel.showBanner = false
