@@ -54,7 +54,7 @@ struct CreateTeamSheet: View {
 
                     VStack {
 
-                        EditTextField(title: "Team name", input: $teamName, geometry: geometry, widthScale: 0.75)
+                        EditTextField(title: "Team Name", input: $teamName, geometry: geometry, widthScale: 0.75)
                         
                         // Enter Team Name title
                         HStack {
@@ -65,7 +65,7 @@ struct CreateTeamSheet: View {
                         }
                         .frame(width: geometry.size.width * widthScale)
 
-                        EditTextField(title: "Team description (optional)", input: $teamDescription, geometry: geometry, widthScale: 0.75)
+                        EditTextField(title: "Team Description (Optional)", input: $teamDescription, geometry: geometry, widthScale: 0.75)
 
                         Button {
                             teamViewModel.createTeam(teamName: teamName, teamDescription: teamDescription)

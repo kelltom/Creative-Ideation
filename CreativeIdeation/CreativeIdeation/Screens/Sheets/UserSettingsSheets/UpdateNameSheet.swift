@@ -81,7 +81,7 @@ struct UpdateNameSheet: View {
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                             .frame(width: geometry.size.width * widthScale, alignment: .leading)
 
-                        EditTextField(title: "Enter new name ", input: $newName, geometry: geometry, widthScale: widthScale)
+                        EditTextField(title: "Enter New Name ", input: $newName, geometry: geometry, widthScale: widthScale)
                     }
 
                     Button {

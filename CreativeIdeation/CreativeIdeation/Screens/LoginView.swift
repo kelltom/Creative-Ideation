@@ -53,7 +53,7 @@ struct LoginView: View {
                             }
                             .frame(width: geometry.size.width * widthScale)
                             
-                            EditTextField(title: "Email address", input: $email, geometry: geometry)
+                            EditTextField(title: "Email Address", input: $email, geometry: geometry)
                             
                             HStack {
                                 Text("Enter Password")

@@ -53,7 +53,7 @@ struct CreateAccountView: View {
                         }
                         .frame(width: geometry.size.width * widthScale)
                         
-                        EditTextField(title: "Full name", input: $name, geometry: geometry, widthScale: widthScale)
+                        EditTextField(title: "Full Name", input: $name, geometry: geometry, widthScale: widthScale)
                         
                         HStack {
                             Text("Enter Email Address")
@@ -63,7 +63,7 @@ struct CreateAccountView: View {
                         }
                         .frame(width: geometry.size.width * widthScale)
 
-                        EditTextField(title: "Email address", input: $email, geometry: geometry, widthScale: widthScale)
+                        EditTextField(title: "Email Address", input: $email, geometry: geometry, widthScale: widthScale)
                        
                         HStack {
                             Text("Enter Password")
