@@ -23,6 +23,8 @@ struct UserSettingsView: View {
     @State var showSheet: PreferenceSheet?
     @State private var darkModeFilter = true
 
+    @Binding var showUserSettings: Bool
+
     var userName: String = ""
     var email: String = ""
     var password: String = "*********"
@@ -150,12 +152,6 @@ struct UserSettingsView: View {
                     } label: {
                         LogOutButton()
                     }
-
-                    NavigationLink(
-                        destination: LoginView(),
-                        label: {
-                            EmptyView()
-                        })
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
                 .sheet(item: $showSheet) { item in
@@ -192,7 +188,7 @@ prefix func ! (value: Binding<Bool>) -> Binding<Bool> {
 
 struct UserPrefView_Previews: PreviewProvider {
     static var previews: some View {
-        UserSettingsView()
+        UserSettingsView(showUserSettings: .constant(true))
             .preferredColorScheme(.light)
             .environmentObject(UserAccountViewModel())
     }
