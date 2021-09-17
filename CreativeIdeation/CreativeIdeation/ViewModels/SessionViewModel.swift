@@ -148,6 +148,7 @@ final class SessionViewModel: ObservableObject {
             "createdBy": uid,
             "timerEnd": Date().addingTimeInterval(600),
             "timerActive": false,
+            "timeRemaining": 600,
             "groupId": groupId,
             "teamId": teamId
         ], forDocument: sessionRef)
@@ -226,6 +227,7 @@ final class SessionViewModel: ObservableObject {
                             self.teamSessions[selectedSessionIndex!].dateModified = mockSession.dateModified
                             self.teamSessions[selectedSessionIndex!].timerEnd = mockSession.timerEnd
                             self.teamSessions[selectedSessionIndex!].timerActive = mockSession.timerActive
+                            self.teamSessions[selectedSessionIndex!].timeRemaining = mockSession.timeRemaining
 
                             if self.selectedSession != nil && mockSession.sessionId == self.selectedSession?.sessionId {
                                 print("modified active session")
@@ -237,8 +239,10 @@ final class SessionViewModel: ObservableObject {
                                     print("pausing timer")
                                     self.timerManager.pause()
                                 }
+                                print("Reading time remaining: ", mockSession.timeRemaining)
                                 self.selectedSession!.timerActive = mockSession.timerActive
                                 self.selectedSession!.timerEnd = mockSession.timerEnd
+                                self.selectedSession!.timeRemaining = mockSession.timeRemaining
                                 self.selectedSession!.isVoting = mockSession.isVoting
                             }
 
@@ -248,6 +252,9 @@ final class SessionViewModel: ObservableObject {
                                 self.groupSessions[selectedSessionGroupIndex!].sessionDescription = mockSession.sessionDescription
                                 self.groupSessions[selectedSessionGroupIndex!].inProgress = mockSession.inProgress
                                 self.groupSessions[selectedSessionGroupIndex!].dateModified = mockSession.dateModified
+                                self.groupSessions[selectedSessionGroupIndex!].timerActive = mockSession.timerActive
+                                self.groupSessions[selectedSessionGroupIndex!].timerEnd = mockSession.timerEnd
+                                self.groupSessions[selectedSessionGroupIndex!].timeRemaining = mockSession.timeRemaining
                             }
 
                         } catch {
@@ -327,6 +334,7 @@ final class SessionViewModel: ObservableObject {
 
         } else {
             // swiftlint:disable multiple_closures_with_trailing_closure
+
             db.runTransaction({ (transaction, errorPointer) -> Any? in
                 do {
                     _ = try transaction.getDocument(sessionReference)
@@ -334,8 +342,9 @@ final class SessionViewModel: ObservableObject {
                     errorPointer?.pointee = fetchError
                     return nil
                 }
-
-                transaction.updateData(["timerActive": activeSession.timerActive],
+                print("Writing Time Remaining: ", self.timerManager.timeRemaining)
+                transaction.updateData(["timerActive": activeSession.timerActive,
+                                        "timeRemaining": self.timerManager.timeRemaining],
                                        forDocument: sessionReference)
                 return nil
             }) { (_, error) in

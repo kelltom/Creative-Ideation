@@ -447,9 +447,11 @@ struct ActivityView: View {
         .navigationTitle("Session")
         .navigationBarHidden(true)
         .onAppear {
-            sessionViewModel.getRemainingTime(endTime: sessionViewModel.selectedSession!.timerEnd)
             if sessionViewModel.selectedSession!.timerActive {
+                sessionViewModel.getRemainingTime(endTime: sessionViewModel.selectedSession!.timerEnd)
                 sessionViewModel.timerManager.start()
+            } else {
+                sessionViewModel.timerManager.timeRemaining = sessionViewModel.selectedSession!.timeRemaining
             }
         }
     }
