@@ -26,6 +26,9 @@ class TimerManager: ObservableObject {
         print("mode is now: ", mode)
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             self.timeRemaining -= 1
+            if self.timeRemaining <= 0 {
+                self.pause()
+            }
             print(self.timeRemaining)
         }
     }
