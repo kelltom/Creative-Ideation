@@ -15,7 +15,7 @@ struct LoginView: View {
 
     @State var email: String = ""
     @State var password: String = ""
-    @State private var widthScale: CGFloat = 0.60
+    @State private var widthScale: CGFloat = 0.75
 
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
     @EnvironmentObject var teamViewModel: TeamViewModel
@@ -53,7 +53,7 @@ struct LoginView: View {
                             }
                             .frame(width: geometry.size.width * widthScale)
 
-                            EditTextField(title: "Email Address", input: $email, geometry: geometry)
+                            EditTextField(title: "Email Address", input: $email, geometry: geometry, widthScale: widthScale)
 
                             HStack {
                                 Text("Enter Password")
@@ -63,7 +63,7 @@ struct LoginView: View {
                             }
                             .frame(width: geometry.size.width * widthScale)
 
-                            EditTextField(title: "Password", input: $password, secure: true, geometry: geometry)
+                            EditTextField(title: "Password", input: $password, secure: true, geometry: geometry, widthScale: widthScale)
 
                             // Log In Link
                             NavigationLink(
@@ -80,7 +80,7 @@ struct LoginView: View {
                             Button {
                                 userAccountViewModel.authenticate(email: email, password: password)
                             } label: {
-                                BigButton(title: "Log In", geometry: geometry)
+                                BigButton(title: "Log In", geometry: geometry, widthScale: widthScale)
                             }
                             .padding(.top)
 
