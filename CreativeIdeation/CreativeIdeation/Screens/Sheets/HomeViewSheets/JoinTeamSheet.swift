@@ -42,7 +42,7 @@ struct JoinTeamSheet: View {
                         Text("Enter Your Team Code")
                             .font(.title3)
                             .fontWeight(.bold)
-                            .padding(.leading)
+                          
 
                         // Text area
                         ZStack {

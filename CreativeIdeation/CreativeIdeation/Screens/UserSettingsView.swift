@@ -38,7 +38,7 @@ struct UserSettingsView: View {
 
                 Text(title)
                     .font(.largeTitle)
-                    .bold()
+                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     .padding()
 
                 VStack {
@@ -54,12 +54,12 @@ struct UserSettingsView: View {
                     VStack(alignment: .leading ) {
 
                         Text("Full Name")
-                            .font(.system(size: 25))
+                            .font(.title3)
                             .fontWeight(.bold)
 
                         HStack {
                             Text(userAccountViewModel.selectedUser?.name ?? "Unknown")
-                                .font(.system(size: 18))
+                                .font(.title3)
 
                             Spacer()
                             // edit button for name
@@ -73,12 +73,12 @@ struct UserSettingsView: View {
                         }
 
                         Text("Email")
-                            .font(.system(size: 25))
+                            .font(.title3)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
 
                         HStack {
                             Text(userAccountViewModel.selectedUser?.email ?? "Unknown")
-                                .font(.system(size: 18))
+                                .font(.title3)
 
                             Spacer()
                             // email text button
@@ -91,12 +91,12 @@ struct UserSettingsView: View {
                         }
 
                         Text("Password")
-                            .font(.system(size: 25))
+                            .font(.title3)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
 
                         HStack {
                             Text(password)
-                                .font(.system(size: 18))
+                                .font(.title3)
 
                             Spacer()
 

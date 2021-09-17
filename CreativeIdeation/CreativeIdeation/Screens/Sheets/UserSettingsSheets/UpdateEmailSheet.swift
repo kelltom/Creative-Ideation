@@ -11,6 +11,7 @@ struct UpdateEmailSheet: View {
     @State var newEmail: String = ""
     @State var currentEmail: String = ""
     @State var currentPasword: String = ""
+    @State private var widthScale: CGFloat = 0.75
     @Binding var showSheet: PreferenceSheet?
 
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
@@ -52,33 +53,36 @@ struct UpdateEmailSheet: View {
                         .padding(.top)
 
                     // displays users email
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .center) {
                         Text("Current Email")
                             .font(.title3)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                            .padding(.leading)
                             .padding(.top)
+                            .padding(.bottom, 10)
+                            .frame(width: geometry.size.width * widthScale, alignment: .leading)
 
+                        
                         Text(userAccountViewModel.selectedUser?.email ?? "N/A").foregroundColor(.blue)
                             .padding()
-                            .frame(width: geometry.size.width * 0.75, height: 60, alignment: .leading)
+                            .frame(width: geometry.size.width * widthScale, height: 60, alignment: .leading)
                             .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color("StrokeColor")))
                             .font(.title2)
-                            .padding(10)
+                            .padding(.bottom, 10)
 
                         // email text input
                         Text("New Email")
                             .font(.title3)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                            .padding(.leading)
+                            .frame(width: geometry.size.width * widthScale, alignment: .leading)
 
-                        EditTextField(title: "Enter New Email ", input: $newEmail, geometry: geometry, widthScale: 0.75)
+                        EditTextField(title: "Enter New Email ", input: $newEmail, geometry: geometry, widthScale: widthScale)
 
                         // password confirmation input
                         Text("Enter password ")
                             .font(.title3)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                            .padding(.leading)
+                            .frame(width: geometry.size.width * widthScale, alignment: .leading)
+
 
                         EditTextField(
                             title: "Enter Password to Confirm ",
