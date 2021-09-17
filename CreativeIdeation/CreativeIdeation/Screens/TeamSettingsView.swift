@@ -28,8 +28,8 @@ struct TeamSettingsView: View {
             VStack {
 
                 Text("Team Settings")
-                    .font(.system(size: 40))
-                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .font(.largeTitle)
+                    .bold()
                     .padding()
 
                 VStack {

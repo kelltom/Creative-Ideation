@@ -34,7 +34,10 @@ struct CreateSessionSheet: View {
 
             GeometryReader { geometry in
                 VStack {
-                    Text("Create a Session").font(.system(size: 40, weight: .heavy)).padding()
+                    Text("Create a Session")
+                        .font(.largeTitle)
+                        .bold()
+                        .padding()
 
                     VStack {
                         EditTextField(title: "Session Name", input: $sessionViewModel.newSession.sessionTitle, geometry: geometry, widthScale: 0.75)

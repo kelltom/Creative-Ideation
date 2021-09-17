@@ -37,7 +37,8 @@ struct CreateTeamSheet: View {
                 VStack {
 
                     Text("Create Your Team")
-                        .font(.system(size: 40))
+                        .font(.largeTitle)
+                        .bold()
                         .padding()
 
                     VStack {

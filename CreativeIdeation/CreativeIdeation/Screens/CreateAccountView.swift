@@ -40,8 +40,10 @@ struct CreateAccountView: View {
                     VStack {
 
                         Text("Create Account")
+                            .font(.largeTitle)
+                            .bold()
                             .padding()
-                            .font(.system(size: 40))
+                            
 
                         EditTextField(title: "Full name", input: $name, geometry: geometry)
 

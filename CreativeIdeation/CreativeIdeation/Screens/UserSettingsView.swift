@@ -37,9 +37,8 @@ struct UserSettingsView: View {
             VStack {
 
                 Text(title)
-                    .font(.system(size: 40))
-                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                    .padding(.top)
+                    .font(.largeTitle)
+                    .bold()
                     .padding()
 
                 VStack {

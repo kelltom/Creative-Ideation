@@ -34,7 +34,8 @@ struct JoinTeamSheet: View {
 
                 VStack {
                     Text("Join a Team ")
-                        .font(.system(size: 40))
+                        .font(.largeTitle)
+                        .bold()
                         .padding()
 
                     VStack(alignment: .leading) {

@@ -40,8 +40,9 @@ struct LoginView: View {
                         VStack {
 
                             Text("Log In")
+                                .font(.largeTitle)
+                                .bold()
                                 .padding()
-                                .font(.system(size: 40))
 
                             EditTextField(title: "Email address", input: $email, geometry: geometry)
 
