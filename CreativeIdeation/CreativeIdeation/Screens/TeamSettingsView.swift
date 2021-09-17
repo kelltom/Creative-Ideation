@@ -28,8 +28,8 @@ struct TeamSettingsView: View {
             VStack {
 
                 Text("Team Settings")
-                    .font(.system(size: 40))
-                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
                     .padding()
 
                 VStack {
@@ -43,13 +43,13 @@ struct TeamSettingsView: View {
                     VStack(alignment: .leading ) {
 
                         Text("Team Name")
-                            .font(.system(size: 25))
+                            .font(.title3)
                             .fontWeight(.bold)
 
                         HStack {
 
                             Text(teamName)
-                                .font(.system(size: 18))
+                                .font(.title3)
 
                             Spacer()
 
@@ -62,13 +62,13 @@ struct TeamSettingsView: View {
                         }
 
                         Text("Description")
-                            .font(.system(size: 25))
+                            .font(.title3)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
 
                         HStack {
 
                             Text(description)
-                                .font(.system(size: 18))
+                                .font(.title3)
 
                             Spacer()
 
@@ -94,7 +94,7 @@ struct TeamSettingsView: View {
                 VStack(alignment: .leading) {
 
                     Text("Profanity Control")
-                        .font(.system(size: 20))
+                        .font(.title3)
                         .fontWeight(.bold)
                         .padding(.top)
                         .padding()

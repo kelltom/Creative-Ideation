@@ -34,14 +34,14 @@ struct JoinTeamSheet: View {
 
                 VStack {
                     Text("Join a Team ")
-                        .font(.system(size: 40))
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
                         .padding()
 
                     VStack(alignment: .leading) {
                         Text("Enter Your Team Code")
                             .font(.title3)
                             .fontWeight(.bold)
-                            .padding(.leading)
 
                         // Text area
                         ZStack {

@@ -6,13 +6,17 @@
 //
 
 import SwiftUI
+import Profanity_Filter
 
 struct UpdateNameSheet: View {
     @State var newName: String = ""
     @State var currentName: String = ""
+    @State private var widthScale: CGFloat = 0.75
     @Binding var showSheet: PreferenceSheet?
 
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
+
+    var pFilter = ProfanityFilter()
 
     var body: some View {
         ZStack {
@@ -54,32 +58,32 @@ struct UpdateNameSheet: View {
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
 
                     // Display Name
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .center) {
                         Text("Current Display Name")
                             .font(.title3)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                            .padding(.leading)
                             .padding(.top)
+                            .padding(.bottom, 10)
+                            .frame(width: geometry.size.width * widthScale, alignment: .leading)
+
                         // Display name text view
                         Text(userAccountViewModel.selectedUser?.name ?? "N/A").foregroundColor(.blue)
                             .padding()
                             .frame(width: geometry.size.width * 0.75, height: 60, alignment: .leading)
                             .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color("StrokeColor")))
                             .font(.title2)
-                            .padding(10)
+                            .padding(.bottom, 10)
 
                         // New disply name Entry
                         Text("New Display Name")
                             .font(.title3)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                            .padding(.leading)
+                            .frame(width: geometry.size.width * widthScale, alignment: .leading)
 
-                        EditTextField(title: "Enter new name ", input: $newName, geometry: geometry, widthScale: 0.75)
+                        EditTextField(title: "Enter New Name ", input: $newName, geometry: geometry, widthScale: widthScale)
                     }
 
                     Button {
-                        // save to DB -- we can a profanity check here to make sure that they cant
-                        // have a bad name
                         userAccountViewModel.updateUserName(name: newName)
                         newName = ""
                     } label: {

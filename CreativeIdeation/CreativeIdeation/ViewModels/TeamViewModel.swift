@@ -11,11 +11,13 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseFunctions
 import SwiftUI
+import Profanity_Filter
 
 final class TeamViewModel: ObservableObject {
 
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
+    private var pFilter = ProfanityFilter()
 
     @Published var teams: [Team] = []   // populated when navigating to HomeView
     @Published var selectedTeam: Team?  // selected team in the sidebar
@@ -109,6 +111,15 @@ final class TeamViewModel: ObservableObject {
 
     /// Creates a single team
     func createTeam(teamName: String, teamDescription: String, isPrivate: Bool = false) {
+
+        if pFilter.containsProfanity(text: teamName).profanities.count > 0 ||
+            pFilter.containsProfanity(text: teamDescription).profanities.count > 0 {
+            self.setBannerData(title: "Cannot create Team",
+                               details: "Cannot use profanity in team name or description.",
+                               type: .warning)
+            self.showBanner = true
+            return
+        }
 
         // Get user ID
         guard let uid = Auth.auth().currentUser?.uid else {

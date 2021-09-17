@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Profanity_Filter
 
 struct CreateGroupSheet: View {
 
@@ -22,6 +23,8 @@ struct CreateGroupSheet: View {
 
     @EnvironmentObject var groupViewModel: GroupViewModel
     @EnvironmentObject var teamViewModel: TeamViewModel
+
+    var pFilter = ProfanityFilter()
 
     var body: some View {
 
@@ -41,7 +44,10 @@ struct CreateGroupSheet: View {
                     Spacer()
                         .frame(height: geometry.size.height * 0.1)
 
-                    Text("Create Your Group").font(.system(size: 40, weight: .heavy)).padding()
+                    Text("Create Your Group")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .padding()
 
                     VStack {
 

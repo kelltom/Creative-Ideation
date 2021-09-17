@@ -15,6 +15,7 @@ struct LoginView: View {
 
     @State var email: String = ""
     @State var password: String = ""
+    @State private var widthScale: CGFloat = 0.75
 
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
     @EnvironmentObject var teamViewModel: TeamViewModel
@@ -40,12 +41,29 @@ struct LoginView: View {
                         VStack {
 
                             Text("Log In")
+                                .font(.largeTitle)
+                                .fontWeight(.bold)
                                 .padding()
-                                .font(.system(size: 40))
 
-                            EditTextField(title: "Email address", input: $email, geometry: geometry)
+                            HStack {
+                                Text("Enter Email Address")
+                                    .font(.title3)
+                                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                                Spacer()
+                            }
+                            .frame(width: geometry.size.width * widthScale)
 
-                            EditTextField(title: "Password", input: $password, secure: true, geometry: geometry)
+                            EditTextField(title: "Email Address", input: $email, geometry: geometry, widthScale: widthScale)
+
+                            HStack {
+                                Text("Enter Password")
+                                    .font(.title3)
+                                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                                Spacer()
+                            }
+                            .frame(width: geometry.size.width * widthScale)
+
+                            EditTextField(title: "Password", input: $password, secure: true, geometry: geometry, widthScale: widthScale)
 
                             // Log In Link
                             NavigationLink(
@@ -62,7 +80,7 @@ struct LoginView: View {
                             Button {
                                 userAccountViewModel.authenticate(email: email, password: password)
                             } label: {
-                                BigButton(title: "Log In", geometry: geometry)
+                                BigButton(title: "Log In", geometry: geometry, widthScale: widthScale)
                             }
                             .padding(.top)
 
@@ -75,18 +93,6 @@ struct LoginView: View {
                                 }
                             }
                             .padding(.top, 20)
-
-                            Text("or")
-                                .hidden()
-
-                            // Sign In with Google Button
-                            Button {
-                                // code here for Google Auth
-                                // actionState = 1
-                            } label: {
-                                GoogleButton()
-                            }
-                            .hidden()
 
                             NavigationLink(destination: EmptyView()) {
                                 EmptyView()
