@@ -35,6 +35,9 @@ struct UserSettingsView: View {
 
             Color("BackgroundColor")
 
+            // Back button required, as NavigationView not used to get to this page
+            BackButton(text: "Home", binding: $showUserSettings)
+            
             GeometryReader { geometry in
                 VStack {
 
