@@ -393,6 +393,10 @@ struct HomeView: View {
                                isActive: self.$showUserSettings) {
                     EmptyView()
                 }
+
+                NavigationLink(destination: EmptyView()) {
+                    EmptyView()
+                }
             }
             .navigationTitle("Home")
             .navigationBarHidden(true)
