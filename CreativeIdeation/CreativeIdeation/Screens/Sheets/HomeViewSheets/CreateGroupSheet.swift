@@ -46,7 +46,7 @@ struct CreateGroupSheet: View {
 
                     Text("Create Your Group")
                         .font(.largeTitle)
-                        .bold()
+                        .fontWeight(.bold)
                         .padding()
 
                     VStack {

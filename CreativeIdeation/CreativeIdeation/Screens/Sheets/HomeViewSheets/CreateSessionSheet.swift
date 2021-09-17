@@ -38,7 +38,7 @@ struct CreateSessionSheet: View {
                 VStack {
                     Text("Create a Session")
                         .font(.largeTitle)
-                        .bold()
+                        .fontWeight(.bold)
                         .padding()
 
                     VStack {

@@ -39,7 +39,7 @@ struct CreateTeamSheet: View {
 
                     Text("Create Your Team")
                         .font(.largeTitle)
-                        .bold()
+                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .padding()
 
                     // Enter Team Name title
