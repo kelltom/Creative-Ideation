@@ -228,12 +228,13 @@ final class SessionViewModel: ObservableObject {
                             self.teamSessions[selectedSessionIndex!].timerActive = mockSession.timerActive
 
                             if self.selectedSession != nil && mockSession.sessionId == self.selectedSession?.sessionId {
-                                if self.selectedSession!.timerActive != mockSession.timerActive {
-                                    if mockSession.timerActive{
-                                        self.timerManager.start()
-                                    } else {
-                                        self.timerManager.pause()
-                                    }
+                                print("modified active session")
+                                if mockSession.timerActive {
+                                    print("starting timer")
+                                    self.timerManager.start()
+                                } else {
+                                    print("pausing timer")
+                                    self.timerManager.pause()
                                 }
                                 self.selectedSession!.timerActive = mockSession.timerActive
                                 self.selectedSession!.timerEnd = mockSession.timerEnd
