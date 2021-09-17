@@ -30,7 +30,7 @@ struct ActivityView: View {
     let columns = [
         GridItem(.adaptive(minimum: 160))]
 
-    @ObservedObject var timerManager = TimerManager()
+    // @ObservedObject var timerManager = TimerManager()
 
     @State var showSheet: SessionSheet?
     @State private var selectedColor = -1
@@ -53,7 +53,6 @@ struct ActivityView: View {
                 HStack {
 
                     Button {
-                        timerManager.reset()
                         showActivity = false
                         sessionItemViewModel.resetModel()
                         sessionViewModel.selectedSession = nil
@@ -89,19 +88,19 @@ struct ActivityView: View {
                                 .frame(width: 140, height: 80)
                                 .padding(.trailing)
 
-                            Text(timerManager.toString())
+                            Text(sessionViewModel.timerManager.toString())
                                 .font(.largeTitle)
                                 .padding(.trailing)
                         }
 
                         Button {
-                            sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
+                            sessionViewModel.toggleTimer(timeRemaining: Double(sessionViewModel.timerManager.timeRemaining))
                         } label: {
-                            Image(systemName: timerManager.mode == .running ? "pause.fill" : "play.fill")
+                            Image(systemName: sessionViewModel.timerManager.mode == .running ? "pause.fill" : "play.fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 40, height: 40)
-                                .foregroundColor(timerManager.mode == .running ? .blue : .green)
+                                .foregroundColor(sessionViewModel.timerManager.mode == .running ? .blue : .green)
                         }
                     }
                     .padding(.top)
@@ -445,17 +444,17 @@ struct ActivityView: View {
         }
         .navigationTitle("Session")
         .navigationBarHidden(true)
-        .onChange(of: sessionViewModel.selectedSession?.timerActive, perform: { value in
-            print("Got into onChange")
-            guard let timerNowActive = value else { return }
-            if timerNowActive && (timerManager.mode == .stopped || timerManager.mode == .paused) {
-                print("Starting Timer")
-                timerManager.start()
-            } else if !timerNowActive {
-                print("Stopping Timer")
-                timerManager.pause()
-            }
-        })
+//        .onChange(of: sessionViewModel.selectedSession?.timerActive, perform: { value in
+//            print("Got into onChange")
+//            guard let timerNowActive = value else { return }
+//            if timerNowActive && (timerManager.mode == .stopped || timerManager.mode == .paused) {
+//                print("Starting Timer")
+//                timerManager.start()
+//            } else if !timerNowActive {
+//                print("Stopping Timer")
+//                timerManager.pause()
+//            }
+//        })
     }
 
 }

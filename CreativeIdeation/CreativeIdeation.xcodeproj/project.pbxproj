@@ -658,7 +658,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"CreativeIdeation/Preview Content\"";
-				DEVELOPMENT_TEAM = SY6XBMC34U;
+				DEVELOPMENT_TEAM = 7NVCUVJ8HA;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = CreativeIdeation/Info.plist;
@@ -667,7 +667,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "-B7KJQCFCP.maccatalyst.com.mvk.creativeideation";
+				PRODUCT_BUNDLE_IDENTIFIER = "-7KJQCFCP.maccatalyst.com.mvk.creativeideation";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTS_MACCATALYST = YES;
@@ -686,7 +686,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"CreativeIdeation/Preview Content\"";
-				DEVELOPMENT_TEAM = SY6XBMC34U;
+				DEVELOPMENT_TEAM = 7NVCUVJ8HA;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = CreativeIdeation/Info.plist;
@@ -695,7 +695,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "-B7KJQCFCP.maccatalyst.com.mvk.creativeideation";
+				PRODUCT_BUNDLE_IDENTIFIER = "-7KJQCFCP.maccatalyst.com.mvk.creativeideation";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTS_MACCATALYST = YES;

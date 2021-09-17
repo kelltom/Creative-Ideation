@@ -21,6 +21,7 @@ final class SessionViewModel: ObservableObject {
     @Published var teamSessions: [Session] = []     /// List of Sessions from a team that the user belongs to
     @Published var selectedSession: Session?        /// Session object of the selected Session
     @Published var newSession = Session()           /// Session object used when creating new Sessions, binds to UI
+    @Published var timerManager = TimerManager()
 
     @Published var msg = ""
     @Published var didOperationSucceed = false
@@ -227,6 +228,13 @@ final class SessionViewModel: ObservableObject {
                             self.teamSessions[selectedSessionIndex!].timerActive = mockSession.timerActive
 
                             if self.selectedSession != nil && mockSession.sessionId == self.selectedSession?.sessionId {
+                                if self.selectedSession!.timerActive != mockSession.timerActive {
+                                    if mockSession.timerActive{
+                                        self.timerManager.start()
+                                    } else {
+                                        self.timerManager.pause()
+                                    }
+                                }
                                 self.selectedSession!.timerActive = mockSession.timerActive
                                 self.selectedSession!.timerEnd = mockSession.timerEnd
                                 self.selectedSession!.isVoting = mockSession.isVoting
