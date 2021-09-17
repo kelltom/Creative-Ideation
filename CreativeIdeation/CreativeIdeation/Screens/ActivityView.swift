@@ -452,19 +452,7 @@ struct ActivityView: View {
                 sessionViewModel.timerManager.start()
             }
         }
-//        .onChange(of: sessionViewModel.selectedSession?.timerActive, perform: { value in
-//            print("Got into onChange")
-//            guard let timerNowActive = value else { return }
-//            if timerNowActive && (timerManager.mode == .stopped || timerManager.mode == .paused) {
-//                print("Starting Timer")
-//                timerManager.start()
-//            } else if !timerNowActive {
-//                print("Stopping Timer")
-//                timerManager.pause()
-//            }
-//        })
     }
-
 }
 
 struct ActivityView_Previews: PreviewProvider {

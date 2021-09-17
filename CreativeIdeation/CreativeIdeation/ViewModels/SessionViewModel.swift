@@ -347,8 +347,7 @@ final class SessionViewModel: ObservableObject {
     }
 
     func getRemainingTime(endTime: Date) {
-        let remainingTime = Date().timeIntervalSince(endTime)
-        print(remainingTime)
+        let remainingTime = endTime.timeIntervalSince(Date())
         timerManager.timeRemaining = Int(remainingTime)
     }
 
