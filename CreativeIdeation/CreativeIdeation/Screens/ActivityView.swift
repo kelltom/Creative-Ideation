@@ -30,7 +30,7 @@ struct ActivityView: View {
     let columns = [
         GridItem(.adaptive(minimum: 160))]
 
-    // @ObservedObject var timerManager = TimerManager()
+    @ObservedObject var timerManager: TimerManager
 
     @State var showSheet: SessionSheet?
     @State private var selectedColor = -1
@@ -88,19 +88,19 @@ struct ActivityView: View {
                                 .frame(width: 140, height: 80)
                                 .padding(.trailing)
 
-                            Text(sessionViewModel.timerManager.toString())
+                            Text(timerManager.toString())
                                 .font(.largeTitle)
                                 .padding(.trailing)
                         }
 
                         Button {
-                            sessionViewModel.toggleTimer(timeRemaining: Double(sessionViewModel.timerManager.timeRemaining))
+                            sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
                         } label: {
-                            Image(systemName: sessionViewModel.timerManager.mode == .running ? "pause.fill" : "play.fill")
+                            Image(systemName: timerManager.mode == .running ? "pause.fill" : "play.fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 40, height: 40)
-                                .foregroundColor(sessionViewModel.timerManager.mode == .running ? .blue : .green)
+                                .foregroundColor(timerManager.mode == .running ? .blue : .green)
                         }
                     }
                     .padding(.top)
@@ -444,6 +444,9 @@ struct ActivityView: View {
         }
         .navigationTitle("Session")
         .navigationBarHidden(true)
+//        .onAppear {
+//            timerManager = sessionViewModel.timerManager
+//        }
 //        .onChange(of: sessionViewModel.selectedSession?.timerActive, perform: { value in
 //            print("Got into onChange")
 //            guard let timerNowActive = value else { return }
@@ -461,7 +464,7 @@ struct ActivityView: View {
 
 struct ActivityView_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityView(showActivity: .constant(true))
+        ActivityView(timerManager: TimerManager(), showActivity: .constant(true))
             .environmentObject(SessionItemViewModel())
     }
 }
