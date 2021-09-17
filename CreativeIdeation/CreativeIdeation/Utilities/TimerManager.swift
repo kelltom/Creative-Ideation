@@ -21,6 +21,7 @@ class TimerManager: ObservableObject {
 
     func start() {
         print("Beginning start function")
+        timer.invalidate()
         mode = .running
         print("mode is now: ", mode)
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
@@ -43,12 +44,12 @@ class TimerManager: ObservableObject {
     }
 
     func toString() -> String {
-        let minutes: Int = timeRemaining / 60
+        let minutes: Int = abs(timeRemaining / 60)
         var seconds: String = ""
-        if timeRemaining % 60 < 10 {
+        if abs(timeRemaining % 60) < 10 {
             seconds += "0"
         }
-        seconds += String(timeRemaining % 60)
+        seconds += String(abs(timeRemaining % 60))
         return String(format: "%d:" + seconds, minutes)
     }
 }

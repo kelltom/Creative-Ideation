@@ -146,7 +146,7 @@ final class SessionViewModel: ObservableObject {
             "dateCreated": Date(),
             "dateModified": Date(),
             "createdBy": uid,
-            "timerEnd": Date(),
+            "timerEnd": Date().addingTimeInterval(600),
             "timerActive": false,
             "groupId": groupId,
             "teamId": teamId
@@ -231,6 +231,7 @@ final class SessionViewModel: ObservableObject {
                                 print("modified active session")
                                 if mockSession.timerActive {
                                     print("starting timer")
+                                    self.getRemainingTime(endTime: mockSession.timerEnd)
                                     self.timerManager.start()
                                 } else {
                                     print("pausing timer")
@@ -300,34 +301,55 @@ final class SessionViewModel: ObservableObject {
             return
         }
 
-        var endTime: Date
-
-        if activeSession.timerActive {
-            endTime = Date().addingTimeInterval(timeRemaining)
-        } else {
-            endTime = Date().addingTimeInterval(-timeRemaining)
-        }
-
         let sessionReference = db.collection("sessions").document(activeSession.sessionId)
 
-        // swiftlint:disable multiple_closures_with_trailing_closure
-        db.runTransaction({ (transaction, errorPointer) -> Any? in
-            do {
-                _ = try transaction.getDocument(sessionReference)
-            } catch let fetchError as NSError {
-                errorPointer?.pointee = fetchError
+        if activeSession.timerActive {
+            let endTime = Date().addingTimeInterval(timeRemaining)
+
+            // swiftlint:disable multiple_closures_with_trailing_closure
+            db.runTransaction({ (transaction, errorPointer) -> Any? in
+                do {
+                    _ = try transaction.getDocument(sessionReference)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+
+                transaction.updateData(["timerActive": activeSession.timerActive,
+                                       "timerEnd": endTime],
+                                       forDocument: sessionReference)
                 return nil
+            }) { (_, error) in
+                if let error = error {
+                    print("Error updating session: \(error)")
+                }
             }
 
-            transaction.updateData(["timerActive": activeSession.timerActive,
-                                   "timerEnd": endTime],
-                                   forDocument: sessionReference)
-            return nil
-        }) { (_, error) in
-            if let error = error {
-                print("Error updating session: \(error)")
+        } else {
+            // swiftlint:disable multiple_closures_with_trailing_closure
+            db.runTransaction({ (transaction, errorPointer) -> Any? in
+                do {
+                    _ = try transaction.getDocument(sessionReference)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+
+                transaction.updateData(["timerActive": activeSession.timerActive],
+                                       forDocument: sessionReference)
+                return nil
+            }) { (_, error) in
+                if let error = error {
+                    print("Error updating session: \(error)")
+                }
             }
         }
+    }
+
+    func getRemainingTime(endTime: Date) {
+        let remainingTime = Date().timeIntervalSince(endTime)
+        print(remainingTime)
+        timerManager.timeRemaining = Int(remainingTime)
     }
 
     /// Assigns values to the published BannerData object

@@ -56,6 +56,8 @@ struct ActivityView: View {
                         showActivity = false
                         sessionItemViewModel.resetModel()
                         sessionViewModel.selectedSession = nil
+                        sessionViewModel.timerManager.pause()
+                        sessionViewModel.timerManager = TimerManager()
                     } label: {
                         ZStack {
                             Circle()
@@ -444,9 +446,12 @@ struct ActivityView: View {
         }
         .navigationTitle("Session")
         .navigationBarHidden(true)
-//        .onAppear {
-//            timerManager = sessionViewModel.timerManager
-//        }
+        .onAppear {
+            sessionViewModel.getRemainingTime(endTime: sessionViewModel.selectedSession!.timerEnd)
+            if sessionViewModel.selectedSession!.timerActive {
+                sessionViewModel.timerManager.start()
+            }
+        }
 //        .onChange(of: sessionViewModel.selectedSession?.timerActive, perform: { value in
 //            print("Got into onChange")
 //            guard let timerNowActive = value else { return }
