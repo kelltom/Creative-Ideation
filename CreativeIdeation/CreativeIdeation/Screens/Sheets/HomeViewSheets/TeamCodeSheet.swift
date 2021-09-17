@@ -39,7 +39,7 @@ struct TeamCodeSheet: View {
                     VStack {
                         Text("Team Access Code")
                             .font(.largeTitle)
-                            .foregroundColor(Color("StrokeColor"))
+                            .foregroundColor(Color(.white))
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                             .padding()
 
@@ -71,7 +71,7 @@ struct TeamCodeSheet: View {
                             }
                         }
                     }
-                    .frame(maxWidth: geometry.size.width * 0.8, maxHeight: 300)
+                    .frame(maxWidth: geometry.size.width * 0.75, maxHeight: 300)
                     .overlay(
                         RoundedRectangle(cornerRadius: 25.0)
                             .stroke(Color("brandPrimary"), lineWidth: 2.5)

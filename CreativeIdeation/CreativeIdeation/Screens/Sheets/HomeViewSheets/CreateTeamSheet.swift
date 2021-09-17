@@ -16,6 +16,7 @@ struct CreateTeamSheet: View {
 
     @State var teamName: String = ""
     @State var teamDescription: String = ""
+    @State private var widthScale: CGFloat = 0.75  // percentage width of screen UI should use
 
     @EnvironmentObject var teamViewModel: TeamViewModel
     @EnvironmentObject var groupviewModel: GroupViewModel
@@ -37,14 +38,33 @@ struct CreateTeamSheet: View {
                 VStack {
 
                     Text("Create Your Team")
-                        .font(.system(size: 40))
+                        .font(.largeTitle)
+                        .bold()
                         .padding()
+
+                    // Enter Team Name title
+                    HStack {
+                        Text("Enter Team Name")
+                            .font(.title3)
+                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        Spacer()
+                    }
+                    .frame(width: geometry.size.width * widthScale)
 
                     VStack {
 
-                        EditTextField(title: "Team name", input: $teamName, geometry: geometry, widthScale: 0.75)
+                        EditTextField(title: "Team Name", input: $teamName, geometry: geometry, widthScale: 0.75)
 
-                        EditTextField(title: "Team description (optional)", input: $teamDescription, geometry: geometry, widthScale: 0.75)
+                        // Enter Team Name title
+                        HStack {
+                            Text("Enter Team Name")
+                                .font(.title3)
+                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            Spacer()
+                        }
+                        .frame(width: geometry.size.width * widthScale)
+
+                        EditTextField(title: "Team Description (Optional)", input: $teamDescription, geometry: geometry, widthScale: 0.75)
 
                         Button {
                             teamViewModel.createTeam(teamName: teamName, teamDescription: teamDescription)
