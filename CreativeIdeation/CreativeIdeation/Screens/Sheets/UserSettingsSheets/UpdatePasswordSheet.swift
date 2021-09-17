@@ -13,7 +13,7 @@ struct UpdatePasswordSheet: View {
     @State var oldPassword: String = ""
     @State var confirmPassword: String = ""
     @State private var widthScale: CGFloat = 0.75
-    
+
     @Binding var showSheet: PreferenceSheet?
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
 

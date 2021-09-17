@@ -66,14 +66,13 @@ struct UpdateNameSheet: View {
                             .padding(.bottom, 10)
                             .frame(width: geometry.size.width * widthScale, alignment: .leading)
 
-                        
                         // Display name text view
                         Text(userAccountViewModel.selectedUser?.name ?? "N/A").foregroundColor(.blue)
                             .padding()
                             .frame(width: geometry.size.width * 0.75, height: 60, alignment: .leading)
                             .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color("StrokeColor")))
                             .font(.title2)
-                            .padding(.bottom,10)
+                            .padding(.bottom, 10)
 
                         // New disply name Entry
                         Text("New Display Name")

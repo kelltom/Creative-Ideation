@@ -17,7 +17,7 @@ struct CreateAccountView: View {
     @State var email: String = ""
     @State var password: String = ""
     @State private var widthScale: CGFloat = 0.75
-    
+
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
     @EnvironmentObject var teamViewModel: TeamViewModel
 
@@ -44,7 +44,7 @@ struct CreateAccountView: View {
                             .font(.largeTitle)
                             .fontWeight(.bold)
                             .padding()
-                            
+
                         HStack {
                             Text("Enter Full Name")
                                 .font(.title3)
@@ -52,9 +52,9 @@ struct CreateAccountView: View {
                             Spacer()
                         }
                         .frame(width: geometry.size.width * widthScale)
-                        
+
                         EditTextField(title: "Full Name", input: $name, geometry: geometry, widthScale: widthScale)
-                        
+
                         HStack {
                             Text("Enter Email Address")
                                 .font(.title3)
@@ -64,7 +64,7 @@ struct CreateAccountView: View {
                         .frame(width: geometry.size.width * widthScale)
 
                         EditTextField(title: "Email Address", input: $email, geometry: geometry, widthScale: widthScale)
-                       
+
                         HStack {
                             Text("Enter Password")
                                 .font(.title3)
@@ -112,7 +112,7 @@ struct CreateAccountView: View {
         }
         .edgesIgnoringSafeArea(.vertical)
         .onAppear {
-            //userAccountViewModel.showBanner = false
+            // userAccountViewModel.showBanner = false
         }
         .onDisappear {
             userAccountViewModel.showBanner = false

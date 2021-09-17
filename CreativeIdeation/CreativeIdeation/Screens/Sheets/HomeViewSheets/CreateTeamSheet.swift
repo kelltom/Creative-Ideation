@@ -18,7 +18,6 @@ struct CreateTeamSheet: View {
     @State var teamDescription: String = ""
     @State private var widthScale: CGFloat = 0.75  // percentage width of screen UI should use
 
-
     @EnvironmentObject var teamViewModel: TeamViewModel
     @EnvironmentObject var groupviewModel: GroupViewModel
 
@@ -42,7 +41,7 @@ struct CreateTeamSheet: View {
                         .font(.largeTitle)
                         .bold()
                         .padding()
-                    
+
                     // Enter Team Name title
                     HStack {
                         Text("Enter Team Name")
@@ -55,7 +54,7 @@ struct CreateTeamSheet: View {
                     VStack {
 
                         EditTextField(title: "Team Name", input: $teamName, geometry: geometry, widthScale: 0.75)
-                        
+
                         // Enter Team Name title
                         HStack {
                             Text("Enter Team Name")

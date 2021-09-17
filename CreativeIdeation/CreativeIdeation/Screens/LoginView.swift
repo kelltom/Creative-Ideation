@@ -44,7 +44,7 @@ struct LoginView: View {
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
                                 .padding()
-                            
+
                             HStack {
                                 Text("Enter Email Address")
                                     .font(.title3)
@@ -52,9 +52,9 @@ struct LoginView: View {
                                 Spacer()
                             }
                             .frame(width: geometry.size.width * widthScale)
-                            
+
                             EditTextField(title: "Email Address", input: $email, geometry: geometry)
-                            
+
                             HStack {
                                 Text("Enter Password")
                                     .font(.title3)
@@ -62,7 +62,6 @@ struct LoginView: View {
                                 Spacer()
                             }
                             .frame(width: geometry.size.width * widthScale)
-                            
 
                             EditTextField(title: "Password", input: $password, secure: true, geometry: geometry)
 
@@ -95,7 +94,6 @@ struct LoginView: View {
                             }
                             .padding(.top, 20)
 
-                            
                             NavigationLink(destination: EmptyView()) {
                                 EmptyView()
                             }

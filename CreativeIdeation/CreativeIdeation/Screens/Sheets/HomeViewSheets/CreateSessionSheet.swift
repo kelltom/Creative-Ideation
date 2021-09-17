@@ -13,7 +13,7 @@ struct CreateSessionSheet: View {
     @State var sessionName: String = ""
     @Binding var showSheets: ActiveSheet?
     @Binding var showActivity: Bool
-    
+
     @State private var widthScale: CGFloat = 0.75
 
     @EnvironmentObject var sessionViewModel: SessionViewModel
@@ -42,7 +42,7 @@ struct CreateSessionSheet: View {
                         .padding()
 
                     VStack {
-                        
+
                         HStack {
                             Text("Enter Session Name")
                                 .font(.title3)
@@ -50,9 +50,9 @@ struct CreateSessionSheet: View {
                             Spacer()
                         }
                         .frame(width: geometry.size.width * widthScale)
-                        
+
                         EditTextField(title: "Session Name", input: $sessionViewModel.newSession.sessionTitle, geometry: geometry, widthScale: 0.75)
-                        
+
                         HStack {
                             Text("Enter Description")
                                 .font(.title3)
