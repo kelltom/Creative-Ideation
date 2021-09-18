@@ -54,6 +54,7 @@
 		DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3BF92D25D9C97800C368B0 /* CreativeIdeationApp.swift */; };
 		DD3BF93225D9C97800C368B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3BF93125D9C97800C368B0 /* Assets.xcassets */; };
 		DD3BF93525D9C97800C368B0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3BF93425D9C97800C368B0 /* Preview Assets.xcassets */; };
+		DD429D1926F66C7900279540 /* UpdateGroupNameSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD429D1826F66C7900279540 /* UpdateGroupNameSheet.swift */; };
 		DD4449D226D9545800F23D39 /* GroupSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4449D126D9545800F23D39 /* GroupSettingsView.swift */; };
 		DD4A6A9E26D0271900F592E1 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = DD4A6A9D26D0271900F592E1 /* CodeScanner */; };
 		DD71EE552624032A00795CE9 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = DD71EE542624032A00795CE9 /* FirebaseFunctions */; };
@@ -117,6 +118,7 @@
 		DD3BF93125D9C97800C368B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD3BF93425D9C97800C368B0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DD3BF93625D9C97800C368B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD429D1826F66C7900279540 /* UpdateGroupNameSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateGroupNameSheet.swift; sourceTree = "<group>"; };
 		DD4449D126D9545800F23D39 /* GroupSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSettingsView.swift; sourceTree = "<group>"; };
 		DD7997AF26083F5C00392AED /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		DD7997B22608404500392AED /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
@@ -369,6 +371,7 @@
 		DDEA4C0626E7E8CB00725DBC /* GroupSettingsSheets */ = {
 			isa = PBXGroup;
 			children = (
+				DD429D1826F66C7900279540 /* UpdateGroupNameSheet.swift */,
 			);
 			path = GroupSettingsSheets;
 			sourceTree = "<group>";
@@ -494,6 +497,7 @@
 				DD7997B026083F5C00392AED /* Session.swift in Sources */,
 				C9419B732619126400279BB5 /* SessionItem.swift in Sources */,
 				DD15B00826051B2000F51777 /* TeamViewModel.swift in Sources */,
+				DD429D1926F66C7900279540 /* UpdateGroupNameSheet.swift in Sources */,
 				C9AE73A225EB1ACA0090C96B /* ActivityTypeTile.swift in Sources */,
 				C9419B76261915E900279BB5 /* SessionItemViewModel.swift in Sources */,
 				76731F342602802200536836 /* TeamSettingsView.swift in Sources */,

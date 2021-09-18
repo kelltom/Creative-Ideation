@@ -19,10 +19,10 @@ final class GroupViewModel: ObservableObject {
 
     @Published var groups: [Group] = []   // populated when changing Teams
     @Published var selectedGroup: Group?  // selected group in the listview
-
     @Published var groupMembers: [Member] = []
     @Published var nonMembers: [Member] = []
     @Published var wasCreateSuccess: Bool = false  // indicates Group was successfully created
+    @Published var isLoading = false
 
     @Published var showBanner = false
     @Published var bannerData: BannerModifier.BannerData =
@@ -38,6 +38,10 @@ final class GroupViewModel: ObservableObject {
         nonMembers = []
         showBanner = false
         wasCreateSuccess = false
+    }
+
+    func setSelectedGroup(group: Group) {
+        self.selectedGroup = group
     }
 
     /// Creates a group within a Team with the given teamId
@@ -157,6 +161,34 @@ final class GroupViewModel: ObservableObject {
                 self.wasCreateSuccess = true
 
                 print("createGroup: Group document added successfully")
+            }
+        }
+    }
+
+    /// Updates current selected Group object according to database
+    func getCurrentGroupInfo(teamId: String?) {
+
+        guard let teamId = teamId else {
+            print("getCurrentGroupInfo: TeamId is nil.")
+            return
+        }
+
+        guard let groupId = selectedGroup?.groupId else {
+            print("getCurrentGroupInfo: Selected GroupId is nil.")
+            return
+        }
+
+        db.collection("teams").document(teamId).collection("groups").document(groupId).getDocument { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                do {
+                    // Convert document to Group object
+                    try self.selectedGroup = querySnapshot?.data(as: Group.self)
+                    print("getCurrentGroupInfo: Group object mapped successfully")
+                } catch {
+                    print("getCurrentGroupInfo: Error created Group object from db")
+                }
             }
         }
     }
@@ -293,6 +325,77 @@ final class GroupViewModel: ObservableObject {
             }
         }
 
+    }
+
+    func updateGroupTitle(newTitle: String, teamId: String?) {
+        self.isLoading = true
+
+        // Get current Group
+        guard let currentGroup: Group = self.selectedGroup else {
+            print("updateGroupTitle: Can't get selected Group")
+            return
+        }
+
+        // Make sure TeamId is valid
+        guard let teamId = teamId else {
+            print("updateGroupTitle: TeamId is nil.")
+            return
+        }
+
+        // Error validation
+        if newTitle.isEmpty {
+            self.isLoading = false
+
+            // Set banner
+            setBannerData(title: "Cannot change Group name",
+                          details: "New name cannot be empty",
+                          type: .warning)
+            self.showBanner = true
+        } else if newTitle == currentGroup.groupTitle {
+            self.isLoading = false
+
+            // Set banner
+            self.setBannerData(title: "Cannot change Group name",
+                               details: "New name cannot be the same as current name.",
+                               type: .warning)
+            self.showBanner = true
+        } else if pFilter.containsProfanity(text: newTitle).profanities.count > 0 {
+            self.isLoading = false
+
+            // Set Banner
+            setBannerData(title: "Cannot change Group name",
+                          details: "New name cannot contain profanity.",
+                          type: .warning)
+            self.showBanner = true
+        } else {
+            // query db and update name in the document
+            db.collection("teams").document(teamId).collection("groups").document(currentGroup.groupId).updateData([
+                "groupTitle": newTitle
+            ]) { err in
+                if let err = err {
+                    self.isLoading = false
+
+                    // Set banner
+                    self.setBannerData(title: "Cannot change Group name",
+                                       details: "Error updating Group name. Please contact your admin. \(err)",
+                                       type: .error)
+                    self.showBanner = true
+
+                    print("updateGroupTitle: Error updating Group title")
+                } else {
+                    self.isLoading = false
+                    self.selectedGroup?.groupTitle = newTitle  // update view
+
+                    // Set banner
+                    self.setBannerData(title: "Success",
+                                       details: "Group name updated successfully!",
+                                       type: .success)
+                    self.showBanner = true
+
+                    print("updateGroupTitle: Group name updated successfully")
+                }
+            }
+        }
     }
 
     /// Assigns values to the published BannerData object

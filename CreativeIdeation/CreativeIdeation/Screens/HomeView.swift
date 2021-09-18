@@ -277,15 +277,15 @@ struct HomeView: View {
                                                             title: group.groupTitle,
                                                             selected: group.groupId == groupViewModel.selectedGroup?.groupId)
                                                     }
-                                                    .background(NavigationLink("", destination: GroupSettingsView(showGroupSettings: $showGroupSettings, selectedGroup: group), isActive: $showGroupSettings))
                                                     .contextMenu {
-                                                        // Edit Group
+                                                        // Group Settings
                                                         Button {
+                                                            groupViewModel.setSelectedGroup(group: group)
                                                             showGroupSettings = true
                                                         } label: {
                                                             HStack {
-                                                                Text("Edit")
-                                                                Image(systemName: "square.and.pencil")
+                                                                Text("Settings")
+                                                                Image(systemName: "gearshape.fill")
                                                             }
                                                         }
 
@@ -388,6 +388,11 @@ struct HomeView: View {
 
                 NavigationLink(destination: ActivityView(
                                 showActivity: self.$showActivity), isActive: self.$showActivity) {
+                    EmptyView()
+                }
+
+                NavigationLink(destination: GroupSettingsView(showGroupSettings: $showGroupSettings),
+                               isActive: self.$showGroupSettings) {
                     EmptyView()
                 }
 

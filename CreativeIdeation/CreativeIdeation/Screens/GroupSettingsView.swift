@@ -7,35 +7,28 @@
 
 import SwiftUI
 
+enum Sheets: Identifiable {
+    case name, members
+
+    var id: Int {
+        hashValue
+    }
+}
+
 struct GroupSettingsView: View {
 
     @Binding var showGroupSettings: Bool
+    @State var showSheet: Sheets?
     @State var canOnlyAdminMakeSessions: Bool = true
 
     @EnvironmentObject var teamViewModel: TeamViewModel
     @EnvironmentObject var groupViewModel: GroupViewModel
-
-    @State var selectedGroup: Group
 
     var body: some View {
 
         ZStack {
 
             Color("BackgroundColor")
-
-            // Back button required, as NavigationView not used to get to this page
-            VStack {
-                HStack {
-                    Button {
-                        showGroupSettings = false
-                    } label: {
-                        Text("< Back")
-                    }
-                    Spacer()
-                }
-                .padding(.leading, 30)
-                Spacer()
-            }
 
             GeometryReader { geometry in
 
@@ -64,6 +57,7 @@ struct GroupSettingsView: View {
 
                                 // Edit Group name
                                 Button {
+                                    showSheet = .name
                                 } label: {
                                     // button design
                                     TextEditButton()
@@ -103,35 +97,39 @@ struct GroupSettingsView: View {
 
                     // Delete/Leave button
                     Button {
-
+                        showGroupSettings = false  // TODO: remove this
                     } label: {
-                        DeleteButton(text: "Delete Group")
-                        // This code below is what we want, but it crashes the preview at the moment so it is commented out
-//                        if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup!.groupId) {
-//                            DeleteButton(text: "Delete Group")
-//                        } else {
-//                            DeleteButton(text: "Leave Group",
-//                                         image: "rectangle.lefthalf.inset.fill.arrow.left",
-//                                         backgroundColor: Color.gray)
-//                        }
+                        // Comment this out to make Preview work
+                        if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup!.groupId) {
+                            DeleteButton(text: "Delete Group")
+                        } else {
+                            DeleteButton(text: "Leave Group",
+                                         image: "rectangle.lefthalf.inset.fill.arrow.left",
+                                         backgroundColor: Color.gray)
+                        }
                     }
                 }
                 .frame(width: geometry.size.width,
                        height: geometry.size.height)
             }
-            .banner(data: $groupViewModel.bannerData,
-                    show: $groupViewModel.showBanner)
         }
-        .onAppear {
-            // Set groupViewModel.selectedGroup to the passed in Group object
-            groupViewModel.selectedGroup = selectedGroup
+        .sheet(item: $showSheet) { item in
+            switch item {
+            case .name:
+                UpdateGroupNameSheet(showSheet: $showSheet)
+                    .environmentObject(self.teamViewModel)
+                    .environmentObject(self.groupViewModel)
+
+            case .members:
+                EmptyView()
+            }
         }
     }
 }
 
 struct GroupSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        GroupSettingsView(showGroupSettings: .constant(true), selectedGroup: Group())
+        GroupSettingsView(showGroupSettings: .constant(true))
             .environmentObject(TeamViewModel())
             .environmentObject(GroupViewModel())
     }
