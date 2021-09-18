@@ -16,16 +16,13 @@ enum EditSheet: Identifiable {
 }
 
 struct TeamSettingsView: View {
+    /// Indicates whether current Team is private, which disables/enables certain fields
+    var isPrivate: Bool
     var teamName: String = "My Team"
     var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
     
     @State private var profanityFilter = true
     @State var showSheet: EditSheet?
-    
-
-    /// Indicates whether current Team is private, which disables/enables certain fields
-    var isPrivate: Bool
-
     @EnvironmentObject var teamViewModel: TeamViewModel
 
     var body: some View {
@@ -58,7 +55,7 @@ struct TeamSettingsView: View {
 
                             HStack {
 
-                                Text(teamName)
+                                Text(teamViewModel.selectedTeam?.teamName ?? "Unknown")
                                     .font(.title3)
 
                                 Spacer()
@@ -78,7 +75,7 @@ struct TeamSettingsView: View {
 
                             HStack {
 
-                                Text(description)
+                                Text(teamViewModel.selectedTeam?.teamDescription ?? "No Description")
                                     .font(.title3)
     
                                 Spacer()
@@ -90,7 +87,7 @@ struct TeamSettingsView: View {
                                     // button design
                                     TextEditButton()
                                 }
-
+    
                             }
                         }
                         .padding()
@@ -169,7 +166,7 @@ struct TeamSettingsView: View {
 
 struct TeamSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        TeamSettingsView(teamName: "Team Name", description: "Some description here", isPrivate: false)
+        TeamSettingsView(isPrivate: false, teamName: "Team Name", description: "Some description here")
             .preferredColorScheme(.light)
             .environmentObject(TeamViewModel())
     }
