@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct UpdateTeamDescriptionSheet: View {
-    @State var newTeamName: String = ""
+    @State var newTeamDescription: String = ""
     @State var currentTeamName: String = ""
     @State private var widthScale: CGFloat = 0.75
     @Binding var showSheet: EditSheet?
@@ -58,7 +58,7 @@ struct UpdateTeamDescriptionSheet: View {
                             .padding(.bottom, 10)
                             .frame(width: geometry.size.width * 0.75, alignment: .leading)
                         
-                        Text("currentTeamdescription")
+                        Text(teamViewModel.selectedTeam?.teamDescription ?? "N/A")
                             .padding()
                             .frame(width: geometry.size.width * 0.75, height: 60, alignment: .leading)
                             .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color("StrokeColor")))
@@ -72,21 +72,31 @@ struct UpdateTeamDescriptionSheet: View {
                             .padding(.bottom, 10)
                             .frame(width: geometry.size.width * 0.75, alignment: .leading)
                         
-                        EditTextField(title: "Enter New Team Name ", input: $newTeamName, geometry: geometry, widthScale: widthScale)
+                        EditTextField(title: "Enter New Team Name ", input: $newTeamDescription, geometry: geometry, widthScale: widthScale)
                         
                     }
                     Button {
+                        teamViewModel.updateSelectedTeamDescription(teamDescription: newTeamDescription)
+                        newTeamDescription = ""
                         
                     } label: {
                         BigButton(title: "Submit", geometry: geometry, widthScale: 0.75)
-                    }
+                    }   
                     
                     Spacer()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
+            .banner(data: $teamViewModel.bannerData,
+                    show: $teamViewModel.showBanner)
             
         }
+        .onAppear {
+            teamViewModel.showBanner = false
+            
+        }
+        
+        
     }
 }
 

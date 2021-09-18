@@ -307,6 +307,59 @@ final class TeamViewModel: ObservableObject {
         }
     }
     
+    func updateSelectedTeamDescription(teamDescription: String) {
+        self.isLoading = true
+        let oldTeamDescription = selectedTeam?.teamDescription
+        
+        guard let teamId = selectedTeam?.teamId else {
+            print("Selected Team ID is not found")
+            return
+        }
+        
+        if teamDescription.isEmpty {
+            self.isLoading = false
+            self.didCreateSuccess = false
+            
+            self.setBannerData(title: "Cannot Update Team Description", details: "Team Description cannot be empty", type: .warning)
+            self.showBanner = true
+            
+            print("update failed: cannot update because team description empty")
+        } else if oldTeamDescription?.lowercased() == teamDescription.lowercased() {
+            self.isLoading = false
+            self.didCreateSuccess = false
+            
+            self.setBannerData(title: "Cannot update team", details: "New team description cannot be same as old team name", type: .warning)
+            self.showBanner = true
+            
+            print("update failed: same team description")
+        } else {
+            db.collection("teams").document(teamId).updateData([
+                                                                "teamDescription": teamDescription
+            ]){ err in
+                if let err = err {
+                    self.isLoading = false
+                    self.didCreateSuccess = false
+                    
+                    self.setBannerData(title: "Cannot Update Team Description", details: "Error updating team description. Please contact your admin \(err)", type: .error)
+                    self.showBanner = true
+                    print("updateTeamDescription: Error updating team description")
+                } else {
+                    self.isLoading = false
+                    self.didCreateSuccess = true
+                    self.selectedTeam?.teamDescription = teamDescription
+                    
+                    self.setBannerData(title: "Success", details: "Team Description updated successfully!", type: .success)
+                    self.showBanner = true
+                    print("updatedUserDescription: update description successfully")
+                    
+                }
+                
+            }
+                    
+        }
+        
+    }
+    
     func updateSelectedTeamName(teamName: String){
         self.isLoading = true
         let oldTeamName = selectedTeam?.teamName
