@@ -26,7 +26,8 @@ final class TeamViewModel: ObservableObject {
 
     @Published var didCreateSuccess: Bool = false  // toggles when Team is created
     @Published var newTeamId: String = ""  // ID of the most recent created Team
-
+    
+    @Published var isLoading = false
     @Published var showBanner = false
     @Published var bannerData: BannerModifier.BannerData =
         BannerModifier.BannerData(title: "Default Title",
@@ -132,7 +133,7 @@ final class TeamViewModel: ObservableObject {
         }
 
         // Populate Team object
-        var newTeam = Team()
+        var newTeam = Team()    
         newTeam.teamName = teamName
         newTeam.teamDescription = teamDescription
         newTeam.isPrivate = isPrivate

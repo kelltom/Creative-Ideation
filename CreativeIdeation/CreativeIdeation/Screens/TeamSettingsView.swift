@@ -7,12 +7,21 @@
 
 import SwiftUI
 
+enum EditSheet: Identifiable {
+    case name, description
+
+    var id: Int {
+        hashValue
+    }
+}
+
 struct TeamSettingsView: View {
-
-    @State private var profanityFilter = true
-
     var teamName: String = "My Team"
     var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+    
+    @State private var profanityFilter = true
+    @State var showSheet: EditSheet?
+    
 
     /// Indicates whether current Team is private, which disables/enables certain fields
     var isPrivate: Bool

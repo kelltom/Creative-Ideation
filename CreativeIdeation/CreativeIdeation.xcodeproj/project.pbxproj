@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		26833F5F26F67D1A00C24A93 /* UpdateTeamNameSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26833F5E26F67D1A00C24A93 /* UpdateTeamNameSheet.swift */; };
 		761F4751261E212A0019B580 /* UpdateEmailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761F4750261E212A0019B580 /* UpdateEmailSheet.swift */; };
 		762EB076262655A100466F64 /* JoinTeamSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762EB075262655A100466F64 /* JoinTeamSheet.swift */; };
 		76731F342602802200536836 /* TeamSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F332602802200536836 /* TeamSettingsView.swift */; };
@@ -68,6 +69,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		26833F5E26F67D1A00C24A93 /* UpdateTeamNameSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTeamNameSheet.swift; sourceTree = "<group>"; };
 		761F4750261E212A0019B580 /* UpdateEmailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateEmailSheet.swift; sourceTree = "<group>"; };
 		762EB075262655A100466F64 /* JoinTeamSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinTeamSheet.swift; sourceTree = "<group>"; };
 		76731F332602802200536836 /* TeamSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSettingsView.swift; sourceTree = "<group>"; };
@@ -143,6 +145,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		26833F5B26F67B0900C24A93 /* TeamSettingsSheets */ = {
+			isa = PBXGroup;
+			children = (
+				26833F5E26F67D1A00C24A93 /* UpdateTeamNameSheet.swift */,
+			);
+			path = TeamSettingsSheets;
+			sourceTree = "<group>";
+		};
 		76731F372602825200536836 /* TeamSettings */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +164,7 @@
 		C93F31D126CEE2ED00EC835D /* Sheets */ = {
 			isa = PBXGroup;
 			children = (
+				26833F5B26F67B0900C24A93 /* TeamSettingsSheets */,
 				C93F31D226CEE2F400EC835D /* HomeViewSheets */,
 				C93F31D426CEE30400EC835D /* ActivitySheets */,
 				C93F31D326CEE2FA00EC835D /* UserSettingsSheets */,
@@ -513,6 +524,7 @@
 				C92BA9EA25FD689300FEEADA /* NotificationBanner.swift in Sources */,
 				DD3BF92E25D9C97800C368B0 /* CreativeIdeationApp.swift in Sources */,
 				C944CD32266D0A0A00F964DD /* Member.swift in Sources */,
+				26833F5F26F67D1A00C24A93 /* UpdateTeamNameSheet.swift in Sources */,
 				76A0956125E745D800917450 /* CreateTeamSheet.swift in Sources */,
 				76BBA8142620C9F300929090 /* UpdatePasswordSheet.swift in Sources */,
 				76731F4026029A7900536836 /* DeleteButton.swift in Sources */,
