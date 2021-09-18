@@ -106,7 +106,7 @@ struct UserSettingsView: View {
                                 Spacer()
 
                                 Button { // edit button for password
-                                    showSheet = .password
+                                        showSheet = .password
                                 } label: {
                                     // button design
                                     TextEditButton()
@@ -115,12 +115,13 @@ struct UserSettingsView: View {
 
                         }
                         .padding()
-                        .frame(minWidth: 100, maxWidth: 650, maxHeight: 340, alignment: .leading)
+                        .frame(width: geometry.size.width * 0.63, height: 340, alignment: .leading)
                         .background(Color("BackgroundColor"))
                         .cornerRadius(10)
 
                     }
-                    .frame(maxWidth: 700, maxHeight: 500, alignment: .center)
+                    .frame(width: geometry.size.width * 0.7,height: 500, alignment: .center)
+                    .padding(.bottom)
                     .background(Color("brandPrimary"))
                     .cornerRadius(20)
 

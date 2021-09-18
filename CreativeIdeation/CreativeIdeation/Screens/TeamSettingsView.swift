@@ -90,7 +90,7 @@ struct TeamSettingsView: View {
 
                     }
                     .frame(width: geometry.size.width * 0.7,height: 500, alignment: .center)
-                    .padding(.bottom)   
+                    .padding(.bottom)
                     .background(Color("brandPrimary"))
                     .cornerRadius(20)
 
