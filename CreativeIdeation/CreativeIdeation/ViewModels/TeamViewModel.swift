@@ -14,16 +14,16 @@ import SwiftUI
 import Profanity_Filter
 
 final class TeamViewModel: ObservableObject {
-
+    
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
     private var pFilter = ProfanityFilter()
-
+    
     @Published var teams: [Team] = []   // populated when navigating to HomeView
     @Published var selectedTeam: Team?  // selected team in the sidebar
     @Published var teamCode = ""
     @Published var teamMembers: [Member] = []
-
+    
     @Published var didCreateSuccess: Bool = false  // toggles when Team is created
     @Published var newTeamId: String = ""  // ID of the most recent created Team
     
@@ -33,41 +33,41 @@ final class TeamViewModel: ObservableObject {
         BannerModifier.BannerData(title: "Default Title",
                                   detail: "Default detail message.",
                                   type: .info)
-
+    
     // Update selected team when user makes a selection
     func selectTeam(team: Team) {
         selectedTeam = team
         loadMembers()
     }
-
+    
     // Load Members of the selected team
     func loadMembers() {
         teamMembers = []
-
+        
         guard let selectedTeam = selectedTeam else {
             print("selectedTeam is nil, cannot query Members")
             return
         }
-
+        
         let userCollectionRef = db.collection("users")
         var chunks: Int = selectedTeam.members.count / 10
         let smallChunk = selectedTeam.members.count % 10
         if smallChunk != 0 {
             chunks += 1
         }
-
+        
         var chunk = 0
         var chunkMembers: [String] = []
-
+        
         while chunk < chunks {
             if smallChunk != 0 && chunk == chunks - 1 {
                 chunkMembers = Array(selectedTeam.members[chunk*10...chunk*10+smallChunk-1])
             } else {
                 chunkMembers = Array(selectedTeam.members[chunk*10...chunk*10+9])
             }
-
+            
             print(chunkMembers)
-
+            
             userCollectionRef.whereField("id", in: chunkMembers)
                 .getDocuments { (querySnapshot, err) in
                     if let err = err {
@@ -80,7 +80,7 @@ final class TeamViewModel: ObservableObject {
                             } catch {
                                 print("Error adding member to list of team members")
                             }
-
+                            
                         }
                         self.teamMembers = self.teamMembers.sorted(by: {
                             $0.name.compare($1.name) == .orderedAscending
@@ -90,29 +90,29 @@ final class TeamViewModel: ObservableObject {
             chunk += 1
         }
     }
-
+    
     /// Returns a list of Member objects belonging to the selected Team
     func getTeamMembers(includeCurrentUser: Bool = true) -> [Member] {
         var members = self.teamMembers
-
+        
         if !includeCurrentUser {
             // get user id
             guard let uid = Auth.auth().currentUser?.uid else {
                 print("getTeamMembers: Could not find signed-in user's ID")
                 return []
             }
-
+            
             if let index = members.firstIndex(where: {$0.id == uid}) { // find index of current user
                 members.remove(at: index)
             }
         }
-
+        
         return members
     }
-
+    
     /// Creates a single team
     func createTeam(teamName: String, teamDescription: String, isPrivate: Bool = false) {
-
+        
         if pFilter.containsProfanity(text: teamName).profanities.count > 0 ||
             pFilter.containsProfanity(text: teamDescription).profanities.count > 0 {
             self.setBannerData(title: "Cannot create Team",
@@ -121,7 +121,7 @@ final class TeamViewModel: ObservableObject {
             self.showBanner = true
             return
         }
-
+        
         // Get user ID
         guard let uid = Auth.auth().currentUser?.uid else {
             // Set banner
@@ -131,13 +131,13 @@ final class TeamViewModel: ObservableObject {
             self.showBanner = true
             return
         }
-
+        
         // Populate Team object
         var newTeam = Team()    
         newTeam.teamName = teamName
         newTeam.teamDescription = teamDescription
         newTeam.isPrivate = isPrivate
-
+        
         // Make sure Team Name is not empty
         guard !newTeam.teamName.isEmpty else {
             // Set banner
@@ -147,13 +147,13 @@ final class TeamViewModel: ObservableObject {
             self.showBanner = true
             return
         }
-
+        
         // Attempt to save New Team to DB, and add Team reference to User document
         let batch = db.batch()
-
+        
         // Create randomly generated access code
         let accessCode = randomGen()
-
+        
         let teamRef = db.collection("teams").document()
         batch.setData([
             "teamId": teamRef.documentID,
@@ -166,10 +166,10 @@ final class TeamViewModel: ObservableObject {
             "accessCode": accessCode,
             "dateCreated": Date()
         ], forDocument: teamRef)
-
+        
         // let userRef = db.collection("users").document(uid)
         // batch.updateData(["teams": FieldValue.arrayUnion([teamRef.documentID])], forDocument: userRef)
-
+        
         batch.commit { err in
             if let err = err {
                 print("Error writing batch for Create Team: \(err)")
@@ -180,36 +180,36 @@ final class TeamViewModel: ObservableObject {
                 self.showBanner = true
             } else {
                 print("Team created successfully with id: \(teamRef.documentID)")
-
+                
                 if !newTeam.isPrivate {
                     // Set banner
                     self.setBannerData(title: "Success",
                                        details: "Team created successfully!",
                                        type: .success)
                     self.showBanner = true
-
+                    
                     self.newTeamId = teamRef.documentID
-
+                    
                     self.didCreateSuccess = true
                 }
             }
         }
     }
-
+    
     // Add users to team based on access code
     func joinTeam(code: String) {
-
+        
         // get user id
         guard let uid = Auth.auth().currentUser?.uid else {
             print("joinTeam: Could not find signed-in user's ID")
             return
         }
         //  get code of current team selected
-//        guard let currentTeamCode = selectedTeam?.accessCode else {
-//            print("no access code for this team")
-//            return
-//        }
-
+        //        guard let currentTeamCode = selectedTeam?.accessCode else {
+        //            print("no access code for this team")
+        //            return
+        //        }
+        
         // Validation
         if code.isEmpty {
             // Set banner
@@ -217,9 +217,9 @@ final class TeamViewModel: ObservableObject {
                                details: "Field cannot be empty. Please enter a code.",
                                type: .warning)
             self.showBanner = true
-//        } else if currentTeamCode == code {
-//            self.setBanner(message: "Cannot join a team you are already in!", didSucceed: false)
-//            print("cant join an existing team")
+            //        } else if currentTeamCode == code {
+            //            self.setBanner(message: "Cannot join a team you are already in!", didSucceed: false)
+            //            print("cant join an existing team")
         } else {
             // Update members array in teams collection
             db.collection("teams").whereField("accessCode", isEqualTo: code)
@@ -230,41 +230,41 @@ final class TeamViewModel: ObservableObject {
                                            details: "We've encountered an error trying to add user to the Team. Make sure you're connected to the internet and try again.",
                                            type: .error)
                         self.showBanner = true
-
+                        
                         print("joinTeam: Error getting documents: \(err)")
                     } else {
                         for document in querySnapshot!.documents {
                             if document.exists {
-
+                                
                                 document.reference.updateData([
                                     "members": FieldValue.arrayUnion([uid])
                                 ])
-
+                                
                                 document.reference.collection("groups").whereField("isPublic", isEqualTo: true).getDocuments { (querySnapshot, err) in
-                                        if let err = err {
-                                            print("addIdToPublic: Error getting documents: \(err)")
-                                        } else {
-                                            for document in querySnapshot!.documents {
-                                                if document.exists {
-                                                    document.reference.updateData([
-                                                        "members": FieldValue.arrayUnion([uid])
-                                                    ])
-
-                                                    print("addIdToPublic: Added to Public Group successfully.")
-                                                } else {
-
-                                                    print("addIdToPublic: Error accessing Group document. Document likely no longer exists.")
-                                                }
+                                    if let err = err {
+                                        print("addIdToPublic: Error getting documents: \(err)")
+                                    } else {
+                                        for document in querySnapshot!.documents {
+                                            if document.exists {
+                                                document.reference.updateData([
+                                                    "members": FieldValue.arrayUnion([uid])
+                                                ])
+                                                
+                                                print("addIdToPublic: Added to Public Group successfully.")
+                                            } else {
+                                                
+                                                print("addIdToPublic: Error accessing Group document. Document likely no longer exists.")
                                             }
                                         }
+                                    }
                                 }
-
+                                
                                 // Set banner
                                 self.setBannerData(title: "Success",
                                                    details: "Successfully joined a Team!",
                                                    type: .success)
                                 self.showBanner = true
-
+                                
                                 print("Update team members successful")
                             } else {
                                 // Set banner
@@ -272,7 +272,7 @@ final class TeamViewModel: ObservableObject {
                                                    details: "Cannot find Team in our database. This Team has likely been deleted.",
                                                    type: .error)
                                 self.showBanner = true
-
+                                
                                 print("joinTeam: Error accessing Team document. Document likely no longer exists.")
                             }
                         }
@@ -280,30 +280,30 @@ final class TeamViewModel: ObservableObject {
                 }
         }
     }
-
+    
     private func addIdToPublic(ref: DocumentReference) {
         guard let uid = Auth.auth().currentUser?.uid else {
             print("addIdToPublic: Cannot get UID.")
             return
         }
-
+        
         ref.collection("groups").whereField("isPublic", isEqualTo: true).getDocuments { (querySnapshot, err) in
-                if let err = err {
-                    print("addIdToPublic: Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        if document.exists {
-                            document.reference.updateData([
-                                "members": FieldValue.arrayUnion([uid])
-                            ])
-
-                            print("addIdToPublic: Added to Public Group successfully.")
-                        } else {
-
-                            print("addIdToPublic: Error accessing Group document. Document likely no longer exists.")
-                        }
+            if let err = err {
+                print("addIdToPublic: Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    if document.exists {
+                        document.reference.updateData([
+                            "members": FieldValue.arrayUnion([uid])
+                        ])
+                        
+                        print("addIdToPublic: Added to Public Group successfully.")
+                    } else {
+                        
+                        print("addIdToPublic: Error accessing Group document. Document likely no longer exists.")
                     }
                 }
+            }
         }
     }
     
@@ -332,9 +332,21 @@ final class TeamViewModel: ObservableObject {
             self.showBanner = true
             
             print("update failed: same team description")
-        } else {
+            
+        } else if pFilter.containsProfanity(text: teamDescription).profanities.count > 0{
+            self.isLoading = false
+            self.didCreateSuccess = false
+            
+            // Set Banner
+            setBannerData(title: "Cannot Change Team Description",
+                          details: "Team Description Cannot Contain Profanity.",
+                          type: .warning)
+            self.showBanner = true
+            
+        }
+        else {
             db.collection("teams").document(teamId).updateData([
-                                                                "teamDescription": teamDescription
+                "teamDescription": teamDescription
             ]){ err in
                 if let err = err {
                     self.isLoading = false
@@ -355,7 +367,7 @@ final class TeamViewModel: ObservableObject {
                 }
                 
             }
-                    
+            
         }
         
     }
@@ -363,8 +375,8 @@ final class TeamViewModel: ObservableObject {
     func updateSelectedTeamName(teamName: String){
         self.isLoading = true
         let oldTeamName = selectedTeam?.teamName
-
-            
+        
+        
         guard let teamId = selectedTeam?.teamId else {
             print("Selected Team ID is not found")
             return
@@ -386,9 +398,19 @@ final class TeamViewModel: ObservableObject {
             self.showBanner = true
             
             print("update failed: same team name")
+        } else if pFilter.containsProfanity(text: teamName).profanities.count > 0{
+            self.isLoading = false
+            self.didCreateSuccess = false
+            
+            // Set Banner
+            setBannerData(title: "Cannot Change Team Name",
+                          details: "Team Name Cannot Contain Profanity.",
+                          type: .warning)
+            self.showBanner = true
+            
         } else {
             db.collection("teams").document(teamId).updateData([
-                                                                "teamName": teamName
+                "teamName": teamName
             ]){ err in
                 if let err = err {
                     self.isLoading = false
@@ -409,31 +431,31 @@ final class TeamViewModel: ObservableObject {
                 }
                 
             }
-                    
+            
         }
         
         
         
     }
-
+    
     // Enables delete functionality on home view
     func deleteSelectedTeam(teamId: String?) {
         guard let teamId = teamId else {
             print("Delete Team: Selected Team ID not found")
             return
         }
-
+        
         let team = teams.first(where: {$0.teamId == teamId})
         guard let createdBy = team?.createdBy else {
             print("Delete Team: Cannot find Team creator ID")
             return
         }
-
+        
         guard let currentUserId = Auth.auth().currentUser?.uid else {
             print("Delete Team: Current user not found")
             return
         }
-
+        
         // Check if the user deleting the team is the same user who created - "only admin i guess"
         guard currentUserId == createdBy else {
             // Set banner
@@ -444,9 +466,9 @@ final class TeamViewModel: ObservableObject {
             print("Delete Team: User is not creator of Team, so they cannot delete it.")
             return
         }
-
+        
         let batch = db.batch()
-
+        
         // Delete Sessions
         db.collection("sessions").whereField("teamId", isEqualTo: teamId)
             .getDocuments { (querySnapshot, err) in
@@ -460,7 +482,7 @@ final class TeamViewModel: ObservableObject {
                     }
                 }
             }
-
+        
         // Delete groups
         db.collection("teams").document(teamId).collection("groups")
             .whereField("members", arrayContains: createdBy)
@@ -473,11 +495,11 @@ final class TeamViewModel: ObservableObject {
                     }
                 }
             }
-
+        
         // Delete Actual Team
         let teamRef = db.collection("teams").document(teamId)
         batch.deleteDocument(teamRef)
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             batch.commit { err in
                 if let err = err {
@@ -485,7 +507,7 @@ final class TeamViewModel: ObservableObject {
                 } else {
                     print("Batch write succeeded.")
                     self.selectedTeam = nil
-
+                    
                     // Set banner
                     self.setBannerData(title: "Success",
                                        details: "The Team has been deleted.",
@@ -495,16 +517,16 @@ final class TeamViewModel: ObservableObject {
             }
         }
     }
-
+    
     /// Populate list of teams associated with current user
     func getTeams() {
-
+        
         // Get user ID
         guard let uid = Auth.auth().currentUser?.uid else {
             // setBanner(message: "Failed to find user ID", didSucceed: false)
             return
         }
-
+        
         listener = db.collection("teams").whereField("members", arrayContains: uid)
             .addSnapshotListener { querySnapshot, error in
                 guard let snapshot = querySnapshot else {
@@ -527,13 +549,13 @@ final class TeamViewModel: ObservableObject {
                             let mockTeam = try (diff.document.data(as: Team.self)!)
                             let docID = diff.document.documentID
                             let selectedTeamIndex = self.teams.firstIndex(where: {$0.teamId == docID})
-
+                            
                             self.teams[selectedTeamIndex!].teamName = mockTeam.teamName
                             self.teams[selectedTeamIndex!].teamDescription = mockTeam.teamDescription
                             self.teams[selectedTeamIndex!].isPrivate = mockTeam.isPrivate
                             self.teams[selectedTeamIndex!].members = mockTeam.members
                             self.teams[selectedTeamIndex!].admins = mockTeam.admins
-
+                            
                         } catch {
                             print("Error reading modified team from DB: \(error)")
                         }
@@ -542,18 +564,18 @@ final class TeamViewModel: ObservableObject {
                         // Remove item locally
                         let selectedTeamId = diff.document.documentID
                         let selectedTeamIndex = self.teams.firstIndex(where: {$0.teamId == selectedTeamId})
-
+                        
                         if self.selectedTeam?.teamId == selectedTeamId {
                             self.selectedTeam = nil
                         }
-
+                        
                         self.teams.remove(at: selectedTeamIndex!)
-
+                        
                     }
                 }
             }
     }
-
+    
     func clear() {
         listener?.remove()
         teams = []
@@ -563,7 +585,7 @@ final class TeamViewModel: ObservableObject {
         didCreateSuccess = false
         newTeamId = ""
     }
-
+    
     // Generates a random code that can be used to join the team
     private func randomGen() -> String {
         let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -573,12 +595,12 @@ final class TeamViewModel: ObservableObject {
         }
         return code
     }
-
+    
     /// Assigns values to the published BannerData object
     private func setBannerData(title: String, details: String, type: BannerModifier.BannerType) {
         bannerData.title = title
         bannerData.detail = details
         bannerData.type = type
     }
-
+    
 }
