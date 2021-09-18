@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct UpdateTeamNameSheet: View {
-    @State var newEmail: String = ""
-    @State var currentEmail: String = ""
-    @State var currentPasword: String = ""
+    @State var newTeamName: String = ""
+    @State var currentTeamName: String = ""
     @State private var widthScale: CGFloat = 0.75
     @Binding var showSheet: EditSheet?
     
@@ -55,31 +54,34 @@ struct UpdateTeamNameSheet: View {
                     VStack(alignment: .center){
                         
                         Text("Current Team Name")
-                            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                            .font(.title3)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                             .padding(.top)
                             .padding(.bottom, 10)
                             .frame(width: geometry.size.width * 0.75, alignment: .leading)
                         
-                        Text("currentTeamName")
+                        // Display name text view
+                        Text(teamViewModel.selectedTeam?.teamName ?? "N/A").foregroundColor(.blue)
                             .padding()
                             .frame(width: geometry.size.width * 0.75, height: 60, alignment: .leading)
                             .overlay(RoundedRectangle(cornerRadius: 8.0).stroke(Color("StrokeColor")))
                             .font(.title2)
-                            .padding(.bottom,10)
+                            .padding(.bottom, 10)
                         
                         Text("New Team Name")
-                            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                            .font(.title3)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                             .padding(.top)
                             .padding(.bottom, 10)
                             .frame(width: geometry.size.width * 0.75, alignment: .leading)
                         
-                        EditTextField(title: "Enter New Team Name ", input: $newEmail, geometry: geometry, widthScale: widthScale)
+                        EditTextField(title: "Enter New Team Name ", input: $newTeamName, geometry: geometry, widthScale: widthScale)
                         
                     }
                     Button {
-                        
+                        teamViewModel.updateSelectedTeamName(teamName:newTeamName)
+                        newTeamName = ""
+                 
                     } label: {
                         BigButton(title: "Submit", geometry: geometry, widthScale: 0.75)
                     }
@@ -88,7 +90,13 @@ struct UpdateTeamNameSheet: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
+            .banner(data: $teamViewModel.bannerData,
+                    show: $teamViewModel.showBanner)
             
+        }
+        .onAppear {
+            teamViewModel.showBanner = false
+          
         }
         
     }

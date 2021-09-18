@@ -306,6 +306,62 @@ final class TeamViewModel: ObservableObject {
                 }
         }
     }
+    
+    func updateSelectedTeamName(teamName: String){
+        self.isLoading = true
+        let oldTeamName = selectedTeam?.teamName
+
+            
+        guard let teamId = selectedTeam?.teamId else {
+            print("Selected Team ID is not found")
+            return
+        }
+        
+        if teamName.isEmpty {
+            self.isLoading = false
+            self.didCreateSuccess = false
+            
+            self.setBannerData(title: "Cannot update team name", details: "Team name cannot be empty", type: .warning)
+            self.showBanner = true
+            
+            print("update failed: cannot update because team name empty")
+        } else if oldTeamName?.lowercased() == teamName.lowercased() {
+            self.isLoading = false
+            self.didCreateSuccess = false
+            
+            self.setBannerData(title: "Cannot update team", details: "New team name cannot be same as old team name", type: .warning)
+            self.showBanner = true
+            
+            print("update failed: same team name")
+        } else {
+            db.collection("teams").document(teamId).updateData([
+                                                                "teamName": teamName
+            ]){ err in
+                if let err = err {
+                    self.isLoading = false
+                    self.didCreateSuccess = false
+                    
+                    self.setBannerData(title: "Cannot Update Team Name", details: "Error updating team name. Please contact your admin \(err)", type: .error)
+                    self.showBanner = true
+                    print("updateTeamName: Error updating team Name")
+                } else {
+                    self.isLoading = false
+                    self.didCreateSuccess = true
+                    self.selectedTeam?.teamName = teamName
+                    
+                    self.setBannerData(title: "Success", details: "Name updated successfully!", type: .success)
+                    self.showBanner = true
+                    print("updatedUserName: update name successfully")
+                    
+                }
+                
+            }
+                    
+        }
+        
+        
+        
+    }
 
     // Enables delete functionality on home view
     func deleteSelectedTeam(teamId: String?) {
