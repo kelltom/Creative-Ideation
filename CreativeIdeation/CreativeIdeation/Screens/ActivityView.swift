@@ -20,6 +20,7 @@ struct ActivityView: View {
 
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
     @EnvironmentObject var sessionViewModel: SessionViewModel
+    @EnvironmentObject var groupViewModel: GroupViewModel
 
     let colorArray = [Color.init(red: 0.9, green: 0, blue: 0),
                       Color.init(red: 0, green: 0.9, blue: 0),
@@ -95,14 +96,16 @@ struct ActivityView: View {
                                 .padding(.trailing)
                         }
 
-                        Button {
-                            sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
-                        } label: {
-                            Image(systemName: timerManager.mode == .running ? "pause.fill" : "play.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 40, height: 40)
-                                .foregroundColor(timerManager.mode == .running ? .blue : .green)
+                        if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup?.groupId ?? "no ID") {
+                            Button {
+                                sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
+                            } label: {
+                                Image(systemName: timerManager.mode == .running ? "pause.fill" : "play.fill")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 40, height: 40)
+                                    .foregroundColor(timerManager.mode == .running ? .blue : .green)
+                            }
                         }
                     }
                     .padding(.top)
@@ -461,6 +464,8 @@ struct ActivityView_Previews: PreviewProvider {
     static var previews: some View {
         ActivityView(timerManager: TimerManager(), showActivity: .constant(true))
             .environmentObject(SessionItemViewModel())
+            .environmentObject(SessionViewModel())
+            .environmentObject(GroupViewModel())
     }
 }
 
