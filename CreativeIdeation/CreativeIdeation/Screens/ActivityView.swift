@@ -45,8 +45,6 @@ struct ActivityView: View {
 
     var body: some View {
         ZStack {
-            // Whatever view we use for the canvas will be placed here,
-            // so that all other elements are placed above it on the zstack
 
             Color("BackgroundColor")
 
@@ -57,8 +55,11 @@ struct ActivityView: View {
                         showActivity = false
                         sessionItemViewModel.resetModel()
                         sessionViewModel.selectedSession = nil
-                        sessionViewModel.timerManager.pause()
-                        sessionViewModel.timerManager = TimerManager()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                            sessionViewModel.timerManager.pause()
+                            sessionViewModel.timerManager = TimerManager()
+                        }
+                        
                     } label: {
                         ZStack {
                             Circle()
@@ -105,6 +106,20 @@ struct ActivityView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 40, height: 40)
                                     .foregroundColor(timerManager.mode == .running ? .blue : .green)
+                                    .padding(.trailing, 8)
+                            }
+
+                            Button {
+                                if !(timerManager.mode == .running) {
+                                    sessionViewModel.resetTimer()
+                                }
+                            } label: {
+                                Image(systemName: "gobackward")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 45, height: 45)
+                                    .font(Font.title.weight(.bold))
+                                    .foregroundColor(timerManager.mode == .running ? Color("FadedColor") : .red)
                             }
                         }
                     }

@@ -11,11 +11,10 @@ import SwiftUI
 class TimerManager: ObservableObject {
     @Published var timeRemaining = 600
     var timer = Timer()
-    var mode: StopWatchMode = .stopped
+    var mode: StopWatchMode = .paused
 
     enum StopWatchMode {
         case running
-        case stopped
         case paused
     }
 
@@ -26,6 +25,7 @@ class TimerManager: ObservableObject {
             self.timeRemaining -= 1
             if self.timeRemaining <= 0 {
                 self.pause()
+                self.timeRemaining = 0
             }
         }
     }
@@ -35,10 +35,8 @@ class TimerManager: ObservableObject {
         mode = .paused
     }
 
-    func reset() {
-        timer.invalidate()
-        timeRemaining = 600
-        mode = .stopped
+    func reset(newTime: Int) {
+        timeRemaining = newTime
     }
 
     func toString() -> String {

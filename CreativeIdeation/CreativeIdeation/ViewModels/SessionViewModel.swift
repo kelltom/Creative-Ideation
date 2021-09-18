@@ -238,6 +238,7 @@ final class SessionViewModel: ObservableObject {
                                 } else {
                                     print("pausing timer")
                                     self.timerManager.pause()
+                                    self.timerManager.timeRemaining = mockSession.timeRemaining
                                 }
                                 print("Reading time remaining: ", mockSession.timeRemaining)
                                 self.selectedSession!.timerActive = mockSession.timerActive
@@ -356,8 +357,37 @@ final class SessionViewModel: ObservableObject {
     }
 
     func getRemainingTime(endTime: Date) {
-        let remainingTime = endTime.timeIntervalSince(Date())
+        let remainingTime = max(endTime.timeIntervalSince(Date()), 0)
         timerManager.timeRemaining = Int(remainingTime)
+    }
+
+    func resetTimer() {
+        let newTime = 600
+        // timerManager.reset(newTime: newTime)
+
+        guard let activeSession = selectedSession else {
+            print("Could not reset timeRemaining: No active session")
+            return
+        }
+
+        let sessionReference = db.collection("sessions").document(activeSession.sessionId)
+
+        db.runTransaction({ (transaction, errorPointer) -> Any? in
+            do {
+                _ = try transaction.getDocument(sessionReference)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+            print("Resetting Timer. Time Remaining: ", newTime)
+            transaction.updateData(["timeRemaining": newTime],
+                                   forDocument: sessionReference)
+            return nil
+        }) { (_, error) in
+            if let error = error {
+                print("Error updating session: \(error)")
+            }
+        }
     }
 
     /// Assigns values to the published BannerData object
