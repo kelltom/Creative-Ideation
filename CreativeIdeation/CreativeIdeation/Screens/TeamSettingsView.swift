@@ -65,6 +65,7 @@ struct TeamSettingsView: View {
 
                                 Button {
                                     // button functionality
+                                    showSheet = .name
                                 } label: {
                                     // button design
                                     TextEditButton()
@@ -79,11 +80,12 @@ struct TeamSettingsView: View {
 
                                 Text(description)
                                     .font(.title3)
-
+    
                                 Spacer()
 
                                 Button {
                                     // button functionality
+                                    showSheet = .description
                                 } label: {
                                     // button design
                                     TextEditButton()
@@ -148,6 +150,18 @@ struct TeamSettingsView: View {
                     .disabled(isPrivate)
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
+                .sheet(item: $showSheet) { item in
+                    switch item {
+
+                    case .name:
+                        UpdateTeamNameSheet(showSheet: $showSheet)
+                            .environmentObject(self.teamViewModel)
+                        
+                    case .description:
+                       UpdateTeamDescriptionSheet(showSheet: $showSheet)
+                        .environmentObject(self.teamViewModel)
+                    }
+                }
             }
         }
     }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		26833F5F26F67D1A00C24A93 /* UpdateTeamNameSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26833F5E26F67D1A00C24A93 /* UpdateTeamNameSheet.swift */; };
+		26833F6126F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26833F6026F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift */; };
 		761F4751261E212A0019B580 /* UpdateEmailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761F4750261E212A0019B580 /* UpdateEmailSheet.swift */; };
 		762EB076262655A100466F64 /* JoinTeamSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762EB075262655A100466F64 /* JoinTeamSheet.swift */; };
 		76731F342602802200536836 /* TeamSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F332602802200536836 /* TeamSettingsView.swift */; };
@@ -70,6 +71,7 @@
 
 /* Begin PBXFileReference section */
 		26833F5E26F67D1A00C24A93 /* UpdateTeamNameSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTeamNameSheet.swift; sourceTree = "<group>"; };
+		26833F6026F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTeamDescriptionSheet.swift; sourceTree = "<group>"; };
 		761F4750261E212A0019B580 /* UpdateEmailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateEmailSheet.swift; sourceTree = "<group>"; };
 		762EB075262655A100466F64 /* JoinTeamSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinTeamSheet.swift; sourceTree = "<group>"; };
 		76731F332602802200536836 /* TeamSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSettingsView.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				26833F5E26F67D1A00C24A93 /* UpdateTeamNameSheet.swift */,
+				26833F6026F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift */,
 			);
 			path = TeamSettingsSheets;
 			sourceTree = "<group>";
@@ -491,6 +494,7 @@
 				C93F31DA26CEFE1700EC835D /* VotingSticky.swift in Sources */,
 				76A0956525E80F0500917450 /* CreateGroupSheet.swift in Sources */,
 				7699646726069A55005058C7 /* GroupViewModel.swift in Sources */,
+				26833F6126F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift in Sources */,
 				76A51DAA2605804D000C3DA4 /* AddButton.swift in Sources */,
 				DD9DA76426F5433E007F1BB7 /* BackButton.swift in Sources */,
 				C9C67A2525E8288B002D16A9 /* HomeView.swift in Sources */,
