@@ -38,87 +38,83 @@ struct GroupSettingsView: View {
             }
 
             GeometryReader { geometry in
+
+                // Main content
                 VStack {
-                    // Page title
+
                     Text("Group Settings")
                         .font(.largeTitle)
-                        .bold()
-                        .frame(height: geometry.size.height * 0.1, alignment: .center)
+                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        .padding()
 
-                    // Main content
+                    // Outer box
                     VStack {
+                        // Inner box
+                        VStack(alignment: .leading ) {
 
-                        // Edit Group Name
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text("Group Name")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
+                            Text("Group Name")
+                                .font(.title3)
+                                .fontWeight(.bold)
 
-                                Text("Unknown")
-                                    .font(.title3)
-                            }
-
-                            Spacer()
-
-                            Button {
-                                // showSheet = .name
-                            } label: {
-                                TextEditButton(hasPadding: false)
-                            }
-                        }
-                        .padding(.bottom, 20)
-
-                        // Only Admin can create Sessions?
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text("Only Admin can create Sessions?")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                            }
-
-                            Spacer()
-
-                            Toggle("", isOn: $canOnlyAdminMakeSessions)
-                                .padding(.trailing)
-                        }
-                        .padding(.bottom, 20)
-
-                        // Edit Members
-                        VStack {
                             HStack {
-                                VStack(alignment: .leading) {
-                                    // Edit Group Members
-                                    Text("Group Members")
-                                        .font(.title2)
-                                        .fontWeight(.bold)
-                                }
+                                Text(groupViewModel.selectedGroup?.groupTitle ?? "Unknown")
+                                    .font(.title3)
 
                                 Spacer()
 
+                                // Edit Group name
                                 Button {
-                                    // showSheet = .name
                                 } label: {
-                                    TextEditButton(text: "Add", hasPadding: false)
+                                    // button design
+                                    TextEditButton()
                                 }
                             }
 
-                            // Display list of members
-                            Text("Hi")
-                                .frame(width: geometry.size.width * 0.75)
-                                .background(Color.gray)
-                                .padding(.top)
-                        }
+                            Text("Group Members")
+                                .font(.title3)
+                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
 
-                        Spacer()
+                            HStack {
+                                Text("Add or remove Group members")
+                                    .font(.title3)
+                                    .italic()
+
+                                Spacer()
+
+                                // Edit Team Members button
+                                Button {
+
+                                } label: {
+                                    // button design
+                                    TextEditButton()
+                                }
+                            }
+                        }
+                        .padding()
+                        .frame(width: geometry.size.width * 0.7, height: 260, alignment: .leading)
+                        .background(Color("BackgroundColor"))
+                        .cornerRadius(20)
                     }
-                    .frame(width: geometry.size.width * 0.75,
-                           height: geometry.size.height * 0.8,
-                           alignment: .center)
+                    .frame(width: geometry.size.width * 0.75, height: 300, alignment: .center)
+                    .background(Color("brandPrimary"))
+                    .cornerRadius(20)
+
+                    Spacer()
 
                     // Delete/Leave button
-                    Text("Leave/Delete button here")
-                        .frame(height: geometry.size.height * 0.1, alignment: .center)
+                    Button {
+
+                    } label: {
+                        DeleteButton(text: "Delete Group")
+                        // This code below is what we want, but it crashes the preview at the moment so it is commented out
+//                        if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup!.groupId) {
+//                            DeleteButton(text: "Delete Group")
+//                        } else {
+//                            DeleteButton(text: "Leave Group",
+//                                         image: "rectangle.lefthalf.inset.fill.arrow.left",
+//                                         backgroundColor: Color.gray)
+//                        }
+                    }
                 }
                 .frame(width: geometry.size.width,
                        height: geometry.size.height)
