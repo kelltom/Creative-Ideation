@@ -20,9 +20,10 @@ struct TeamSettingsView: View {
     var isPrivate: Bool
     var teamName: String = "My Team"
     var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
-    
+
     @State private var profanityFilter = true
     @State var showSheet: EditSheet?
+    
     @EnvironmentObject var teamViewModel: TeamViewModel
 
     var body: some View {
@@ -32,6 +33,7 @@ struct TeamSettingsView: View {
             Color("BackgroundColor")
 
             GeometryReader { geometry in
+
                 VStack {
 
                     Text("Team Settings")
@@ -77,7 +79,7 @@ struct TeamSettingsView: View {
 
                                 Text(teamViewModel.selectedTeam?.teamDescription ?? "No Description")
                                     .font(.title3)
-    
+
                                 Spacer()
 
                                 Button {
@@ -87,17 +89,15 @@ struct TeamSettingsView: View {
                                     // button design
                                     TextEditButton()
                                 }
-    
+
                             }
                         }
                         .padding()
-                        .frame(width: geometry.size.width * 0.63, height: 340, alignment: .leading)
-                        
+                        .frame(width: geometry.size.width * 0.7, height: 300, alignment: .leading)
                         .background(Color("BackgroundColor"))
-                        .cornerRadius(10)
-
+                        .cornerRadius(20)
                     }
-                    .frame(width: geometry.size.width * 0.7,height: 500, alignment: .center)
+                    .frame(width: geometry.size.width * 0.75, height: 450, alignment: .center)
                     .padding(.bottom)
                     .background(Color("brandPrimary"))
                     .cornerRadius(20)
@@ -131,10 +131,10 @@ struct TeamSettingsView: View {
                         }
 
                     }
-                    .frame(maxWidth: 650, maxHeight: 230)
+                    .frame(width: geometry.size.width * 0.70, height: 230)
 
                     Divider()
-                        .frame(maxWidth: 650)
+                        .frame(width: geometry.size.width * 0.70)
                         .background(Color("FadedColor"))
 
                     Spacer()
@@ -153,10 +153,10 @@ struct TeamSettingsView: View {
                     case .name:
                         UpdateTeamNameSheet(showSheet: $showSheet)
                             .environmentObject(self.teamViewModel)
-                        
+
                     case .description:
-                       UpdateTeamDescriptionSheet(showSheet: $showSheet)
-                        .environmentObject(self.teamViewModel)
+                        UpdateTeamDescriptionSheet(showSheet: $showSheet)
+                            .environmentObject(self.teamViewModel)
                     }
                 }
             }

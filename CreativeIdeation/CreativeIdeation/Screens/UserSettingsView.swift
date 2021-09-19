@@ -14,6 +14,7 @@ enum PreferenceSheet: Identifiable {
         hashValue
     }
 }
+
 struct UserSettingsView: View {
 
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
@@ -37,7 +38,7 @@ struct UserSettingsView: View {
 
             // Back button required, as NavigationView not used to get to this page
             BackButton(text: "Home", binding: $showUserSettings)
-            
+
             GeometryReader { geometry in
                 VStack {
 
@@ -115,12 +116,11 @@ struct UserSettingsView: View {
 
                         }
                         .padding()
-                        .frame(width: geometry.size.width * 0.63, height: 340, alignment: .leading)
+                        .frame(width: geometry.size.width * 0.7, height: 340, alignment: .leading)
                         .background(Color("BackgroundColor"))
-                        .cornerRadius(10)
-
+                        .cornerRadius(20)
                     }
-                    .frame(width: geometry.size.width * 0.7,height: 500, alignment: .center)
+                    .frame(width: geometry.size.width * 0.75, height: 480, alignment: .center)
                     .padding(.bottom)
                     .background(Color("brandPrimary"))
                     .cornerRadius(20)
@@ -140,10 +140,10 @@ struct UserSettingsView: View {
                         }
 
                     }
-                    .frame(maxWidth: 650, maxHeight: 120)
+                    .frame(maxWidth: geometry.size.width * 0.7, maxHeight: 120)
 
                     Divider()
-                        .frame(maxWidth: 650)
+                        .frame(width: geometry.size.width * 0.7)
                         .background(Color("FadedColor"))
 
                     Spacer()
