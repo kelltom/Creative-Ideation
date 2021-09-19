@@ -16,7 +16,9 @@ struct UpdateTeamDescriptionSheet: View {
     @EnvironmentObject var teamViewModel: TeamViewModel
 
     var body: some View {
+
         ZStack {
+
             Color("BackgroundColor")
 
             if teamViewModel.isLoading {
@@ -25,8 +27,11 @@ struct UpdateTeamDescriptionSheet: View {
             }
 
             VStack {
+
                 HStack {
+
                     Spacer()
+
                     Button {
                         showSheet = nil
                     } label: {
@@ -37,12 +42,16 @@ struct UpdateTeamDescriptionSheet: View {
                     }
                 }
                 .padding()
+
                 Spacer()
             }
 
             GeometryReader { geometry in
+
                 VStack {
+
                     Spacer()
+
                     Text("Change Team Description")
                         .font(.largeTitle)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
@@ -68,12 +77,11 @@ struct UpdateTeamDescriptionSheet: View {
                             .font(.title3)
                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                             .padding(.top)
-                            .padding(.bottom, 10)
                             .frame(width: geometry.size.width * 0.75, alignment: .leading)
 
                         EditTextField(title: "Enter New Team Name ", input: $newTeamDescription, geometry: geometry, widthScale: widthScale)
-
                     }
+
                     Button {
                         teamViewModel.updateSelectedTeamDescription(teamDescription: newTeamDescription)
                         newTeamDescription = ""
@@ -88,13 +96,10 @@ struct UpdateTeamDescriptionSheet: View {
             }
             .banner(data: $teamViewModel.bannerData,
                     show: $teamViewModel.showBanner)
-
         }
         .onAppear {
             teamViewModel.showBanner = false
-
         }
-
     }
 }
 

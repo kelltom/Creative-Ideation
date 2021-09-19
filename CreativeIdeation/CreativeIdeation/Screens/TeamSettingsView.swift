@@ -23,7 +23,7 @@ struct TeamSettingsView: View {
 
     @State private var profanityFilter = true
     @State var showSheet: EditSheet?
-    
+
     @EnvironmentObject var teamViewModel: TeamViewModel
 
     var body: some View {
@@ -40,6 +40,7 @@ struct TeamSettingsView: View {
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .padding()
+                        .padding(.top, 20)  // Added to make heading position consistent with other settings screens that have custom back buttons
 
                     VStack {
 
@@ -161,6 +162,7 @@ struct TeamSettingsView: View {
                 }
             }
         }
+        .edgesIgnoringSafeArea(.vertical)
     }
 }
 

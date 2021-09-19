@@ -318,28 +318,29 @@ final class TeamViewModel: ObservableObject {
 
         if teamDescription.isEmpty {
             self.isLoading = false
-            self.didCreateSuccess = false
 
-            self.setBannerData(title: "Cannot Update Team Description", details: "Team Description cannot be empty", type: .warning)
+            self.setBannerData(title: "Cannot update Team description",
+                               details: "Description cannot be empty.",
+                               type: .warning)
             self.showBanner = true
 
-            print("update failed: cannot update because team description empty")
+            print("updatedTeamDescription: Cannot update because Team description empty.")
         } else if oldTeamDescription?.lowercased() == teamDescription.lowercased() {
             self.isLoading = false
-            self.didCreateSuccess = false
 
-            self.setBannerData(title: "Cannot update team", details: "New team description cannot be same as old team name", type: .warning)
+            self.setBannerData(title: "Cannot update Team description",
+                               details: "New description cannot be same as old description",
+                               type: .warning)
             self.showBanner = true
 
-            print("update failed: same team description")
+            print("updatedTeamDescription: Same team description")
 
         } else if pFilter.containsProfanity(text: teamDescription).profanities.count > 0 {
             self.isLoading = false
-            self.didCreateSuccess = false
 
             // Set Banner
-            setBannerData(title: "Cannot Change Team Description",
-                          details: "Team Description Cannot Contain Profanity.",
+            setBannerData(title: "Cannot update Team description",
+                          details: "Description cannot contain profanity.",
                           type: .warning)
             self.showBanner = true
 
@@ -349,26 +350,24 @@ final class TeamViewModel: ObservableObject {
             ]) { err in
                 if let err = err {
                     self.isLoading = false
-                    self.didCreateSuccess = false
 
-                    self.setBannerData(title: "Cannot Update Team Description", details: "Error updating team description. Please contact your admin \(err)", type: .error)
+                    self.setBannerData(title: "Cannot update Team description",
+                                       details: "Error updating Team description. Please contact your admin \(err)",
+                                       type: .error)
                     self.showBanner = true
-                    print("updateTeamDescription: Error updating team description")
+                    print("updatedTeamDescription: Error updating team description")
                 } else {
                     self.isLoading = false
-                    self.didCreateSuccess = true
-                    self.selectedTeam?.teamDescription = teamDescription
+                    self.selectedTeam?.teamDescription = teamDescription  // update UI
 
-                    self.setBannerData(title: "Success", details: "Team Description updated successfully!", type: .success)
+                    self.setBannerData(title: "Success",
+                                       details: "Team description updated successfully!",
+                                       type: .success)
                     self.showBanner = true
-                    print("updatedUserDescription: update description successfully")
-
+                    print("updatedTeamDescription: update description successfully")
                 }
-
             }
-
         }
-
     }
 
     func updateSelectedTeamName(teamName: String) {
@@ -382,27 +381,28 @@ final class TeamViewModel: ObservableObject {
 
         if teamName.isEmpty {
             self.isLoading = false
-            self.didCreateSuccess = false
 
-            self.setBannerData(title: "Cannot update team name", details: "Team name cannot be empty", type: .warning)
+            self.setBannerData(title: "Cannot update Team name",
+                               details: "Team name cannot be empty.",
+                               type: .warning)
             self.showBanner = true
 
-            print("update failed: cannot update because team name empty")
+            print("updatedSelectedTeamName: Cannot update because team name empty")
         } else if oldTeamName?.lowercased() == teamName.lowercased() {
             self.isLoading = false
-            self.didCreateSuccess = false
 
-            self.setBannerData(title: "Cannot update team", details: "New team name cannot be same as old team name", type: .warning)
+            self.setBannerData(title: "Cannot update Team name",
+                               details: "New Team name cannot be same as old team name.",
+                               type: .warning)
             self.showBanner = true
 
-            print("update failed: same team name")
+            print("updatedSelectedTeamName: Same Team name")
         } else if pFilter.containsProfanity(text: teamName).profanities.count > 0 {
             self.isLoading = false
-            self.didCreateSuccess = false
 
             // Set Banner
-            setBannerData(title: "Cannot Change Team Name",
-                          details: "Team Name Cannot Contain Profanity.",
+            setBannerData(title: "Cannot update Team name",
+                          details: "Team name cannot contain profanity.",
                           type: .warning)
             self.showBanner = true
 
@@ -412,26 +412,24 @@ final class TeamViewModel: ObservableObject {
             ]) { err in
                 if let err = err {
                     self.isLoading = false
-                    self.didCreateSuccess = false
 
-                    self.setBannerData(title: "Cannot Update Team Name", details: "Error updating team name. Please contact your admin \(err)", type: .error)
+                    self.setBannerData(title: "Cannot update Team name",
+                                       details: "Error updating Team name. Please contact your admin \(err)",
+                                       type: .error)
                     self.showBanner = true
                     print("updateTeamName: Error updating team Name")
                 } else {
                     self.isLoading = false
-                    self.didCreateSuccess = true
-                    self.selectedTeam?.teamName = teamName
+                    self.selectedTeam?.teamName = teamName  // update UI
 
-                    self.setBannerData(title: "Success", details: "Name updated successfully!", type: .success)
+                    self.setBannerData(title: "Success",
+                                       details: "Team name updated successfully!",
+                                       type: .success)
                     self.showBanner = true
-                    print("updatedUserName: update name successfully")
-
+                    print("updatedSelectedTeamName: update name successfully")
                 }
-
             }
-
         }
-
     }
 
     // Enables delete functionality on home view

@@ -167,9 +167,9 @@
 		C93F31D126CEE2ED00EC835D /* Sheets */ = {
 			isa = PBXGroup;
 			children = (
-				26833F5B26F67B0900C24A93 /* TeamSettingsSheets */,
 				C93F31D226CEE2F400EC835D /* HomeViewSheets */,
 				C93F31D426CEE30400EC835D /* ActivitySheets */,
+				26833F5B26F67B0900C24A93 /* TeamSettingsSheets */,
 				C93F31D326CEE2FA00EC835D /* UserSettingsSheets */,
 			);
 			path = Sheets;
