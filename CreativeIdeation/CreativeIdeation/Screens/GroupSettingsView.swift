@@ -39,6 +39,7 @@ struct GroupSettingsView: View {
                         .font(.largeTitle)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .padding()
+                        .padding(.top, 20)  // Added to make heading position consistent with other settings screens that have custom back buttons
 
                     // Outer box
                     VStack {
@@ -97,8 +98,9 @@ struct GroupSettingsView: View {
 
                     // Delete/Leave button
                     Button {
-                        showGroupSettings = false  // TODO: remove this
                     } label: {
+                        DeleteButton(text: "Delete Group")
+                        /*
                         // Comment this out to make Preview work
                         if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup!.groupId) {
                             DeleteButton(text: "Delete Group")
@@ -107,12 +109,14 @@ struct GroupSettingsView: View {
                                          image: "rectangle.lefthalf.inset.fill.arrow.left",
                                          backgroundColor: Color.gray)
                         }
+                        */
                     }
                 }
                 .frame(width: geometry.size.width,
                        height: geometry.size.height)
             }
         }
+        .edgesIgnoringSafeArea(.vertical)
         .sheet(item: $showSheet) { item in
             switch item {
             case .name:
