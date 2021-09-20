@@ -17,10 +17,12 @@ enum ActiveSheet: Identifiable {
 
 struct HomeView: View {
 
+    @State var isCollapsed: Bool = true
+
     @State var activeSheet: ActiveSheet?
     @State var showActivity: Bool = false
     @State var showGroupSettings: Bool = false
-    @State var isCollapsed: Bool = true
+    @State var showUserSettings: Bool = false
 
     private let shadowColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
 
@@ -147,13 +149,13 @@ struct HomeView: View {
                         }
 
                         // User Profile Icon
-                        NavigationLink(
-                            destination: UserSettingsView(),
-                            label: {
-                                ProfilePic(size: 70)
-                                    .shadow(color: .black, radius: 4, y: 4)
-                                    .padding(.trailing, 5)
-                            })
+                        Button {
+                            showUserSettings = true
+                        } label: {
+                            ProfilePic(size: 70)
+                                .shadow(color: .black, radius: 4, y: 4)
+                                .padding(.trailing, 5)
+                        }
 
                     }
                     .padding()
@@ -396,6 +398,14 @@ struct HomeView: View {
                     EmptyView()
                 }
 
+                NavigationLink(destination: UserSettingsView(showUserSettings: self.$showUserSettings),
+                               isActive: self.$showUserSettings) {
+                    EmptyView()
+                }
+
+                NavigationLink(destination: EmptyView()) {
+                    EmptyView()
+                }
             }
             .navigationTitle("Home")
             .navigationBarHidden(true)

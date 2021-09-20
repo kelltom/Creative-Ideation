@@ -27,6 +27,7 @@ final class TeamViewModel: ObservableObject {
     @Published var didCreateSuccess: Bool = false  // toggles when Team is created
     @Published var newTeamId: String = ""  // ID of the most recent created Team
 
+    @Published var isLoading = false
     @Published var showBanner = false
     @Published var bannerData: BannerModifier.BannerData =
         BannerModifier.BannerData(title: "Default Title",
@@ -204,10 +205,10 @@ final class TeamViewModel: ObservableObject {
             return
         }
         //  get code of current team selected
-//        guard let currentTeamCode = selectedTeam?.accessCode else {
-//            print("no access code for this team")
-//            return
-//        }
+        //        guard let currentTeamCode = selectedTeam?.accessCode else {
+        //            print("no access code for this team")
+        //            return
+        //        }
 
         // Validation
         if code.isEmpty {
@@ -216,9 +217,9 @@ final class TeamViewModel: ObservableObject {
                                details: "Field cannot be empty. Please enter a code.",
                                type: .warning)
             self.showBanner = true
-//        } else if currentTeamCode == code {
-//            self.setBanner(message: "Cannot join a team you are already in!", didSucceed: false)
-//            print("cant join an existing team")
+            //        } else if currentTeamCode == code {
+            //            self.setBanner(message: "Cannot join a team you are already in!", didSucceed: false)
+            //            print("cant join an existing team")
         } else {
             // Update members array in teams collection
             db.collection("teams").whereField("accessCode", isEqualTo: code)
@@ -240,22 +241,22 @@ final class TeamViewModel: ObservableObject {
                                 ])
 
                                 document.reference.collection("groups").whereField("isPublic", isEqualTo: true).getDocuments { (querySnapshot, err) in
-                                        if let err = err {
-                                            print("addIdToPublic: Error getting documents: \(err)")
-                                        } else {
-                                            for document in querySnapshot!.documents {
-                                                if document.exists {
-                                                    document.reference.updateData([
-                                                        "members": FieldValue.arrayUnion([uid])
-                                                    ])
+                                    if let err = err {
+                                        print("addIdToPublic: Error getting documents: \(err)")
+                                    } else {
+                                        for document in querySnapshot!.documents {
+                                            if document.exists {
+                                                document.reference.updateData([
+                                                    "members": FieldValue.arrayUnion([uid])
+                                                ])
 
-                                                    print("addIdToPublic: Added to Public Group successfully.")
-                                                } else {
+                                                print("addIdToPublic: Added to Public Group successfully.")
+                                            } else {
 
-                                                    print("addIdToPublic: Error accessing Group document. Document likely no longer exists.")
-                                                }
+                                                print("addIdToPublic: Error accessing Group document. Document likely no longer exists.")
                                             }
                                         }
+                                    }
                                 }
 
                                 // Set banner
@@ -287,22 +288,147 @@ final class TeamViewModel: ObservableObject {
         }
 
         ref.collection("groups").whereField("isPublic", isEqualTo: true).getDocuments { (querySnapshot, err) in
-                if let err = err {
-                    print("addIdToPublic: Error getting documents: \(err)")
-                } else {
-                    for document in querySnapshot!.documents {
-                        if document.exists {
-                            document.reference.updateData([
-                                "members": FieldValue.arrayUnion([uid])
-                            ])
+            if let err = err {
+                print("addIdToPublic: Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    if document.exists {
+                        document.reference.updateData([
+                            "members": FieldValue.arrayUnion([uid])
+                        ])
 
-                            print("addIdToPublic: Added to Public Group successfully.")
-                        } else {
+                        print("addIdToPublic: Added to Public Group successfully.")
+                    } else {
 
-                            print("addIdToPublic: Error accessing Group document. Document likely no longer exists.")
-                        }
+                        print("addIdToPublic: Error accessing Group document. Document likely no longer exists.")
                     }
                 }
+            }
+        }
+    }
+
+    func updateSelectedTeamDescription(teamDescription: String) {
+        self.isLoading = true
+        let oldTeamDescription = selectedTeam?.teamDescription
+
+        guard let teamId = selectedTeam?.teamId else {
+            print("Selected Team ID is not found")
+            return
+        }
+
+        if teamDescription.isEmpty {
+            self.isLoading = false
+
+            self.setBannerData(title: "Cannot update Team description",
+                               details: "Description cannot be empty.",
+                               type: .warning)
+            self.showBanner = true
+
+            print("updatedTeamDescription: Cannot update because Team description empty.")
+        } else if oldTeamDescription?.lowercased() == teamDescription.lowercased() {
+            self.isLoading = false
+
+            self.setBannerData(title: "Cannot update Team description",
+                               details: "New description cannot be same as old description",
+                               type: .warning)
+            self.showBanner = true
+
+            print("updatedTeamDescription: Same team description")
+
+        } else if pFilter.containsProfanity(text: teamDescription).profanities.count > 0 {
+            self.isLoading = false
+
+            // Set Banner
+            setBannerData(title: "Cannot update Team description",
+                          details: "Description cannot contain profanity.",
+                          type: .warning)
+            self.showBanner = true
+
+        } else {
+            db.collection("teams").document(teamId).updateData([
+                "teamDescription": teamDescription
+            ]) { err in
+                if let err = err {
+                    self.isLoading = false
+
+                    self.setBannerData(title: "Cannot update Team description",
+                                       details: "Error updating Team description. Please contact your admin \(err)",
+                                       type: .error)
+                    self.showBanner = true
+                    print("updatedTeamDescription: Error updating team description")
+                } else {
+                    self.isLoading = false
+                    self.selectedTeam?.teamDescription = teamDescription  // update UI
+
+                    self.setBannerData(title: "Success",
+                                       details: "Team description updated successfully!",
+                                       type: .success)
+                    self.showBanner = true
+                    print("updatedTeamDescription: update description successfully")
+                }
+            }
+        }
+    }
+
+    func updateSelectedTeamName(teamName: String) {
+        self.isLoading = true
+        let oldTeamName = selectedTeam?.teamName
+
+        guard let teamId = selectedTeam?.teamId else {
+            print("Selected Team ID is not found")
+            return
+        }
+
+        if teamName.isEmpty {
+            self.isLoading = false
+
+            self.setBannerData(title: "Cannot update Team name",
+                               details: "Team name cannot be empty.",
+                               type: .warning)
+            self.showBanner = true
+
+            print("updatedSelectedTeamName: Cannot update because team name empty")
+        } else if oldTeamName?.lowercased() == teamName.lowercased() {
+            self.isLoading = false
+
+            self.setBannerData(title: "Cannot update Team name",
+                               details: "New Team name cannot be same as old team name.",
+                               type: .warning)
+            self.showBanner = true
+
+            print("updatedSelectedTeamName: Same Team name")
+        } else if pFilter.containsProfanity(text: teamName).profanities.count > 0 {
+            self.isLoading = false
+
+            // Set Banner
+            setBannerData(title: "Cannot update Team name",
+                          details: "Team name cannot contain profanity.",
+                          type: .warning)
+            self.showBanner = true
+
+        } else {
+            db.collection("teams").document(teamId).updateData([
+                "teamName": teamName
+            ]) { err in
+                if let err = err {
+                    self.isLoading = false
+
+                    self.setBannerData(title: "Cannot update Team name",
+                                       details: "Error updating Team name. Please contact your admin \(err)",
+                                       type: .error)
+                    self.showBanner = true
+                    print("updateTeamName: Error updating team Name")
+                } else {
+                    self.isLoading = false
+                    self.selectedTeam?.teamName = teamName  // update UI
+
+                    self.setBannerData(title: "Success",
+                                       details: "Team name updated successfully!",
+                                       type: .success)
+                    self.showBanner = true
+                    print("updatedSelectedTeamName: update name successfully")
+                }
+            }
         }
     }
 

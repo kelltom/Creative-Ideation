@@ -349,7 +349,6 @@ final class UserAccountViewModel: ObservableObject {
                             print("Password update is successful")
                             self.isLoading = false
                             self.updateSuccess = true
-                            self.logOutFlag = true
 
                             // Set Banner
                             self.setBannerData(title: "Success",
