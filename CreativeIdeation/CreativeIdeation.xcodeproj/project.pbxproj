@@ -69,6 +69,7 @@
 		DDC86D7725FBF4B500296AE6 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = DDC86D7625FBF4B500296AE6 /* FirebaseFirestore */; };
 		DDC86D7925FBF4B500296AE6 /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = DDC86D7825FBF4B500296AE6 /* FirebaseFirestoreSwift-Beta */; };
 		DDDFDA8E25E0830800342B1B /* BigButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDFDA8D25E0830800342B1B /* BigButton.swift */; };
+		DDEA0AB626F949FA0082C5C9 /* UpdateGroupMembersSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEA0AB526F949FA0082C5C9 /* UpdateGroupMembersSheet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -132,6 +133,7 @@
 		DDB5B7BB26977CBA00836FE5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DDD77417264ADF8C00680E65 /* CreativeIdeation.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CreativeIdeation.entitlements; sourceTree = "<group>"; };
 		DDDFDA8D25E0830800342B1B /* BigButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigButton.swift; sourceTree = "<group>"; };
+		DDEA0AB526F949FA0082C5C9 /* UpdateGroupMembersSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateGroupMembersSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -389,6 +391,7 @@
 			isa = PBXGroup;
 			children = (
 				DD429D1826F66C7900279540 /* UpdateGroupNameSheet.swift */,
+				DDEA0AB526F949FA0082C5C9 /* UpdateGroupMembersSheet.swift */,
 			);
 			path = GroupSettingsSheets;
 			sourceTree = "<group>";
@@ -531,6 +534,7 @@
 				C9F230C225F29D98006590DA /* SessionTile.swift in Sources */,
 				C94A099A266C4A86004E6614 /* GroupMembersSheet.swift in Sources */,
 				76731F392602828C00536836 /* PreferencePic.swift in Sources */,
+				DDEA0AB626F949FA0082C5C9 /* UpdateGroupMembersSheet.swift in Sources */,
 				76A184D125FD979B0070251D /* XDismissButton.swift in Sources */,
 				C9F230BD25F29D8D006590DA /* GroupButton.swift in Sources */,
 				C9F230BA25F29D53006590DA /* TeamPic.swift in Sources */,

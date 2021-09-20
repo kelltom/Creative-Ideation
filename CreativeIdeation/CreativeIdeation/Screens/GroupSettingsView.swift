@@ -78,7 +78,7 @@ struct GroupSettingsView: View {
 
                                 // Edit Team Members button
                                 Button {
-
+                                    showSheet = .members
                                 } label: {
                                     // button design
                                     TextEditButton()
@@ -125,7 +125,9 @@ struct GroupSettingsView: View {
                     .environmentObject(self.groupViewModel)
 
             case .members:
-                EmptyView()
+                UpdateGroupMembersSheet(showSheet: $showSheet)
+                    .environmentObject(teamViewModel)
+                    .environmentObject(self.groupViewModel)
             }
         }
     }
