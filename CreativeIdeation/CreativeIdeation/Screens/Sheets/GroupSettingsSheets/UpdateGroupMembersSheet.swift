@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum Tab: Identifiable {
-    case currentMembers, addMembers
+    case currentMembers, addMembers, none
 
     var id: Int {
         hashValue
@@ -17,8 +17,12 @@ enum Tab: Identifiable {
 
 struct UpdateGroupMembersSheet: View {
 
-    @State var isAdmin: Bool = true  // This should be loaded onAppear, otherwise I can just call the isAdmin function a lot
-    @State var tab: Tab = .currentMembers  // This will depend on menu button clicked
+    @State var isAdmin: Bool = true
+    @State var tab: Tab = .none
+
+    @State private var multiSelection = Set<String>()
+    @State private var editMode: EditMode = .active  // Determined by admin status
+    @State private var members: [Member] = []
 
     @Binding var showSheet: Sheets?
 
@@ -59,6 +63,7 @@ struct UpdateGroupMembersSheet: View {
                 VStack {
 
                     Spacer()
+                        .frame(height: geometry.size.height * 0.1)
 
                     // Main title
                     Text("Group Members")
@@ -72,7 +77,7 @@ struct UpdateGroupMembersSheet: View {
 
                             // View current members button
                             Button {
-
+                                tab = .currentMembers
                             } label: {
                                 BigButton(title: "Current Members",
                                           geometry: geometry,
@@ -81,7 +86,7 @@ struct UpdateGroupMembersSheet: View {
 
                             // Add members button
                             Button {
-
+                                tab = .addMembers
                             } label: {
                                 BigButton(title: "Add Members",
                                           geometry: geometry,
@@ -92,7 +97,14 @@ struct UpdateGroupMembersSheet: View {
                     }
 
                     // Multi-select view
-                    // Probably only need the one?
+                    List((tab == .currentMembers) ? groupViewModel.groupMembers : groupViewModel.nonMembers, selection: $multiSelection) {
+                        Text($0.name)
+                            .font(.title2)
+                    }
+                    .cornerRadius(15)
+                    .environment(\.editMode, self.$editMode)
+                    .frame(width: geometry.size.width * 0.75)
+                    .overlay(RoundedRectangle(cornerRadius: 15).stroke())
 
                     // Remove Member button
                     if tab == .currentMembers && isAdmin {
@@ -116,10 +128,32 @@ struct UpdateGroupMembersSheet: View {
                     }
 
                     Spacer()
+                        .frame(height: geometry.size.height * 0.1)
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
             }
         }
+        .onAppear {
+            // Set defaults
+            tab = .currentMembers
+
+            // Determine admin status, set edit mode accordingly
+            if !groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup!.groupId) {
+                isAdmin = false
+                editMode = .inactive
+            }
+        }
+        .onChange(of: tab, perform: { _ in
+            // Remove multi-selection and re-load list of members
+            multiSelection.removeAll()
+
+            if tab == .currentMembers {
+                groupViewModel.loadSelectedGroupMembers()
+            } else if tab == .addMembers {
+                teamViewModel.loadMembers()
+                groupViewModel.splitMembers(teamMembers: teamViewModel.teamMembers)
+            }
+        })
     }
 }
 

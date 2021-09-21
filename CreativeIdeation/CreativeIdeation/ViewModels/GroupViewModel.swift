@@ -281,6 +281,67 @@ final class GroupViewModel: ObservableObject {
         return group.admins.contains(uid)
     }
 
+    func loadSelectedGroupMembers(includeCurrentUser: Bool = true) {
+        self.groupMembers = []
+
+        guard let selectedGroup = self.selectedGroup else {
+            print("getSelectedGroupMembers: Selected Group is nil.")
+            return
+        }
+
+        var members = selectedGroup.members
+
+        // Strip current user from member list if necessary
+        if !includeCurrentUser {
+            guard let uid = Auth.auth().currentUser?.uid else {
+                print("loadSelectedGroupMembers: Cannot get user ID.")
+                return
+            }
+
+            if let index = members.firstIndex(where: {$0 == uid}) { // find index of current user
+                members.remove(at: index)
+            }
+        }
+
+        let userCollectionRef = db.collection("users")
+        var chunks: Int = members.count / 10
+        let smallChunk = members.count % 10
+        if smallChunk != 0 {
+            chunks += 1
+        }
+
+        var chunk = 0
+        var chunkMembers: [String] = []
+
+        while chunk < chunks {
+            if smallChunk != 0 && chunk == chunks - 1 {
+                chunkMembers = Array(members[chunk*10...chunk*10+smallChunk-1])
+            } else {
+                chunkMembers = Array(members[chunk*10...chunk*10+9])
+            }
+
+            userCollectionRef.whereField("id", in: chunkMembers)
+                .getDocuments { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for document in querySnapshot!.documents {
+                            do {
+                                // Convert document to Member object and append to list of Group members
+                                try self.groupMembers.append(document.data(as: Member.self)!)
+                            } catch {
+                                print("Error adding member to list of Group members")
+                            }
+                        }
+                        self.groupMembers = self.groupMembers.sorted(by: {
+                            $0.name.compare($1.name) == .orderedAscending
+                        })
+                    }
+                }
+            chunk += 1
+        }
+    }
+
     func splitMembers(teamMembers: [Member]) {
         nonMembers = teamMembers
         groupMembers = teamMembers
