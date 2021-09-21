@@ -36,8 +36,7 @@ struct GroupMembersSheet: View {
                 .overlay(RoundedRectangle(cornerRadius: 15).stroke())
 
                 Button {
-                    groupViewModel.addMembers(teamId: teamViewModel.selectedTeam?.teamId,
-                                              memberIds: multiSelection)
+                    groupViewModel.addMembers(memberIds: multiSelection)
                     groupViewModel.splitMembers(teamMembers: teamViewModel.teamMembers)
                 } label: {
                     Text("Add Selected Members")

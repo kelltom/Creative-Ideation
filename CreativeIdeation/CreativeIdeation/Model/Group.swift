@@ -12,6 +12,7 @@ struct Group: Codable, Identifiable, Equatable {
     var id = UUID()  // used for looping
     var groupId = ""
     var groupTitle = ""
+    var fkTeamId = ""
 
     var admins: [String] = []
     var members: [String] = []
@@ -24,6 +25,7 @@ struct Group: Codable, Identifiable, Equatable {
     enum CodingKeys: String, CodingKey {
         case groupId
         case groupTitle
+        case fkTeamId
         case admins
         case members
         case sessions

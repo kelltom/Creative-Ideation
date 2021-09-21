@@ -19,10 +19,10 @@ final class GroupViewModel: ObservableObject {
 
     @Published var groups: [Group] = []   // populated when changing Teams
     @Published var selectedGroup: Group?  // selected group in the listview
-
     @Published var groupMembers: [Member] = []
     @Published var nonMembers: [Member] = []
     @Published var wasCreateSuccess: Bool = false  // indicates Group was successfully created
+    @Published var isLoading = false
 
     @Published var showBanner = false
     @Published var bannerData: BannerModifier.BannerData =
@@ -38,6 +38,10 @@ final class GroupViewModel: ObservableObject {
         nonMembers = []
         showBanner = false
         wasCreateSuccess = false
+    }
+
+    func setSelectedGroup(group: Group) {
+        self.selectedGroup = group
     }
 
     /// Creates a group within a Team with the given teamId
@@ -129,6 +133,7 @@ final class GroupViewModel: ObservableObject {
         groupRef.setData([
             "groupId": groupRef.documentID,
             "groupTitle": group.groupTitle,
+            "fkTeamId": teamId,
             "admins": FieldValue.arrayUnion([uid]),
             "members": FieldValue.arrayUnion(ids),
             "sessions": FieldValue.arrayUnion([]),
@@ -157,6 +162,34 @@ final class GroupViewModel: ObservableObject {
                 self.wasCreateSuccess = true
 
                 print("createGroup: Group document added successfully")
+            }
+        }
+    }
+
+    /// Updates current selected Group object according to database
+    func getCurrentGroupInfo(teamId: String?) {
+
+        guard let teamId = teamId else {
+            print("getCurrentGroupInfo: TeamId is nil.")
+            return
+        }
+
+        guard let groupId = selectedGroup?.groupId else {
+            print("getCurrentGroupInfo: Selected GroupId is nil.")
+            return
+        }
+
+        db.collection("teams").document(teamId).collection("groups").document(groupId).getDocument { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                do {
+                    // Convert document to Group object
+                    try self.selectedGroup = querySnapshot?.data(as: Group.self)
+                    print("getCurrentGroupInfo: Group object mapped successfully")
+                } catch {
+                    print("getCurrentGroupInfo: Error created Group object from db")
+                }
             }
         }
     }
@@ -249,6 +282,69 @@ final class GroupViewModel: ObservableObject {
         return group.admins.contains(uid)
     }
 
+    /// Populates the published groupMembers variable with Member objects of selected Group
+    func loadSelectedGroupMembers(includeCurrentUser: Bool = true) {
+        self.groupMembers = []
+
+        guard let selectedGroup = self.selectedGroup else {
+            print("getSelectedGroupMembers: Selected Group is nil.")
+            return
+        }
+
+        var members = selectedGroup.members
+
+        // Strip current user from member list if necessary
+        if !includeCurrentUser {
+            guard let uid = Auth.auth().currentUser?.uid else {
+                print("loadSelectedGroupMembers: Cannot get user ID.")
+                return
+            }
+
+            if let index = members.firstIndex(where: {$0 == uid}) { // find index of current user
+                members.remove(at: index)
+            }
+        }
+
+        let userCollectionRef = db.collection("users")
+        var chunks: Int = members.count / 10
+        let smallChunk = members.count % 10
+        if smallChunk != 0 {
+            chunks += 1
+        }
+
+        var chunk = 0
+        var chunkMembers: [String] = []
+
+        while chunk < chunks {
+            if smallChunk != 0 && chunk == chunks - 1 {
+                chunkMembers = Array(members[chunk*10...chunk*10+smallChunk-1])
+            } else {
+                chunkMembers = Array(members[chunk*10...chunk*10+9])
+            }
+
+            userCollectionRef.whereField("id", in: chunkMembers)
+                .getDocuments { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for document in querySnapshot!.documents {
+                            do {
+                                // Convert document to Member object and append to list of Group members
+                                try self.groupMembers.append(document.data(as: Member.self)!)
+                            } catch {
+                                print("Error adding member to list of Group members")
+                            }
+                        }
+                        self.groupMembers = self.groupMembers.sorted(by: {
+                            $0.name.compare($1.name) == .orderedAscending
+                        })
+                    }
+                }
+            chunk += 1
+        }
+    }
+
+    /// Populates groupMembers and nonMembers published variables according to supplied teamMembers list
     func splitMembers(teamMembers: [Member]) {
         nonMembers = teamMembers
         groupMembers = teamMembers
@@ -260,21 +356,28 @@ final class GroupViewModel: ObservableObject {
         }
     }
 
-    func addMembers(teamId: String?, memberIds: Set<String>) {
-        let groupRef = db.collection("teams").document(teamId!).collection("groups").document(selectedGroup!.groupId)
+    func addMembers(memberIds: Set<String>) {
+
+        isLoading = true
+
+        guard selectedGroup != nil else {
+            print("removeMembers: Selected Group is nil.")
+            isLoading = false
+            return
+        }
+
+        let groupRef = db.collection("teams").document(selectedGroup!.fkTeamId).collection("groups").document(selectedGroup!.groupId)
         let newMemberIds = Array(memberIds)
 
-        selectedGroup!.members += newMemberIds
-
         groupRef.updateData([
-            "members": FieldValue.arrayUnion(newMemberIds)
-        ]) { err in
+            "members": FieldValue.arrayUnion(newMemberIds)]) { err in
             if let err = err {
                 // Set banner
                 self.setBannerData(title: "Failed to add members",
                                    details: "Error: \(err.localizedDescription).",
                                    type: .error)
                 self.showBanner = true
+                self.isLoading = false
 
                 print("addMembers: Error adding members: \(err)")
             } else {
@@ -287,12 +390,151 @@ final class GroupViewModel: ObservableObject {
                                        details: "Group members added successfully.",
                                        type: .success)
                     self.showBanner = true
-                }
 
+                    self.selectedGroup!.members += newMemberIds
+
+                    // Remove Member objects from groupMembers
+                    self.nonMembers.removeAll {
+                        newMemberIds.contains($0.id)
+                    }
+                }
+                self.isLoading = false
                 print("addMembers: Members added to group successfully")
             }
         }
+    }
 
+    func removeMembers(memberIds: Set<String>) {
+
+        isLoading = true
+
+        guard selectedGroup != nil else {
+            print("removeMembers: Selected Group is nil.")
+            isLoading = false
+            return
+        }
+
+        let idsToRemove = Array(memberIds)
+
+        // Check if owner/admin ID is among them
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("removeMembers: Cannot get UID.")
+            isLoading = false
+            return
+        }
+
+        if idsToRemove.contains(uid) {
+            // Set banner
+            self.setBannerData(title: "Failed to remove members",
+                               details: "You cannot remove owner from the Group.",
+                               type: .warning)
+            self.showBanner = true
+            isLoading = false
+            return
+        }
+
+        let groupRef = db.collection("teams").document(selectedGroup!.fkTeamId).collection("groups").document(selectedGroup!.groupId)
+
+        groupRef.updateData(["members": FieldValue.arrayRemove(idsToRemove)]) { err in
+            if let err = err {
+                // Set banner
+                self.setBannerData(title: "Failed to remove members",
+                                   details: "Error: \(err.localizedDescription).",
+                                   type: .error)
+                self.showBanner = true
+                self.isLoading = false
+
+                print("removeMembers: Error removing members: \(err)")
+            } else {
+                // Set banner
+                self.setBannerData(title: "Success",
+                                   details: "Group members removed successfully.",
+                                   type: .success)
+                self.showBanner = true
+                self.isLoading = false
+
+                // Remove Ids from members array
+                self.selectedGroup!.members.removeAll {
+                    idsToRemove.contains($0)
+                }
+
+                // Remove Member objects from groupMembers
+                self.groupMembers.removeAll {
+                    idsToRemove.contains($0.id)
+                }
+            }
+        }
+    }
+
+    func updateGroupTitle(newTitle: String, teamId: String?) {
+        self.isLoading = true
+
+        // Get current Group
+        guard let currentGroup: Group = self.selectedGroup else {
+            print("updateGroupTitle: Can't get selected Group")
+            return
+        }
+
+        // Make sure TeamId is valid
+        guard let teamId = teamId else {
+            print("updateGroupTitle: TeamId is nil.")
+            return
+        }
+
+        // Error validation
+        if newTitle.isEmpty {
+            self.isLoading = false
+
+            // Set banner
+            setBannerData(title: "Cannot change Group name",
+                          details: "New name cannot be empty",
+                          type: .warning)
+            self.showBanner = true
+        } else if newTitle == currentGroup.groupTitle {
+            self.isLoading = false
+
+            // Set banner
+            self.setBannerData(title: "Cannot change Group name",
+                               details: "New name cannot be the same as current name.",
+                               type: .warning)
+            self.showBanner = true
+        } else if pFilter.containsProfanity(text: newTitle).profanities.count > 0 {
+            self.isLoading = false
+
+            // Set Banner
+            setBannerData(title: "Cannot change Group name",
+                          details: "New name cannot contain profanity.",
+                          type: .warning)
+            self.showBanner = true
+        } else {
+            // query db and update name in the document
+            db.collection("teams").document(teamId).collection("groups").document(currentGroup.groupId).updateData([
+                "groupTitle": newTitle
+            ]) { err in
+                if let err = err {
+                    self.isLoading = false
+
+                    // Set banner
+                    self.setBannerData(title: "Cannot change Group name",
+                                       details: "Error updating Group name. Please contact your admin. \(err)",
+                                       type: .error)
+                    self.showBanner = true
+
+                    print("updateGroupTitle: Error updating Group title")
+                } else {
+                    self.isLoading = false
+                    self.selectedGroup?.groupTitle = newTitle  // update view
+
+                    // Set banner
+                    self.setBannerData(title: "Success",
+                                       details: "Group name updated successfully!",
+                                       type: .success)
+                    self.showBanner = true
+
+                    print("updateGroupTitle: Group name updated successfully")
+                }
+            }
+        }
     }
 
     /// Assigns values to the published BannerData object
