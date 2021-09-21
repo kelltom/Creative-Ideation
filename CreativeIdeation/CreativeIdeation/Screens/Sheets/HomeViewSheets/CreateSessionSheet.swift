@@ -87,6 +87,7 @@ struct CreateSessionSheet: View {
         .onChange(of: self.sessionViewModel.didOperationSucceed, perform: { _ in
             if self.sessionViewModel.didOperationSucceed {
                 // Load session
+                sessionViewModel.selectedSession = sessionViewModel.newSession
                 sessionItemViewModel.activeSession = sessionViewModel.newSession
                 sessionItemViewModel.loadItems()
                 // Reset variables

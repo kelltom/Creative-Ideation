@@ -20,6 +20,9 @@ struct Session: Identifiable, Codable {
     var dateCreated: Date = Date()
     var dateModified: Date = Date()
     var createdBy = ""
+    var timerEnd: Date = Date()
+    var timerActive = false
+    var timeRemaining = 600
 
     var groupId = "" /// The group ID that this session belongs to
     var teamId = ""  /// The team ID that this session belongs to
@@ -34,6 +37,9 @@ struct Session: Identifiable, Codable {
         case dateCreated
         case dateModified
         case createdBy
+        case timerEnd
+        case timerActive
+        case timeRemaining
         case groupId
         case teamId
     }

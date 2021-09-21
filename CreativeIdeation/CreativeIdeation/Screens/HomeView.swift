@@ -384,7 +384,7 @@ struct HomeView: View {
                 }
 
                 NavigationLink(destination: ActivityView(
-                                showActivity: self.$showActivity), isActive: self.$showActivity) {
+                                timerManager: sessionViewModel.timerManager, showActivity: self.$showActivity), isActive: self.$showActivity) {
                     EmptyView()
                 }
             }

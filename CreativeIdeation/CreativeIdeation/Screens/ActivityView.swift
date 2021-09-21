@@ -20,6 +20,7 @@ struct ActivityView: View {
 
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
     @EnvironmentObject var sessionViewModel: SessionViewModel
+    @EnvironmentObject var groupViewModel: GroupViewModel
 
     let colorArray = [Color.init(red: 0.9, green: 0, blue: 0),
                       Color.init(red: 0, green: 0.9, blue: 0),
@@ -30,20 +31,23 @@ struct ActivityView: View {
     let columns = [
         GridItem(.adaptive(minimum: 160))]
 
+    @ObservedObject var timerManager: TimerManager
+
     @State var showSheet: SessionSheet?
+    @State var bounces: Int = 0
+
     @State private var selectedColor = -1
     @State private var randomizeColor: Bool = true
 
     @State private var ideas: [String] = []
     @State private var ideasIndex = 0
     @State private var idea = ""
+    @State private var isBouncing = false
 
     @Binding var showActivity: Bool
 
     var body: some View {
         ZStack {
-            // Whatever view we use for the canvas will be placed here,
-            // so that all other elements are placed above it on the zstack
 
             Color("BackgroundColor")
 
@@ -54,6 +58,11 @@ struct ActivityView: View {
                         showActivity = false
                         sessionItemViewModel.resetModel()
                         sessionViewModel.selectedSession = nil
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                            sessionViewModel.timerManager.pause()
+                            sessionViewModel.timerManager = TimerManager()
+                        }
+
                     } label: {
                         ZStack {
                             Circle()
@@ -76,6 +85,51 @@ struct ActivityView: View {
                         .padding(.top, 20)
                         .shadow(radius: 4, y: 4)
                     }
+
+                    Spacer()
+
+                    HStack {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(lineWidth: 3)
+                                .frame(width: 140, height: 80)
+                                .padding(.trailing)
+
+                            Text(timerManager.toString())
+                                .font(.largeTitle)
+                                .padding(.trailing)
+                        }
+
+                        if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup?.groupId ?? "no ID") {
+                            Button {
+                                if timerManager.timeRemaining == 0 {
+                                    timerManager.reset(newTime: 600)
+                                }
+                                sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
+                            } label: {
+                                Image(systemName: timerManager.mode == .running ? "pause.fill" : "play.fill")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 40, height: 40)
+                                    .foregroundColor(timerManager.mode == .running ? .blue : .green)
+                                    .padding(.trailing)
+                            }
+
+                            Button {
+                                if !(timerManager.mode == .running) {
+                                    sessionViewModel.resetTimer()
+                                }
+                            } label: {
+                                Image(systemName: "gobackward")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 45, height: 45)
+                                    .font(Font.title.weight(.bold))
+                                    .foregroundColor(timerManager.mode == .running ? Color("FadedColor") : .red)
+                            }
+                        }
+                    }
+                    .padding(.top)
 
                     Spacer()
                 }
@@ -364,7 +418,7 @@ struct ActivityView: View {
                                 }
                                 .frame(minWidth: 20)
                                 .padding(10)
-                                .background(Color.white)
+                                .background(Color("BackgroundColor"))
                                 .clipped()
                                 .cornerRadius(15)
                                 .shadow(radius: 4, y: 4)
@@ -385,21 +439,46 @@ struct ActivityView: View {
                             }
                             .padding(.trailing)
                         }
+                        .padding(.top)
 
-                        // Voting Button
-                        Button {
-                            showSheet = .voting
-                        } label: {
-                            Image("voting")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .foregroundColor(.black)
-                                .frame(width: 70, height: 70)
-                                .padding(.top, 8)
-                                .padding(.trailing, 8)
-                                .shadow(radius: 4)
+                        HStack {
+                            if timerManager.timeRemaining == 0 {
+                                Text("Time to vote!")
+                                    .font(.title2)
+                                    .frame(minWidth: 20)
+                                    .padding(10)
+                                    .background(Color("BackgroundColor"))
+                                    .clipped()
+                                    .cornerRadius(15)
+                                    .shadow(radius: 4, y: 4)
+                            }
+
+                            // Voting Button
+                            Button {
+                                showSheet = .voting
+                            } label: {
+                                if timerManager.timeRemaining == 0 {
+                                Image("voting")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 70, height: 70)
+                                    .padding(.trailing, 8)
+                                    .shadow(radius: 4)
+                                    .offset(y: isBouncing ? -8 : -2)
+                                    .animation(isBouncing ? .interpolatingSpring(mass: 8, stiffness: 150, damping: 0).repeatForever(autoreverses: false) : nil)
+                                } else {
+                                    Image("voting")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 70, height: 70)
+                                        .padding(.trailing, 8)
+                                        .shadow(radius: 4)
+                                        .animation(.easeInOut)
+                                }
+                            }
+                            .padding(.trailing)
                         }
-                        .padding(.trailing)
+                        .padding(.top, 25)
 
                         Spacer()
                     }
@@ -416,14 +495,38 @@ struct ActivityView: View {
         }
         .navigationTitle("Session")
         .navigationBarHidden(true)
+        .onAppear {
+            if sessionViewModel.selectedSession!.timerActive {
+                sessionViewModel.getRemainingTime(endTime: sessionViewModel.selectedSession!.timerEnd)
+                sessionViewModel.timerManager.start()
+            } else {
+                sessionViewModel.timerManager.timeRemaining = sessionViewModel.selectedSession!.timeRemaining
+            }
+            if timerManager.timeRemaining == 0 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    isBouncing = true
+                }
+            }
+        }
+        .onChange(of: timerManager.mode, perform: { mode in
+            if mode == .finished {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    isBouncing = true
+                }
+                sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
+            } else {
+                isBouncing = false
+            }
+        })
     }
-
 }
 
 struct ActivityView_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityView(showActivity: .constant(true))
+        ActivityView(timerManager: TimerManager(), showActivity: .constant(true))
             .environmentObject(SessionItemViewModel())
+            .environmentObject(SessionViewModel())
+            .environmentObject(GroupViewModel())
     }
 }
 
