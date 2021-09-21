@@ -17,7 +17,7 @@ enum Tab: Identifiable {
 
 struct UpdateGroupMembersSheet: View {
 
-    @State var isAdmin: Bool = true
+    @State var isAdmin: Bool
     @State var tab: Tab = .none
 
     @State private var multiSelection = Set<String>()
@@ -139,8 +139,7 @@ struct UpdateGroupMembersSheet: View {
         .onAppear {
 
             // Determine admin status, set edit mode accordingly
-            if !groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup!.groupId) {
-                isAdmin = false
+            if !isAdmin {
                 editMode = .inactive
             }
 
@@ -156,7 +155,7 @@ struct UpdateGroupMembersSheet: View {
 
 struct UpdateGroupMembersSheet_Previews: PreviewProvider {
     static var previews: some View {
-        UpdateGroupMembersSheet(showSheet: .constant(Sheets.members))
+        UpdateGroupMembersSheet(isAdmin: true, showSheet: .constant(Sheets.members))
             .environmentObject(TeamViewModel())
             .environmentObject(GroupViewModel())
     }

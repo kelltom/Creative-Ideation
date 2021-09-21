@@ -63,7 +63,12 @@ struct GroupSettingsView: View {
                                     showSheet = .name
                                 } label: {
                                     // button design
-                                    TextEditButton()
+                                    if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup!.groupId) {
+                                        TextEditButton()
+                                    } else {
+                                        TextEditButton()
+                                            .hidden()
+                                    }
                                 }
                             }
 
@@ -83,7 +88,8 @@ struct GroupSettingsView: View {
                                     showSheet = .members
                                 } label: {
                                     // button design
-                                    TextEditButton()
+                                    groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup!.groupId) ?
+                                        TextEditButton() : TextEditButton(text: "View")
                                 }
                             }
                         }
@@ -129,7 +135,9 @@ struct GroupSettingsView: View {
                     .environmentObject(self.groupViewModel)
 
             case .members:
-                UpdateGroupMembersSheet(showSheet: $showSheet)
+                UpdateGroupMembersSheet(isAdmin: groupViewModel.isCurrentUserAdmin(
+                                            groupId: groupViewModel.selectedGroup!.groupId),
+                                            showSheet: $showSheet)
                     .environmentObject(teamViewModel)
                     .environmentObject(self.groupViewModel)
             }
