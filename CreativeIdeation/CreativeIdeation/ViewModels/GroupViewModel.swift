@@ -133,6 +133,7 @@ final class GroupViewModel: ObservableObject {
         groupRef.setData([
             "groupId": groupRef.documentID,
             "groupTitle": group.groupTitle,
+            "fkTeamId": teamId,
             "admins": FieldValue.arrayUnion([uid]),
             "members": FieldValue.arrayUnion(ids),
             "sessions": FieldValue.arrayUnion([]),
@@ -281,6 +282,7 @@ final class GroupViewModel: ObservableObject {
         return group.admins.contains(uid)
     }
 
+    /// Populates the published groupMembers variable with Member objects of selected Group
     func loadSelectedGroupMembers(includeCurrentUser: Bool = true) {
         self.groupMembers = []
 
@@ -351,6 +353,24 @@ final class GroupViewModel: ObservableObject {
         groupMembers.removeAll {
             !selectedGroup!.members.contains($0.id)
         }
+    }
+
+    /// Determines eligible members of a Group, assumes groupMembers is up to date
+    func loadNonMembers(teamMembers: [Member]) {
+        nonMembers = []
+        
+        // Get list of Group member IDs
+        var ids: [String] = []
+        for member in groupMembers {
+            ids.append(member.id)
+        }
+
+        // Remove Group members from list of Team members
+        var members = teamMembers
+        members.removeAll {
+            ids.contains($0.id)
+        }
+        nonMembers = members  // reassign published variable to update UI
     }
 
     func addMembers(teamId: String?, memberIds: Set<String>) {

@@ -22,7 +22,6 @@ struct UpdateGroupMembersSheet: View {
 
     @State private var multiSelection = Set<String>()
     @State private var editMode: EditMode = .active  // Determined by admin status
-    @State private var members: [Member] = []
 
     @Binding var showSheet: Sheets?
 
@@ -136,6 +135,7 @@ struct UpdateGroupMembersSheet: View {
         .onAppear {
             // Set defaults
             tab = .currentMembers
+            teamViewModel.loadMembers()
 
             // Determine admin status, set edit mode accordingly
             if !groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup!.groupId) {
@@ -150,8 +150,7 @@ struct UpdateGroupMembersSheet: View {
             if tab == .currentMembers {
                 groupViewModel.loadSelectedGroupMembers()
             } else if tab == .addMembers {
-                teamViewModel.loadMembers()
-                groupViewModel.splitMembers(teamMembers: teamViewModel.teamMembers)
+                groupViewModel.loadNonMembers(teamMembers: teamViewModel.teamMembers)
             }
         })
     }
