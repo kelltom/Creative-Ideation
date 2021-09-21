@@ -42,6 +42,7 @@ struct ActivityView: View {
     @State private var ideas: [String] = []
     @State private var ideasIndex = 0
     @State private var idea = ""
+    @State private var isBouncing = false
 
     @Binding var showActivity: Bool
 
@@ -460,8 +461,8 @@ struct ActivityView: View {
                                     .frame(width: 70, height: 70)
                                     .padding(.trailing, 8)
                                     .shadow(radius: 4)
-                                    .offset(y: timerManager.timeRemaining == 0 ? -8 : -2)
-                                    .animation(timerManager.timeRemaining == 0 ? .interpolatingSpring(mass: 8, stiffness: 150, damping: 0).repeatForever(autoreverses: false) : nil)
+                                    .offset(y: isBouncing ? -8 : -2)
+                                    .animation(isBouncing ? .interpolatingSpring(mass: 8, stiffness: 150, damping: 0).repeatForever(autoreverses: false) : nil)
                                 } else {
                                     Image("voting")
                                         .resizable()
@@ -499,6 +500,15 @@ struct ActivityView: View {
                 sessionViewModel.timerManager.timeRemaining = sessionViewModel.selectedSession!.timeRemaining
             }
         }
+        .onChange(of: timerManager.mode, perform: { mode in
+            if mode == .finished {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    isBouncing = true
+                }
+            } else {
+                isBouncing = false
+            }
+        })
     }
 }
 
