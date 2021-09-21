@@ -34,6 +34,8 @@ struct ActivityView: View {
     @ObservedObject var timerManager: TimerManager
 
     @State var showSheet: SessionSheet?
+    @State var bounces: Int = 0
+
     @State private var selectedColor = -1
     @State private var randomizeColor: Bool = true
 
@@ -59,7 +61,7 @@ struct ActivityView: View {
                             sessionViewModel.timerManager.pause()
                             sessionViewModel.timerManager = TimerManager()
                         }
-                        
+
                     } label: {
                         ZStack {
                             Circle()
@@ -106,7 +108,7 @@ struct ActivityView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 40, height: 40)
                                     .foregroundColor(timerManager.mode == .running ? .blue : .green)
-                                    .padding(.trailing, 8)
+                                    .padding(.trailing)
                             }
 
                             Button {
@@ -412,7 +414,7 @@ struct ActivityView: View {
                                 }
                                 .frame(minWidth: 20)
                                 .padding(10)
-                                .background(Color.white)
+                                .background(Color("BackgroundColor"))
                                 .clipped()
                                 .cornerRadius(15)
                                 .shadow(radius: 4, y: 4)
@@ -433,21 +435,46 @@ struct ActivityView: View {
                             }
                             .padding(.trailing)
                         }
+                        .padding(.top)
 
-                        // Voting Button
-                        Button {
-                            showSheet = .voting
-                        } label: {
-                            Image("voting")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .foregroundColor(.black)
-                                .frame(width: 70, height: 70)
-                                .padding(.top, 8)
-                                .padding(.trailing, 8)
-                                .shadow(radius: 4)
+                        HStack {
+                            if timerManager.timeRemaining == 0 {
+                                Text("Time to vote!")
+                                    .font(.title2)
+                                    .frame(minWidth: 20)
+                                    .padding(10)
+                                    .background(Color("BackgroundColor"))
+                                    .clipped()
+                                    .cornerRadius(15)
+                                    .shadow(radius: 4, y: 4)
+                            }
+
+                            // Voting Button
+                            Button {
+                                showSheet = .voting
+                            } label: {
+                                if timerManager.timeRemaining == 0 {
+                                Image("voting")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 70, height: 70)
+                                    .padding(.trailing, 8)
+                                    .shadow(radius: 4)
+                                    .offset(y: timerManager.timeRemaining == 0 ? -8 : -2)
+                                    .animation(timerManager.timeRemaining == 0 ? .interpolatingSpring(mass: 8, stiffness: 150, damping: 0).repeatForever(autoreverses: false) : nil)
+                                } else {
+                                    Image("voting")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 70, height: 70)
+                                        .padding(.trailing, 8)
+                                        .shadow(radius: 4)
+                                        .animation(.easeInOut)
+                                }
+                            }
+                            .padding(.trailing)
                         }
-                        .padding(.trailing)
+                        .padding(.top, 25)
 
                         Spacer()
                     }

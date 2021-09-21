@@ -16,6 +16,7 @@ class TimerManager: ObservableObject {
     enum StopWatchMode {
         case running
         case paused
+        case finished
     }
 
     func start() {
@@ -23,9 +24,13 @@ class TimerManager: ObservableObject {
         mode = .running
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             self.timeRemaining -= 1
-            if self.timeRemaining <= 0 {
+            if self.timeRemaining == 0 {
+                self.pause()
+                self.mode = .finished
+            } else if self.timeRemaining < 0 {
                 self.pause()
                 self.timeRemaining = 0
+                self.mode = .finished
             }
         }
     }
