@@ -102,6 +102,9 @@ struct ActivityView: View {
 
                         if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup?.groupId ?? "no ID") {
                             Button {
+                                if timerManager.timeRemaining == 0 {
+                                    timerManager.reset(newTime: 600)
+                                }
                                 sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
                             } label: {
                                 Image(systemName: timerManager.mode == .running ? "pause.fill" : "play.fill")
@@ -499,12 +502,18 @@ struct ActivityView: View {
             } else {
                 sessionViewModel.timerManager.timeRemaining = sessionViewModel.selectedSession!.timeRemaining
             }
+            if timerManager.timeRemaining == 0 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    isBouncing = true
+                }
+            }
         }
         .onChange(of: timerManager.mode, perform: { mode in
             if mode == .finished {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     isBouncing = true
                 }
+                sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
             } else {
                 isBouncing = false
             }
