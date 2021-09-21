@@ -108,7 +108,8 @@ struct UpdateGroupMembersSheet: View {
                     // Remove Member button
                     if tab == .currentMembers && isAdmin {
                         Button {
-
+                            groupViewModel.removeMembers(memberIds: multiSelection)
+                            multiSelection.removeAll()
                         } label: {
                             DeleteButton(text: "Remove Member(s)",
                                          image: "")
@@ -118,7 +119,9 @@ struct UpdateGroupMembersSheet: View {
                     // Add Member button
                     if tab == .addMembers && isAdmin {
                         Button {
-
+                            groupViewModel.addMembers(teamId: groupViewModel.selectedGroup?.fkTeamId,
+                                                      memberIds: multiSelection)
+                            multiSelection.removeAll()
                         } label: {
                             DeleteButton(text: "Add Member(s)",
                                          image: "person.fill.badge.plus",
@@ -131,27 +134,26 @@ struct UpdateGroupMembersSheet: View {
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
             }
+            .banner(data: $groupViewModel.bannerData,
+                    show: $groupViewModel.showBanner)
         }
         .onAppear {
-            // Set defaults
-            tab = .currentMembers
-            teamViewModel.loadMembers()
 
             // Determine admin status, set edit mode accordingly
             if !groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup!.groupId) {
                 isAdmin = false
                 editMode = .inactive
             }
+
+            teamViewModel.loadMembers()
+
+            tab = .currentMembers
+            groupViewModel.loadSelectedGroupMembers()
         }
         .onChange(of: tab, perform: { _ in
             // Remove multi-selection and re-load list of members
             multiSelection.removeAll()
-
-            if tab == .currentMembers {
-                groupViewModel.loadSelectedGroupMembers()
-            } else if tab == .addMembers {
-                groupViewModel.loadNonMembers(teamMembers: teamViewModel.teamMembers)
-            }
+            groupViewModel.splitMembers(teamMembers: teamViewModel.teamMembers)
         })
     }
 }

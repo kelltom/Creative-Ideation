@@ -355,15 +355,12 @@ final class GroupViewModel: ObservableObject {
         }
     }
 
-    /// Determines eligible members of a Group, assumes groupMembers is up to date
+    /// Populates nonMembers published variable according to selected Group members
     func loadNonMembers(teamMembers: [Member]) {
         nonMembers = []
-        
+
         // Get list of Group member IDs
-        var ids: [String] = []
-        for member in groupMembers {
-            ids.append(member.id)
-        }
+        let ids = selectedGroup!.members
 
         // Remove Group members from list of Team members
         var members = teamMembers
@@ -377,11 +374,8 @@ final class GroupViewModel: ObservableObject {
         let groupRef = db.collection("teams").document(teamId!).collection("groups").document(selectedGroup!.groupId)
         let newMemberIds = Array(memberIds)
 
-        selectedGroup!.members += newMemberIds
-
         groupRef.updateData([
-            "members": FieldValue.arrayUnion(newMemberIds)
-        ]) { err in
+            "members": FieldValue.arrayUnion(newMemberIds)]) { err in
             if let err = err {
                 // Set banner
                 self.setBannerData(title: "Failed to add members",
@@ -400,12 +394,58 @@ final class GroupViewModel: ObservableObject {
                                        details: "Group members added successfully.",
                                        type: .success)
                     self.showBanner = true
-                }
 
+                    self.selectedGroup!.members += newMemberIds
+
+                    // Remove Member objects from groupMembers
+                    self.nonMembers.removeAll {
+                        newMemberIds.contains($0.id)
+                    }
+                }
                 print("addMembers: Members added to group successfully")
             }
         }
+    }
 
+    func removeMembers(memberIds: Set<String>) {
+        guard selectedGroup != nil else {
+            print("removeMembers: Selected Group is nil.")
+            return
+        }
+
+        let idsToRemove = Array(memberIds)
+
+        // Check if admin ID is among them
+
+        let groupRef = db.collection("teams").document(selectedGroup!.fkTeamId).collection("groups").document(selectedGroup!.groupId)
+
+        groupRef.updateData(["members": FieldValue.arrayRemove(idsToRemove)]) { err in
+            if let err = err {
+                // Set banner
+                self.setBannerData(title: "Failed to remove members",
+                                   details: "Error: \(err.localizedDescription).",
+                                   type: .error)
+                self.showBanner = true
+
+                print("removeMembers: Error removing members: \(err)")
+            } else {
+                // Set banner
+                self.setBannerData(title: "Success",
+                                   details: "Group members removed successfully.",
+                                   type: .success)
+                self.showBanner = true
+
+                // Remove Ids from members array
+                self.selectedGroup!.members.removeAll {
+                    idsToRemove.contains($0)
+                }
+
+                // Remove Member objects from groupMembers
+                self.groupMembers.removeAll {
+                    idsToRemove.contains($0.id)
+                }
+            }
+        }
     }
 
     func updateGroupTitle(newTitle: String, teamId: String?) {
