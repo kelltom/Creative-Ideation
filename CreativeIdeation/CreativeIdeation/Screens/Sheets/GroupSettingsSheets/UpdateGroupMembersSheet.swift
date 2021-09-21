@@ -34,11 +34,6 @@ struct UpdateGroupMembersSheet: View {
 
             Color("BackgroundColor")
 
-            if groupViewModel.isLoading {
-                ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
-                    .scaleEffect(3)
-            }
-
             // Exit button
             VStack {
                 HStack {
@@ -119,8 +114,7 @@ struct UpdateGroupMembersSheet: View {
                     // Add Member button
                     if tab == .addMembers && isAdmin {
                         Button {
-                            groupViewModel.addMembers(teamId: groupViewModel.selectedGroup?.fkTeamId,
-                                                      memberIds: multiSelection)
+                            groupViewModel.addMembers(memberIds: multiSelection)
                             multiSelection.removeAll()
                         } label: {
                             DeleteButton(text: "Add Member(s)",
@@ -136,6 +130,11 @@ struct UpdateGroupMembersSheet: View {
             }
             .banner(data: $groupViewModel.bannerData,
                     show: $groupViewModel.showBanner)
+
+            if groupViewModel.isLoading {
+                ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
+                    .scaleEffect(3)
+            }
         }
         .onAppear {
 

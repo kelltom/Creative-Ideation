@@ -344,6 +344,7 @@ final class GroupViewModel: ObservableObject {
         }
     }
 
+    /// Populates groupMembers and nonMembers published variables according to supplied teamMembers list
     func splitMembers(teamMembers: [Member]) {
         nonMembers = teamMembers
         groupMembers = teamMembers
@@ -355,23 +356,17 @@ final class GroupViewModel: ObservableObject {
         }
     }
 
-    /// Populates nonMembers published variable according to selected Group members
-    func loadNonMembers(teamMembers: [Member]) {
-        nonMembers = []
+    func addMembers(memberIds: Set<String>) {
 
-        // Get list of Group member IDs
-        let ids = selectedGroup!.members
+        isLoading = true
 
-        // Remove Group members from list of Team members
-        var members = teamMembers
-        members.removeAll {
-            ids.contains($0.id)
+        guard selectedGroup != nil else {
+            print("removeMembers: Selected Group is nil.")
+            isLoading = false
+            return
         }
-        nonMembers = members  // reassign published variable to update UI
-    }
 
-    func addMembers(teamId: String?, memberIds: Set<String>) {
-        let groupRef = db.collection("teams").document(teamId!).collection("groups").document(selectedGroup!.groupId)
+        let groupRef = db.collection("teams").document(selectedGroup!.fkTeamId).collection("groups").document(selectedGroup!.groupId)
         let newMemberIds = Array(memberIds)
 
         groupRef.updateData([
@@ -382,6 +377,7 @@ final class GroupViewModel: ObservableObject {
                                    details: "Error: \(err.localizedDescription).",
                                    type: .error)
                 self.showBanner = true
+                self.isLoading = false
 
                 print("addMembers: Error adding members: \(err)")
             } else {
@@ -402,20 +398,40 @@ final class GroupViewModel: ObservableObject {
                         newMemberIds.contains($0.id)
                     }
                 }
+                self.isLoading = false
                 print("addMembers: Members added to group successfully")
             }
         }
     }
 
     func removeMembers(memberIds: Set<String>) {
+
+        isLoading = true
+
         guard selectedGroup != nil else {
             print("removeMembers: Selected Group is nil.")
+            isLoading = false
             return
         }
 
         let idsToRemove = Array(memberIds)
 
-        // Check if admin ID is among them
+        // Check if owner/admin ID is among them
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("removeMembers: Cannot get UID.")
+            isLoading = false
+            return
+        }
+
+        if idsToRemove.contains(uid) {
+            // Set banner
+            self.setBannerData(title: "Failed to remove members",
+                               details: "You cannot remove owner from the Group.",
+                               type: .warning)
+            self.showBanner = true
+            isLoading = false
+            return
+        }
 
         let groupRef = db.collection("teams").document(selectedGroup!.fkTeamId).collection("groups").document(selectedGroup!.groupId)
 
@@ -426,6 +442,7 @@ final class GroupViewModel: ObservableObject {
                                    details: "Error: \(err.localizedDescription).",
                                    type: .error)
                 self.showBanner = true
+                self.isLoading = false
 
                 print("removeMembers: Error removing members: \(err)")
             } else {
@@ -434,6 +451,7 @@ final class GroupViewModel: ObservableObject {
                                    details: "Group members removed successfully.",
                                    type: .success)
                 self.showBanner = true
+                self.isLoading = false
 
                 // Remove Ids from members array
                 self.selectedGroup!.members.removeAll {
