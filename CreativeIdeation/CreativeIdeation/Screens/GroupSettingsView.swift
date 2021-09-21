@@ -30,6 +30,8 @@ struct GroupSettingsView: View {
 
             Color("BackgroundColor")
 
+            BackButton(text: "Home", binding: $showGroupSettings)
+
             GeometryReader { geometry in
 
                 // Main content
@@ -115,8 +117,10 @@ struct GroupSettingsView: View {
                 .frame(width: geometry.size.width,
                        height: geometry.size.height)
             }
+            .onAppear {
+                teamViewModel.loadMembers()
+            }
         }
-        .edgesIgnoringSafeArea(.vertical)
         .sheet(item: $showSheet) { item in
             switch item {
             case .name:

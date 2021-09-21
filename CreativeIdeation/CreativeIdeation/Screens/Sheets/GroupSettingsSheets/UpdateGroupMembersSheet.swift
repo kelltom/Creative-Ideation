@@ -144,10 +144,7 @@ struct UpdateGroupMembersSheet: View {
                 editMode = .inactive
             }
 
-            teamViewModel.loadMembers()
-
             tab = .currentMembers
-            groupViewModel.loadSelectedGroupMembers()
         }
         .onChange(of: tab, perform: { _ in
             // Remove multi-selection and re-load list of members
