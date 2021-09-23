@@ -142,7 +142,7 @@ final class SessionViewModel: ObservableObject {
             "sessionDescription": self.newSession.sessionDescription,
             "type": "",
             "inProgress": true,
-            "isVoting": false,
+            "isDoneVoting": false,
             "dateCreated": Date(),
             "dateModified": Date(),
             "createdBy": uid,
@@ -223,7 +223,7 @@ final class SessionViewModel: ObservableObject {
                             self.teamSessions[selectedSessionIndex!].sessionTitle = mockSession.sessionTitle
                             self.teamSessions[selectedSessionIndex!].sessionDescription = mockSession.sessionDescription
                             self.teamSessions[selectedSessionIndex!].inProgress = mockSession.inProgress
-                            self.teamSessions[selectedSessionIndex!].isVoting = mockSession.isVoting
+                            self.teamSessions[selectedSessionIndex!].isDoneVoting = mockSession.isDoneVoting
                             self.teamSessions[selectedSessionIndex!].dateModified = mockSession.dateModified
                             self.teamSessions[selectedSessionIndex!].timerEnd = mockSession.timerEnd
                             self.teamSessions[selectedSessionIndex!].timerActive = mockSession.timerActive
@@ -244,7 +244,7 @@ final class SessionViewModel: ObservableObject {
                                 self.selectedSession!.timerActive = mockSession.timerActive
                                 self.selectedSession!.timerEnd = mockSession.timerEnd
                                 self.selectedSession!.timeRemaining = mockSession.timeRemaining
-                                self.selectedSession!.isVoting = mockSession.isVoting
+                                self.selectedSession!.isDoneVoting = mockSession.isDoneVoting
                             }
 
                             let selectedSessionGroupIndex = self.groupSessions.firstIndex(where: {$0.sessionId == mockSession.sessionId})
@@ -381,6 +381,32 @@ final class SessionViewModel: ObservableObject {
             }
             print("Resetting Timer. Time Remaining: ", newTime)
             transaction.updateData(["timeRemaining": newTime],
+                                   forDocument: sessionReference)
+            return nil
+        }) { (_, error) in
+            if let error = error {
+                print("Error updating session: \(error)")
+            }
+        }
+    }
+
+    func finishVoting() {
+        guard let activeSession = selectedSession else {
+            print("Could not finish voting: No active session")
+            return
+        }
+
+        let sessionReference = db.collection("sessions").document(activeSession.sessionId)
+
+        db.runTransaction({ (transaction, errorPointer) -> Any? in
+            do {
+                _ = try transaction.getDocument(sessionReference)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+            print("Finishing Voting")
+            transaction.updateData(["isDoneVoting": true],
                                    forDocument: sessionReference)
             return nil
         }) { (_, error) in

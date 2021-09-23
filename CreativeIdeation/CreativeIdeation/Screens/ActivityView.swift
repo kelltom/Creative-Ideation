@@ -23,9 +23,9 @@ struct ActivityView: View {
     @EnvironmentObject var groupViewModel: GroupViewModel
 
     let colorArray = [Color.init(red: 0.9, green: 0, blue: 0),
+                      Color.init(red: 0.9, green: 0.6, blue: 0),
                       Color.init(red: 0, green: 0.9, blue: 0),
                       Color.init(red: 0, green: 0.7, blue: 0.9),
-                      Color.init(red: 0.9, green: 0.6, blue: 0),
                       Color.init(red: 0.9, green: 0.45, blue: 0.9)]
 
     let columns = [
@@ -133,6 +133,23 @@ struct ActivityView: View {
 
                     Spacer()
                 }
+
+                HStack {
+                    Menu {
+                        Button("Alphabetically", action: { sessionItemViewModel.sortStickies(sortBy: .alphabetical)})
+                        Button("By Color", action: { sessionItemViewModel.sortStickies(sortBy: .color)})
+                        Button("By Score", action: { sessionItemViewModel.sortStickies(sortBy: .score)})
+                    } label: {
+                        Label("Sort", systemImage: "arrow.up.arrow.down.circle")
+                    }
+                    .font(.title)
+                    .foregroundColor(Color("StrokeColor"))
+                    .padding(.leading)
+                    .padding(.top, 5)
+
+                    Spacer()
+                }
+
                 HStack(spacing: 0) {
                     // Spacer()
                     ScrollView(.vertical, showsIndicators: false) {

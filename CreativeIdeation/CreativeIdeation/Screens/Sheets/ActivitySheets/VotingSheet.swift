@@ -56,6 +56,19 @@ struct VotingSheet: View {
 
                             Spacer()
 
+                            Button {
+                                sessionViewModel.finishVoting()
+                                sessionItemViewModel.sortStickies(sortBy: .score)
+                            } label: {
+                                Text("Done!")
+                                    .font(.title)
+                                    .foregroundColor(Color("StrokeColor"))
+                                    .padding()
+                                    .background(Color.green)
+                                    .cornerRadius(15)
+                                    .shadow(radius: 4, y: 4)
+                            }
+
                             // Title text
                             Text("Voting")
                                 .font(.system(size: 40, weight: .heavy))
@@ -72,9 +85,16 @@ struct VotingSheet: View {
                                     }
                                 }
                                 if sessionItemViewModel.votingStickies.count == 0 {
-                                    Text("No Stickies Left to Vote On!")
-                                        .font(.title)
-                                        .frame(width: self.getStickyNoteWidth(geometry, pos: -2))
+                                    VStack {
+                                        Text("No Stickies Left to Vote On!")
+                                            .font(.largeTitle)
+                                            .frame(width: self.getStickyNoteWidth(geometry, pos: -2))
+                                            .padding()
+
+                                        Text("Sit tight and wait for everyone to finish")
+                                            .font(.title)
+                                            .frame(width: self.getStickyNoteWidth(geometry, pos: -2))
+                                    }
                                 }
                             }
                             .frame(width: geometry.size.width, height: geometry.size.height * 0.5)

@@ -19,8 +19,10 @@ struct StickyNote: View, Identifiable {
     var itemId: String
     @State var textChanged: Bool = false
     @State var timer: Timer?
+    @State var numberColor: Int = 1
     @State var chosenColor: Color? = Color.red
     @State var selected: Bool = false
+    @State var score: Int = 0
 
     // @GestureState private var startLocation: CGPoint?
     @GestureState var isDetectingLongPress = false
@@ -28,11 +30,20 @@ struct StickyNote: View, Identifiable {
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
             VStack(spacing: 0) {
-                Rectangle()
-                    .foregroundColor(colorScheme == .dark ? chosenColor?.darker() : chosenColor)
-                    .frame(width: 160, height: 30)
-                    .simultaneousGesture(longPress)
+                ZStack {
+                    Rectangle()
+                        .foregroundColor(colorScheme == .dark ? chosenColor?.darker() : chosenColor)
+                        .frame(width: 160, height: 30)
+                        .simultaneousGesture(longPress)
                     // .simultaneousGesture(simpleDrag)
+
+                    if sessionViewModel.selectedSession?.isDoneVoting ?? false {
+                        Text("Score: " + String(score))
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(Color("StrokeColor"))
+                    }
+                }
 
                 TextEditor(text: $input)
                     .frame(width: 160, height: 130)

@@ -40,10 +40,16 @@ final class SessionItemViewModel: ObservableObject {
     private var animationTimer: Timer?
     private var pFilter: ProfanityFilter = ProfanityFilter()
 
+    enum SortingType {
+        case alphabetical
+        case score
+        case color
+    }
+
     let colorArray = [Color.init(red: 0.9, green: 0, blue: 0),
+                      Color.init(red: 0.9, green: 0.5, blue: 0),
                       Color.init(red: 0, green: 0.9, blue: 0),
                       Color.init(red: 0, green: 0.7, blue: 0.9),
-                      Color.init(red: 0.9, green: 0.5, blue: 0),
                       Color.init(red: 0.9, green: 0.45, blue: 0.9)]
 
     func resetModel() {
@@ -331,8 +337,10 @@ final class SessionItemViewModel: ObservableObject {
             input: newItem.input,
             location: CGPoint(x: newItem.location[0], y: newItem.location[1]),
             itemId: newItem.itemId,
+            numberColor: newItem.color,
             chosenColor: self.colorArray[newItem.color],
-            selected: selected
+            selected: selected,
+            score: newItem.score
         )
         if index < 0 {
             stickyNotes.append(newSticky)
@@ -413,6 +421,17 @@ final class SessionItemViewModel: ObservableObject {
                     }
                 }
             }
+        }
+    }
+
+    func sortStickies(sortBy: SortingType) {
+        switch sortBy {
+        case .alphabetical:
+            stickyNotes.sort { $0.input < $1.input }
+        case .score:
+            stickyNotes.sort { $0.score > $1.score }
+        case .color:
+            stickyNotes.sort { $0.numberColor < $1.numberColor}
         }
     }
 
