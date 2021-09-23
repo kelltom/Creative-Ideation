@@ -34,8 +34,6 @@ struct StickyNote: View, Identifiable {
                     Rectangle()
                         .foregroundColor(colorScheme == .dark ? chosenColor?.darker() : chosenColor)
                         .frame(width: 160, height: 30)
-                        .simultaneousGesture(longPress)
-                    // .simultaneousGesture(simpleDrag)
 
                     if sessionViewModel.selectedSession?.isDoneVoting ?? false {
                         Text("Score: " + String(score))
@@ -44,6 +42,8 @@ struct StickyNote: View, Identifiable {
                             .foregroundColor(Color("StrokeColor"))
                     }
                 }
+                .simultaneousGesture(longPress)
+            // .simultaneousGesture(simpleDrag)
 
                 TextEditor(text: $input)
                     .frame(width: 160, height: 130)
