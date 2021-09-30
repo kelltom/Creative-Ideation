@@ -306,7 +306,7 @@ struct HomeView: View {
                                                             } label: {
                                                                 HStack {
                                                                     Text("Leave")
-                                                                    Image(systemName: "arrowshape.turn.up.backward.fill")
+                                                                    Image(systemName: "rectangle.lefthalf.inset.fill.arrow.left")
                                                                 }
                                                             }
                                                         }

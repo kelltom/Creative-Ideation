@@ -63,7 +63,12 @@ struct GroupSettingsView: View {
                                     showSheet = .name
                                 } label: {
                                     // button design
-                                    TextEditButton()
+                                    if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup!.groupId) {
+                                        TextEditButton()
+                                    } else {
+                                        TextEditButton()
+                                            .hidden()
+                                    }
                                 }
                             }
 
@@ -83,7 +88,8 @@ struct GroupSettingsView: View {
                                     showSheet = .members
                                 } label: {
                                     // button design
-                                    TextEditButton()
+                                    groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup!.groupId) ?
+                                        TextEditButton() : TextEditButton(text: "View")
                                 }
                             }
                         }
@@ -101,8 +107,6 @@ struct GroupSettingsView: View {
                     // Delete/Leave button
                     Button {
                     } label: {
-                        DeleteButton(text: "Delete Group")
-                        /*
                         // Comment this out to make Preview work
                         if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup!.groupId) {
                             DeleteButton(text: "Delete Group")
@@ -111,7 +115,6 @@ struct GroupSettingsView: View {
                                          image: "rectangle.lefthalf.inset.fill.arrow.left",
                                          backgroundColor: Color.gray)
                         }
-                        */
                     }
                 }
                 .frame(width: geometry.size.width,
@@ -129,7 +132,9 @@ struct GroupSettingsView: View {
                     .environmentObject(self.groupViewModel)
 
             case .members:
-                UpdateGroupMembersSheet(showSheet: $showSheet)
+                UpdateGroupMembersSheet(isAdmin: groupViewModel.isCurrentUserAdmin(
+                                            groupId: groupViewModel.selectedGroup!.groupId),
+                                            showSheet: $showSheet)
                     .environmentObject(teamViewModel)
                     .environmentObject(self.groupViewModel)
             }
