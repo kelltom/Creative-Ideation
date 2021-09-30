@@ -152,7 +152,8 @@ final class SessionViewModel: ObservableObject {
             "timerActive": false,
             "timeRemaining": 600,
             "groupId": groupId,
-            "teamId": teamId
+            "teamId": teamId,
+            "profanityLog": [:]
         ], forDocument: sessionRef)
 
         // Save Session ID to list of Sessions in Group document
@@ -230,6 +231,7 @@ final class SessionViewModel: ObservableObject {
                             self.teamSessions[selectedSessionIndex!].timerEnd = mockSession.timerEnd
                             self.teamSessions[selectedSessionIndex!].timerActive = mockSession.timerActive
                             self.teamSessions[selectedSessionIndex!].timeRemaining = mockSession.timeRemaining
+                            self.teamSessions[selectedSessionIndex!].profanityLog = mockSession.profanityLog
 
                             if self.selectedSession != nil && mockSession.sessionId == self.selectedSession?.sessionId {
                                 print("modified active session")
@@ -247,6 +249,7 @@ final class SessionViewModel: ObservableObject {
                                 self.selectedSession!.timerEnd = mockSession.timerEnd
                                 self.selectedSession!.timeRemaining = mockSession.timeRemaining
                                 self.selectedSession!.isVoting = mockSession.isVoting
+                                self.selectedSession!.profanityLog = mockSession.profanityLog
                             }
 
                             let selectedSessionGroupIndex = self.groupSessions.firstIndex(where: {$0.sessionId == mockSession.sessionId})
@@ -294,16 +297,26 @@ final class SessionViewModel: ObservableObject {
             return
         }
         
-        if pFilter.containsProfanity(text: textInput).profanities.count > 0 || pFilter.containsProfanity(text: textInput).profanities.count > 0 {
-            if self.docData[uid] != nil {
-                self.docData[uid]?.append(textInput)
-            } else {
-                self.docData[uid] = [textInput]
-            }
-            db.collection("sessions").document(activeSession.sessionId).updateData(["profanityLog": self.docData])
+        let sessionReference = db.collection("sessions").document(activeSession.sessionId)
 
-        } else {
-            print("does not contain profainty")
+        
+        if pFilter.containsProfanity(text: textInput).profanities.count > 0 {
+            db.runTransaction({ (transaction, errorPointer) -> Any? in
+                do {
+                    _ = try transaction.getDocument(sessionReference)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+
+                transaction.updateData(["profanityLog": [uid: FieldValue.arrayUnion([textInput])]],
+                                       forDocument: sessionReference)
+                return nil
+            }) { (_, error) in
+                if let error = error {
+                    print("Error updating session: \(error)")
+                }
+            }
         }
     }
 
