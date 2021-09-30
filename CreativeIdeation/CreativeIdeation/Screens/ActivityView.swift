@@ -479,6 +479,21 @@ struct ActivityView: View {
                             .padding(.trailing)
                         }
                         .padding(.top, 25)
+                        
+                        Button{
+                            
+                        }label:{
+                            Image("settings")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 70, height: 70)
+                                .padding(.trailing, 8)
+                                .shadow(radius: 4)
+                                .offset(y: isBouncing ? -8 : -2)
+                                .animation(isBouncing ? .interpolatingSpring(mass: 8, stiffness: 150, damping: 0).repeatForever(autoreverses: false) : nil)
+                        }
+                        .padding(.trailing)
+                        .padding(.top, 25)
 
                         Spacer()
                     }
