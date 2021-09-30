@@ -35,7 +35,7 @@ struct StickyNote: View, Identifiable {
                         .foregroundColor(colorScheme == .dark ? chosenColor?.darker() : chosenColor)
                         .frame(width: 160, height: 30)
 
-                    if sessionViewModel.selectedSession?.isDoneVoting ?? false {
+                    if sessionViewModel.selectedSession?.showScores ?? false {
                         Text("Score: " + String(score))
                             .font(.title2)
                             .fontWeight(.bold)

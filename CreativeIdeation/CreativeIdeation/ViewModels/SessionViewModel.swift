@@ -143,6 +143,7 @@ final class SessionViewModel: ObservableObject {
             "type": "",
             "inProgress": true,
             "isDoneVoting": false,
+            "showScores": false,
             "dateCreated": Date(),
             "dateModified": Date(),
             "createdBy": uid,
@@ -224,6 +225,7 @@ final class SessionViewModel: ObservableObject {
                             self.teamSessions[selectedSessionIndex!].sessionDescription = mockSession.sessionDescription
                             self.teamSessions[selectedSessionIndex!].inProgress = mockSession.inProgress
                             self.teamSessions[selectedSessionIndex!].isDoneVoting = mockSession.isDoneVoting
+                            self.teamSessions[selectedSessionIndex!].showScores = mockSession.showScores
                             self.teamSessions[selectedSessionIndex!].dateModified = mockSession.dateModified
                             self.teamSessions[selectedSessionIndex!].timerEnd = mockSession.timerEnd
                             self.teamSessions[selectedSessionIndex!].timerActive = mockSession.timerActive
@@ -245,6 +247,7 @@ final class SessionViewModel: ObservableObject {
                                 self.selectedSession!.timerEnd = mockSession.timerEnd
                                 self.selectedSession!.timeRemaining = mockSession.timeRemaining
                                 self.selectedSession!.isDoneVoting = mockSession.isDoneVoting
+                                self.selectedSession!.showScores = mockSession.showScores
                             }
 
                             let selectedSessionGroupIndex = self.groupSessions.firstIndex(where: {$0.sessionId == mockSession.sessionId})
@@ -406,7 +409,34 @@ final class SessionViewModel: ObservableObject {
                 return nil
             }
             print("Finishing Voting")
-            transaction.updateData(["isDoneVoting": true],
+            transaction.updateData(["isDoneVoting": true,
+                                    "showScores": true],
+                                   forDocument: sessionReference)
+            return nil
+        }) { (_, error) in
+            if let error = error {
+                print("Error updating session: \(error)")
+            }
+        }
+    }
+
+    func beginVoting() {
+        guard let activeSession = selectedSession else {
+            print("Could not finish voting: No active session")
+            return
+        }
+
+        let sessionReference = db.collection("sessions").document(activeSession.sessionId)
+
+        db.runTransaction({ (transaction, errorPointer) -> Any? in
+            do {
+                _ = try transaction.getDocument(sessionReference)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+            print("Finishing Voting")
+            transaction.updateData(["isDoneVoting": false],
                                    forDocument: sessionReference)
             return nil
         }) { (_, error) in

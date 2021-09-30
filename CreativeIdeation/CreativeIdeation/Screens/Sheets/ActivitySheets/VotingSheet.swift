@@ -56,23 +56,36 @@ struct VotingSheet: View {
 
                             Spacer()
 
-                            Button {
-                                sessionViewModel.finishVoting()
-                                sessionItemViewModel.sortStickies(sortBy: .score)
-                            } label: {
-                                Text("Done!")
-                                    .font(.title)
-                                    .foregroundColor(Color("StrokeColor"))
-                                    .padding()
-                                    .background(Color.green)
-                                    .cornerRadius(15)
-                                    .shadow(radius: 4, y: 4)
-                            }
+                            HStack {
 
-                            // Title text
-                            Text("Voting")
-                                .font(.system(size: 40, weight: .heavy))
-                                .padding(.top, 50)
+                                Spacer()
+
+                                // Title text
+                                Text("Voting")
+                                    .font(.system(size: 40, weight: .heavy))
+                                    .padding(.top, 50)
+                                    .frame(width: geometry.size.width * 0.2)
+                                    .padding(.trailing, geometry.size.width * 0.1)
+
+                                Button {
+                                    if sessionViewModel.selectedSession?.isDoneVoting ?? false {
+                                        sessionViewModel.beginVoting()
+                                    } else {
+                                        sessionViewModel.finishVoting()
+                                        sessionItemViewModel.sortStickies(sortBy: .score)
+                                    }
+                                } label: {
+                                    Text(sessionViewModel.selectedSession!.isDoneVoting ? "Begin" : "Finish")
+                                        .font(.title)
+                                        .foregroundColor(Color.white)
+                                        .padding()
+                                        .background(sessionViewModel.selectedSession!.isDoneVoting ? Color.green : Color.red)
+                                        .cornerRadius(15)
+                                        .shadow(radius: 4, y: 4)
+                                        .frame(width: geometry.size.width * 0.15)
+                                }
+                            }
+                            .frame(width: geometry.size.width * 0.7)
 
                             // Populate stack of votable sticky notes on screen
                             ZStack {
@@ -311,5 +324,6 @@ struct VotingSheet_Previews: PreviewProvider {
     static var previews: some View {
         VotingSheet(showSheet: .constant(.voting))
             .environmentObject(SessionItemViewModel())
+            .environmentObject(SessionViewModel())
     }
 }
