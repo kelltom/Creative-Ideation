@@ -10,6 +10,7 @@ import PencilKit
 
 enum SessionSheet: Identifiable {
     case voting
+    case settings
     
     var id: Int {
         hashValue
@@ -483,7 +484,7 @@ struct ActivityView: View {
                         //Settings gear button for Session Preferences
                         if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup?.groupId ?? "no ID"){
                             Button{
-                                
+                                showSheet = .settings
                             }label:{
                                 Image("settings")
                                     .resizable()
@@ -504,6 +505,9 @@ struct ActivityView: View {
                 case .voting:
                     VotingSheet(showSheet: $showSheet)
                         .environmentObject(self.sessionItemViewModel)
+                case .settings:
+                    SessionSettings(showSheet: $showSheet)
+                        .environmentObject(self.sessionViewModel)
                 }
             }
         }
