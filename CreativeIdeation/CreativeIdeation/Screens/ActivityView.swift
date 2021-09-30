@@ -119,6 +119,7 @@ struct ActivityView: View {
                                 if !(timerManager.mode == .running) {
                                     sessionViewModel.resetTimer()
                                 }
+
                             } label: {
                                 Image(systemName: "gobackward")
                                     .resizable()

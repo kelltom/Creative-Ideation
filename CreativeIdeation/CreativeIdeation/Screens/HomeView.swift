@@ -178,6 +178,7 @@ struct HomeView: View {
                                     Button {
                                         withAnimation {
                                             isCollapsed.toggle()
+
                                         }
                                     } label: {
                                         ZStack {
@@ -455,6 +456,7 @@ struct HomeView: View {
                 sessionViewModel.selectedGroupId = groupViewModel.selectedGroup?.groupId
                 sessionViewModel.getGroupSessions()
             }
+
         }
     }
 }
