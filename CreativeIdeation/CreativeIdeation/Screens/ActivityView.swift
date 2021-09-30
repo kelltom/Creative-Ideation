@@ -10,50 +10,50 @@ import PencilKit
 
 enum SessionSheet: Identifiable {
     case voting
-
+    
     var id: Int {
         hashValue
     }
 }
 
 struct ActivityView: View {
-
+    
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
     @EnvironmentObject var sessionViewModel: SessionViewModel
     @EnvironmentObject var groupViewModel: GroupViewModel
-
+    
     let colorArray = [Color.init(red: 0.9, green: 0, blue: 0),
                       Color.init(red: 0, green: 0.9, blue: 0),
                       Color.init(red: 0, green: 0.7, blue: 0.9),
                       Color.init(red: 0.9, green: 0.6, blue: 0),
                       Color.init(red: 0.9, green: 0.45, blue: 0.9)]
-
+    
     let columns = [
         GridItem(.adaptive(minimum: 160))]
-
+    
     @ObservedObject var timerManager: TimerManager
-
+    
     @State var showSheet: SessionSheet?
     @State var bounces: Int = 0
-
+    
     @State private var selectedColor = -1
     @State private var randomizeColor: Bool = true
-
+    
     @State private var ideas: [String] = []
     @State private var ideasIndex = 0
     @State private var idea = ""
     @State private var isBouncing = false
-
+    
     @Binding var showActivity: Bool
-
+    
     var body: some View {
         ZStack {
-
+            
             Color("BackgroundColor")
-
+            
             VStack {
                 HStack {
-
+                    
                     Button {
                         showActivity = false
                         sessionItemViewModel.resetModel()
@@ -62,17 +62,17 @@ struct ActivityView: View {
                             sessionViewModel.timerManager.pause()
                             sessionViewModel.timerManager = TimerManager()
                         }
-
+                        
                     } label: {
                         ZStack {
                             Circle()
                                 .foregroundColor(Color("BackgroundColor"))
                                 .frame(width: 80, height: 80)
-
+                            
                             Circle().stroke(lineWidth: 2)
                                 .foregroundColor(Color("StrokeColor"))
                                 .frame(width: 80, height: 80)
-
+                            
                             Image(systemName: "arrow.left")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -85,21 +85,21 @@ struct ActivityView: View {
                         .padding(.top, 20)
                         .shadow(radius: 4, y: 4)
                     }
-
+                    
                     Spacer()
-
+                    
                     HStack {
                         ZStack {
                             RoundedRectangle(cornerRadius: 20)
                                 .stroke(lineWidth: 3)
                                 .frame(width: 140, height: 80)
                                 .padding(.trailing)
-
+                            
                             Text(timerManager.toString())
                                 .font(.largeTitle)
                                 .padding(.trailing)
                         }
-
+                        
                         if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup?.groupId ?? "no ID") {
                             Button {
                                 if timerManager.timeRemaining == 0 {
@@ -114,7 +114,7 @@ struct ActivityView: View {
                                     .foregroundColor(timerManager.mode == .running ? .blue : .green)
                                     .padding(.trailing)
                             }
-
+                            
                             Button {
                                 if !(timerManager.mode == .running) {
                                     sessionViewModel.resetTimer()
@@ -130,7 +130,7 @@ struct ActivityView: View {
                         }
                     }
                     .padding(.top)
-
+                    
                     Spacer()
                 }
                 HStack(spacing: 0) {
@@ -145,13 +145,13 @@ struct ActivityView: View {
                         .padding(.top, 18)
                         .padding(.leading, 10)
                     }
-
+                    
                     VStack(alignment: .trailing) {
                         Button {
                             let newColor = randomizeColor ? Int.random(in: 0..<5) : selectedColor
                             sessionItemViewModel.createItem(color: newColor)
                             sessionViewModel.updateDateModified()
-
+                            
                         } label: {
                             VStack(spacing: 0) {
                                 Rectangle()
@@ -159,7 +159,7 @@ struct ActivityView: View {
                                                         colorArray[selectedColor].darker(by: 10) :
                                                         colorArray[0].darker(by: 10))
                                     .frame(width: 90, height: 20)
-
+                                
                                 Image(systemName: "plus")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
@@ -174,7 +174,7 @@ struct ActivityView: View {
                             .shadow(radius: 6, y: 4)
                             .padding()
                         }
-
+                        
                         VStack(spacing: 10) {
                             HStack(spacing: 10) {
                                 Button {
@@ -185,7 +185,7 @@ struct ActivityView: View {
                                         selectedColor = 0
                                         randomizeColor = false
                                     }
-
+                                    
                                 } label: {
                                     ZStack {
                                         Circle()
@@ -198,7 +198,7 @@ struct ActivityView: View {
                                         }
                                     }
                                 }
-
+                                
                                 Button {
                                     if sessionItemViewModel.selectedSticky != nil {
                                         sessionItemViewModel.colorSelected(color: 1)
@@ -241,7 +241,7 @@ struct ActivityView: View {
                                         }
                                     }
                                 }
-
+                                
                                 Button {
                                     if sessionItemViewModel.selectedSticky != nil {
                                         sessionItemViewModel.colorSelected(color: 3)
@@ -285,7 +285,7 @@ struct ActivityView: View {
                                     }
                                 }
                             }
-
+                            
                             Button {
                                 if sessionItemViewModel.selectedSticky == nil {
                                     // randomize button
@@ -293,7 +293,7 @@ struct ActivityView: View {
                                         selectedColor = -1
                                         randomizeColor = true
                                     }
-
+                                    
                                 } else {
                                     // confirm button, deselect
                                     sessionItemViewModel.updateItem(itemId: sessionItemViewModel.selectedItem!.itemId)
@@ -312,7 +312,7 @@ struct ActivityView: View {
                                             .background(randomizeColor ? Color.black : Color.white)
                                             .cornerRadius(5)
                                             .padding(.top, 5)
-
+                                        
                                         if randomizeColor {
                                             RoundedRectangle(cornerRadius: 5)
                                                 .stroke(Color("BackgroundColor"), lineWidth: 2)
@@ -337,7 +337,7 @@ struct ActivityView: View {
                                         .padding(.top, 5)
                                 }
                             }
-
+                            
                             Button {
                                 if sessionItemViewModel.selectedSticky != nil {
                                     // delete button
@@ -345,15 +345,15 @@ struct ActivityView: View {
                                     sessionViewModel.updateDateModified()
                                 }
                             } label: {
-                                    Image(systemName: "trash.fill")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 20, height: 20)
-                                        .foregroundColor(.white)
-                                        .frame(width: 60, height: 30)
-                                        .background(Color.red)
-                                        .opacity(sessionItemViewModel.selectedSticky != nil ? 1 : 0.5)
-                                        .cornerRadius(5)
+                                Image(systemName: "trash.fill")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 20, height: 20)
+                                    .foregroundColor(.white)
+                                    .frame(width: 60, height: 30)
+                                    .background(Color.red)
+                                    .opacity(sessionItemViewModel.selectedSticky != nil ? 1 : 0.5)
+                                    .cornerRadius(5)
                             }
                             .disabled(sessionItemViewModel.selectedSticky == nil)
                         }
@@ -363,7 +363,7 @@ struct ActivityView: View {
                         .cornerRadius(15)
                         .shadow(radius: 6, y: 4)
                         .padding(.trailing, 21)
-
+                        
                         HStack {
                             // Suggestion carousel
                             if sessionItemViewModel.generatedIdeas.count > 0 {
@@ -382,7 +382,7 @@ struct ActivityView: View {
                                             .aspectRatio(contentMode: .fit)
                                             .frame(width: 20, height: 20)
                                     }
-
+                                    
                                     // Idea Text
                                     Menu(sessionItemViewModel.generatedIdeas[ideasIndex]) {
                                         // Copy Text
@@ -400,7 +400,7 @@ struct ActivityView: View {
                                         }
                                     }
                                     .font(.title2)
-
+                                    
                                     // Cycle right
                                     Button {
                                         if ideasIndex < sessionItemViewModel.generatedIdeas.count - 1 {
@@ -423,7 +423,7 @@ struct ActivityView: View {
                                 .cornerRadius(15)
                                 .shadow(radius: 4, y: 4)
                             }
-
+                            
                             // AI Word Generation button
                             Button {
                                 sessionItemViewModel.clearIdeas()
@@ -440,7 +440,7 @@ struct ActivityView: View {
                             .padding(.trailing)
                         }
                         .padding(.top)
-
+                        
                         HStack {
                             if timerManager.timeRemaining == 0 {
                                 Text("Time to vote!")
@@ -452,20 +452,20 @@ struct ActivityView: View {
                                     .cornerRadius(15)
                                     .shadow(radius: 4, y: 4)
                             }
-
+                            
                             // Voting Button
                             Button {
                                 showSheet = .voting
                             } label: {
                                 if timerManager.timeRemaining == 0 {
-                                Image("voting")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 70, height: 70)
-                                    .padding(.trailing, 8)
-                                    .shadow(radius: 4)
-                                    .offset(y: isBouncing ? -8 : -2)
-                                    .animation(isBouncing ? .interpolatingSpring(mass: 8, stiffness: 150, damping: 0).repeatForever(autoreverses: false) : nil)
+                                    Image("voting")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 70, height: 70)
+                                        .padding(.trailing, 8)
+                                        .shadow(radius: 4)
+                                        .offset(y: isBouncing ? -8 : -2)
+                                        .animation(isBouncing ? .interpolatingSpring(mass: 8, stiffness: 150, damping: 0).repeatForever(autoreverses: false) : nil)
                                 } else {
                                     Image("voting")
                                         .resizable()
@@ -480,28 +480,27 @@ struct ActivityView: View {
                         }
                         .padding(.top, 25)
                         
-                        Button{
-                            
-                        }label:{
-                            Image("settings")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 70, height: 70)
-                                .padding(.trailing, 8)
-                                .shadow(radius: 4)
-                                .offset(y: isBouncing ? -8 : -2)
-                                .animation(isBouncing ? .interpolatingSpring(mass: 8, stiffness: 150, damping: 0).repeatForever(autoreverses: false) : nil)
+                        //Settings gear button for Session Preferences
+                        if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup?.groupId ?? "no ID"){
+                            Button{
+                                
+                            }label:{
+                                Image("settings")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 70, height: 70)
+                                    .padding(.trailing, 8)
+                                    .shadow(radius: 4)
+                            }
+                            .padding(.trailing)
+                            .padding(.top,25)
                         }
-                        .padding(.trailing)
-                        .padding(.top, 25)
-
                         Spacer()
                     }
                 }
             }
             .sheet(item: $showSheet) { item in
                 switch item {
-
                 case .voting:
                     VotingSheet(showSheet: $showSheet)
                         .environmentObject(self.sessionItemViewModel)
@@ -555,26 +554,26 @@ extension Color {
         #elseif canImport(AppKit)
         typealias NativeColor = NSColor
         #endif
-
+        
         var r: CGFloat = 0
         var g: CGFloat = 0
         var b: CGFloat = 0
         var o: CGFloat = 0
-
+        
         guard NativeColor(self).getRed(&r, green: &g, blue: &b, alpha: &o) else {
             return (0, 0, 0, 0)
         }
         return (r, g, b, o)
     }
-
+    
     func lighter(by percentage: CGFloat = 30.0) -> Color {
         return self.adjust(by: abs(percentage) )
     }
-
+    
     func darker(by percentage: CGFloat = 30.0) -> Color {
         return self.adjust(by: -1 * abs(percentage) )
     }
-
+    
     func adjust(by percentage: CGFloat = 30.0) -> Color {
         return Color(red: min(Double(self.components.red + percentage/100), 1.0),
                      green: min(Double(self.components.green + percentage/100), 1.0),
