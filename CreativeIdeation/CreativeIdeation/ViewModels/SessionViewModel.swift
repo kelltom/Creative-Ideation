@@ -15,6 +15,7 @@ final class SessionViewModel: ObservableObject {
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
     private var pFilter = ProfanityFilter()
+    private var docData : [String: [String]] = [:]
 
     @Published var selectedGroupId: String?
     @Published var groupSessions: [Session] = []    /// List of Sessions from a group that the user belongs to
@@ -35,6 +36,7 @@ final class SessionViewModel: ObservableObject {
     func clear() {
         teamSessions = []
         groupSessions = []
+        docData = [:]
         selectedSession = nil
         selectedGroupId = nil
         listener?.remove()
@@ -287,18 +289,18 @@ final class SessionViewModel: ObservableObject {
             print("cannot find uid for user who swore")
             return
         }
-        
         guard let activeSession = selectedSession else {
             print("Could not get active session")
             return
         }
         
-    
-        
         if pFilter.containsProfanity(text: textInput).profanities.count > 0 || pFilter.containsProfanity(text: textInput).profanities.count > 0 {
-            print("contains profainty and the user is \(activeSession)")
-            var docData: [String: [String]] = [uid :[textInput]]
-            db.collection("sessions").document(activeSession.sessionId).updateData(["profanityLog": docData])
+            if self.docData[uid] != nil {
+                self.docData[uid]?.append(textInput)
+            } else {
+                self.docData[uid] = [textInput]
+            }
+            db.collection("sessions").document(activeSession.sessionId).updateData(["profanityLog": self.docData])
 
         } else {
             print("does not contain profainty")
