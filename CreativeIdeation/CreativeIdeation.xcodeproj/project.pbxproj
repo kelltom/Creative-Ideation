@@ -65,6 +65,8 @@
 		DD7997B32608404500392AED /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7997B22608404500392AED /* SessionViewModel.swift */; };
 		DD8AE46F26D420FA00AC7ABB /* BannerModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8AE46E26D420FA00AC7ABB /* BannerModifier.swift */; };
 		DD9DA76426F5433E007F1BB7 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD9DA76326F5433E007F1BB7 /* BackButton.swift */; };
+		DDA2E49A27064E6C005D8753 /* AssistantV2 in Frameworks */ = {isa = PBXBuildFile; productRef = DDA2E49927064E6C005D8753 /* AssistantV2 */; };
+		DDA2E49C270653F1005D8753 /* WatsonAssistant.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA2E49B270653F1005D8753 /* WatsonAssistant.swift */; };
 		DDB5B7BC26977CBA00836FE5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DDB5B7BB26977CBA00836FE5 /* GoogleService-Info.plist */; };
 		DDC86D7525FBF4B500296AE6 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = DDC86D7425FBF4B500296AE6 /* FirebaseAuth */; };
 		DDC86D7725FBF4B500296AE6 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = DDC86D7625FBF4B500296AE6 /* FirebaseFirestore */; };
@@ -132,6 +134,7 @@
 		DD7997B22608404500392AED /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
 		DD8AE46E26D420FA00AC7ABB /* BannerModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerModifier.swift; sourceTree = "<group>"; };
 		DD9DA76326F5433E007F1BB7 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
+		DDA2E49B270653F1005D8753 /* WatsonAssistant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatsonAssistant.swift; sourceTree = "<group>"; };
 		DDB5B7BB26977CBA00836FE5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DDD77417264ADF8C00680E65 /* CreativeIdeation.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CreativeIdeation.entitlements; sourceTree = "<group>"; };
 		DDDFDA8D25E0830800342B1B /* BigButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigButton.swift; sourceTree = "<group>"; };
@@ -148,6 +151,7 @@
 				DDC86D7725FBF4B500296AE6 /* FirebaseFirestore in Frameworks */,
 				DD71EE552624032A00795CE9 /* FirebaseFunctions in Frameworks */,
 				C99D53C126E02CBE0076D1BC /* Profanity Filter in Frameworks */,
+				DDA2E49A27064E6C005D8753 /* AssistantV2 in Frameworks */,
 				DD4A6A9E26D0271900F592E1 /* CodeScanner in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -230,6 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				C9D4A56526F3CE6F00B0BC2D /* TimerManager.swift */,
+				DDA2E49B270653F1005D8753 /* WatsonAssistant.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -431,6 +436,7 @@
 				DD71EE542624032A00795CE9 /* FirebaseFunctions */,
 				DD4A6A9D26D0271900F592E1 /* CodeScanner */,
 				C99D53C026E02CBE0076D1BC /* Profanity Filter */,
+				DDA2E49927064E6C005D8753 /* AssistantV2 */,
 			);
 			productName = CreativeIdeation;
 			productReference = DD3BF92A25D9C97800C368B0 /* CreativeIdeation.app */;
@@ -463,6 +469,7 @@
 				DDC86D7325FBF4B500296AE6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				DD4A6A9C26D0271900F592E1 /* XCRemoteSwiftPackageReference "CodeScanner" */,
 				C99D53BF26E02CBE0076D1BC /* XCRemoteSwiftPackageReference "profanitiy-filter-swift" */,
+				DDA2E49827064E6C005D8753 /* XCRemoteSwiftPackageReference "swift-sdk" */,
 			);
 			productRefGroup = DD3BF92B25D9C97800C368B0 /* Products */;
 			projectDirPath = "";
@@ -525,6 +532,7 @@
 				26833F6126F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift in Sources */,
 				76A51DAA2605804D000C3DA4 /* AddButton.swift in Sources */,
 				DD9DA76426F5433E007F1BB7 /* BackButton.swift in Sources */,
+				DDA2E49C270653F1005D8753 /* WatsonAssistant.swift in Sources */,
 				C9C67A2525E8288B002D16A9 /* HomeView.swift in Sources */,
 				DD2977352603D266000A1C95 /* UserAccountViewModel.swift in Sources */,
 				DD7997B026083F5C00392AED /* Session.swift in Sources */,
@@ -784,6 +792,14 @@
 				minimumVersion = 1.0.7;
 			};
 		};
+		DDA2E49827064E6C005D8753 /* XCRemoteSwiftPackageReference "swift-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/watson-developer-cloud/swift-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.3.0;
+			};
+		};
 		DDC86D7325FBF4B500296AE6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -809,6 +825,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DDC86D7325FBF4B500296AE6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFunctions;
+		};
+		DDA2E49927064E6C005D8753 /* AssistantV2 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DDA2E49827064E6C005D8753 /* XCRemoteSwiftPackageReference "swift-sdk" */;
+			productName = AssistantV2;
 		};
 		DDC86D7425FBF4B500296AE6 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
