@@ -282,6 +282,28 @@ final class SessionViewModel: ObservableObject {
                 }
             }
     }
+    func sessionBehaviourSummary(textInput: String) {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("cannot find uid for user who swore")
+            return
+        }
+        
+        guard let activeSession = selectedSession else {
+            print("Could not get active session")
+            return
+        }
+        
+    
+        
+        if pFilter.containsProfanity(text: textInput).profanities.count > 0 || pFilter.containsProfanity(text: textInput).profanities.count > 0 {
+            print("contains profainty and the user is \(activeSession)")
+            var docData: [String: [String]] = [uid :[textInput]]
+            db.collection("sessions").document(activeSession.sessionId).updateData(["profanityLog": docData])
+
+        } else {
+            print("does not contain profainty")
+        }
+    }
 
     /// Populates groupSessions array, storing a Session object for each found in the datastore
     func getGroupSessions() {
