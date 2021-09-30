@@ -32,6 +32,8 @@ struct HomeView: View {
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
 
+    private var watson: WatsonAssistant = WatsonAssistant()
+
     /// Temporary way to show conditional views in preview canvas
     var preview: Bool = false
 
@@ -140,6 +142,14 @@ struct HomeView: View {
                         // Notifications Bell
                         Button {
                             // view notifications
+                            watson.sendTextToAssistant(text: "Hello") { result in
+                                switch result {
+                                case .success(_):
+                                    print("Success")
+                                default:
+                                    print("Default")
+                                }
+                            }
                         } label: {
                             Image(systemName: "bell.fill")
                                 .resizable()
@@ -463,7 +473,7 @@ struct HomeView: View {
 
 struct GroupView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(preview: true)
+        HomeView()
             .environmentObject(TeamViewModel())
             .environmentObject(GroupViewModel())
             .environmentObject(SessionViewModel())
