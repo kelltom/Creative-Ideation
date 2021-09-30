@@ -309,7 +309,7 @@ final class SessionViewModel: ObservableObject {
                     return nil
                 }
 
-                transaction.updateData(["profanityLog": [uid: FieldValue.arrayUnion([textInput])]],
+                transaction.updateData(["profanityLog.\(uid)": FieldValue.arrayUnion([textInput])],
                                        forDocument: sessionReference)
                 return nil
             }) { (_, error) in
