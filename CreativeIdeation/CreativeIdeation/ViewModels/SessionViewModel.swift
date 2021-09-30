@@ -15,7 +15,6 @@ final class SessionViewModel: ObservableObject {
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
     private var pFilter = ProfanityFilter()
-    private var docData : [String: [String]] = [:]
 
     @Published var selectedGroupId: String?
     @Published var groupSessions: [Session] = []    /// List of Sessions from a group that the user belongs to
@@ -36,7 +35,6 @@ final class SessionViewModel: ObservableObject {
     func clear() {
         teamSessions = []
         groupSessions = []
-        docData = [:]
         selectedSession = nil
         selectedGroupId = nil
         listener?.remove()
@@ -296,10 +294,7 @@ final class SessionViewModel: ObservableObject {
             print("Could not get active session")
             return
         }
-        
         let sessionReference = db.collection("sessions").document(activeSession.sessionId)
-
-        
         if pFilter.containsProfanity(text: textInput).profanities.count > 0 {
             db.runTransaction({ (transaction, errorPointer) -> Any? in
                 do {
