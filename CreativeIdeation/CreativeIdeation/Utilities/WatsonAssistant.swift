@@ -18,7 +18,46 @@ class WatsonAssistant {
     private var context: MessageContextStateless = MessageContextStateless()
 
     init() {
-        assistant = Assistant(version: "2021-09-30", authenticator: authenticator)
+        assistant = Assistant(version: "2021-06-14", authenticator: authenticator)
         assistant.serviceURL = "https://api.us-east.assistant.watson.cloud.ibm.com/instances/5103af21-a2a3-4c82-a103-feefd448a30f"
+    }
+
+    /// Call this as async, get 'result in'. Check if case .success(let response):, then send that generic response to another function in here to process it and return to viewmodel
+    func sendTextToAssistant(text: String, completion: @escaping(Result<MessageResponseStateless, WatsonError>) -> Void) {
+        // Make input object with text to send
+        let input = MessageInputStateless(messageType: "text", text: text)
+
+        // Here we should check if we have an established connection to the the bot? or network? Gonna skip for now.
+
+        // Send message
+        self.assistant.messageStateless(assistantID: self.assistantID, input: input, context: context) { (response, error) in
+
+            // Retrieve result from assistant
+            guard let result = response?.result else {
+                if let error = error {
+                    print("WatsonAssistant Error from Assistant: \(error.localizedDescription).")
+                } else {
+                    print("WatsonAssistant Error: Cannot get result object from response.")
+                }
+                completion(.failure(WatsonError.noResponse))
+                return
+            }
+
+            print(result)
+
+            // Update context to possibly continue conversation
+            self.context = result.context
+
+            completion(.success(result))
+        }
+    }
+
+    // It's likely that these functions will be called from a WatsonViewModel. It's possible that this function could
+    // return a new instance of Watson View Model replacing the existing one. I don't know how I will manage storing
+    // the chat history though.
+
+    /// This function takes a generic response, processes it, and returns the text representation.
+    func processGenericResponse(assistantResponse: [RuntimeResponseGeneric]) -> String {
+        return ""
     }
 }
