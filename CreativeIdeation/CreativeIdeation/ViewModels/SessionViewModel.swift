@@ -334,7 +334,7 @@ final class SessionViewModel: ObservableObject {
                 if let err = err {
                     print("error in getting documents: \(err)")
                     
-                }else {
+                } else {
                     do {
                         try self.selectedSession = querySnapshot?.data(as: Session.self)
                         print("Session object successfully mapped \(String(describing: self.selectedSession?.profanityLog))")
