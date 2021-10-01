@@ -43,6 +43,7 @@
 		C9AE73A225EB1ACA0090C96B /* ActivityTypeTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE73A125EB1ACA0090C96B /* ActivityTypeTile.swift */; };
 		C9C67A1125E7FEDB002D16A9 /* UserSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A1025E7FEDB002D16A9 /* UserSettingsView.swift */; };
 		C9C67A2525E8288B002D16A9 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C67A2425E8288B002D16A9 /* HomeView.swift */; };
+		C9C784F32706ABFD00BED6F1 /* TopSticky.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C784F22706ABFD00BED6F1 /* TopSticky.swift */; };
 		C9D4A56626F3CE6F00B0BC2D /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D4A56526F3CE6F00B0BC2D /* TimerManager.swift */; };
 		C9F230BA25F29D53006590DA /* TeamPic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230B925F29D53006590DA /* TeamPic.swift */; };
 		C9F230BD25F29D8D006590DA /* GroupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230BC25F29D8D006590DA /* GroupButton.swift */; };
@@ -110,6 +111,7 @@
 		C9AE73A125EB1ACA0090C96B /* ActivityTypeTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTypeTile.swift; sourceTree = "<group>"; };
 		C9C67A1025E7FEDB002D16A9 /* UserSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsView.swift; sourceTree = "<group>"; };
 		C9C67A2425E8288B002D16A9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		C9C784F22706ABFD00BED6F1 /* TopSticky.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopSticky.swift; sourceTree = "<group>"; };
 		C9D4A56526F3CE6F00B0BC2D /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
 		C9F230B925F29D53006590DA /* TeamPic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamPic.swift; sourceTree = "<group>"; };
 		C9F230BC25F29D8D006590DA /* GroupButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupButton.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				C93F31D926CEFE1700EC835D /* VotingSticky.swift */,
 				C93F31D726CEFE0C00EC835D /* StickyNote.swift */,
 				C9AE73A125EB1ACA0090C96B /* ActivityTypeTile.swift */,
+				C9C784F22706ABFD00BED6F1 /* TopSticky.swift */,
 			);
 			path = SessionComponents;
 			sourceTree = "<group>";
@@ -539,6 +542,7 @@
 				DDDFDA8E25E0830800342B1B /* BigButton.swift in Sources */,
 				C93F31DC26CEFE1C00EC835D /* ActiveMembers.swift in Sources */,
 				C9C67A1125E7FEDB002D16A9 /* UserSettingsView.swift in Sources */,
+				C9C784F32706ABFD00BED6F1 /* TopSticky.swift in Sources */,
 				76996464260699E5005058C7 /* Group.swift in Sources */,
 				C9F230C625F29DA3006590DA /* GroupMemberPanel.swift in Sources */,
 				C9AE738125EAAD940090C96B /* ActivityView.swift in Sources */,

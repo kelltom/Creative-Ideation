@@ -151,7 +151,8 @@ struct ActivityView: View {
                 }
 
                 HStack(spacing: 0) {
-                    // Spacer()
+
+                    // Display the stickies
                     ScrollView(.vertical, showsIndicators: false) {
                         LazyVGrid(columns: columns, spacing: 25) {
                             ForEach(sessionItemViewModel.stickyNotes) { note in
@@ -505,7 +506,7 @@ struct ActivityView: View {
                 switch item {
 
                 case .voting:
-                    VotingSheet(showSheet: $showSheet)
+                    VotingSheet(showSheet: $showSheet, selectedSession: $sessionViewModel.selectedSession)
                         .environmentObject(self.sessionItemViewModel)
                 }
             }

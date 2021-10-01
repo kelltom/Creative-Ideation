@@ -29,6 +29,8 @@ final class SessionItemViewModel: ObservableObject {
     @Published var votingStickies: [VotingSticky] = []  // Stickies to be voted on
     @Published var votedOnStack: [(VotingSticky, Int)] = []   // Stickies that have been voted on in current session
 
+    @Published var topStickies: [TopSticky] = []
+
     @Published var generatedIdeas: [String] = []
 
     // Published vars for displaying like/dislike/skip/undo button animations
@@ -432,6 +434,15 @@ final class SessionItemViewModel: ObservableObject {
             stickyNotes.sort { $0.score > $1.score }
         case .color:
             stickyNotes.sort { $0.numberColor < $1.numberColor}
+        }
+    }
+
+    func getTopStickies(spots: Int) {
+        topStickies = []
+        var sticky: StickyNote
+        for number in 0...spots - 1 {
+            sticky = stickyNotes[number]
+            topStickies.append(TopSticky(chosenColor: sticky.chosenColor!, input: sticky.input, score: sticky.score))
         }
     }
 

@@ -13,8 +13,10 @@ struct VotingSheet: View {
     @EnvironmentObject var sessionViewModel: SessionViewModel
 
     @Binding var showSheet: SessionSheet?
+    @Binding var selectedSession: Session?
 
     @State private var undoRotation: Double = 0
+    @State private var numTopStickies: Int = 5
 
     var spinAnimation: Animation {
         Animation.easeInOut
@@ -54,200 +56,221 @@ struct VotingSheet: View {
                         Spacer()
                         VStack {
 
-                            Spacer()
-
-                            HStack {
-
-                                Spacer()
-
+                            ZStack {
                                 // Title text
                                 Text("Voting")
                                     .font(.system(size: 40, weight: .heavy))
-                                    .padding(.top, 50)
+                                    .padding(.top, geometry.size.height * 0.1)
                                     .frame(width: geometry.size.width * 0.2)
-                                    .padding(.trailing, geometry.size.width * 0.1)
 
-                                Button {
-                                    if sessionViewModel.selectedSession?.isDoneVoting ?? false {
-                                        sessionViewModel.beginVoting()
-                                    } else {
-                                        sessionViewModel.finishVoting()
-                                        sessionItemViewModel.sortStickies(sortBy: .score)
+                                HStack(alignment: .center) {
+                                    Spacer()
+
+                                    Button {
+                                        if selectedSession!.isDoneVoting {
+                                            sessionViewModel.beginVoting()
+                                        } else {
+                                            sessionViewModel.finishVoting()
+                                        }
+                                    } label: {
+                                        Text(selectedSession!.isDoneVoting ? "Begin" : "Finish")
+                                            .font(.title2)
+                                            .foregroundColor(Color.white)
+                                            .padding(8)
+                                            .background(selectedSession!.isDoneVoting ? Color.green : Color.red)
+                                            .cornerRadius(15)
+                                            .shadow(radius: 4, y: 4)
+                                            .frame(width: geometry.size.width * 0.15)
+                                            .padding(.top, geometry.size.height * 0.1)
                                     }
-                                } label: {
-                                    Text(sessionViewModel.selectedSession!.isDoneVoting ? "Begin" : "Finish")
-                                        .font(.title)
-                                        .foregroundColor(Color.white)
-                                        .padding()
-                                        .background(sessionViewModel.selectedSession!.isDoneVoting ? Color.green : Color.red)
-                                        .cornerRadius(15)
-                                        .shadow(radius: 4, y: 4)
-                                        .frame(width: geometry.size.width * 0.15)
                                 }
                             }
                             .frame(width: geometry.size.width * 0.7)
 
-                            // Populate stack of votable sticky notes on screen
-                            ZStack {
-                                ForEach(self.sessionItemViewModel.votingStickies) { sticky in
-                                    if sticky.pos > self.maxPos - 4 {
-                                        sticky
-                                            .animation(.spring())
-                                            .frame(width: self.getStickyNoteWidth(geometry, pos: sticky.pos))
-                                            .offset(x: 0, y: self.getStickyNoteOffset(geometry, pos: sticky.pos))
-                                    }
-                                }
-                                if sessionItemViewModel.votingStickies.count == 0 {
-                                    VStack {
-                                        Text("No Stickies Left to Vote On!")
-                                            .font(.largeTitle)
-                                            .frame(width: self.getStickyNoteWidth(geometry, pos: -2))
-                                            .padding()
-
-                                        Text("Sit tight and wait for everyone to finish")
-                                            .font(.title)
-                                            .frame(width: self.getStickyNoteWidth(geometry, pos: -2))
-                                    }
-                                }
-                            }
-                            .frame(width: geometry.size.width, height: geometry.size.height * 0.5)
-
-                            Spacer()
-
-                            // Vote buttons (alternative to swiping)
-                            HStack(spacing: geometry.size.width * 0.15) {
-                                // Downvote Button
-                                Button {
-                                    if sessionItemViewModel.votingStickies.count > 0 {
-                                        let topSticky = self.sessionItemViewModel.votingStickies.last!
-                                        withAnimation {
-                                            self.sessionItemViewModel.castVote(itemId: topSticky.itemId, scoreChange: -1)
-                                        }
-                                        topSticky.onRemove(topSticky.itemId)
-                                        sessionItemViewModel.votedOnStack[sessionItemViewModel.votedOnStack.count - 1].1 = -1
-                                        sessionViewModel.updateDateModified()
-                                    }
-
-                                } label: {
-                                    ZStack {
-                                        Circle()
-                                            .foregroundColor(Color("BackgroundColor"))
-                                            .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
-
-                                        Circle().stroke(lineWidth: 4)
-                                            .foregroundColor(Color.red)
-                                            .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
-
-                                        Image(systemName: "hand.thumbsdown")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: geometry.size.width * 0.075, height: geometry.size.width * 0.075)
-                                            .padding(.top, 10)
-                                            .foregroundColor(.red)
-                                    }
-                                    .frame(width: geometry.size.width * 0.16, height: geometry.size.width * 0.16)
-                                    .clipped()
-                                    .shadow(radius: 4, y: 4)
-                                }
-
-                                // Skip Button
-                                Button {
-                                    if sessionItemViewModel.votingStickies.count > 0 {
-                                        withAnimation {
-                                            sessionItemViewModel.clearAnimations()
-                                            sessionItemViewModel.showingSkip.toggle()
-                                            sessionItemViewModel.setAnimationTimer()
-                                        }
-
-                                        let topSticky = self.sessionItemViewModel.votingStickies.last!
-                                        topSticky.onRemove(topSticky.itemId)
-                                    }
-                                } label: {
-                                    ZStack {
-                                        Circle()
-                                            .foregroundColor(Color("BackgroundColor"))
-                                            .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
-
-                                        Circle().stroke(lineWidth: 4)
-                                            .foregroundColor(Color("FadedColor"))
-                                            .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
-
-                                        Image(systemName: "hand.raised")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: geometry.size.width * 0.075, height: geometry.size.width * 0.075)
-                                            .padding(.leading, 4)
-                                            .foregroundColor(Color("FadedColor"))
-                                    }
-                                    .frame(width: geometry.size.width * 0.16, height: geometry.size.width * 0.16)
-                                    .clipped()
-                                    .shadow(radius: 4, y: 4)
-                                }
-
-                                // Upvote Button
-                                Button {
-                                    if sessionItemViewModel.votingStickies.count > 0 {
-                                        let topSticky = self.sessionItemViewModel.votingStickies.last!
-                                        withAnimation {
-                                            self.sessionItemViewModel.castVote(itemId: topSticky.itemId, scoreChange: 1)
-                                        }
-                                        topSticky.onRemove(topSticky.itemId)
-                                        sessionItemViewModel.votedOnStack[sessionItemViewModel.votedOnStack.count - 1].1 = 1
-                                        sessionViewModel.updateDateModified()
-                                    }
-                                } label: {
-                                    ZStack {
-                                        Circle()
-                                            .foregroundColor(Color("BackgroundColor"))
-                                            .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
-
-                                        Circle().stroke(lineWidth: 4)
-                                            .foregroundColor(Color.green)
-                                            .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
-
-                                        Image(systemName: "hand.thumbsup")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: geometry.size.width * 0.075, height: geometry.size.width * 0.075)
-                                            .padding(.bottom, 10)
-                                            .foregroundColor(.green)
-                                    }
-                                    .frame(width: geometry.size.width * 0.16, height: geometry.size.width * 0.16)
-                                    .clipped()
-                                    .shadow(radius: 4, y: 4)
-                                }
-                            }
-
-                            Button {
-                                // Undo last vote, bringing back the sticky and undoing the score change
-                                sessionItemViewModel.undoVote()
-                                undoRotation -= 360
-                                sessionViewModel.updateDateModified()
-                            } label: {
+                            // Check if voting is done, and display elements accordingly
+                            if !selectedSession!.isDoneVoting {
+                                // Populate stack of votable sticky notes on screen
                                 ZStack {
-                                    RoundedRectangle(cornerRadius: 15)
-                                        .frame(width: geometry.size.width * 0.77, height: geometry.size.width * 0.11)
-                                        .foregroundColor(Color("BackgroundColor"))
+                                    ForEach(self.sessionItemViewModel.votingStickies) { sticky in
+                                        if sticky.pos > self.maxPos - 4 {
+                                            sticky
+                                                .animation(.spring())
+                                                .frame(width: self.getStickyNoteWidth(geometry, pos: sticky.pos))
+                                                .offset(x: 0, y: self.getStickyNoteOffset(geometry, pos: sticky.pos))
+                                        }
+                                    }
+                                    if sessionItemViewModel.votingStickies.count == 0 {
+                                        VStack {
+                                            Text("No Stickies Left to Vote On!")
+                                                .font(.largeTitle)
+                                                .frame(width: self.getStickyNoteWidth(geometry, pos: -2))
+                                                .padding()
 
-                                    RoundedRectangle(cornerRadius: 15)
-                                        .stroke(lineWidth: 4)
-                                        .frame(width: geometry.size.width * 0.77, height: geometry.size.width * 0.11)
-                                        .foregroundColor(.orange)
-
-                                    Image(systemName: "arrow.counterclockwise")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: geometry.size.width * 0.075, height: geometry.size.width * 0.075)
-                                        .foregroundColor(.orange)
-                                        .rotationEffect(Angle.degrees(undoRotation))
-                                        .animation(spinAnimation)
+                                            Text("Sit tight and wait for everyone to finish")
+                                                .font(.title)
+                                                .frame(width: self.getStickyNoteWidth(geometry, pos: -2))
+                                        }
+                                    }
                                 }
-                                .frame(width: geometry.size.width * 0.8, height: geometry.size.width * 0.12)
-                                .clipped()
-                                .shadow(radius: 4, y: 4)
+                                .frame(width: geometry.size.width, height: geometry.size.height * 0.5)
+
+                                Spacer()
+
+                                // Vote buttons (alternative to swiping)
+                                HStack(spacing: geometry.size.width * 0.15) {
+                                    // Downvote Button
+                                    Button {
+                                        if sessionItemViewModel.votingStickies.count > 0 {
+                                            let topSticky = self.sessionItemViewModel.votingStickies.last!
+                                            withAnimation {
+                                                self.sessionItemViewModel.castVote(itemId: topSticky.itemId, scoreChange: -1)
+                                            }
+                                            topSticky.onRemove(topSticky.itemId)
+                                            sessionItemViewModel.votedOnStack[sessionItemViewModel.votedOnStack.count - 1].1 = -1
+                                            sessionViewModel.updateDateModified()
+                                        }
+
+                                    } label: {
+                                        ZStack {
+                                            Circle()
+                                                .foregroundColor(Color("BackgroundColor"))
+                                                .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+
+                                            Circle().stroke(lineWidth: 4)
+                                                .foregroundColor(Color.red)
+                                                .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+
+                                            Image(systemName: "hand.thumbsdown")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: geometry.size.width * 0.075, height: geometry.size.width * 0.075)
+                                                .padding(.top, 10)
+                                                .foregroundColor(.red)
+                                        }
+                                        .frame(width: geometry.size.width * 0.16, height: geometry.size.width * 0.16)
+                                        .clipped()
+                                        .shadow(radius: 4, y: 4)
+                                    }
+
+                                    // Skip Button
+                                    Button {
+                                        if sessionItemViewModel.votingStickies.count > 0 {
+                                            withAnimation {
+                                                sessionItemViewModel.clearAnimations()
+                                                sessionItemViewModel.showingSkip.toggle()
+                                                sessionItemViewModel.setAnimationTimer()
+                                            }
+
+                                            let topSticky = self.sessionItemViewModel.votingStickies.last!
+                                            topSticky.onRemove(topSticky.itemId)
+                                        }
+                                    } label: {
+                                        ZStack {
+                                            Circle()
+                                                .foregroundColor(Color("BackgroundColor"))
+                                                .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+
+                                            Circle().stroke(lineWidth: 4)
+                                                .foregroundColor(Color("FadedColor"))
+                                                .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+
+                                            Image(systemName: "hand.raised")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: geometry.size.width * 0.075, height: geometry.size.width * 0.075)
+                                                .padding(.leading, 4)
+                                                .foregroundColor(Color("FadedColor"))
+                                        }
+                                        .frame(width: geometry.size.width * 0.16, height: geometry.size.width * 0.16)
+                                        .clipped()
+                                        .shadow(radius: 4, y: 4)
+                                    }
+
+                                    // Upvote Button
+                                    Button {
+                                        if sessionItemViewModel.votingStickies.count > 0 {
+                                            let topSticky = self.sessionItemViewModel.votingStickies.last!
+                                            withAnimation {
+                                                self.sessionItemViewModel.castVote(itemId: topSticky.itemId, scoreChange: 1)
+                                            }
+                                            topSticky.onRemove(topSticky.itemId)
+                                            sessionItemViewModel.votedOnStack[sessionItemViewModel.votedOnStack.count - 1].1 = 1
+                                            sessionViewModel.updateDateModified()
+                                        }
+                                    } label: {
+                                        ZStack {
+                                            Circle()
+                                                .foregroundColor(Color("BackgroundColor"))
+                                                .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+
+                                            Circle().stroke(lineWidth: 4)
+                                                .foregroundColor(Color.green)
+                                                .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+
+                                            Image(systemName: "hand.thumbsup")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: geometry.size.width * 0.075, height: geometry.size.width * 0.075)
+                                                .padding(.bottom, 10)
+                                                .foregroundColor(.green)
+                                        }
+                                        .frame(width: geometry.size.width * 0.16, height: geometry.size.width * 0.16)
+                                        .clipped()
+                                        .shadow(radius: 4, y: 4)
+                                    }
+                                }
+
+                                Button {
+                                    // Undo last vote, bringing back the sticky and undoing the score change
+                                    sessionItemViewModel.undoVote()
+                                    undoRotation -= 360
+                                    sessionViewModel.updateDateModified()
+                                } label: {
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 15)
+                                            .frame(width: geometry.size.width * 0.77, height: geometry.size.width * 0.11)
+                                            .foregroundColor(Color("BackgroundColor"))
+
+                                        RoundedRectangle(cornerRadius: 15)
+                                            .stroke(lineWidth: 4)
+                                            .frame(width: geometry.size.width * 0.77, height: geometry.size.width * 0.11)
+                                            .foregroundColor(.orange)
+
+                                        Image(systemName: "arrow.counterclockwise")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: geometry.size.width * 0.075, height: geometry.size.width * 0.075)
+                                            .foregroundColor(.orange)
+                                            .rotationEffect(Angle.degrees(undoRotation))
+                                            .animation(spinAnimation)
+                                    }
+                                    .frame(width: geometry.size.width * 0.8, height: geometry.size.width * 0.12)
+                                    .clipped()
+                                    .shadow(radius: 4, y: 4)
+                                    .padding()
+                                }
+
+                            } else {
+                                // Display results of the voting
+                                Text("Voting Has Finished!")
+                                    .font(.largeTitle)
+                                    .padding(.top, geometry.size.height * 0.1)
+
+                                Text("Here are your top \(numTopStickies) stickies:")
+                                    .font(.title)
+                                    .padding()
+
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    LazyHStack(spacing: 30) {
+                                        ForEach(self.sessionItemViewModel.topStickies) { sticky in
+                                            sticky
+                                                .frame(width: geometry.size.width * 0.45, height: geometry.size.width * 0.375)
+                                        }
+                                    }
+                                }
+                                .frame(height: geometry.size.width * 0.4)
                                 .padding()
                             }
-
                             Spacer()
                         }
                         Spacer()
@@ -315,14 +338,24 @@ struct VotingSheet: View {
         .onAppear {
             // Get list of sticky notes to be voted on
             sessionItemViewModel.populateVotingList()
+            if selectedSession!.isDoneVoting {
+                sessionItemViewModel.sortStickies(sortBy: .score)
+                sessionItemViewModel.getTopStickies(spots: numTopStickies)
+            }
         }
+        .onChange(of: selectedSession?.isDoneVoting, perform: { doneVoting in
+            if doneVoting ?? true {
+                sessionItemViewModel.sortStickies(sortBy: .score)
+                sessionItemViewModel.getTopStickies(spots: numTopStickies)
+            }
+        })
     }
 
 }
 
 struct VotingSheet_Previews: PreviewProvider {
     static var previews: some View {
-        VotingSheet(showSheet: .constant(.voting))
+        VotingSheet(showSheet: .constant(.voting), selectedSession: .constant(Session()))
             .environmentObject(SessionItemViewModel())
             .environmentObject(SessionViewModel())
     }
