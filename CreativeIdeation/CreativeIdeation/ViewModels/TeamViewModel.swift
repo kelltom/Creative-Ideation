@@ -209,76 +209,92 @@ final class TeamViewModel: ObservableObject {
         //            print("no access code for this team")
         //            return
         //        }
-
-        // Validation
-        if code.isEmpty {
-            // Set banner
-            self.setBannerData(title: "Cannot join Team",
-                               details: "Field cannot be empty. Please enter a code.",
-                               type: .warning)
-            self.showBanner = true
-            //        } else if currentTeamCode == code {
-            //            self.setBanner(message: "Cannot join a team you are already in!", didSucceed: false)
-            //            print("cant join an existing team")
-        } else {
-            // Update members array in teams collection
-            db.collection("teams").whereField("accessCode", isEqualTo: code)
-                .getDocuments { (querySnapshot, err) in
-                    if let err = err {
-                        // Set banner
-                        self.setBannerData(title: "Cannot join team",
-                                           details: "We've encountered an error trying to add user to the Team. Make sure you're connected to the internet and try again.",
-                                           type: .error)
-                        self.showBanner = true
-
-                        print("joinTeam: Error getting documents: \(err)")
-                    } else {
-                        for document in querySnapshot!.documents {
-                            if document.exists {
-
-                                document.reference.updateData([
-                                    "members": FieldValue.arrayUnion([uid])
-                                ])
-
-                                document.reference.collection("groups").whereField("isPublic", isEqualTo: true).getDocuments { (querySnapshot, err) in
-                                    if let err = err {
-                                        print("addIdToPublic: Error getting documents: \(err)")
-                                    } else {
-                                        for document in querySnapshot!.documents {
-                                            if document.exists {
-                                                document.reference.updateData([
-                                                    "members": FieldValue.arrayUnion([uid])
-                                                ])
-
-                                                print("addIdToPublic: Added to Public Group successfully.")
-                                            } else {
-
-                                                print("addIdToPublic: Error accessing Group document. Document likely no longer exists.")
-                                            }
-                                        }
-                                    }
-                                }
-
-                                // Set banner
-                                self.setBannerData(title: "Success",
-                                                   details: "Successfully joined a Team!",
-                                                   type: .success)
-                                self.showBanner = true
-
-                                print("Update team members successful")
-                            } else {
-                                // Set banner
-                                self.setBannerData(title: "Cannot join team",
-                                                   details: "Cannot find Team in our database. This Team has likely been deleted.",
-                                                   type: .error)
-                                self.showBanner = true
-
-                                print("joinTeam: Error accessing Team document. Document likely no longer exists.")
-                            }
-                        }
+        
+        
+        db.collection("teams").whereField("members", arrayContains: uid)
+            .getDocuments(){(querySnapshot, err) in
+                if let err = err {
+                    print("error getting docs \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        print(document.data()["members"])
                     }
                 }
-        }
+            }
+       
+
+        // Validation
+//        if code.isEmpty {
+//            // Set banner
+//            self.setBannerData(title: "Cannot join Team",
+//                               details: "Field cannot be empty. Please enter a code.",
+//                               type: .warning)
+//            self.showBanner = true
+//            //        } else if currentTeamCode == code {
+//            //            self.setBanner(message: "Cannot join a team you are already in!", didSucceed: false)
+//            //            print("cant join an existing team")
+//        } else {
+//
+//
+//
+//            // Update members array in teams collection
+//            db.collection("teams").whereField("accessCode", isEqualTo: code)
+//                .getDocuments { (querySnapshot, err) in
+//                    if let err = err {
+//                        // Set banner
+//                        self.setBannerData(title: "Cannot join team",
+//                                           details: "We've encountered an error trying to add user to the Team. Make sure you're connected to the internet and try again.",
+//                                           type: .error)
+//                        self.showBanner = true
+//
+//                        print("joinTeam: Error getting documents: \(err)")
+//                    } else {
+//                        for document in querySnapshot!.documents {
+//                            if document.exists {
+//
+//                                document.reference.updateData([
+//                                    "members": FieldValue.arrayUnion([uid])
+//                                ])
+//
+//                                document.reference.collection("groups").whereField("isPublic", isEqualTo: true).getDocuments { (querySnapshot, err) in
+//                                    if let err = err {
+//                                        print("addIdToPublic: Error getting documents: \(err)")
+//                                    } else {
+//                                        for document in querySnapshot!.documents {
+//                                            if document.exists {
+//                                                document.reference.updateData([
+//                                                    "members": FieldValue.arrayUnion([uid])
+//                                                ])
+//
+//                                                print("addIdToPublic: Added to Public Group successfully.")
+//                                            } else {
+//
+//                                                print("addIdToPublic: Error accessing Group document. Document likely no longer exists.")
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//
+//                                // Set banner
+//                                self.setBannerData(title: "Success",
+//                                                   details: "Successfully joined a Team!",
+//                                                   type: .success)
+//                                self.showBanner = true
+//
+//                                print("Update team members successful")
+//                            } else {
+//                                // Set banner
+//                                self.setBannerData(title: "Cannot join team",
+//                                                   details: "Cannot find Team in our database. This Team has likely been deleted.",
+//                                                   type: .error)
+//                                self.showBanner = true
+//
+//                                print("joinTeam: Error accessing Team document. Document likely no longer exists.")
+//                            }
+//                        }
+//                    }
+//                }
+//        }
     }
 
     private func addIdToPublic(ref: DocumentReference) {
