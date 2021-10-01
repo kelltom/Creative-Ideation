@@ -484,7 +484,8 @@ struct ActivityView: View {
                         //Settings gear button for Session Preferences
                         if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup?.groupId ?? "no ID"){
                             Button{
-                                showSheet = .settings
+                                //showSheet = .settings
+                                sessionViewModel.getProfanityList()
                             }label:{
                                 Image("settings")
                                     .resizable()
