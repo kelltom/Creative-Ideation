@@ -243,6 +243,7 @@ final class SessionItemViewModel: ObservableObject {
     }
 
     func loadItems() {
+
         // Ensure Team ID is not nil
         guard let activeSession = activeSession else {
             print("Cannot get items: activeSession is nil")

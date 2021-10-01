@@ -265,6 +265,9 @@ final class SessionViewModel: ObservableObject {
                                 self.groupSessions[selectedSessionGroupIndex!].timeRemaining = mockSession.timeRemaining
                             }
 
+                            self.teamSessions = self.teamSessions.sorted(by: {$0.dateModified.compare($1.dateModified) == .orderedDescending})
+                            self.groupSessions = self.groupSessions.sorted(by: {$0.dateModified.compare($1.dateModified) == .orderedDescending})
+
                         } catch {
                             print("Error reading modified session from DB: \(error)")
                         }

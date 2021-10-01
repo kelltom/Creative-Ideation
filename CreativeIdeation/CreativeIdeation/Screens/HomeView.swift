@@ -179,6 +179,7 @@ struct HomeView: View {
                                     Button {
                                         withAnimation {
                                             isCollapsed.toggle()
+
                                         }
                                     } label: {
                                         ZStack {
@@ -307,7 +308,7 @@ struct HomeView: View {
                                                             } label: {
                                                                 HStack {
                                                                     Text("Leave")
-                                                                    Image(systemName: "arrowshape.turn.up.backward.fill")
+                                                                    Image(systemName: "rectangle.lefthalf.inset.fill.arrow.left")
                                                                 }
                                                             }
                                                         }
@@ -457,6 +458,7 @@ struct HomeView: View {
                 sessionViewModel.selectedGroupId = groupViewModel.selectedGroup?.groupId
                 sessionViewModel.getGroupSessions()
             }
+
         }
     }
 }

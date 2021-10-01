@@ -57,7 +57,7 @@ struct CreateTeamSheet: View {
 
                         // Enter Team Name title
                         HStack {
-                            Text("Enter Team Name")
+                            Text("Enter Team Description")
                                 .font(.title3)
                                 .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                             Spacer()
