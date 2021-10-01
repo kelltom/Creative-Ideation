@@ -426,8 +426,8 @@ final class SessionViewModel: ObservableObject {
         timerManager.timeRemaining = Int(remainingTime)
     }
 
-    func resetTimer() {
-        let newTime = 600
+    func resetTimer(time: Int) {
+        let newTime = time
         // timerManager.reset(newTime: newTime)
 
         guard let activeSession = selectedSession else {

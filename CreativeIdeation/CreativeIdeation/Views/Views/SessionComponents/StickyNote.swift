@@ -11,6 +11,7 @@ struct StickyNote: View, Identifiable {
     var id = UUID()
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
     @EnvironmentObject var sessionViewModel: SessionViewModel
+    @EnvironmentObject var sessionSettingsViewModel: SessionSettingsViewModel
     @Environment(\.colorScheme) var colorScheme
 
     @State var input: String
@@ -35,7 +36,7 @@ struct StickyNote: View, Identifiable {
                         .foregroundColor(colorScheme == .dark ? chosenColor?.darker() : chosenColor)
                         .frame(width: 160, height: 30)
 
-                    if sessionViewModel.selectedSession?.showScores ?? false {
+                    if (sessionViewModel.selectedSession?.showScores ?? false) && sessionSettingsViewModel.settings.last!.displayScore {
                         Text("Score: " + String(score))
                             .font(.title2)
                             .fontWeight(.bold)

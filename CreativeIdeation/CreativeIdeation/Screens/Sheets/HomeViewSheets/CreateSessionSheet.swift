@@ -20,6 +20,7 @@ struct CreateSessionSheet: View {
     @EnvironmentObject var groupViewModel: GroupViewModel
     @EnvironmentObject var teamViewModel: TeamViewModel
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
+    @EnvironmentObject var sessionSettingsViewModel: SessionSettingsViewModel
 
     var pFilter = ProfanityFilter()
 
@@ -87,6 +88,8 @@ struct CreateSessionSheet: View {
         .onChange(of: self.sessionViewModel.didOperationSucceed, perform: { _ in
             if self.sessionViewModel.didOperationSucceed {
                 // Load session
+                sessionSettingsViewModel.createSettings(sessionId: sessionViewModel.newSession.sessionId)
+                sessionSettingsViewModel.loadSettings(sessionId: sessionViewModel.newSession.sessionId)
                 sessionViewModel.selectedSession = sessionViewModel.newSession
                 sessionItemViewModel.activeSession = sessionViewModel.newSession
                 sessionItemViewModel.loadItems()
@@ -106,5 +109,6 @@ struct CreateSessionView_Previews: PreviewProvider {
             .environmentObject(GroupViewModel())
             .environmentObject(SessionViewModel())
             .environmentObject(SessionItemViewModel())
+            .environmentObject(SessionSettingsViewModel())
     }
 }

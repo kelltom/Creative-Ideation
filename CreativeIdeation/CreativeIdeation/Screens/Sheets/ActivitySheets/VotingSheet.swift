@@ -11,6 +11,7 @@ struct VotingSheet: View {
 
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
     @EnvironmentObject var sessionViewModel: SessionViewModel
+    @EnvironmentObject var sessionSettingsViewModel: SessionSettingsViewModel
 
     @Binding var showSheet: SessionSheet?
     @Binding var selectedSession: Session?
@@ -346,6 +347,9 @@ struct VotingSheet: View {
         .onChange(of: selectedSession?.isDoneVoting, perform: { doneVoting in
             if doneVoting ?? true {
                 sessionItemViewModel.sortStickies(sortBy: .score)
+                if sessionSettingsViewModel.settings.last!.deleteStickies {
+                    sessionItemViewModel.deleteBottomStickies(minScore: sessionSettingsViewModel.settings.last!.deleteScoreSetting)
+                }
                 sessionItemViewModel.getTopStickies(spots: numTopStickies)
             }
         })

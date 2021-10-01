@@ -31,6 +31,7 @@ struct HomeView: View {
     @EnvironmentObject var sessionViewModel: SessionViewModel
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
+    @EnvironmentObject var sessionSettingsViewModel: SessionSettingsViewModel
 
     /// Temporary way to show conditional views in preview canvas
     var preview: Bool = false
@@ -354,6 +355,7 @@ struct HomeView: View {
                                                         // make session clickable
                                                         sessionItemViewModel.activeSession = session
                                                         sessionViewModel.selectedSession = session
+                                                        sessionSettingsViewModel.loadSettings(sessionId: session.sessionId)
                                                         sessionItemViewModel.loadItems()
                                                         showActivity = true
                                                     } label: {

@@ -441,9 +441,23 @@ final class SessionItemViewModel: ObservableObject {
     func getTopStickies(spots: Int) {
         topStickies = []
         var sticky: StickyNote
-        for number in 0...spots - 1 {
+        for number in 0...min(stickyNotes.count - 1, spots - 1) {
             sticky = stickyNotes[number]
             topStickies.append(TopSticky(chosenColor: sticky.chosenColor!, input: sticky.input, score: sticky.score))
+        }
+    }
+
+    func deleteBottomStickies(minScore: Int) {
+        for sticky in stickyNotes {
+            if sticky.score < minScore {
+                db.collection("session_items").document(sticky.itemId).delete { err in
+                    if let err = err {
+                        print("Error deleting session item: \(err)")
+                    } else {
+                        print("Session item deleted!")
+                    }
+                }
+            }
         }
     }
 

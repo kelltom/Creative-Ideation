@@ -21,6 +21,7 @@ struct ActivityView: View {
     
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
     @EnvironmentObject var sessionViewModel: SessionViewModel
+    @EnvironmentObject var sessionSettingsViewModel: SessionSettingsViewModel
     @EnvironmentObject var groupViewModel: GroupViewModel
     
     let colorArray = [Color.init(red: 0.9, green: 0, blue: 0),
@@ -89,48 +90,50 @@ struct ActivityView: View {
                     
                     Spacer()
                     
-                    HStack {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 20)
-                                .stroke(lineWidth: 3)
-                                .frame(width: 140, height: 80)
-                                .padding(.trailing)
-                            
-                            Text(timerManager.toString())
-                                .font(.largeTitle)
-                                .padding(.trailing)
-                        }
-                        
-                        if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup?.groupId ?? "no ID") {
-                            Button {
-                                if timerManager.timeRemaining == 0 {
-                                    timerManager.reset(newTime: 600)
-                                }
-                                sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
-                            } label: {
-                                Image(systemName: timerManager.mode == .running ? "pause.fill" : "play.fill")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 40, height: 40)
-                                    .foregroundColor(timerManager.mode == .running ? .blue : .green)
+                    if sessionSettingsViewModel.settings.last!.displayTimer {
+                        HStack {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(lineWidth: 3)
+                                    .frame(width: 140, height: 80)
+                                    .padding(.trailing)
+
+                                Text(timerManager.toString())
+                                    .font(.largeTitle)
                                     .padding(.trailing)
                             }
-                            
-                            Button {
-                                if !(timerManager.mode == .running) {
-                                    sessionViewModel.resetTimer()
+
+                            if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup?.groupId ?? "no ID") {
+                                Button {
+                                    if timerManager.timeRemaining == 0 {
+                                        timerManager.reset(newTime: sessionSettingsViewModel.settings[1].timerSetting)
+                                    }
+                                    sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
+                                } label: {
+                                    Image(systemName: timerManager.mode == .running ? "pause.fill" : "play.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 40, height: 40)
+                                        .foregroundColor(timerManager.mode == .running ? .blue : .green)
+                                        .padding(.trailing)
                                 }
-                            } label: {
-                                Image(systemName: "gobackward")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 45, height: 45)
-                                    .font(Font.title.weight(.bold))
-                                    .foregroundColor(timerManager.mode == .running ? Color("FadedColor") : .red)
+
+                                Button {
+                                    if !(timerManager.mode == .running) {
+                                        sessionViewModel.resetTimer(time: sessionSettingsViewModel.settings[1].timerSetting)
+                                    }
+                                } label: {
+                                    Image(systemName: "gobackward")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 45, height: 45)
+                                        .font(Font.title.weight(.bold))
+                                        .foregroundColor(timerManager.mode == .running ? Color("FadedColor") : .red)
+                                }
                             }
                         }
+                        .padding(.top)
                     }
-                    .padding(.top)
                     
                     Spacer()
                 }
@@ -498,13 +501,13 @@ struct ActivityView: View {
                             .padding(.trailing)
                         }
                         .padding(.top, 25)
-                        
-                        //Settings gear button for Session Preferences
-                        if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup?.groupId ?? "no ID"){
-                            Button{
-                                //showSheet = .settings
+
+                        // Settings gear button for Session Preferences
+                        if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup?.groupId ?? "no ID") {
+                            Button {
+                                showSheet = .settings
                                 sessionViewModel.getProfanityList()
-                            }label:{
+                            } label: {
                                 Image("settings")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
@@ -513,7 +516,7 @@ struct ActivityView: View {
                                     .shadow(radius: 4)
                             }
                             .padding(.trailing)
-                            .padding(.top,25)
+                            .padding(.top, 25)
                         }
                         Spacer()
                     }
@@ -525,7 +528,7 @@ struct ActivityView: View {
                     VotingSheet(showSheet: $showSheet, selectedSession: $sessionViewModel.selectedSession)
                         .environmentObject(self.sessionItemViewModel)
                 case .settings:
-                    SessionSettings(showSheet: $showSheet)
+                    SessionSettingsSheet(showSheet: $showSheet, settings: $sessionSettingsViewModel.settings[1], textTime: $sessionSettingsViewModel.textTime, textScore: $sessionSettingsViewModel.textScore)
                         .environmentObject(self.sessionViewModel)
                 }
             }
