@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		26325B472706556400B31DF6 /* SessionSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26325B462706556400B31DF6 /* SessionSettings.swift */; };
 		26833F5F26F67D1A00C24A93 /* UpdateTeamNameSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26833F5E26F67D1A00C24A93 /* UpdateTeamNameSheet.swift */; };
 		26833F6126F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26833F6026F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift */; };
 		761F4751261E212A0019B580 /* UpdateEmailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761F4750261E212A0019B580 /* UpdateEmailSheet.swift */; };
@@ -75,6 +76,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		26325B462706556400B31DF6 /* SessionSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSettings.swift; sourceTree = "<group>"; };
 		26833F5E26F67D1A00C24A93 /* UpdateTeamNameSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTeamNameSheet.swift; sourceTree = "<group>"; };
 		26833F6026F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTeamDescriptionSheet.swift; sourceTree = "<group>"; };
 		761F4750261E212A0019B580 /* UpdateEmailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateEmailSheet.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				C913C00526CADADE00EE54D1 /* VotingSheet.swift */,
+				26325B462706556400B31DF6 /* SessionSettings.swift */,
 			);
 			path = ActivitySheets;
 			sourceTree = "<group>";
@@ -535,6 +538,7 @@
 				DD15B00826051B2000F51777 /* TeamViewModel.swift in Sources */,
 				DD429D1926F66C7900279540 /* UpdateGroupNameSheet.swift in Sources */,
 				C9AE73A225EB1ACA0090C96B /* ActivityTypeTile.swift in Sources */,
+				26325B472706556400B31DF6 /* SessionSettings.swift in Sources */,
 				C9419B76261915E900279BB5 /* SessionItemViewModel.swift in Sources */,
 				76731F342602802200536836 /* TeamSettingsView.swift in Sources */,
 				DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */,

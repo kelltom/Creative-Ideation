@@ -22,6 +22,7 @@ final class SessionViewModel: ObservableObject {
     @Published var selectedSession: Session?        /// Session object of the selected Session
     @Published var newSession = Session()           /// Session object used when creating new Sessions, binds to UI
     @Published var timerManager = TimerManager()
+    @Published var profanityList: [String: [String]] = [:]
 
     @Published var msg = ""
     @Published var didOperationSucceed = false
@@ -151,7 +152,8 @@ final class SessionViewModel: ObservableObject {
             "timerActive": false,
             "timeRemaining": 600,
             "groupId": groupId,
-            "teamId": teamId
+            "teamId": teamId,
+            "profanityLog": [:]
         ], forDocument: sessionRef)
 
         // Save Session ID to list of Sessions in Group document
@@ -230,6 +232,7 @@ final class SessionViewModel: ObservableObject {
                             self.teamSessions[selectedSessionIndex!].timerEnd = mockSession.timerEnd
                             self.teamSessions[selectedSessionIndex!].timerActive = mockSession.timerActive
                             self.teamSessions[selectedSessionIndex!].timeRemaining = mockSession.timeRemaining
+                            self.teamSessions[selectedSessionIndex!].profanityLog = mockSession.profanityLog
 
                             if self.selectedSession != nil && mockSession.sessionId == self.selectedSession?.sessionId {
                                 print("modified active session")
@@ -248,6 +251,7 @@ final class SessionViewModel: ObservableObject {
                                 self.selectedSession!.timeRemaining = mockSession.timeRemaining
                                 self.selectedSession!.isDoneVoting = mockSession.isDoneVoting
                                 self.selectedSession!.showScores = mockSession.showScores
+                                self.selectedSession!.profanityLog = mockSession.profanityLog
                             }
 
                             let selectedSessionGroupIndex = self.groupSessions.firstIndex(where: {$0.sessionId == mockSession.sessionId})
@@ -281,6 +285,64 @@ final class SessionViewModel: ObservableObject {
                             self.groupSessions.remove(at: selectedSessionGroupIndex!)
                         }
 
+                    }
+                }
+            }
+    }
+    func sessionBehaviourSummary(textInput: String) {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("cannot find uid for user who swore")
+            return
+        }
+        guard let activeSession = selectedSession else {
+            print("Could not get active session")
+            return
+        }
+        let sessionReference = db.collection("sessions").document(activeSession.sessionId)
+        
+        if pFilter.containsProfanity(text: textInput).profanities.count > 0 {
+            db.runTransaction({ (transaction, errorPointer) -> Any? in
+                do {
+                    _ = try transaction.getDocument(sessionReference)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+
+                transaction.updateData(["profanityLog.\(uid)": FieldValue.arrayUnion([textInput])],
+                                       forDocument: sessionReference)
+                return nil
+                
+            }) { (_, error) in
+                if let error = error {
+                    print("Error updating session: \(error)")
+                }
+            }
+        }
+    }
+    
+    func getProfanityList(){
+        profanityList = [:]
+        
+        guard let sessionId = selectedSession else {
+            print("session id is nil")
+            return
+        }
+        guard let activeSession = selectedSession else {
+            print("Could not get active session")
+            return
+        }
+        db.collection("sessions").document(activeSession.sessionId)
+            .getDocument{(querySnapshot, err) in
+                if let err = err {
+                    print("error in getting documents: \(err)")
+                    
+                } else {
+                    do {
+                        try self.selectedSession = querySnapshot?.data(as: Session.self)
+                        print("Session object successfully mapped \(String(describing: self.selectedSession?.profanityLog))")
+                    }catch{
+                        print("Session could not be properly mapped to object")
                     }
                 }
             }

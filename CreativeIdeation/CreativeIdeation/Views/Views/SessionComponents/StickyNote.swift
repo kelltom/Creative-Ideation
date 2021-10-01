@@ -61,6 +61,7 @@ struct StickyNote: View, Identifiable {
                     sessionItemViewModel.updateText(text: input, itemId: itemId)
                     sessionItemViewModel.updateItem(itemId: itemId)
                     sessionViewModel.updateDateModified()
+                    sessionViewModel.sessionBehaviourSummary(textInput: input)
                     textChanged = false
                 } label: {
                     Image(systemName: "checkmark.circle.fill")
