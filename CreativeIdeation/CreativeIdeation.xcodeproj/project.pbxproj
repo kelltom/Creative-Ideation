@@ -371,8 +371,8 @@
 			isa = PBXGroup;
 			children = (
 				DD2977342603D266000A1C95 /* UserAccountViewModel.swift */,
-				DD15B00726051B2000F51777 /* TeamViewModel.swift */,
 				7699646626069A55005058C7 /* GroupViewModel.swift */,
+				DD15B00726051B2000F51777 /* TeamViewModel.swift */,
 				DD7997B22608404500392AED /* SessionViewModel.swift */,
 				C9419B75261915E900279BB5 /* SessionItemViewModel.swift */,
 				C9C784F62706CA9700BED6F1 /* SessionSettingsViewModel.swift */,
