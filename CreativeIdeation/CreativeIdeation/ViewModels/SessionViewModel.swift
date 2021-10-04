@@ -10,7 +10,7 @@ import Firebase
 import FirebaseFirestoreSwift
 import Profanity_Filter
 
-struct ProfanityUser {
+struct ProfanityUser: Hashable {
     var id = ""
     var name = ""
     var email = ""
@@ -32,6 +32,7 @@ final class SessionViewModel: ObservableObject {
     @Published var timerManager = TimerManager()
     @Published var profanityList: [String: [String]] = [:]
     @Published var profUser: ProfanityUser?
+    @Published var listOfUsers: [ProfanityUser] = []
 
     @Published var msg = ""
     @Published var didOperationSucceed = false
@@ -344,7 +345,7 @@ final class SessionViewModel: ObservableObject {
             return
         }
         var badUser = ProfanityUser()
-        var listOfUsers = [badUser]
+//        var listOfUsers = [badUser]
      
         db.collection("sessions").document(activeSession.sessionId)
             .getDocument {(querySnapshot, err) in
@@ -354,37 +355,31 @@ final class SessionViewModel: ObservableObject {
                     do {
                         try self.selectedSession = querySnapshot?.data(as: Session.self)
                         self.profanityList = self.selectedSession?.profanityLog ?? ["n/a": ["n/a"]]
-                        print("this is the profanity list \(self.profanityList)")
+                        //print("this is the profanity list \(self.profanityList)")
                         for (userId, value) in self.profanityList {
                             badUser.id = userId
                             badUser.profanityList = value
-                            listOfUsers.append(badUser)
+                            self.listOfUsers.append(badUser)
                         }
                         
-                        self.db.collection("users").getDocuments { (snapshot, error) in
-                            if let error = error {
-                                print("error in user query")
-                            } else {
-                                snapshot?.documents.forEach({(documentSnapshot) in
-                                    let docData = documentSnapshot.data()
-                                   
-//                                    for user in listOfUsers {
-//                                        if user.id == docData["id"] as? String{
-//
-//                                        } else {
-//                                            print("no person in user db")
-//                                        }
-//                                    }
-                                   // print("this is DOC DATA ", docData["name"] ?? "no name" )
-                                })
-                            }
+//                        print("this is list of users - \(self.listOfUsers)")
+                        for val in self.listOfUsers {
+                            print(val.profanityList)
                         }
+                        
                     } catch {
                         print("Session could not be properly mapped to object")
                     }
+                    
+//                    self.db.collection("users").getDocuments { (snapshot, err) in
+//                         if let err = err {
+//                             print("Error getting documents: \(err)")
+//                         } else {
+//                             print("")
+//                             }
+//                         }
                 }
-            }
-      
+            }      
     }
     /// Populates groupSessions array, storing a Session object for each found in the datastore
     func getGroupSessions() {
