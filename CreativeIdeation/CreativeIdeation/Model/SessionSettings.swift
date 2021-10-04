@@ -31,4 +31,3 @@ struct SessionSettings: Identifiable, Codable, Hashable {
         case filterProfanity
     }
 }
-

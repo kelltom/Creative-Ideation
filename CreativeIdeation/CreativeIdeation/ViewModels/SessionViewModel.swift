@@ -17,7 +17,6 @@ struct ProfanityUser: Hashable {
     var profanityList: [String] = []
 }
 
-
 final class SessionViewModel: ObservableObject {
 
     private var db = Firestore.firestore()
@@ -30,18 +29,18 @@ final class SessionViewModel: ObservableObject {
     @Published var selectedSession: Session?        /// Session object of the selected Session
     @Published var newSession = Session()           /// Session object used when creating new Sessions, binds to UI
     @Published var timerManager = TimerManager()
-    @Published var profanityList: [String: [String]] = [:]
+//    @Published var profanityList: [String: [String]] = [:]
     @Published var profUser: ProfanityUser?
-    @Published var listOfUsers: [ProfanityUser] = []
+    @Published var profanityUsers: [ProfanityUser] = []
 
     @Published var msg = ""
     @Published var didOperationSucceed = false
 
     @Published var showBanner = false
     @Published var bannerData: BannerModifier.BannerData =
-        BannerModifier.BannerData(title: "Default Title",
-                                  detail: "Default detail message.",
-                                  type: .info)
+    BannerModifier.BannerData(title: "Default Title",
+                              detail: "Default detail message.",
+                              type: .info)
 
     func clear() {
         teamSessions = []
@@ -312,7 +311,7 @@ final class SessionViewModel: ObservableObject {
             return
         }
         let sessionReference = db.collection("sessions").document(activeSession.sessionId)
-        
+
         if pFilter.containsProfanity(text: textInput).profanities.count > 0 {
             db.runTransaction({ (transaction, errorPointer) -> Any? in
                 do {
@@ -325,7 +324,7 @@ final class SessionViewModel: ObservableObject {
                 transaction.updateData(["profanityLog.\(uid)": FieldValue.arrayUnion([textInput])],
                                        forDocument: sessionReference)
                 return nil
-                
+
             }) { (_, error) in
                 if let error = error {
                     print("Error updating session: \(error)")
@@ -333,9 +332,12 @@ final class SessionViewModel: ObservableObject {
             }
         }
     }
-    
-    func getProfanityList(sessionMembers: [String]){
-        
+
+    func getProfanityList(sessionMembers: [String]) {
+        var profanityDict: [String: [String]] = [:]
+        var profanityUsersTemp: [ProfanityUser] = []
+        self.profanityUsers = []
+
         guard let sessionId = selectedSession else {
             print("session id is nil")
             return
@@ -344,9 +346,7 @@ final class SessionViewModel: ObservableObject {
             print("Could not get active session")
             return
         }
-        var badUser = ProfanityUser()
-//        var listOfUsers = [badUser]
-     
+
         db.collection("sessions").document(activeSession.sessionId)
             .getDocument {(querySnapshot, err) in
                 if let err = err {
@@ -354,32 +354,35 @@ final class SessionViewModel: ObservableObject {
                 } else {
                     do {
                         try self.selectedSession = querySnapshot?.data(as: Session.self)
-                        self.profanityList = self.selectedSession?.profanityLog ?? ["n/a": ["n/a"]]
-                        //print("this is the profanity list \(self.profanityList)")
-                        for (userId, value) in self.profanityList {
-                            badUser.id = userId
-                            badUser.profanityList = value
-                            self.listOfUsers.append(badUser)
+                        profanityDict = self.selectedSession?.profanityLog ?? ["n/a": ["n/a"]]
+
+                        self.db.collection("users").whereField("id", in: profanityDict.keys.sorted()).getDocuments { (snapshot, err) in
+                            if let err = err {
+                                print("Error getting documents: \(err)")
+                            } else {
+                                for documentSnap in snapshot!.documents {
+                                    do {
+                                        var tempUser: User
+                                        try tempUser = documentSnap.data(as: User.self)!
+                                        let profanityUserTemp: ProfanityUser = ProfanityUser(id: tempUser.id,
+                                                                                             name: tempUser.name,
+                                                                                             email: tempUser.email,
+                                                                                             profanityList: profanityDict[tempUser.id] ?? ["unknown"])
+                                        profanityUsersTemp.append(profanityUserTemp)
+                                        print("this is our array of bad users \(profanityUsersTemp)")
+                                    } catch {
+                                        print("Error adding member to list of Group members")
+                                    }
+                                }
+                                self.profanityUsers = profanityUsersTemp
+                            }
                         }
-                        
-//                        print("this is list of users - \(self.listOfUsers)")
-                        for val in self.listOfUsers {
-                            print(val.profanityList)
-                        }
-                        
                     } catch {
                         print("Session could not be properly mapped to object")
                     }
-                    
-//                    self.db.collection("users").getDocuments { (snapshot, err) in
-//                         if let err = err {
-//                             print("Error getting documents: \(err)")
-//                         } else {
-//                             print("")
-//                             }
-//                         }
+
                 }
-            }      
+            }
     }
     /// Populates groupSessions array, storing a Session object for each found in the datastore
     func getGroupSessions() {
@@ -393,7 +396,7 @@ final class SessionViewModel: ObservableObject {
         }
 
         for session in teamSessions.filter({$0.groupId == selectedGroupId}) {
-                groupSessions.append(session)
+            groupSessions.append(session)
         }
         groupSessions = groupSessions.sorted(by: {$0.dateModified.compare($1.dateModified) == .orderedDescending})
     }
@@ -422,7 +425,7 @@ final class SessionViewModel: ObservableObject {
                 }
 
                 transaction.updateData(["timerActive": activeSession.timerActive,
-                                       "timerEnd": endTime],
+                                        "timerEnd": endTime],
                                        forDocument: sessionReference)
                 return nil
             }) { (_, error) in

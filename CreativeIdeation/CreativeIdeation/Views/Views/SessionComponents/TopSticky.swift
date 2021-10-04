@@ -22,7 +22,7 @@ struct TopSticky: View, Identifiable {
             VStack(spacing: 0) {
                 // Header
                 ZStack {
-                    
+
                     Rectangle()
                         .foregroundColor(colorScheme == .dark ? chosenColor.darker() : chosenColor)
                         .frame(width: geometry.size.width, height: geometry.size.height * 0.17)

@@ -76,7 +76,7 @@ final class SessionItemViewModel: ObservableObject {
 
     func updateText(text: String, itemId: String) {
         sessionItems[sessionItems.firstIndex(where: {$0.itemId == itemId})!].input = pFilter.maskProfanity(text: text)
-        
+
     }
 
     func updateItem(itemId: String) {

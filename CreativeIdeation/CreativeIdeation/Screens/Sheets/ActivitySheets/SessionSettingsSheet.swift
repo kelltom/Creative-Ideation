@@ -10,26 +10,26 @@ import Combine
 import GTMSessionFetcherCore
 
 struct SessionSettingsSheet: View {
-    
+
     @EnvironmentObject var sessionViewModel: SessionViewModel
     @EnvironmentObject var sessionSettingsViewModel: SessionSettingsViewModel
     @EnvironmentObject var groupViewModel: GroupViewModel
-    
+
     @Binding var showSheet: SessionSheet?
     @Binding var settings: SessionSettings
     @Binding var textTime: String
     @Binding var textScore: String
-    
+
     @State private var selectedTime = "10"
     @State private var timeSelectionExpanded = false
     @State var isCollapsed: Bool = true
-    
+
     @State private var selectedScore = "0"
     @State private var scoreSelectionExpanded = false
     @State private var names: [String] = ["test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test"]
-    
+
     var body: some View {
-        
+
         ZStack {
             // Exit button
             VStack {
@@ -47,34 +47,34 @@ struct SessionSettingsSheet: View {
                 .padding()
                 Spacer()
             }
-            
+
             GeometryReader { geometry in
                 ZStack {
-                    
+
                     Color("BackgroundColor")
-                    
+
                     VStack(alignment: .center) {
-                        
+
                         Text("Settings")
                             .font(.system(size: 40, weight: .heavy))
                             .padding(.top, geometry.size.height * 0.1)
-                        
+
                         ScrollView {
                             LazyVStack {
-                                
+
                                 Toggle("Display Timer", isOn: $settings.displayTimer)
                                     .padding()
                                     .padding(.bottom, -10)
                                     .onChange(of: settings.displayTimer, perform: { _ in
                                         sessionSettingsViewModel.toggleTimer()
                                     })
-                                
+
                                 HStack {
-                                    
+
                                     Spacer()
-                                    
+
                                     Text("Time:")
-                                    
+
                                     TextField("", text: $textTime)
                                         .frame(width: 50)
                                         .multilineTextAlignment(.center)
@@ -87,16 +87,16 @@ struct SessionSettingsSheet: View {
                                                 self.selectedTime = filtered
                                             }
                                         }
-                                    
+
                                     Text("minutes")
-                                    
+
                                     Button {
                                         sessionSettingsViewModel.updateTime()
                                     } label: {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 5)
                                                 .foregroundColor(.green)
-                                            
+
                                             Text("Save")
                                                 .foregroundColor(.white)
                                                 .padding(3)
@@ -105,26 +105,26 @@ struct SessionSettingsSheet: View {
                                     }
                                 }
                                 .padding(.trailing)
-                                
+
                                 Toggle("Display Score After Voting", isOn: $settings.displayScore)
                                     .padding()
                                     .onChange(of: settings.displayScore, perform: { _ in
                                         sessionSettingsViewModel.toggleScore()
                                     })
-                                
+
                                 Toggle("Delete Stickies Under Score Threshold", isOn: $settings.deleteStickies)
                                     .padding()
                                     .padding(.bottom, -10)
                                     .onChange(of: settings.deleteStickies, perform: { _ in
                                         sessionSettingsViewModel.toggleDelete()
                                     })
-                                
+
                                 HStack {
-                                    
+
                                     Spacer()
-                                    
+
                                     Text("Score:")
-                                    
+
                                     TextField("", text: $textScore)
                                         .frame(width: 50)
                                         .multilineTextAlignment(.center)
@@ -137,16 +137,16 @@ struct SessionSettingsSheet: View {
                                                 self.selectedScore = filtered
                                             }
                                         }
-                                    
+
                                     Text("points")
-                                    
+
                                     Button {
                                         sessionSettingsViewModel.updateScoreThreshold()
                                     } label: {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 5)
                                                 .foregroundColor(.green)
-                                            
+
                                             Text("Save")
                                                 .foregroundColor(.white)
                                                 .padding(3)
@@ -155,20 +155,19 @@ struct SessionSettingsSheet: View {
                                     }
                                 }
                                 .padding(.trailing)
-                                
+
                                 Toggle("Filter Profanity", isOn: $settings.filterProfanity)
                                     .padding()
                                     .onChange(of: settings.filterProfanity, perform: { _ in
                                         sessionSettingsViewModel.toggleProfanity()
                                     })
-                                
+
                                 // Profanity Begins Here
                                 Divider()
                                     .frame(width: geometry.size.width * 0.7)
                                     .background(Color("FadedColor"))
-                                
-                                
-                                HStack{
+
+                                HStack {
                                     Text("Profanity Log")
                                         .font(.title3)
                                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
@@ -179,7 +178,7 @@ struct SessionSettingsSheet: View {
                                             sessionViewModel.getProfanityList(sessionMembers: groupViewModel.selectedGroup?.members ?? ["N/a"])
                                         }
                                     } label: {
-                                            
+
                                             Image(systemName: "chevron.right")
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fit)
@@ -187,20 +186,29 @@ struct SessionSettingsSheet: View {
                                                 .foregroundColor(Color.black)
                                                 .rotationEffect(Angle.degrees(isCollapsed ? 0 : 90))
                                                 .animation(.easeInOut)
-                                        
+
                                     }
-                                    
+
                                 }
                                 if !isCollapsed {
                                     VStack {
                                         ScrollView {
-                                            ForEach(sessionViewModel.listOfUsers, id: \.self) { user in
+                                            ForEach(sessionViewModel.profanityUsers, id: \.self) { user in
                                                 VStack {
                                                     HStack {
-                                                        Text(user.id)
-                                                        //Text(user.profanityList)
+                                                        Text("Name")
+                                                            .fontWeight(.bold)
                                                         Divider()
+                                                        Text("Profanity Count")
+                                                            .fontWeight(.bold)
                                                     }
+
+                                                    HStack {
+                                                        Text(user.name)
+                                                        Divider()
+                                                        Text(String(user.profanityList.count))
+                                                    }
+
                                                 }
                                             }
                                         }
