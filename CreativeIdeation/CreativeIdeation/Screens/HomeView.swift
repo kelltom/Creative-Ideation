@@ -31,8 +31,7 @@ struct HomeView: View {
     @EnvironmentObject var sessionViewModel: SessionViewModel
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
-
-    private var watson: WatsonAssistant = WatsonAssistant()
+    @StateObject var chatbotViewModel = ChatbotViewModel()
 
     /// Temporary way to show conditional views in preview canvas
     var preview: Bool = false
@@ -142,14 +141,7 @@ struct HomeView: View {
                         // Notifications Bell
                         Button {
                             // view notifications
-                            watson.sendTextToAssistant(text: "Hello") { result in
-                                switch result {
-                                case .success(_):
-                                    print("Success")
-                                default:
-                                    print("Default")
-                                }
-                            }
+                            chatbotViewModel.send(text: "Hello")
                         } label: {
                             Image(systemName: "bell.fill")
                                 .resizable()

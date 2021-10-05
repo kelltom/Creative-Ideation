@@ -11,13 +11,13 @@ import AssistantV2
 /// Allows for interfacing with IBM Watson Assistant
 class WatsonAssistant {
     // Singleton used by views that need to interact with assistant
-    static let instance = WatsonAssistant()
+    static var instance = WatsonAssistant()
     private let authenticator = WatsonIAMAuthenticator(apiKey: "S0y2Iqdb8Vaqcyi2FzA1phRkf3SQlIuDUCoxgvDTf9X6")
     private let assistant: Assistant
     private let assistantID = "55387256-c31a-49d1-874f-a561d449352d"
     private var context: MessageContextStateless = MessageContextStateless()
 
-    init() {
+    private init() {
         assistant = Assistant(version: "2021-06-14", authenticator: authenticator)
         assistant.serviceURL = "https://api.us-east.assistant.watson.cloud.ibm.com/instances/5103af21-a2a3-4c82-a103-feefd448a30f"
     }
@@ -43,7 +43,8 @@ class WatsonAssistant {
                 return
             }
 
-            print(result)
+            var something: RuntimeResponseGeneric = result.output.generic![0]
+            print(something)
 
             // Update context to possibly continue conversation
             self.context = result.context
@@ -52,12 +53,18 @@ class WatsonAssistant {
         }
     }
 
-    // It's likely that these functions will be called from a WatsonViewModel. It's possible that this function could
-    // return a new instance of Watson View Model replacing the existing one. I don't know how I will manage storing
-    // the chat history though.
-
     /// This function takes a generic response, processes it, and returns the text representation.
     func processGenericResponse(assistantResponse: [RuntimeResponseGeneric]) -> String {
+        var message = ""
+
+//        for response in assistantResponse {
+//            switch response.responseType {
+//            case "text":
+//                message = response.text
+//            default:
+//                return "IDK"
+//            }
+//        }
         return ""
     }
 }
