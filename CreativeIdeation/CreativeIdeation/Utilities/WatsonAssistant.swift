@@ -43,8 +43,7 @@ class WatsonAssistant {
                 return
             }
 
-            var something: RuntimeResponseGeneric = result.output.generic![0]
-            print(something)
+            print(result.output)
 
             // Update context to possibly continue conversation
             self.context = result.context
@@ -60,11 +59,12 @@ class WatsonAssistant {
 //        for response in assistantResponse {
 //            switch response.responseType {
 //            case "text":
-//                message = response.text
+//                message = response.text ?? ""
 //            default:
 //                return "IDK"
 //            }
 //        }
-        return ""
+
+        return message
     }
 }

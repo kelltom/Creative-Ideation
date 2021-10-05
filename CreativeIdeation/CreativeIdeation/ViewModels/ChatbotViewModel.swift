@@ -35,6 +35,8 @@ final class ChatbotViewModel: ObservableObject {
                     self.chatlog.append((MessageStatus.received, "Invalid response."))
                     print("chatbotViewModel: Invalid response")
                 }
+
+                print(self.chatlog)
             default:
                 self.chatlog.append((MessageStatus.received, "Chatbot is offline. Try again later."))
                 print("chatbotViewModel: Default")
