@@ -265,6 +265,8 @@ struct SessionSettingsSheet: View {
                                 Divider()
                                     .frame(width: geometry.size.width * 0.7)
                                     .background(Color("FadedColor"))
+                                
+                                
                             }
                             .frame(width: geometry.size.width * 0.7)
                         }
