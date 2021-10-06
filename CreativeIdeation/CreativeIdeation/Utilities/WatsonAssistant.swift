@@ -43,8 +43,6 @@ class WatsonAssistant {
                 return
             }
 
-            print(result.output)
-
             // Update context to possibly continue conversation
             self.context = result.context
 
@@ -55,16 +53,17 @@ class WatsonAssistant {
     /// This function takes a generic response, processes it, and returns the text representation.
     func processGenericResponse(assistantResponse: [RuntimeResponseGeneric]) -> String {
         var message = ""
-
-//        for response in assistantResponse {
-//            switch response.responseType {
-//            case "text":
-//                message = response.text ?? ""
-//            default:
-//                return "IDK"
-//            }
-//        }
-
+        for response in assistantResponse {
+            switch response {
+            case let .text(innerResponse):
+                print("Printing result:")
+                print(innerResponse.text)
+                print("Type of result: ", type(of: innerResponse))
+                message = innerResponse.text
+            default:
+                message = "Unfortunately, I can't describe my response in words." //  TODO: think of a better response phrase
+            }
+        }
         return message
     }
 }
