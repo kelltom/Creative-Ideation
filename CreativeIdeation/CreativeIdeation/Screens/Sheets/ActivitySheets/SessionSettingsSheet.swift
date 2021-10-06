@@ -166,8 +166,9 @@ struct SessionSettingsSheet: View {
                                 Divider()
                                     .frame(width: geometry.size.width * 0.7)
                                     .background(Color("FadedColor"))
-
+                                
                                 HStack {
+                                    Spacer()
                                     Text("Profanity Log")
                                         .font(.title3)
                                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
@@ -188,26 +189,51 @@ struct SessionSettingsSheet: View {
                                                 .animation(.easeInOut)
 
                                     }
+                                    Spacer()
+                                    // Export Data Options
+                                    Menu {
+                                        HStack {
+                                            Button {
+                                                print("Export button working")
+                                            } label: {
+                                                HStack {
+                                                    Text("Export Data")
+                                                    Image(systemName: "square.and.arrow.up")
+                                                }
+                                            }
+                                         
+                                        }
 
+                                    } label: {
+
+                                        Image(systemName: "ellipsis")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 20, height: 25)
+                                            .padding()
+                                    }.foregroundColor(.black)
+                                  
                                 }
+                                // Profanity log list
                                 if !isCollapsed {
                                     VStack {
                                         ScrollView {
+                                            HStack {
+                                                Text("Name")
+                                                    .fontWeight(.bold)
+                                                Spacer()
+                                                Text("Profanity Count")
+                                                    .fontWeight(.bold)
+                                            }
+                                            .frame(width: geometry.size.width * 0.7)
+                                      
                                             ForEach(sessionViewModel.profanityUsers, id: \.self) { user in
                                                 VStack {
                                                     HStack {
-                                                        Text("Name")
-                                                            .fontWeight(.bold)
-                                                        Divider()
-                                                        Text("Profanity Count")
-                                                            .fontWeight(.bold)
-                                                    }
-
-                                                    HStack {
                                                         Text(user.name)
-                                                        Divider()
+                                                        Spacer()
                                                         Text(String(user.profanityList.count))
-                                                    }
+                                                    }.padding(.top, 5)
 
                                                 }
                                             }

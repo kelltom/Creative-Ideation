@@ -369,7 +369,7 @@ final class SessionViewModel: ObservableObject {
                                                                                              email: tempUser.email,
                                                                                              profanityList: profanityDict[tempUser.id] ?? ["unknown"])
                                         profanityUsersTemp.append(profanityUserTemp)
-                                        print("this is our array of bad users \(profanityUsersTemp)")
+//                                        print("this is our array of bad users \(profanityUsersTemp)")
                                     } catch {
                                         print("Error adding member to list of Group members")
                                     }
