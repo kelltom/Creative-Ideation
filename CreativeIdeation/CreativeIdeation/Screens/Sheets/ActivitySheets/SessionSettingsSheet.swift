@@ -23,6 +23,7 @@ struct SessionSettingsSheet: View {
     @State private var selectedTime = "10"
     @State private var timeSelectionExpanded = false
     @State var isCollapsed: Bool = true
+    @State var showProfanity: Bool = true
 
     @State private var selectedScore = "0"
     @State private var scoreSelectionExpanded = false
@@ -166,7 +167,7 @@ struct SessionSettingsSheet: View {
                                 Divider()
                                     .frame(width: geometry.size.width * 0.7)
                                     .background(Color("FadedColor"))
-                                
+
                                 HStack {
                                     Spacer()
                                     Text("Profanity Log")
@@ -180,13 +181,13 @@ struct SessionSettingsSheet: View {
                                         }
                                     } label: {
 
-                                            Image(systemName: "chevron.right")
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: 15, height: 15)
-                                                .foregroundColor(Color.black)
-                                                .rotationEffect(Angle.degrees(isCollapsed ? 0 : 90))
-                                                .animation(.easeInOut)
+                                        Image(systemName: "chevron.right")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 15, height: 15)
+                                            .foregroundColor(Color.black)
+                                            .rotationEffect(Angle.degrees(isCollapsed ? 0 : 90))
+                                            .animation(.easeInOut)
 
                                     }
                                     Spacer()
@@ -199,10 +200,14 @@ struct SessionSettingsSheet: View {
                                                 HStack {
                                                     Text("Export Data")
                                                     Image(systemName: "square.and.arrow.up")
+
                                                 }
                                             }
-                                         
+
                                         }
+                                        Button("Show Profanity", action: {
+                                            showProfanity.toggle()
+                                        })
 
                                     } label: {
 
@@ -212,7 +217,7 @@ struct SessionSettingsSheet: View {
                                             .frame(width: 20, height: 25)
                                             .padding()
                                     }.foregroundColor(.black)
-                                  
+
                                 }
                                 // Profanity log list
                                 if !isCollapsed {
@@ -226,15 +231,30 @@ struct SessionSettingsSheet: View {
                                                     .fontWeight(.bold)
                                             }
                                             .frame(width: geometry.size.width * 0.7)
-                                      
+
                                             ForEach(sessionViewModel.profanityUsers, id: \.self) { user in
                                                 VStack {
                                                     HStack {
                                                         Text(user.name)
                                                         Spacer()
                                                         Text(String(user.profanityList.count))
+
                                                     }.padding(.top, 5)
 
+                                                }
+                                                if !showProfanity {
+                                                    VStack {
+                                                        HStack {
+                                                            Text("Session Words: ")
+                                                                .fontWeight(.bold)
+                                                            Text((user.profanityList[0]))
+                                                        }
+                                                        
+                                                    }
+                                                    .frame(width: geometry.size.width * 0.7, alignment: .leading)
+//                                                    .background(Color.gray)
+                                                    .opacity(0.5)
+                                                    .padding(.top, 4)
                                                 }
                                             }
                                         }
