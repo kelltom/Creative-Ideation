@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 import GTMSessionFetcherCore
+import SwiftUICharts
 
 struct SessionSettingsSheet: View {
 
@@ -24,10 +25,14 @@ struct SessionSettingsSheet: View {
     @State private var timeSelectionExpanded = false
     @State var isCollapsed: Bool = true
     @State var showProfanity: Bool = true
+    @State var chartData: [Double] = [3,5,6]
+    let barStyle = ChartStyle(backgroundColor: .white,
+                                   foregroundColor: [ColorGradient(.blue, .red)])
+    
 
     @State private var selectedScore = "0"
     @State private var scoreSelectionExpanded = false
-    @State private var names: [String] = ["test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test"]
+  
 
     var body: some View {
 
@@ -257,14 +262,24 @@ struct SessionSettingsSheet: View {
                                                     .padding(.top, 4)
                                                 }
                                             }
+                                            
+                                            CardView(showShadow: true) {
+                                                BarChart()
+                                                ChartLabel("Profanity Log", type: .legend)
+                                            }
+                                            .data(chartData)
+                                            .chartStyle(self.barStyle)
+                                            .frame(width: 160, height: 160)
+                                            .padding()
+                            
                                         }
                                         .padding(5)
 
                                     }
                                 }
-                                Divider()
-                                    .frame(width: geometry.size.width * 0.7)
-                                    .background(Color("FadedColor"))
+//                                Divider()
+//                                    .frame(width: geometry.size.width * 0.7)
+//                                    .background(Color("FadedColor"))
                                 
                                 
                             }
