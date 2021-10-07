@@ -25,9 +25,9 @@ struct SessionSettingsSheet: View {
     @State private var timeSelectionExpanded = false
     @State var isCollapsed: Bool = true
     @State var showProfanity: Bool = true
-    @State var chartData: [Double] = [3, 5, 6]  
+    @State var chartData: [Double] = [3, 5, 6]
     let barStyle = ChartStyle(backgroundColor: .white,
-                                   foregroundColor: [ColorGradient(.blue, .red)])
+                              foregroundColor: [ColorGradient(.blue, .red)])
 
     @State private var selectedScore = "0"
     @State private var scoreSelectionExpanded = false
@@ -193,17 +193,15 @@ struct SessionSettingsSheet: View {
                                                 .animation(.easeInOut)
 
                                         }
-                                        
                                     }
-                                   
-                                
+
                                     // Export Data Options
                                     HStack {
                                         Spacer()
                                         Menu {
                                             HStack {
                                                 Button {
-                                                   
+                                                    // action
                                                 } label: {
                                                     HStack {
                                                         Text("Export Data")
@@ -211,11 +209,17 @@ struct SessionSettingsSheet: View {
 
                                                     }
                                                 }
+                                            }
+                                            Button {
+                                                withAnimation {showProfanity.toggle()}
+                                            } label: {
+                                                if showProfanity {
+                                                    Text("Show Profanity")
+                                                } else {
+                                                    Text("Hide Profanity")
+                                                }
 
                                             }
-                                            Button("Show Profanity", action: {
-                                                withAnimation {showProfanity.toggle()}
-                                            })
 
                                         } label: {
 
@@ -224,7 +228,7 @@ struct SessionSettingsSheet: View {
                                                 .aspectRatio(contentMode: .fit)
                                                 .frame(width: 20, height: 25)
                                                 .padding()
-                                    }.foregroundColor(.black)
+                                        }.foregroundColor(.black)
                                     }
 
                                 }
@@ -257,6 +261,7 @@ struct SessionSettingsSheet: View {
                                                     .animation(.easeInOut)
 
                                                 }
+
                                                 if !showProfanity {
                                                     VStack {
                                                         HStack {
@@ -267,17 +272,14 @@ struct SessionSettingsSheet: View {
                                                             Text(user.profanityList.joined(separator: ", "))
                                                                 .animation(.easeInOut)
                                                         }
-                                                       
-                                                    
-
                                                     }
                                                     .frame(width: geometry.size.width * 0.7, alignment: .leading)
                                                     .opacity(0.5)
                                                     .padding(.top, 4)
-                                                    
+
                                                 }
                                             }
-                                            // Profanity graph
+//                                            Profanity graph
 //                                            CardView(showShadow: true) {
 //                                                BarChart()
 //                                                ChartLabel("Profanity Log", type: .legend)
@@ -287,7 +289,6 @@ struct SessionSettingsSheet: View {
 //                                            .chartStyle(self.barStyle)
 //                                            .frame(width: 160, height: 160)
 //                                            .padding()
-                                            
 
                                         }
                                         .padding(5)

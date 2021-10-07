@@ -29,7 +29,6 @@ final class SessionViewModel: ObservableObject {
     @Published var selectedSession: Session?        /// Session object of the selected Session
     @Published var newSession = Session()           /// Session object used when creating new Sessions, binds to UI
     @Published var timerManager = TimerManager()
-//    @Published var profanityList: [String: [String]] = [:]
     @Published var profUser: ProfanityUser?
     @Published var profanityUsers: [ProfanityUser] = []
 
@@ -334,7 +333,7 @@ final class SessionViewModel: ObservableObject {
     }
 
     func getProfanityList(sessionMembers: [String]) {
-        print(test)
+
         var profanityDict: [String: [String]] = [:]
         var profanityUsersTemp: [ProfanityUser] = []
         self.profanityUsers = []
@@ -370,12 +369,13 @@ final class SessionViewModel: ObservableObject {
                                                                                              email: tempUser.email,
                                                                                              profanityList: profanityDict[tempUser.id] ?? ["unknown"])
                                         profanityUsersTemp.append(profanityUserTemp)
-//                                        print("this is our array of bad users \(profanityUsersTemp)")
                                     } catch {
                                         print("Error adding member to list of Group members")
                                     }
                                 }
+                                profanityUsersTemp = profanityUsersTemp.sorted(by: {$0.profanityList.count > $1.profanityList.count})
                                 self.profanityUsers = profanityUsersTemp
+
                             }
                         }
                     } catch {
