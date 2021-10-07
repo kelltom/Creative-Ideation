@@ -385,12 +385,11 @@ final class SessionViewModel: ObservableObject {
             }
     }
     /// Populates groupSessions array, storing a Session object for each found in the datastore
-    
-    func profanityCharts(){
-        
-        
+
+    func profanityCharts() {
+
     }
-    
+
     func getGroupSessions() {
         // Empty list of sessions
         groupSessions = []

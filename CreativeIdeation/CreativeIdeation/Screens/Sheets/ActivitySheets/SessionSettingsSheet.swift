@@ -25,14 +25,12 @@ struct SessionSettingsSheet: View {
     @State private var timeSelectionExpanded = false
     @State var isCollapsed: Bool = true
     @State var showProfanity: Bool = true
-    @State var chartData: [Double] = [3,5,6]
+    @State var chartData: [Double] = [3, 5, 6]
     let barStyle = ChartStyle(backgroundColor: .white,
                                    foregroundColor: [ColorGradient(.blue, .red)])
-    
 
     @State private var selectedScore = "0"
     @State private var scoreSelectionExpanded = false
-  
 
     var body: some View {
 
@@ -254,7 +252,7 @@ struct SessionSettingsSheet: View {
                                                                 .fontWeight(.bold)
                                                             Text((user.profanityList[0]))
                                                         }
-                                                        
+
                                                     }
                                                     .frame(width: geometry.size.width * 0.7, alignment: .leading)
 //                                                    .background(Color.gray)
@@ -262,16 +260,17 @@ struct SessionSettingsSheet: View {
                                                     .padding(.top, 4)
                                                 }
                                             }
-                                            
+                                            // Profanity graph
                                             CardView(showShadow: true) {
                                                 BarChart()
                                                 ChartLabel("Profanity Log", type: .legend)
+
                                             }
                                             .data(chartData)
                                             .chartStyle(self.barStyle)
                                             .frame(width: 160, height: 160)
                                             .padding()
-                            
+
                                         }
                                         .padding(5)
 
@@ -280,8 +279,7 @@ struct SessionSettingsSheet: View {
 //                                Divider()
 //                                    .frame(width: geometry.size.width * 0.7)
 //                                    .background(Color("FadedColor"))
-                                
-                                
+
                             }
                             .frame(width: geometry.size.width * 0.7)
                         }
