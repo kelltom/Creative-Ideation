@@ -60,6 +60,8 @@
 		DD3BF93525D9C97800C368B0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3BF93425D9C97800C368B0 /* Preview Assets.xcassets */; };
 		DD429D1926F66C7900279540 /* UpdateGroupNameSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD429D1826F66C7900279540 /* UpdateGroupNameSheet.swift */; };
 		DD4449D226D9545800F23D39 /* GroupSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4449D126D9545800F23D39 /* GroupSettingsView.swift */; };
+		DD47EC27270F72AF00777E0E /* ChatbotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD47EC26270F72AF00777E0E /* ChatbotView.swift */; };
+		DD47EC29270F89C400777E0E /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD47EC28270F89C400777E0E /* Message.swift */; };
 		DD4A6A9E26D0271900F592E1 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = DD4A6A9D26D0271900F592E1 /* CodeScanner */; };
 		DD71EE552624032A00795CE9 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = DD71EE542624032A00795CE9 /* FirebaseFunctions */; };
 		DD7997B026083F5C00392AED /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7997AF26083F5C00392AED /* Session.swift */; };
@@ -132,6 +134,8 @@
 		DD3BF93625D9C97800C368B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DD429D1826F66C7900279540 /* UpdateGroupNameSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateGroupNameSheet.swift; sourceTree = "<group>"; };
 		DD4449D126D9545800F23D39 /* GroupSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSettingsView.swift; sourceTree = "<group>"; };
+		DD47EC26270F72AF00777E0E /* ChatbotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatbotView.swift; sourceTree = "<group>"; };
+		DD47EC28270F89C400777E0E /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		DD7997AF26083F5C00392AED /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		DD7997B22608404500392AED /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
 		DD8AE46E26D420FA00AC7ABB /* BannerModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerModifier.swift; sourceTree = "<group>"; };
@@ -269,6 +273,7 @@
 		DD3A4CE025DDC181007D68B6 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				DD47EC25270F729C00777E0E /* Chatbot */,
 				C93F31D126CEE2ED00EC835D /* Sheets */,
 				DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */,
 				767994BD25DDC79A001970B4 /* CreateAccountView.swift */,
@@ -290,6 +295,7 @@
 				DD7997AF26083F5C00392AED /* Session.swift */,
 				C9419B722619126400279BB5 /* SessionItem.swift */,
 				C944CD31266D0A0A00F964DD /* Member.swift */,
+				DD47EC28270F89C400777E0E /* Message.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -346,6 +352,14 @@
 				DD3BF93425D9C97800C368B0 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		DD47EC25270F729C00777E0E /* Chatbot */ = {
+			isa = PBXGroup;
+			children = (
+				DD47EC26270F72AF00777E0E /* ChatbotView.swift */,
+			);
+			path = Chatbot;
 			sourceTree = "<group>";
 		};
 		DD71EE532624032A00795CE9 /* Frameworks */ = {
@@ -531,6 +545,7 @@
 				C9F230C725F29DA3006590DA /* ProfilePic.swift in Sources */,
 				C93F31DA26CEFE1700EC835D /* VotingSticky.swift in Sources */,
 				76A0956525E80F0500917450 /* CreateGroupSheet.swift in Sources */,
+				DD47EC27270F72AF00777E0E /* ChatbotView.swift in Sources */,
 				7699646726069A55005058C7 /* GroupViewModel.swift in Sources */,
 				26833F6126F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift in Sources */,
 				76A51DAA2605804D000C3DA4 /* AddButton.swift in Sources */,
@@ -559,6 +574,7 @@
 				76731F392602828C00536836 /* PreferencePic.swift in Sources */,
 				DDEA0AB626F949FA0082C5C9 /* UpdateGroupMembersSheet.swift in Sources */,
 				76A184D125FD979B0070251D /* XDismissButton.swift in Sources */,
+				DD47EC29270F89C400777E0E /* Message.swift in Sources */,
 				C9F230BD25F29D8D006590DA /* GroupButton.swift in Sources */,
 				C9F230BA25F29D53006590DA /* TeamPic.swift in Sources */,
 				76C0480426054878009ECBAB /* TeamCodeSheet.swift in Sources */,
