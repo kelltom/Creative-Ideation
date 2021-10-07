@@ -25,7 +25,7 @@ struct SessionSettingsSheet: View {
     @State private var timeSelectionExpanded = false
     @State var isCollapsed: Bool = true
     @State var showProfanity: Bool = true
-    @State var chartData: [Double] = [3, 5, 6]
+    @State var chartData: [Double] = [3, 5, 6]  
     let barStyle = ChartStyle(backgroundColor: .white,
                                    foregroundColor: [ColorGradient(.blue, .red)])
 
@@ -171,55 +171,61 @@ struct SessionSettingsSheet: View {
                                     .frame(width: geometry.size.width * 0.7)
                                     .background(Color("FadedColor"))
 
-                                HStack {
-                                    Spacer()
-                                    Text("Profanity Log")
-                                        .font(.title3)
-                                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                                        .padding()
-                                    Button {
-                                        withAnimation {
-                                            isCollapsed.toggle()
-                                            sessionViewModel.getProfanityList(sessionMembers: groupViewModel.selectedGroup?.members ?? ["N/a"])
-                                        }
-                                    } label: {
-
-                                        Image(systemName: "chevron.right")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 15, height: 15)
-                                            .foregroundColor(Color.black)
-                                            .rotationEffect(Angle.degrees(isCollapsed ? 0 : 90))
-                                            .animation(.easeInOut)
-
-                                    }
-                                    Spacer()
-                                    // Export Data Options
-                                    Menu {
-                                        HStack {
-                                            Button {
-                                                print("Export button working")
-                                            } label: {
-                                                HStack {
-                                                    Text("Export Data")
-                                                    Image(systemName: "square.and.arrow.up")
-
-                                                }
-                                            }
-
-                                        }
-                                        Button("Show Profanity", action: {
-                                            showProfanity.toggle()
-                                        })
-
-                                    } label: {
-
-                                        Image(systemName: "ellipsis")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 20, height: 25)
+                                ZStack {
+                                    HStack(spacing: 0) {
+                                        Text("Profanity Log")
+                                            .font(.title3)
+                                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                                             .padding()
+                                        Button {
+                                            withAnimation {
+                                                isCollapsed.toggle()
+                                                sessionViewModel.getProfanityList(sessionMembers: groupViewModel.selectedGroup?.members ?? ["N/a"])
+                                            }
+                                        } label: {
+
+                                            Image(systemName: "chevron.right")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 15, height: 15)
+                                                .foregroundColor(Color.black)
+                                                .rotationEffect(Angle.degrees(isCollapsed ? 0 : 90))
+                                                .animation(.easeInOut)
+
+                                        }
+                                        
+                                    }
+                                   
+                                
+                                    // Export Data Options
+                                    HStack {
+                                        Spacer()
+                                        Menu {
+                                            HStack {
+                                                Button {
+                                                   
+                                                } label: {
+                                                    HStack {
+                                                        Text("Export Data")
+                                                        Image(systemName: "square.and.arrow.up")
+
+                                                    }
+                                                }
+
+                                            }
+                                            Button("Show Profanity", action: {
+                                                withAnimation {showProfanity.toggle()}
+                                            })
+
+                                        } label: {
+
+                                            Image(systemName: "ellipsis")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 20, height: 25)
+                                                .padding()
                                     }.foregroundColor(.black)
+                                    }
 
                                 }
                                 // Profanity log list
@@ -229,9 +235,11 @@ struct SessionSettingsSheet: View {
                                             HStack {
                                                 Text("Name")
                                                     .fontWeight(.bold)
+                                                    .animation(.easeInOut)
                                                 Spacer()
                                                 Text("Profanity Count")
                                                     .fontWeight(.bold)
+                                                    .animation(.easeInOut)
                                             }
                                             .frame(width: geometry.size.width * 0.7)
 
@@ -239,46 +247,57 @@ struct SessionSettingsSheet: View {
                                                 VStack {
                                                     HStack {
                                                         Text(user.name)
+                                                            .animation(.easeInOut)
                                                         Spacer()
                                                         Text(String(user.profanityList.count))
+                                                            .animation(.easeInOut)
 
-                                                    }.padding(.top, 5)
+                                                    }
+                                                    .padding(.top, 5)
+                                                    .animation(.easeInOut)
 
                                                 }
                                                 if !showProfanity {
                                                     VStack {
                                                         HStack {
-                                                            Text("Session Words: ")
+                                                            Text("Words: ")
                                                                 .fontWeight(.bold)
-                                                            Text((user.profanityList[0]))
+                                                                .animation(.easeInOut)
+
+                                                            Text(user.profanityList.joined(separator: ", "))
+                                                                .animation(.easeInOut)
                                                         }
+                                                       
+                                                    
 
                                                     }
                                                     .frame(width: geometry.size.width * 0.7, alignment: .leading)
-//                                                    .background(Color.gray)
                                                     .opacity(0.5)
                                                     .padding(.top, 4)
+                                                    
                                                 }
                                             }
                                             // Profanity graph
-                                            CardView(showShadow: true) {
-                                                BarChart()
-                                                ChartLabel("Profanity Log", type: .legend)
-
-                                            }
-                                            .data(chartData)
-                                            .chartStyle(self.barStyle)
-                                            .frame(width: 160, height: 160)
-                                            .padding()
+//                                            CardView(showShadow: true) {
+//                                                BarChart()
+//                                                ChartLabel("Profanity Log", type: .legend)
+//
+//                                            }
+//                                            .data(chartData)
+//                                            .chartStyle(self.barStyle)
+//                                            .frame(width: 160, height: 160)
+//                                            .padding()
+                                            
 
                                         }
                                         .padding(5)
 
                                     }
                                 }
-//                                Divider()
-//                                    .frame(width: geometry.size.width * 0.7)
-//                                    .background(Color("FadedColor"))
+                                Divider()
+                                    .frame(width: geometry.size.width * 0.7)
+                                    .background(Color("FadedColor"))
+                                    .animation(.easeInOut)
 
                             }
                             .frame(width: geometry.size.width * 0.7)

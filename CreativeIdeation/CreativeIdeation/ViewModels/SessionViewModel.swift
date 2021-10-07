@@ -334,6 +334,7 @@ final class SessionViewModel: ObservableObject {
     }
 
     func getProfanityList(sessionMembers: [String]) {
+        print(test)
         var profanityDict: [String: [String]] = [:]
         var profanityUsersTemp: [ProfanityUser] = []
         self.profanityUsers = []
