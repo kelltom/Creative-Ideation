@@ -56,9 +56,6 @@ class WatsonAssistant {
         for response in assistantResponse {
             switch response {
             case let .text(innerResponse):
-                print("Printing result:")
-                print(innerResponse.text)
-                print("Type of result: ", type(of: innerResponse))
                 message = innerResponse.text
             default:
                 message = "Unfortunately, I can't describe my response in words." //  TODO: think of a better response phrase
