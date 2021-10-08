@@ -23,6 +23,7 @@ struct HomeView: View {
     @State var showActivity: Bool = false
     @State var showGroupSettings: Bool = false
     @State var showUserSettings: Bool = false
+    @State var showChatbot: Bool = false
 
     private let shadowColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
 
@@ -410,6 +411,7 @@ struct HomeView: View {
                     EmptyView()
                 }
             }
+            .ignoresSafeArea(.keyboard)
             .navigationTitle("Home")
             .navigationBarHidden(true)
             .sheet(item: $activeSheet) { item in
@@ -459,13 +461,41 @@ struct HomeView: View {
                 sessionViewModel.getGroupSessions()
             }
 
+            // Chatbot
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    if showChatbot {
+                        // Actual Chatbot
+                        ChatbotView(showChatbot: $showChatbot)
+                            .padding(20)
+                            .animation(.easeInOut)
+                    } else {
+                        // Chatbot Button
+                        Button {
+                            withAnimation {
+                                showChatbot = true
+                            }
+                        } label: {
+                            Image(systemName: "questionmark.circle.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundColor(.blue)
+                                .frame(width: 60, height: 60)
+                                .clipped()
+                                .padding(20)
+                        }
+                    }
+                }
+            }
         }
     }
 }
 
 struct GroupView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(preview: true)
+        HomeView()
             .environmentObject(TeamViewModel())
             .environmentObject(GroupViewModel())
             .environmentObject(SessionViewModel())

@@ -16,6 +16,7 @@ struct CreativeIdeationApp: App {
     var sessionViewModel: SessionViewModel
     var sessionItemViewModel: SessionItemViewModel
     var sessionSettingsViewModel: SessionSettingsViewModel
+    var chatbotViewModel: ChatbotViewModel
 
     init() {
         FirebaseApp.configure()
@@ -25,6 +26,7 @@ struct CreativeIdeationApp: App {
         sessionViewModel = SessionViewModel()
         sessionItemViewModel = SessionItemViewModel()
         sessionSettingsViewModel = SessionSettingsViewModel()
+        chatbotViewModel = ChatbotViewModel()
     }
     var body: some Scene {
         WindowGroup {
@@ -35,6 +37,7 @@ struct CreativeIdeationApp: App {
                 .environmentObject(sessionViewModel)
                 .environmentObject(sessionItemViewModel)
                 .environmentObject(sessionSettingsViewModel)
+                .environmentObject(chatbotViewModel)
         }
     }
 }
