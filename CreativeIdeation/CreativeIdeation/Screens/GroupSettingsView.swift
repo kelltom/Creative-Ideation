@@ -94,11 +94,12 @@ struct GroupSettingsView: View {
                             }
                         }
                         .padding()
-                        .frame(width: geometry.size.width * 0.7, height: 260, alignment: .leading)
+                        .frame(width: geometry.size.width * 0.7, alignment: .leading)
                         .background(Color("BackgroundColor"))
                         .cornerRadius(20)
                     }
-                    .frame(width: geometry.size.width * 0.75, height: 300, alignment: .center)
+                    .padding()
+                    .frame(width: geometry.size.width * 0.75, alignment: .center)
                     .background(Color("brandPrimary"))
                     .cornerRadius(20)
 
