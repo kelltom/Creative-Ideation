@@ -204,9 +204,7 @@ struct SessionSettingsSheet: View {
                                                     // action
                                                 } label: {
                                                     HStack {
-                                                        Text("Export Data")
-                                                        Image(systemName: "square.and.arrow.up")
-
+                                                        Text("Show Data")
                                                     }
                                                 }
                                             }
@@ -246,37 +244,45 @@ struct SessionSettingsSheet: View {
                                                     .animation(.easeInOut)
                                             }
                                             .frame(width: geometry.size.width * 0.7)
-
-                                            ForEach(sessionViewModel.profanityUsers, id: \.self) { user in
+                                            if sessionViewModel.profanityUsers.isEmpty {
                                                 VStack {
-                                                    HStack {
-                                                        Text(user.name)
-                                                            .animation(.easeInOut)
-                                                        Spacer()
-                                                        Text(String(user.profanityList.count))
-                                                            .animation(.easeInOut)
-
-                                                    }
-                                                    .padding(.top, 5)
-                                                    .animation(.easeInOut)
-
+                                                    Text("No Profanity Users")
                                                 }
-
-                                                if !showProfanity {
+                                            } else {
+                                                ForEach(sessionViewModel.profanityUsers, id: \.self) { user in
                                                     VStack {
                                                         HStack {
-                                                            Text("Words: ")
-                                                                .fontWeight(.bold)
+                                                            Text(user.name)
+                                                                .animation(.easeInOut)
+                                                            Spacer()
+                                                            Text(String(user.profanityList.count))
                                                                 .animation(.easeInOut)
 
-                                                            Text(user.profanityList.joined(separator: ", "))
-                                                                .animation(.easeInOut)
                                                         }
-                                                    }
-                                                    .frame(width: geometry.size.width * 0.7, alignment: .leading)
-                                                    .opacity(0.5)
-                                                    .padding(.top, 4)
+                                                        .padding(.top, 5)
+                                                        .animation(.easeInOut)
 
+                                                    }
+
+                                                    if !showProfanity {
+                                                        VStack {
+                                                            HStack {
+                                                                Text("Words: ")
+                                                                    .fontWeight(.bold)
+                                                                    .animation(.easeInOut)
+                                                                ScrollView(.horizontal) {
+                                                                    Text(user.profanityList.joined(separator: ", "))
+                                                                        .animation(.easeInOut)
+                                                                }
+
+                                                            }
+//                                                            .frame(width: geometry.size.width * 0.7, height:30)
+                                                        }
+                                                        .frame(width: geometry.size.width * 0.7, alignment: .leading)
+                                                        .opacity(0.5)
+                                                        .padding(.top, 4)
+
+                                                    }
                                                 }
                                             }
 //                                            Profanity graph
@@ -292,7 +298,6 @@ struct SessionSettingsSheet: View {
 
                                         }
                                         .padding(5)
-
                                     }
                                 }
                                 Divider()

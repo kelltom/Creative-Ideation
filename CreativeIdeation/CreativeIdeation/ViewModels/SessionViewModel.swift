@@ -31,6 +31,7 @@ final class SessionViewModel: ObservableObject {
     @Published var timerManager = TimerManager()
     @Published var profUser: ProfanityUser?
     @Published var profanityUsers: [ProfanityUser] = []
+    @Published var badwords: [String] = []
 
     @Published var msg = ""
     @Published var didOperationSucceed = false
@@ -308,6 +309,7 @@ final class SessionViewModel: ObservableObject {
     }
 
     func sessionBehaviourSummary(textInput: String) {
+
         guard let uid = Auth.auth().currentUser?.uid else {
             print("cannot find uid for user who swore")
             return
@@ -319,6 +321,7 @@ final class SessionViewModel: ObservableObject {
         let sessionReference = db.collection("sessions").document(activeSession.sessionId)
 
         if pFilter.containsProfanity(text: textInput).profanities.count > 0 {
+            self.badwords.append(textInput)
             db.runTransaction({ (transaction, errorPointer) -> Any? in
                 do {
                     _ = try transaction.getDocument(sessionReference)
@@ -326,8 +329,12 @@ final class SessionViewModel: ObservableObject {
                     errorPointer?.pointee = fetchError
                     return nil
                 }
+                // sorts word by frequency
+                self.badwords = self.badwords.sorted { first, second in
+                    self.badwords.filter { $0 == first }.count > self.badwords.filter { $0 == second }.count
+                }
 
-                transaction.updateData(["profanityLog.\(uid)": FieldValue.arrayUnion([textInput])],
+                transaction.updateData(["profanityLog.\(uid)": self.badwords],
                                        forDocument: sessionReference)
                 return nil
 
@@ -362,7 +369,11 @@ final class SessionViewModel: ObservableObject {
                     do {
                         try self.selectedSession = querySnapshot?.data(as: Session.self)
                         profanityDict = self.selectedSession?.profanityLog ?? ["n/a": ["n/a"]]
-
+                        // check if users have sworn in this session
+                        if profanityDict.isEmpty {
+                            self.profanityUsers = []
+                            return
+                        }
                         self.db.collection("users").whereField("id", in: profanityDict.keys.sorted()).getDocuments { (snapshot, err) in
                             if let err = err {
                                 print("Error getting documents: \(err)")
