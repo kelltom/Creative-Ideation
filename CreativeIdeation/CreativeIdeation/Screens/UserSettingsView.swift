@@ -46,6 +46,7 @@ struct UserSettingsView: View {
                         .font(.largeTitle)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .padding()
+                        .padding(.top, 20)  // Added to make heading position consistent with other settings screens that have custom back buttons
 
                     VStack {
 
@@ -116,11 +117,11 @@ struct UserSettingsView: View {
 
                         }
                         .padding()
-                        .frame(width: geometry.size.width * 0.7, height: 340, alignment: .leading)
+                        .frame(width: geometry.size.width * 0.7, alignment: .leading)
                         .background(Color("BackgroundColor"))
                         .cornerRadius(20)
                     }
-                    .frame(width: geometry.size.width * 0.75, height: 480, alignment: .center)
+                    .frame(width: geometry.size.width * 0.75, alignment: .center)
                     .padding(.bottom)
                     .background(Color("brandPrimary"))
                     .cornerRadius(20)
@@ -178,6 +179,7 @@ struct UserSettingsView: View {
                     userAccountViewModel.getCurrentUserInfo()
                 }
             }
+            .navigationBarHidden(true)
         }
     }
 }
