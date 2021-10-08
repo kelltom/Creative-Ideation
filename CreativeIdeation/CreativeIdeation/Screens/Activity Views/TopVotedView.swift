@@ -25,7 +25,6 @@ struct TopVotedView: View {
                 HStack {
                     VStack {
                         Spacer()
-                        
 
                         Text("You've cast your vote!")
                             .font(.largeTitle)

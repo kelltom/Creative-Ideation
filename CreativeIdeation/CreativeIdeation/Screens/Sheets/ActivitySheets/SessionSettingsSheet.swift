@@ -204,9 +204,7 @@ struct SessionSettingsSheet: View {
                                                     // action
                                                 } label: {
                                                     HStack {
-                                                        Text("Export Data")
-                                                        Image(systemName: "square.and.arrow.up")
-
+                                                        Text("Show Data")
                                                     }
                                                 }
                                             }
@@ -246,7 +244,6 @@ struct SessionSettingsSheet: View {
                                                     .animation(.easeInOut)
                                             }
                                             .frame(width: geometry.size.width * 0.7)
-                                            
                                             if sessionViewModel.profanityUsers.isEmpty {
                                                 VStack {
                                                     Text("No Profanity Users")
@@ -273,10 +270,13 @@ struct SessionSettingsSheet: View {
                                                                 Text("Words: ")
                                                                     .fontWeight(.bold)
                                                                     .animation(.easeInOut)
+                                                                ScrollView(.horizontal) {
+                                                                    Text(user.profanityList.joined(separator: ", "))
+                                                                        .animation(.easeInOut)
+                                                                }
 
-                                                                Text(user.profanityList.joined(separator: ", "))
-                                                                    .animation(.easeInOut)
                                                             }
+//                                                            .frame(width: geometry.size.width * 0.7, height:30)
                                                         }
                                                         .frame(width: geometry.size.width * 0.7, alignment: .leading)
                                                         .opacity(0.5)

@@ -530,15 +530,11 @@ struct ActivityView: View {
                 else if sessionViewModel.selectedSession?.stage == 2 {
                     VotingView(selectedSession: $sessionViewModel.selectedSession)
                         .animation(.easeInOut)
-                }
-
-                else if sessionViewModel.selectedSession?.stage == 3 {
+                } else if sessionViewModel.selectedSession?.stage == 3 {
                     TopVotedView()
                         .animation(.easeInOut)
-                }
-
-                else if sessionViewModel.selectedSession?.stage == 4 {
-                    BestIdeaView(bestIdea: sessionItemViewModel.stickyNotes.filter{$0.itemId == sessionViewModel.selectedSession?.finalVotes.max{ first, second in first.value < second.value }?.key}.first ?? StickyNote(input: "", itemId: ""))
+                } else if sessionViewModel.selectedSession?.stage == 4 {
+                    BestIdeaView(bestIdea: sessionItemViewModel.stickyNotes.filter {$0.itemId == sessionViewModel.selectedSession?.finalVotes.max { first, second in first.value < second.value }?.key}.first ?? StickyNote(input: "", itemId: ""))
                         .animation(.easeInOut)
                 }
             }
