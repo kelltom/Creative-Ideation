@@ -29,7 +29,7 @@
 		76BBA8142620C9F300929090 /* UpdatePasswordSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BBA8132620C9F300929090 /* UpdatePasswordSheet.swift */; };
 		76BBA81A2620D64C00929090 /* UpdateNameSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BBA8192620D64C00929090 /* UpdateNameSheet.swift */; };
 		76C0480426054878009ECBAB /* TeamCodeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C0480326054878009ECBAB /* TeamCodeSheet.swift */; };
-		C913C00626CADADE00EE54D1 /* VotingSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C913C00526CADADE00EE54D1 /* VotingSheet.swift */; };
+		C913C00626CADADE00EE54D1 /* VotingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C913C00526CADADE00EE54D1 /* VotingView.swift */; };
 		C92BA9EA25FD689300FEEADA /* NotificationBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92BA9E925FD689300FEEADA /* NotificationBanner.swift */; };
 		C93F31D626CEE61000EC835D /* EditTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93F31D526CEE61000EC835D /* EditTextField.swift */; };
 		C93F31D826CEFE0C00EC835D /* StickyNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93F31D726CEFE0C00EC835D /* StickyNote.swift */; };
@@ -48,6 +48,8 @@
 		C9C784F32706ABFD00BED6F1 /* TopSticky.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C784F22706ABFD00BED6F1 /* TopSticky.swift */; };
 		C9C784F52706C93E00BED6F1 /* SessionSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C784F42706C93E00BED6F1 /* SessionSettings.swift */; };
 		C9C784F72706CA9700BED6F1 /* SessionSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C784F62706CA9700BED6F1 /* SessionSettingsViewModel.swift */; };
+		C9C784FA270FF1C700BED6F1 /* TopVotedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C784F9270FF1C700BED6F1 /* TopVotedView.swift */; };
+		C9C784FC271016E900BED6F1 /* BestIdeaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C784FB271016E900BED6F1 /* BestIdeaView.swift */; };
 		C9D4A56626F3CE6F00B0BC2D /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D4A56526F3CE6F00B0BC2D /* TimerManager.swift */; };
 		C9F230BA25F29D53006590DA /* TeamPic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230B925F29D53006590DA /* TeamPic.swift */; };
 		C9F230BD25F29D8D006590DA /* GroupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230BC25F29D8D006590DA /* GroupButton.swift */; };
@@ -101,7 +103,7 @@
 		76BBA8192620D64C00929090 /* UpdateNameSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateNameSheet.swift; sourceTree = "<group>"; };
 		76C0480326054878009ECBAB /* TeamCodeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamCodeSheet.swift; sourceTree = "<group>"; };
 		C908346A264AD5B4006EC3E5 /* CreativeIdeation.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CreativeIdeation.entitlements; sourceTree = "<group>"; };
-		C913C00526CADADE00EE54D1 /* VotingSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VotingSheet.swift; sourceTree = "<group>"; };
+		C913C00526CADADE00EE54D1 /* VotingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VotingView.swift; sourceTree = "<group>"; };
 		C92BA9E925FD689300FEEADA /* NotificationBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBanner.swift; sourceTree = "<group>"; };
 		C93F31D526CEE61000EC835D /* EditTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextField.swift; sourceTree = "<group>"; };
 		C93F31D726CEFE0C00EC835D /* StickyNote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickyNote.swift; sourceTree = "<group>"; };
@@ -119,6 +121,8 @@
 		C9C784F22706ABFD00BED6F1 /* TopSticky.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopSticky.swift; sourceTree = "<group>"; };
 		C9C784F42706C93E00BED6F1 /* SessionSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSettings.swift; sourceTree = "<group>"; };
 		C9C784F62706CA9700BED6F1 /* SessionSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSettingsViewModel.swift; sourceTree = "<group>"; };
+		C9C784F9270FF1C700BED6F1 /* TopVotedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopVotedView.swift; sourceTree = "<group>"; };
+		C9C784FB271016E900BED6F1 /* BestIdeaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestIdeaView.swift; sourceTree = "<group>"; };
 		C9D4A56526F3CE6F00B0BC2D /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
 		C9F230B925F29D53006590DA /* TeamPic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamPic.swift; sourceTree = "<group>"; };
 		C9F230BC25F29D8D006590DA /* GroupButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupButton.swift; sourceTree = "<group>"; };
@@ -220,7 +224,6 @@
 		C93F31D426CEE30400EC835D /* ActivitySheets */ = {
 			isa = PBXGroup;
 			children = (
-				C913C00526CADADE00EE54D1 /* VotingSheet.swift */,
 				26325B462706556400B31DF6 /* SessionSettingsSheet.swift */,
 			);
 			path = ActivitySheets;
@@ -236,6 +239,17 @@
 				C9C784F22706ABFD00BED6F1 /* TopSticky.swift */,
 			);
 			path = SessionComponents;
+			sourceTree = "<group>";
+		};
+		C9C784F8270FEC3800BED6F1 /* Activity Views */ = {
+			isa = PBXGroup;
+			children = (
+				C9AE738025EAAD940090C96B /* ActivityView.swift */,
+				C913C00526CADADE00EE54D1 /* VotingView.swift */,
+				C9C784F9270FF1C700BED6F1 /* TopVotedView.swift */,
+				C9C784FB271016E900BED6F1 /* BestIdeaView.swift */,
+			);
+			path = "Activity Views";
 			sourceTree = "<group>";
 		};
 		C9D4A56426F3CE4800B0BC2D /* Utilities */ = {
@@ -275,13 +289,13 @@
 			isa = PBXGroup;
 			children = (
 				C93F31D126CEE2ED00EC835D /* Sheets */,
+				C9C784F8270FEC3800BED6F1 /* Activity Views */,
 				DD3A4CE725DDC3CC007D68B6 /* LoginView.swift */,
 				767994BD25DDC79A001970B4 /* CreateAccountView.swift */,
 				C9C67A2425E8288B002D16A9 /* HomeView.swift */,
 				76731F332602802200536836 /* TeamSettingsView.swift */,
 				C9C67A1025E7FEDB002D16A9 /* UserSettingsView.swift */,
 				DD4449D126D9545800F23D39 /* GroupSettingsView.swift */,
-				C9AE738025EAAD940090C96B /* ActivityView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -528,7 +542,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				76BBA81A2620D64C00929090 /* UpdateNameSheet.swift in Sources */,
-				C913C00626CADADE00EE54D1 /* VotingSheet.swift in Sources */,
+				C913C00626CADADE00EE54D1 /* VotingView.swift in Sources */,
 				C93F31D826CEFE0C00EC835D /* StickyNote.swift in Sources */,
 				767994BE25DDC79A001970B4 /* CreateAccountView.swift in Sources */,
 				DD7997B32608404500392AED /* SessionViewModel.swift in Sources */,
@@ -564,6 +578,8 @@
 				C9F230C225F29D98006590DA /* SessionTile.swift in Sources */,
 				C94A099A266C4A86004E6614 /* GroupMembersSheet.swift in Sources */,
 				76731F392602828C00536836 /* PreferencePic.swift in Sources */,
+				C9C784FA270FF1C700BED6F1 /* TopVotedView.swift in Sources */,
+				C9C784FC271016E900BED6F1 /* BestIdeaView.swift in Sources */,
 				DDEA0AB626F949FA0082C5C9 /* UpdateGroupMembersSheet.swift in Sources */,
 				C9C784F52706C93E00BED6F1 /* SessionSettings.swift in Sources */,
 				76A184D125FD979B0070251D /* XDismissButton.swift in Sources */,

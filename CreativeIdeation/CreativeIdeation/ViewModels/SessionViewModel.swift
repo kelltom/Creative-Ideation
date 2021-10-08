@@ -151,7 +151,7 @@ final class SessionViewModel: ObservableObject {
             "sessionDescription": self.newSession.sessionDescription,
             "type": "",
             "inProgress": true,
-            "isDoneVoting": false,
+            "stage": 1,
             "showScores": false,
             "dateCreated": Date(),
             "dateModified": Date(),
@@ -161,6 +161,8 @@ final class SessionViewModel: ObservableObject {
             "timeRemaining": 600,
             "groupId": groupId,
             "teamId": teamId,
+            "castFinalVote": [],
+            "finalVotes": [:],
             "profanityLog": [:]
         ], forDocument: sessionRef)
 
@@ -234,12 +236,14 @@ final class SessionViewModel: ObservableObject {
                             self.teamSessions[selectedSessionIndex!].sessionTitle = mockSession.sessionTitle
                             self.teamSessions[selectedSessionIndex!].sessionDescription = mockSession.sessionDescription
                             self.teamSessions[selectedSessionIndex!].inProgress = mockSession.inProgress
-                            self.teamSessions[selectedSessionIndex!].isDoneVoting = mockSession.isDoneVoting
+                            self.teamSessions[selectedSessionIndex!].stage = mockSession.stage
                             self.teamSessions[selectedSessionIndex!].showScores = mockSession.showScores
                             self.teamSessions[selectedSessionIndex!].dateModified = mockSession.dateModified
                             self.teamSessions[selectedSessionIndex!].timerEnd = mockSession.timerEnd
                             self.teamSessions[selectedSessionIndex!].timerActive = mockSession.timerActive
                             self.teamSessions[selectedSessionIndex!].timeRemaining = mockSession.timeRemaining
+                            self.teamSessions[selectedSessionIndex!].castFinalVote = mockSession.castFinalVote
+                            self.teamSessions[selectedSessionIndex!].finalVotes = mockSession.finalVotes
                             self.teamSessions[selectedSessionIndex!].profanityLog = mockSession.profanityLog
 
                             if self.selectedSession != nil && mockSession.sessionId == self.selectedSession?.sessionId {
@@ -257,8 +261,10 @@ final class SessionViewModel: ObservableObject {
                                 self.selectedSession!.timerActive = mockSession.timerActive
                                 self.selectedSession!.timerEnd = mockSession.timerEnd
                                 self.selectedSession!.timeRemaining = mockSession.timeRemaining
-                                self.selectedSession!.isDoneVoting = mockSession.isDoneVoting
+                                self.selectedSession!.stage = mockSession.stage
                                 self.selectedSession!.showScores = mockSession.showScores
+                                self.selectedSession!.castFinalVote = mockSession.castFinalVote
+                                self.selectedSession!.finalVotes = mockSession.finalVotes
                                 self.selectedSession!.profanityLog = mockSession.profanityLog
                             }
 
@@ -300,6 +306,7 @@ final class SessionViewModel: ObservableObject {
                 }
             }
     }
+
     func sessionBehaviourSummary(textInput: String) {
         guard let uid = Auth.auth().currentUser?.uid else {
             print("cannot find uid for user who swore")
@@ -513,7 +520,7 @@ final class SessionViewModel: ObservableObject {
                 return nil
             }
             print("Finishing Voting")
-            transaction.updateData(["isDoneVoting": true,
+            transaction.updateData(["stage": 3,
                                     "showScores": true],
                                    forDocument: sessionReference)
             return nil
@@ -525,6 +532,32 @@ final class SessionViewModel: ObservableObject {
     }
 
     func beginVoting() {
+        guard let activeSession = selectedSession else {
+            print("Could not begin voting: No active session")
+            return
+        }
+
+        let sessionReference = db.collection("sessions").document(activeSession.sessionId)
+
+        db.runTransaction({ (transaction, errorPointer) -> Any? in
+            do {
+                _ = try transaction.getDocument(sessionReference)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+            print("Finishing Voting")
+            transaction.updateData(["stage": 2],
+                                   forDocument: sessionReference)
+            return nil
+        }) { (_, error) in
+            if let error = error {
+                print("Error updating session: \(error)")
+            }
+        }
+    }
+
+    func finishTopVoting() {
         guard let activeSession = selectedSession else {
             print("Could not finish voting: No active session")
             return
@@ -540,7 +573,7 @@ final class SessionViewModel: ObservableObject {
                 return nil
             }
             print("Finishing Voting")
-            transaction.updateData(["isDoneVoting": false],
+            transaction.updateData(["stage": 4],
                                    forDocument: sessionReference)
             return nil
         }) { (_, error) in
@@ -548,6 +581,49 @@ final class SessionViewModel: ObservableObject {
                 print("Error updating session: \(error)")
             }
         }
+    }
+
+    func castFinalVote(itemId: String) {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("cannot find uid for current user")
+            return
+        }
+
+        guard let activeSession = selectedSession else {
+            print("Could not get active session")
+            return
+        }
+        selectedSession!.castFinalVote.append(uid)
+
+        let sessionReference = db.collection("sessions").document(activeSession.sessionId)
+
+        db.runTransaction({ (transaction, errorPointer) -> Any? in
+            do {
+                _ = try transaction.getDocument(sessionReference)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+
+            transaction.updateData(["finalVotes.\(itemId)": FieldValue.increment(Int64(1)),
+                                    "castFinalVote": FieldValue.arrayUnion([uid])],
+                                   forDocument: sessionReference)
+            return nil
+
+        }) { (_, error) in
+            if let error = error {
+                print("Error casting final vote: \(error)")
+            }
+        }
+    }
+
+    func didCastFinalVote() -> Bool {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("cannot find uid for current user")
+            return false
+        }
+
+        return selectedSession?.castFinalVote.contains(uid) ?? false
     }
 
     /// Assigns values to the published BannerData object

@@ -68,12 +68,6 @@ final class SessionItemViewModel: ObservableObject {
         stickyNotes = []
     }
 
-    func updateLocation(location: CGPoint, itemId: String) {
-        let locx = Int(location.x)
-        let locy = Int(location.y)
-        sessionItems[sessionItems.firstIndex(where: {$0.itemId == itemId})!].location = [locx, locy]
-    }
-
     func updateText(text: String, itemId: String) {
         sessionItems[sessionItems.firstIndex(where: {$0.itemId == itemId})!].input = pFilter.maskProfanity(text: text)
 
@@ -94,12 +88,10 @@ final class SessionItemViewModel: ObservableObject {
             }
 
             let newColor = localItem!.color
-            let newLocation = localItem!.location
             let newInput = localItem!.input
 
             transaction.updateData(["color": newColor,
-                                    "input": newInput,
-                                    "location": newLocation],
+                                    "input": newInput],
                                    forDocument: itemReference)
             return nil
         }) { (_, error) in
@@ -114,7 +106,7 @@ final class SessionItemViewModel: ObservableObject {
         // function for casting a vote and updating the database with the user id and the new score
 
         guard let uid = Auth.auth().currentUser?.uid else {
-            print("populateVotingSheetin: Failed to get uid")
+            print("castVote: Failed to get uid")
             return
         }
 
@@ -154,7 +146,7 @@ final class SessionItemViewModel: ObservableObject {
         if votedOnStack.count > 0 {
 
             guard let uid = Auth.auth().currentUser?.uid else {
-                print("populateVotingSheetin: Failed to get uid")
+                print("undoVote: Failed to get uid")
                 return
             }
 
@@ -213,7 +205,7 @@ final class SessionItemViewModel: ObservableObject {
         spinTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(self.animateSpinning), userInfo: nil, repeats: true) // Timer for spin animations on upvote and downvote
 
         guard let uid = Auth.auth().currentUser?.uid else {
-            print("populateVotingSheetin: Failed to get uid")
+            print("populateVotingList: Failed to get uid")
             return
         }
 
@@ -276,7 +268,6 @@ final class SessionItemViewModel: ObservableObject {
                             let selectedStickyIndex = self.stickyNotes.firstIndex(where: {$0.itemId == docID})
 
                             self.sessionItems[selectedItemIndex!].color = mockItem.color
-                            self.sessionItems[selectedItemIndex!].location = mockItem.location
                             self.sessionItems[selectedItemIndex!].input = mockItem.input
                             self.sessionItems[selectedItemIndex!].score = mockItem.score
                             self.sessionItems[selectedItemIndex!].haveVoted = mockItem.haveVoted
@@ -321,7 +312,6 @@ final class SessionItemViewModel: ObservableObject {
             "itemId": itemRef.documentID,
             "sessionId": newItem.sessionId,
             "input": newItem.input,
-            "location": newItem.location,
             "color": newItem.color,
             "score": newItem.score,
             "haveVoted": newItem.haveVoted
@@ -339,7 +329,6 @@ final class SessionItemViewModel: ObservableObject {
     func createSticky(newItem: SessionItem, selected: Bool = false, index: Int = -1) {
         let newSticky = StickyNote(
             input: newItem.input,
-            location: CGPoint(x: newItem.location[0], y: newItem.location[1]),
             itemId: newItem.itemId,
             numberColor: newItem.color,
             chosenColor: self.colorArray[newItem.color],
@@ -448,9 +437,11 @@ final class SessionItemViewModel: ObservableObject {
         }
     }
 
-    func deleteBottomStickies(minScore: Int) {
+    func finishVoting(spots: Int) {
+        sortStickies(sortBy: .score)
+        var remainingSpots = spots
         for sticky in stickyNotes {
-            if sticky.score < minScore {
+            if remainingSpots == 0 {
                 db.collection("session_items").document(sticky.itemId).delete { err in
                     if let err = err {
                         print("Error deleting session item: \(err)")
@@ -458,6 +449,8 @@ final class SessionItemViewModel: ObservableObject {
                         print("Session item deleted!")
                     }
                 }
+            } else {
+                remainingSpots -= 1
             }
         }
     }

@@ -13,7 +13,6 @@ struct SessionItem: Identifiable, Codable, Hashable {
 
     var itemId = ""
     var input = ""
-    var location: [Int] = [400, 400]
     var color = 0
     var score = 0
     var haveVoted: [String] = []
@@ -23,7 +22,6 @@ struct SessionItem: Identifiable, Codable, Hashable {
     enum CodingKeys: String, CodingKey {
         case itemId
         case input
-        case location
         case color
         case score
         case sessionId

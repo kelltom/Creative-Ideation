@@ -15,11 +15,9 @@ struct StickyNote: View, Identifiable {
     @Environment(\.colorScheme) var colorScheme
 
     @State var input: String
-    @State var location: CGPoint
 
     var itemId: String
     @State var textChanged: Bool = false
-    @State var timer: Timer?
     @State var numberColor: Int = 1
     @State var chosenColor: Color? = Color.red
     @State var selected: Bool = false
@@ -75,8 +73,7 @@ struct StickyNote: View, Identifiable {
             }
         }
         .clipped()
-        .shadow(color: selected ? Color.black : Color.clear, radius: 6, y: 4 )
-        // .position(location)
+        .shadow(color: selected ? Color.black : Color.clear, radius: 4, y: 4 )
         .onAppear {
             if selected {
                 sessionItemViewModel.updateSelected(note: self)
@@ -98,32 +95,11 @@ struct StickyNote: View, Identifiable {
                 sessionItemViewModel.updateSelected(note: self)
             }
     }
-
-//    var simpleDrag: some Gesture {
-//        DragGesture()
-//            .onChanged { value in
-//                var newLocation = startLocation ?? location
-//                newLocation.x += value.translation.width
-//                newLocation.y += value.translation.height
-//                if newLocation.y < 80 {
-//                    newLocation.y = 80
-//                }
-//                self.location = newLocation}
-//            .onEnded {_ in
-//                sessionItemViewModel.updateLocation(location: location, itemId: itemId)
-//                if textChanged {
-//                    sessionItemViewModel.updateText(text: input, itemId: itemId)
-//                    textChanged = false
-//                }
-//                sessionItemViewModel.updateItem(itemId: itemId)
-//                sessionViewModel.updateDateModified()
-//            }
-//    }
 }
 
 struct StickyNote_Previews: PreviewProvider {
     static var previews: some View {
-        StickyNote(input: "", location: CGPoint(x: 300, y: 300), itemId: "")
+        StickyNote(input: "", itemId: "")
             .environmentObject(SessionItemViewModel())
     }
 }

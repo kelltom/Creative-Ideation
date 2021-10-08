@@ -16,7 +16,7 @@ struct Session: Identifiable, Codable {
     var sessionDescription = ""
     var type = "" // this should probably be an enum
     var inProgress = true
-    var isDoneVoting = false
+    var stage = 1
     var showScores = false
     var dateCreated: Date = Date()
     var dateModified: Date = Date()
@@ -24,6 +24,8 @@ struct Session: Identifiable, Codable {
     var timerEnd: Date = Date()
     var timerActive = false
     var timeRemaining = 600
+    var castFinalVote: [String] = []
+    var finalVotes: [String: Int] = [:]
     var profanityLog: [String: [String]] = [:]
 
     var groupId = "" /// The group ID that this session belongs to
@@ -35,7 +37,7 @@ struct Session: Identifiable, Codable {
         case sessionDescription
         case type
         case inProgress
-        case isDoneVoting
+        case stage
         case showScores
         case dateCreated
         case dateModified
@@ -43,6 +45,8 @@ struct Session: Identifiable, Codable {
         case timerEnd
         case timerActive
         case timeRemaining
+        case castFinalVote
+        case finalVotes
         case profanityLog
         case groupId
         case teamId
