@@ -309,8 +309,8 @@ final class SessionViewModel: ObservableObject {
     }
 
     func sessionBehaviourSummary(textInput: String) {
-        
-        
+   
+      
         guard let uid = Auth.auth().currentUser?.uid else {
             print("cannot find uid for user who swore")
             return
@@ -330,8 +330,11 @@ final class SessionViewModel: ObservableObject {
                     errorPointer?.pointee = fetchError
                     return nil
                 }
-              
-                print(self.badwords)
+                //sorts word by frequency
+                self.badwords = self.badwords.sorted { first, second in
+                    self.badwords.filter { $0 == first }.count > self.badwords.filter { $0 == second }.count
+                }
+                
                 transaction.updateData(["profanityLog.\(uid)": self.badwords],
                                        forDocument: sessionReference)
                 return nil
