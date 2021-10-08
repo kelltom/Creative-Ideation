@@ -120,6 +120,7 @@ struct GroupSettingsView: View {
                 .frame(width: geometry.size.width,
                        height: geometry.size.height)
             }
+            .navigationBarHidden(true)
             .onAppear {
                 teamViewModel.loadMembers()
             }
