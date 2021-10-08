@@ -90,41 +90,52 @@ struct UpdateGroupMembersSheet: View {
                         .frame(width: geometry.size.width * 0.75)
                     }
 
-                    // Multi-select view
-                    List((tab == .currentMembers) ? groupViewModel.groupMembers : groupViewModel.nonMembers, selection: $multiSelection) {
-                        Text($0.name)
-                            .font(.title2)
-                    }
-                    .cornerRadius(15)
-                    .environment(\.editMode, self.$editMode)
-                    .frame(width: geometry.size.width * 0.75)
-                    .overlay(RoundedRectangle(cornerRadius: 15).stroke())
+                    if tab == .currentMembers && groupViewModel.groupMembers.count <= 1 {
+                        Text("You're the only one in the Group. Consider adding more Team members!")
+                            .padding(.top, 20)
+                        Spacer()
 
-                    // Remove Member button
-                    if tab == .currentMembers && isAdmin {
-                        Button {
-                            groupViewModel.removeMembers(memberIds: multiSelection)
-                            multiSelection.removeAll()
-                        } label: {
-                            DeleteButton(text: "Remove Member(s)",
-                                         image: "")
+                    } else if tab == .addMembers && groupViewModel.nonMembers.count == 0 {
+                        Text("Everyone in the Team is already in this Group.")
+                            .padding(.top, 20)
+                        Spacer()
+                    } else {
+                        // Multi-select view
+                        List((tab == .currentMembers) ? groupViewModel.groupMembers : groupViewModel.nonMembers, selection: $multiSelection) {
+                            Text($0.name)
+                                .font(.title2)
                         }
-                    }
+                        .cornerRadius(15)
+                        .environment(\.editMode, self.$editMode)
+                        .frame(width: geometry.size.width * 0.75)
+                        .overlay(RoundedRectangle(cornerRadius: 15).stroke())
 
-                    // Add Member button
-                    if tab == .addMembers && isAdmin {
-                        Button {
-                            groupViewModel.addMembers(memberIds: multiSelection)
-                            multiSelection.removeAll()
-                        } label: {
-                            DeleteButton(text: "Add Member(s)",
-                                         image: "person.fill.badge.plus",
-                                         backgroundColor: .green)  // TODO: We should either put a new custom button here, or refactor DeleteButton to be generic
+                        // Remove Member button
+                        if tab == .currentMembers && isAdmin {
+                            Button {
+                                groupViewModel.removeMembers(memberIds: multiSelection)
+                                multiSelection.removeAll()
+                            } label: {
+                                DeleteButton(text: "Remove Member(s)",
+                                             image: "")
+                            }
                         }
-                    }
 
-                    Spacer()
-                        .frame(height: geometry.size.height * 0.1)
+                        // Add Member button
+                        if tab == .addMembers && isAdmin {
+                            Button {
+                                groupViewModel.addMembers(memberIds: multiSelection)
+                                multiSelection.removeAll()
+                            } label: {
+                                DeleteButton(text: "Add Member(s)",
+                                             image: "person.fill.badge.plus",
+                                             backgroundColor: .green)  // TODO: We should either put a new custom button here, or refactor DeleteButton to be generic
+                            }
+                        }
+
+                        Spacer()
+                            .frame(height: geometry.size.height * 0.1)
+                    }
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
             }
