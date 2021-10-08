@@ -198,17 +198,12 @@ final class TeamViewModel: ObservableObject {
 
     // Add users to team based on access code
     func joinTeam(code: String) {
-
+        var listOfCodes: [String] = []
         // get user id
         guard let uid = Auth.auth().currentUser?.uid else {
             print("joinTeam: Could not find signed-in user's ID")
             return
         }
-        //  get code of current team selected
-        //        guard let currentTeamCode = selectedTeam?.accessCode else {
-        //            print("no access code for this team")
-        //            return
-        //        }
 
         // Validation
         if code.isEmpty {
@@ -217,10 +212,8 @@ final class TeamViewModel: ObservableObject {
                                details: "Field cannot be empty. Please enter a code.",
                                type: .warning)
             self.showBanner = true
-            //        } else if currentTeamCode == code {
-            //            self.setBanner(message: "Cannot join a team you are already in!", didSucceed: false)
-            //            print("cant join an existing team")
         } else {
+
             // Update members array in teams collection
             db.collection("teams").whereField("accessCode", isEqualTo: code)
                 .getDocuments { (querySnapshot, err) in
@@ -235,7 +228,19 @@ final class TeamViewModel: ObservableObject {
                     } else {
                         for document in querySnapshot!.documents {
                             if document.exists {
-
+                                // make sure user is not in team
+                                if let members = document.data()["members"] as? [String] {
+                                    if members.contains(uid) {
+                                        self.setBannerData(title: "Cannot join team",
+                                                           details: "Cannot join team you're already in",
+                                                           type: .warning)
+                                        self.showBanner = true
+                                        return
+                                    }
+                                } else {
+                                    print("Join Teams: failed to unwrap list of members")
+                                }
+                                // updates document
                                 document.reference.updateData([
                                     "members": FieldValue.arrayUnion([uid])
                                 ])
