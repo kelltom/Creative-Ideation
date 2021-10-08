@@ -103,29 +103,31 @@ struct ActivityView: View {
 
                     Spacer()
 
-                    Button {
-                        withAnimation {
-                            if sessionViewModel.selectedSession?.stage ?? 1 == 1 {
-                                if timerManager.mode == .running {
-                                    sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
+                    if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup?.groupId ?? "no ID") {
+                        Button {
+                            withAnimation {
+                                if sessionViewModel.selectedSession?.stage ?? 1 == 1 {
+                                    if timerManager.mode == .running {
+                                        sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
+                                    }
+                                    sessionViewModel.beginVoting()
+                                } else if sessionViewModel.selectedSession!.stage == 2 {
+                                    sessionViewModel.finishVoting()
+                                    sessionItemViewModel.finishVoting(spots: 6)
+                                } else if sessionViewModel.selectedSession!.stage == 3 {
+                                    sessionViewModel.finishTopVoting()
                                 }
-                                sessionViewModel.beginVoting()
-                            } else if sessionViewModel.selectedSession!.stage == 2 {
-                                sessionViewModel.finishVoting()
-                                sessionItemViewModel.finishVoting(spots: 6)
-                            } else if sessionViewModel.selectedSession!.stage == 3 {
-                                sessionViewModel.finishTopVoting()
                             }
+                        } label: {
+                            Text("Next Stage...")
+                                .font(.title)
+                                .foregroundColor(Color.white)
+                                .padding(10)
+                                .background(Color.red)
+                                .cornerRadius(12)
+                                .shadow(radius: 4, y: 4)
+                                .padding(.trailing)
                         }
-                    } label: {
-                        Text("Next Stage...")
-                            .font(.title)
-                            .foregroundColor(Color.white)
-                            .padding(10)
-                            .background(Color.red)
-                            .cornerRadius(12)
-                            .shadow(radius: 4, y: 4)
-                            .padding(.trailing)
                     }
 
                     // Settings gear button for Session Preferences
