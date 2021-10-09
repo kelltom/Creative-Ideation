@@ -366,6 +366,16 @@ final class GroupViewModel: ObservableObject {
             return
         }
 
+        if memberIds.isEmpty {
+            // Set banner
+            self.setBannerData(title: "Failed to add members",
+                               details: "Please select members to add first.",
+                               type: .warning)
+            self.showBanner = true
+            isLoading = false
+            return
+        }
+
         let groupRef = db.collection("teams").document(selectedGroup!.fkTeamId).collection("groups").document(selectedGroup!.groupId)
         let newMemberIds = Array(memberIds)
 
@@ -410,6 +420,16 @@ final class GroupViewModel: ObservableObject {
 
         guard selectedGroup != nil else {
             print("removeMembers: Selected Group is nil.")
+            isLoading = false
+            return
+        }
+
+        if memberIds.isEmpty {
+            // Set banner
+            self.setBannerData(title: "Failed to remove members",
+                               details: "Please select members to remove first.",
+                               type: .warning)
+            self.showBanner = true
             isLoading = false
             return
         }
