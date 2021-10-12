@@ -95,6 +95,12 @@ struct ChatbotView: View {
             RoundedRectangle(cornerRadius: 15)
                 .stroke(Color.gray)
         )
+        .onAppear {
+            chatbotViewModel.send(text: "Help")
+        }
+        .onDisappear {
+            chatbotViewModel.chatlog = []
+        }
     }
 }
 

@@ -37,8 +37,6 @@ class WatsonAssistant {
         // Make input object with text to send
         let input = MessageInputStateless(messageType: "text", text: text)
 
-        // Here we should check if we have an established connection to the the bot? or network? Gonna skip for now.
-
         // Send message
         self.assistant.messageStateless(assistantID: self.assistantID, input: input, context: context) { (response, error) in
 
