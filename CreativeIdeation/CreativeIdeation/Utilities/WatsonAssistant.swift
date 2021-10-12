@@ -17,6 +17,16 @@ class WatsonAssistant {
     private let assistantID = "55387256-c31a-49d1-874f-a561d449352d"
     private var context: MessageContextStateless = MessageContextStateless()
 
+    struct ChatbotResponse {
+        var responseType: ResponseType
+        var text: String
+        var options: [String] = []
+
+        enum ResponseType {
+            case text, option
+        }
+    }
+
     private init() {
         assistant = Assistant(version: "2021-06-14", authenticator: authenticator)
         assistant.serviceURL = "https://api.us-east.assistant.watson.cloud.ibm.com/instances/5103af21-a2a3-4c82-a103-feefd448a30f"
@@ -51,16 +61,24 @@ class WatsonAssistant {
     }
 
     /// This function takes a generic response, processes it, and returns the text representation.
-    func processGenericResponse(assistantResponse: [RuntimeResponseGeneric]) -> String {
-        var message = ""
+    func processGenericResponse(assistantResponse: [RuntimeResponseGeneric]) -> ChatbotResponse {
+        var chatbotResponse = ChatbotResponse(responseType: .text, text: "")
         for response in assistantResponse {
             switch response {
             case let .text(innerResponse):
-                message = innerResponse.text
+                chatbotResponse.text = innerResponse.text
+            case let .option(innerResponse):
+                chatbotResponse.responseType = .option
+                chatbotResponse.text = innerResponse.title
+                // Extract options
+                let options = innerResponse.options
+                for option in options {
+                    chatbotResponse.options.append(option.label)
+                }
             default:
-                message = "Unfortunately, I can't describe my response in words." //  TODO: think of a better response phrase
+                chatbotResponse.text = "Unfortunately, I can't describe my response in words."
             }
         }
-        return message
+        return chatbotResponse
     }
 }
