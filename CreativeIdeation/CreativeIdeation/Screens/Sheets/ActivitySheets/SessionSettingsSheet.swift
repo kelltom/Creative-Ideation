@@ -286,19 +286,20 @@ struct SessionSettingsSheet: View {
                                                 }
                                             }
 //                                            Profanity graph
-//                                            CardView(showShadow: true) {
-//                                                BarChart()
-//                                                ChartLabel("Profanity Log", type: .legend)
-//
-//                                            }
-//                                            .data(chartData)
-//                                            .chartStyle(self.barStyle)
-//                                            .frame(width: 160, height: 160)
-//                                            .padding()
+                                            CardView(showShadow: true) {
+                                                BarChart()
+                                                ChartLabel("Profanity Log", type: .legend)
+                                            }
+//                                            .accessibility(label: [("")])
+                                            .data([("test1", 2),("test2", 1)])
+                                            .chartStyle(self.barStyle)
+                                            .frame(width: 200, height: 300)
+                                            .padding()
 
                                         }
                                         .padding(5)
                                     }
+                                    
                                 }
                                 Divider()
                                     .frame(width: geometry.size.width * 0.7)
