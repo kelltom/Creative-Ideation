@@ -14,13 +14,6 @@ struct ChatbotView: View {
 
     @EnvironmentObject var chatbotViewModel: ChatbotViewModel
 
-    var dummyData: [Message] = [
-        Message(status: .sent, text: "Hi"),
-        Message(status: .received, text: "Hi, I'm a bot!"),
-        Message(status: .sent, text: "Oh that is very cool, I am not a bot."),
-        Message(status: .received, text: "Very good, fine sir.")
-    ]
-
     var body: some View {
         VStack(spacing: 0) {
             // Title Bar
@@ -47,10 +40,18 @@ struct ChatbotView: View {
             ScrollView(.vertical, showsIndicators: true) {
                 LazyVStack {
                     ForEach(chatbotViewModel.chatlog.reversed()) { message in
-                        MessageView(message: message)
-                            .rotationEffect(Angle(degrees: 180))
-                            .scaleEffect(x: -1.0, y: 1.0, anchor: .center)
-                            .animation(.easeInOut)
+                        if message.messageType == .option {
+                            // TODO: Convert to special option type
+                            MessageView(message: message)
+                                .rotationEffect(Angle(degrees: 180))
+                                .scaleEffect(x: -1.0, y: 1.0, anchor: .center)
+                                .animation(.easeInOut)
+                        } else if message.messageType == .text {
+                            MessageView(message: message)
+                                .rotationEffect(Angle(degrees: 180))
+                                .scaleEffect(x: -1.0, y: 1.0, anchor: .center)
+                                .animation(.easeInOut)
+                        }
                     }
                 }
             }

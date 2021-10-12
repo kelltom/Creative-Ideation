@@ -18,7 +18,7 @@ final class ChatbotViewModel: ObservableObject {
     func send(text: String) {
 
         // Append message to chat log
-        chatlog.append((Message(status: .sent, text: text)))
+        chatlog.append((Message(messageType: .text, status: .sent, text: text)))
 
         chatbot.sendTextToAssistant(text: text) { result in
             switch result {
@@ -28,22 +28,22 @@ final class ChatbotViewModel: ObservableObject {
                     switch chatbotResponse.responseType {
                     case .text:
                         print("Text")
-                        self.chatlog.append(Message(status: .received, text: chatbotResponse.text))
+                        self.chatlog.append(Message(messageType: .text, status: .received, text: chatbotResponse.text))
                     case .option:
-                        self.chatlog.append(Message(status: .received, text: chatbotResponse.text))
+                        self.chatlog.append(Message(messageType: .text, status: .received, text: chatbotResponse.text))
                         for opt in chatbotResponse.options {
-                            self.chatlog.append(Message(status: .received, text: opt))
+                            self.chatlog.append(Message(messageType: .option, status: .received, text: opt))
                         }
                     }
                     print("chatbotViewModel: Send success")
                 } else {
-                    self.chatlog.append(Message(status: .received, text: "Invalid response."))
+                    self.chatlog.append(Message(messageType: .text, status: .received, text: "Invalid response."))
                     print("chatbotViewModel: Invalid response")
                 }
 
                 print(self.chatlog)
             default:
-                self.chatlog.append(Message(status: .received, text: "Chatbot is offline, please try again later."))
+                self.chatlog.append(Message(messageType: .text, status: .received, text: "Chatbot is offline, please try again later."))
                 print("chatbotViewModel: Default")
             }
         }
