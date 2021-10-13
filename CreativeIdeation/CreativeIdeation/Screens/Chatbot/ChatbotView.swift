@@ -14,13 +14,6 @@ struct ChatbotView: View {
 
     @EnvironmentObject var chatbotViewModel: ChatbotViewModel
 
-    var dummyData: [Message] = [
-        Message(status: .sent, text: "Hi"),
-        Message(status: .received, text: "Hi, I'm a bot!"),
-        Message(status: .sent, text: "Oh that is very cool, I am not a bot."),
-        Message(status: .received, text: "Very good, fine sir.")
-    ]
-
     var body: some View {
         VStack(spacing: 0) {
             // Title Bar
@@ -51,6 +44,7 @@ struct ChatbotView: View {
                             .rotationEffect(Angle(degrees: 180))
                             .scaleEffect(x: -1.0, y: 1.0, anchor: .center)
                             .animation(.easeInOut)
+                            .padding(.top)
                     }
                 }
             }
@@ -95,14 +89,41 @@ struct ChatbotView: View {
             RoundedRectangle(cornerRadius: 15)
                 .stroke(Color.gray)
         )
+        .onAppear {
+            chatbotViewModel.send(text: "Help")
+        }
+        .onDisappear {
+            chatbotViewModel.chatlog = []
+        }
     }
 }
 
 struct MessageView: View {
 
     let message: Message
+    @EnvironmentObject var chatbotViewModel: ChatbotViewModel
 
     var body: some View {
+
+        // Print options in a grid
+        if message.messageType == .option && !message.options.isEmpty {
+            let items: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
+            LazyVGrid(columns: items) {
+                ForEach(message.options, id: \.self) { optionText in
+                    Button {
+                        chatbotViewModel.send(text: optionText)
+                    } label: {
+                        Text(optionText)
+                            .font(.caption)
+                            .padding()
+                            .foregroundColor(.white)
+                            .background(Color(UIColor.lightGray))
+                            .cornerRadius(5)
+                    }
+                }
+            }
+        }
+
         HStack {
             if message.status == .sent {
                 Spacer()
