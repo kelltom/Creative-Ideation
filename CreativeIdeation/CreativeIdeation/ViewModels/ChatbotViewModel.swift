@@ -27,13 +27,9 @@ final class ChatbotViewModel: ObservableObject {
                     let chatbotResponse = self.chatbot.processGenericResponse(assistantResponse: generic)
                     switch chatbotResponse.responseType {
                     case .text:
-                        print("Text")
                         self.chatlog.append(Message(messageType: .text, status: .received, text: chatbotResponse.text))
                     case .option:
-                        self.chatlog.append(Message(messageType: .text, status: .received, text: chatbotResponse.text))
-                        for opt in chatbotResponse.options {
-                            self.chatlog.append(Message(messageType: .option, status: .received, text: opt))
-                        }
+                        self.chatlog.append(Message(messageType: .option, status: .received, text: chatbotResponse.text, options: chatbotResponse.options))
                     }
                     print("chatbotViewModel: Send success")
                 } else {
