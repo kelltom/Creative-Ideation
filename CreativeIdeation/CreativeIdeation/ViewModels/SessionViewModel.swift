@@ -31,7 +31,7 @@ final class SessionViewModel: ObservableObject {
     @Published var timerManager = TimerManager()
     @Published var profUser: ProfanityUser?
     @Published var profanityUsers: [ProfanityUser] = []
-    @Published var badwords: [String] = []
+    @Published var profanityCollection: [String] = []
 
     @Published var msg = ""
     @Published var didOperationSucceed = false
@@ -308,7 +308,7 @@ final class SessionViewModel: ObservableObject {
             }
     }
 
-    func sessionBehaviourSummary(textInput: String) {
+    func updateProfanityLog(textInput: String) {
 
         guard let uid = Auth.auth().currentUser?.uid else {
             print("cannot find uid for user who swore")
@@ -321,7 +321,7 @@ final class SessionViewModel: ObservableObject {
         let sessionReference = db.collection("sessions").document(activeSession.sessionId)
 
         if pFilter.containsProfanity(text: textInput).profanities.count > 0 {
-            self.badwords.append(textInput)
+            self.profanityCollection.append(textInput)
             db.runTransaction({ (transaction, errorPointer) -> Any? in
                 do {
                     _ = try transaction.getDocument(sessionReference)
@@ -330,11 +330,11 @@ final class SessionViewModel: ObservableObject {
                     return nil
                 }
                 // sorts word by frequency
-                self.badwords = self.badwords.sorted { first, second in
-                    self.badwords.filter { $0 == first }.count > self.badwords.filter { $0 == second }.count
+                self.profanityCollection = self.profanityCollection.sorted { first, second in
+                    self.profanityCollection.filter { $0 == first }.count > self.profanityCollection.filter { $0 == second }.count
                 }
 
-                transaction.updateData(["profanityLog.\(uid)": self.badwords],
+                transaction.updateData(["profanityLog.\(uid)": self.profanityCollection],
                                        forDocument: sessionReference)
                 return nil
 
@@ -404,10 +404,6 @@ final class SessionViewModel: ObservableObject {
             }
     }
     /// Populates groupSessions array, storing a Session object for each found in the datastore
-
-    func profanityCharts() {
-
-    }
 
     func getGroupSessions() {
         // Empty list of sessions

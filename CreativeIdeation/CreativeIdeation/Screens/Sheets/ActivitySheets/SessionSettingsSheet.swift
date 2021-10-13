@@ -290,8 +290,8 @@ struct SessionSettingsSheet: View {
                                                 BarChart()
                                                 ChartLabel("Profanity Log", type: .legend)
                                             }
-//                                            .accessibility(label: [("")])
                                             .data([("test1", 2),("test2", 1)])
+//                                            .accessibility
                                             .chartStyle(self.barStyle)
                                             .frame(width: 200, height: 300)
                                             .padding()
