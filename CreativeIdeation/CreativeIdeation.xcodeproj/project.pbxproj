@@ -11,6 +11,7 @@
 		26833F5F26F67D1A00C24A93 /* UpdateTeamNameSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26833F5E26F67D1A00C24A93 /* UpdateTeamNameSheet.swift */; };
 		26833F6126F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26833F6026F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift */; };
 		268F9993270E72E600FD35F4 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 268F9992270E72E600FD35F4 /* SwiftUICharts */; };
+		26E65890271751CC00BCB646 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E6588F271751CC00BCB646 /* ShareSheet.swift */; };
 		761F4751261E212A0019B580 /* UpdateEmailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761F4750261E212A0019B580 /* UpdateEmailSheet.swift */; };
 		762EB076262655A100466F64 /* JoinTeamSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762EB075262655A100466F64 /* JoinTeamSheet.swift */; };
 		76731F342602802200536836 /* TeamSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F332602802200536836 /* TeamSettingsView.swift */; };
@@ -89,6 +90,7 @@
 		26325B462706556400B31DF6 /* SessionSettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSettingsSheet.swift; sourceTree = "<group>"; };
 		26833F5E26F67D1A00C24A93 /* UpdateTeamNameSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTeamNameSheet.swift; sourceTree = "<group>"; };
 		26833F6026F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTeamDescriptionSheet.swift; sourceTree = "<group>"; };
+		26E6588F271751CC00BCB646 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		761F4750261E212A0019B580 /* UpdateEmailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateEmailSheet.swift; sourceTree = "<group>"; };
 		762EB075262655A100466F64 /* JoinTeamSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinTeamSheet.swift; sourceTree = "<group>"; };
 		76731F332602802200536836 /* TeamSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSettingsView.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				76A0956425E80F0500917450 /* CreateGroupSheet.swift */,
 				76C0480326054878009ECBAB /* TeamCodeSheet.swift */,
 				76A0956025E745D800917450 /* CreateTeamSheet.swift */,
+				26E6588F271751CC00BCB646 /* ShareSheet.swift */,
 			);
 			path = HomeViewSheets;
 			sourceTree = "<group>";
@@ -608,6 +611,7 @@
 				C9C784FA270FF1C700BED6F1 /* TopVotedView.swift in Sources */,
 				C9C784FC271016E900BED6F1 /* BestIdeaView.swift in Sources */,
 				DDEA0AB626F949FA0082C5C9 /* UpdateGroupMembersSheet.swift in Sources */,
+				26E65890271751CC00BCB646 /* ShareSheet.swift in Sources */,
 				C9C784F52706C93E00BED6F1 /* SessionSettings.swift in Sources */,
 				76A184D125FD979B0070251D /* XDismissButton.swift in Sources */,
 				DD47EC29270F89C400777E0E /* Message.swift in Sources */,

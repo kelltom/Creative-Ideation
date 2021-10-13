@@ -7,6 +7,7 @@
 
 import CodeScanner
 import SwiftUI
+import UIKit
 
 struct JoinTeamSheet: View {
 
