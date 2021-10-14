@@ -10,24 +10,34 @@ import UIKit
 
 struct ShareSheet: UIViewControllerRepresentable {
     typealias Callback = (_ activityType: UIActivity.ActivityType?, _ completed: Bool, _ returnedItems: [Any]?, _ error: Error?) -> Void
-        
-        let activityItems: [Any]
-        let applicationActivities: [UIActivity]? = nil
-        let excludedActivityTypes: [UIActivity.ActivityType]? = nil
-        let callback: Callback? = nil
-        
-        func makeUIViewController(context: Context) -> UIActivityViewController {
-            let controller = UIActivityViewController(
-                activityItems: activityItems,
-                applicationActivities: applicationActivities)
-            controller.excludedActivityTypes = excludedActivityTypes
-            controller.completionWithItemsHandler = callback
-            return controller
+
+    let activityItems: [Any]
+    let applicationActivities: [UIActivity]? = nil
+    let callback: Callback? = nil
+    let test: Bool = true
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        let controller = UIActivityViewController(
+            activityItems: activityItems,
+            applicationActivities: applicationActivities)
+
+//        controller.completionWithItemsHandler = callback
+        controller.completionWithItemsHandler = { (_: UIActivity.ActivityType?, completed: Bool, _: [Any]?, error: Error?) in
+            if completed {
+                print("share completed")
+                return
+            } else {
+                print("cancel")
+            }
+            if let shareError = error {
+                print("error while sharing: \(shareError.localizedDescription)")
+            }
         }
-        
-        func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
-            // nothing to do here
-        }
+        return controller
+    }
+          func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
+        // nothing to do here
+    }
 }
 
 struct ShareSheet_Previews: PreviewProvider {

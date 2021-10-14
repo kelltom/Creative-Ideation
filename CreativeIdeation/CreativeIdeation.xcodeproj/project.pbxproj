@@ -12,6 +12,7 @@
 		26833F6126F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26833F6026F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift */; };
 		268F9993270E72E600FD35F4 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 268F9992270E72E600FD35F4 /* SwiftUICharts */; };
 		26E65890271751CC00BCB646 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E6588F271751CC00BCB646 /* ShareSheet.swift */; };
+		26E658922717AD7300BCB646 /* ShareItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E658912717AD7300BCB646 /* ShareItems.swift */; };
 		761F4751261E212A0019B580 /* UpdateEmailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761F4750261E212A0019B580 /* UpdateEmailSheet.swift */; };
 		762EB076262655A100466F64 /* JoinTeamSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762EB075262655A100466F64 /* JoinTeamSheet.swift */; };
 		76731F342602802200536836 /* TeamSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F332602802200536836 /* TeamSettingsView.swift */; };
@@ -91,6 +92,7 @@
 		26833F5E26F67D1A00C24A93 /* UpdateTeamNameSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTeamNameSheet.swift; sourceTree = "<group>"; };
 		26833F6026F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTeamDescriptionSheet.swift; sourceTree = "<group>"; };
 		26E6588F271751CC00BCB646 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
+		26E658912717AD7300BCB646 /* ShareItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareItems.swift; sourceTree = "<group>"; };
 		761F4750261E212A0019B580 /* UpdateEmailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateEmailSheet.swift; sourceTree = "<group>"; };
 		762EB075262655A100466F64 /* JoinTeamSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinTeamSheet.swift; sourceTree = "<group>"; };
 		76731F332602802200536836 /* TeamSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSettingsView.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 			children = (
 				C9D4A56526F3CE6F00B0BC2D /* TimerManager.swift */,
 				DDA2E49B270653F1005D8753 /* WatsonAssistant.swift */,
+				26E658912717AD7300BCB646 /* ShareItems.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -591,6 +594,7 @@
 				DD15B00826051B2000F51777 /* TeamViewModel.swift in Sources */,
 				DD429D1926F66C7900279540 /* UpdateGroupNameSheet.swift in Sources */,
 				C9C784F72706CA9700BED6F1 /* SessionSettingsViewModel.swift in Sources */,
+				26E658922717AD7300BCB646 /* ShareItems.swift in Sources */,
 				C9AE73A225EB1ACA0090C96B /* ActivityTypeTile.swift in Sources */,
 				26325B472706556400B31DF6 /* SessionSettingsSheet.swift in Sources */,
 				C9419B76261915E900279BB5 /* SessionItemViewModel.swift in Sources */,

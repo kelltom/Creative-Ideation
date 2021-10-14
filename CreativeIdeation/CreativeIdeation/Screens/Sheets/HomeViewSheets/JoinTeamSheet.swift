@@ -63,6 +63,13 @@ struct JoinTeamSheet: View {
                                         .padding(.trailing, 20)
                                         .foregroundColor(Color("StrokeColor"))
                                 }
+
+                                Button(action: actionSheet) {
+                                    Image(systemName: "square.and.arrow.up")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 36, height: 36)
+                                }
                             }
                         }
                         .frame(width: geometry.size.width * 0.75, height: 60)
@@ -74,10 +81,10 @@ struct JoinTeamSheet: View {
                     } label: {
                         BigButton(title: "Join", geometry: geometry, widthScale: 0.75)
                     }
-                    
+
                     // Export Share Button
                     Button {
-                        
+
                     } label: {
                         HStack {
                             Text("Share")
@@ -85,9 +92,9 @@ struct JoinTeamSheet: View {
                                 .font(.title2)
                             Image(systemName: "square.and.arrow.up")
                                 .font(.title2)
-                                
+
                         }
-                        
+
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -110,6 +117,12 @@ struct JoinTeamSheet: View {
         case .failure(let error):
             print("Scanning failed: ", error)
         }
+    }
+
+    func actionSheet() {
+        guard let data = URL(string: "https://www.zoho.com") else { return }
+        let av = UIActivityViewController(activityItems: [data], applicationActivities: nil)
+
     }
 }
 

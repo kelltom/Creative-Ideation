@@ -9,14 +9,6 @@ import CoreImage.CIFilterBuiltins
 import SwiftUI
 import UIKit
 
-enum ExportSheet: Identifiable {
-    case export
-
-    var id: Int {
-        hashValue
-    }
-}
-
 struct TeamCodeSheet: View {
 
     @Binding var showSheets: ActiveSheet?
@@ -99,10 +91,9 @@ struct TeamCodeSheet: View {
                             .interpolation(.none)
                             .scaledToFit()
                             .frame(width: geometry.size.width * 0.5, height: geometry.size.width * 0.5)
-                        
+
                         Button {
                             self.showShareSheet = true
-                            
                         } label: {
                             HStack {
                                 Text("Share")
@@ -116,13 +107,12 @@ struct TeamCodeSheet: View {
                     Spacer()
                 }
                 .sheet(isPresented: $showShareSheet) {
-                    ShareSheet(activityItems: [generateQRCode(from: teamViewModel.selectedTeam?.accessCode ?? "")])
+                    ShareItems(activityItems: [generateQRCode(from: teamViewModel.selectedTeam?.accessCode ?? "")])
+//                    ShareSheet(activityItems: [generateQRCode(from: teamViewModel.selectedTeam?.accessCode ?? "")])
                 }
 
             }
         }
-      
-
     }
 
     /// Generates a QR code
@@ -133,7 +123,7 @@ struct TeamCodeSheet: View {
         if let outputImage = filter.outputImage {
             if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
 //                self.qrImage = UIImage(cgImage: cgimg)
-                
+
                 return UIImage(cgImage: cgimg)
             }
         }

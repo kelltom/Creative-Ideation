@@ -290,7 +290,7 @@ struct SessionSettingsSheet: View {
                                                 BarChart()
                                                 ChartLabel("Profanity Log", type: .legend)
                                             }
-                                            .data([("test1", 2),("test2", 1)])
+                                            .data([("test1", 2), ("test2", 1)])
 //                                            .accessibility
                                             .chartStyle(self.barStyle)
                                             .frame(width: 200, height: 300)
@@ -299,7 +299,7 @@ struct SessionSettingsSheet: View {
                                         }
                                         .padding(5)
                                     }
-                                    
+
                                 }
                                 Divider()
                                     .frame(width: geometry.size.width * 0.7)
