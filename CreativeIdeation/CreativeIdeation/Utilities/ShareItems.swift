@@ -13,7 +13,6 @@ struct ShareItems: UIViewControllerRepresentable {
 
     var activityItems: [Any]
     var applicationActivities: [UIActivity]?
-    @State var isSaving: Bool = false
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<ShareItems>) -> UIActivityViewController {
         let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: applicationActivities)
@@ -21,7 +20,7 @@ struct ShareItems: UIViewControllerRepresentable {
         controller.completionWithItemsHandler = { (_: UIActivity.ActivityType?, completed: Bool, _: [Any]?, error: Error?) in
             if completed {
                 print("share completed")
-                self.isSaving = true
+
                 return
             } else {
                 print("cancel")

@@ -108,7 +108,6 @@ struct TeamCodeSheet: View {
                 }
                 .sheet(isPresented: $showShareSheet) {
                     ShareItems(activityItems: [generateQRCode(from: teamViewModel.selectedTeam?.accessCode ?? "")])
-//                    ShareSheet(activityItems: [generateQRCode(from: teamViewModel.selectedTeam?.accessCode ?? "")])
                 }
 
             }
@@ -122,7 +121,6 @@ struct TeamCodeSheet: View {
 
         if let outputImage = filter.outputImage {
             if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
-//                self.qrImage = UIImage(cgImage: cgimg)
 
                 return UIImage(cgImage: cgimg)
             }
@@ -130,15 +128,6 @@ struct TeamCodeSheet: View {
 
         return UIImage(systemName: "xmark.circle") ?? UIImage()
     }
-
-//    private func delayAlert() {
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//            withAnimation {
-//                isCopied = false
-//            }
-//        }
-//    }
-
 }
 
 struct CodeGeneratorView_Previews: PreviewProvider {
