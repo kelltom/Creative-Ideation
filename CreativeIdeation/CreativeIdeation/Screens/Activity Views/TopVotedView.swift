@@ -68,10 +68,12 @@ struct TopVotedView: View {
                         .font(.title)
                         .padding()
 
-                    LazyVGrid(columns: columns, spacing: geometry.size.width * 0.08) {
-                        ForEach(self.sessionItemViewModel.stickyNotes) { sticky in
-                            TopSticky(itemId: sticky.itemId, chosenColor: sticky.chosenColor!, input: sticky.input, score: sticky.score)
-                                .frame(width: geometry.size.width * 0.33, height: geometry.size.width * 0.28)
+                    ScrollView(.vertical, showsIndicators: false) {
+                        LazyVGrid(columns: columns, spacing: geometry.size.width * 0.08) {
+                            ForEach(self.sessionItemViewModel.stickyNotes) { sticky in
+                                TopSticky(itemId: sticky.itemId, chosenColor: sticky.chosenColor!, input: sticky.input, score: sticky.score)
+                                    .frame(width: geometry.size.width * 0.33, height: geometry.size.width * 0.28)
+                            }
                         }
                     }
                 }

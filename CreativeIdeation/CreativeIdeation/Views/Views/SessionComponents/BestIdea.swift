@@ -24,7 +24,7 @@ struct BestIdea: View {
 
                 // Text area
                 Text(input)
-                    .font(.title)
+                    .font(.largeTitle)
                     .frame(width: geometry.size.width, height: geometry.size.width * 0.8)
                     .background(colorScheme == .dark ? chosenColor.darker(by: 15.0) : chosenColor.lighter(by: 20.0))
                     .foregroundColor(colorScheme == .dark ? Color.white : Color.black)

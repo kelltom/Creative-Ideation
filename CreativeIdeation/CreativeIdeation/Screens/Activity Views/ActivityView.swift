@@ -59,6 +59,7 @@ struct ActivityView: View {
                         showActivity = false
                         sessionItemViewModel.resetModel()
                         sessionViewModel.selectedSession = nil
+                        sessionSettingsViewModel.clear()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                             sessionViewModel.timerManager.pause()
                             sessionViewModel.timerManager = TimerManager()
@@ -113,7 +114,7 @@ struct ActivityView: View {
                                     sessionViewModel.beginVoting()
                                 } else if sessionViewModel.selectedSession!.stage == 2 {
                                     sessionViewModel.finishVoting()
-                                    sessionItemViewModel.finishVoting(spots: 6)
+                                    sessionItemViewModel.finishVoting(spots: sessionSettingsViewModel.settings[1].topStickiesCount)
                                 } else if sessionViewModel.selectedSession!.stage == 3 {
                                     sessionViewModel.finishTopVoting()
                                 }
@@ -541,7 +542,7 @@ struct ActivityView: View {
             .sheet(item: $showSheet) { item in
                 switch item {
                 case .settings:
-                    SessionSettingsSheet(showSheet: $showSheet, settings: $sessionSettingsViewModel.settings[1], textTime: $sessionSettingsViewModel.textTime, textScore: $sessionSettingsViewModel.textScore)
+                    SessionSettingsSheet(showSheet: $showSheet, settings: $sessionSettingsViewModel.settings[1], textTime: $sessionSettingsViewModel.textTime, textTopStickies: $sessionSettingsViewModel.textTopStickies)
                         .environmentObject(self.sessionViewModel)
                 }
             }
