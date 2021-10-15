@@ -31,6 +31,8 @@ final class SessionItemViewModel: ObservableObject {
 
     @Published var topStickies: [TopSticky] = []
 
+    @Published var bestIdeas: [StickyNote] = []
+
     @Published var generatedIdeas: [String] = []
 
     // Published vars for displaying like/dislike/skip/undo button animations
@@ -453,6 +455,10 @@ final class SessionItemViewModel: ObservableObject {
                 remainingSpots -= 1
             }
         }
+    }
+
+    func getBestIdeas(itemIds: [String]) {
+        bestIdeas = stickyNotes.filter { itemIds.contains($0.itemId) }
     }
 
     func clearIdeas() {

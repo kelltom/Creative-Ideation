@@ -637,6 +637,11 @@ final class SessionViewModel: ObservableObject {
         return selectedSession?.castFinalVote.contains(uid) ?? false
     }
 
+    func getBestIds() -> [String] {
+        let highestVote = selectedSession!.finalVotes.values.max()
+        return selectedSession!.finalVotes.filter { $1 == highestVote }.map { $0.0 }
+    }
+
     /// Assigns values to the published BannerData object
     private func setBannerData(title: String, details: String, type: BannerModifier.BannerType) {
         bannerData.title = title

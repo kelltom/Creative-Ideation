@@ -534,7 +534,7 @@ struct ActivityView: View {
                     TopVotedView()
                         .animation(.easeInOut)
                 } else if sessionViewModel.selectedSession?.stage == 4 {
-                    BestIdeaView(bestIdea: sessionItemViewModel.stickyNotes.filter {$0.itemId == sessionViewModel.selectedSession?.finalVotes.max { first, second in first.value < second.value }?.key}.first ?? StickyNote(input: "", itemId: ""))
+                    BestIdeaView(bestIdeas: $sessionItemViewModel.bestIdeas)
                         .animation(.easeInOut)
                 }
             }
