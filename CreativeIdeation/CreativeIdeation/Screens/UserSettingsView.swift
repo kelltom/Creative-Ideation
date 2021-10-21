@@ -126,26 +126,6 @@ struct UserSettingsView: View {
                     .background(Color("brandPrimary"))
                     .cornerRadius(20)
 
-                    VStack(alignment: .leading) {
-
-                        Text("Display Settings")
-                            .font(.system(size: 20))
-                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                            .padding(.top)
-                            .padding()
-
-                        HStack {
-                            Toggle("Dark Mode", isOn: $darkModeFilter)
-                                .padding()
-
-                        }
-
-                    }
-                    .frame(maxWidth: geometry.size.width * 0.7, maxHeight: 120)
-
-                    Divider()
-                        .frame(width: geometry.size.width * 0.7)
-                        .background(Color("FadedColor"))
 
                     Spacer()
 

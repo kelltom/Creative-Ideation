@@ -188,7 +188,7 @@ struct SessionSettingsSheet: View {
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fit)
                                                 .frame(width: 15, height: 15)
-                                                .foregroundColor(Color.black)
+                                                .foregroundColor(Color("StrokeColor"))
                                                 .rotationEffect(Angle.degrees(isCollapsed ? 0 : 90))
                                                 .animation(.easeInOut)
 
@@ -226,7 +226,7 @@ struct SessionSettingsSheet: View {
                                                 .aspectRatio(contentMode: .fit)
                                                 .frame(width: 20, height: 25)
                                                 .padding()
-                                        }.foregroundColor(.black)
+                                        }.foregroundColor(Color("StrokeColor"))
                                     }
 
                                 }
