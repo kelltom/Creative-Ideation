@@ -302,10 +302,11 @@ final class SessionItemViewModel: ObservableObject {
             }
     }
 
-    func createItem(color: Int) {
+    func createItem(color: Int, input: String) {
         // Create a new sticky note and session item
         var newItem = SessionItem()
         newItem.color = color
+        newItem.input = pFilter.maskProfanity(text: input)
         newItem.sessionId = activeSession!.sessionId
 
         let itemRef = db.collection("session_items").document()

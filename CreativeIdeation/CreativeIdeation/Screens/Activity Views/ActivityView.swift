@@ -37,6 +37,7 @@ struct ActivityView: View {
     @State var showSheet: SessionSheet?
     @State var bounces: Int = 0
 
+    @State var newColor: Int = 1
     @State private var selectedColor = -1
     @State private var randomizeColor: Bool = true
 
@@ -46,6 +47,7 @@ struct ActivityView: View {
 
     @State var aiPopover = false
     @State var infoPopover = false
+    @State var newStickyPopover = false
 
     @Binding var showActivity: Bool
 
@@ -242,9 +244,8 @@ struct ActivityView: View {
 
                         VStack(alignment: .trailing) {
                             Button {
-                                let newColor = randomizeColor ? Int.random(in: 0..<5) : selectedColor
-                                sessionItemViewModel.createItem(color: newColor)
-                                sessionViewModel.updateDateModified()
+                                newColor = randomizeColor ? Int.random(in: 0..<5) : selectedColor
+                                newStickyPopover = true
 
                             } label: {
                                 VStack(spacing: 0) {
@@ -267,6 +268,9 @@ struct ActivityView: View {
                                 .cornerRadius(18)
                                 .shadow(radius: 6, y: 4)
                                 .padding()
+                            }
+                            .popover(isPresented: $newStickyPopover, arrowEdge: .leading) {
+                                CreateStickyView(newStickyPopover: $newStickyPopover, chosenColor: newColor)
                             }
 
                             VStack(spacing: 10) {
