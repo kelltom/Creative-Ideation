@@ -285,16 +285,7 @@ struct SessionSettingsSheet: View {
                                                     }
                                                 }
                                             }
-//                                            Profanity graph
-                                            CardView(showShadow: true) {
-                                                BarChart()
-                                                ChartLabel("Profanity Log", type: .legend)
-                                            }
-                                            .data([("test1", 2), ("test2", 1)])
-//                                            .accessibility
-                                            .chartStyle(self.barStyle)
-                                            .frame(width: 200, height: 300)
-                                            .padding()
+//                    
 
                                         }
                                         .padding(5)

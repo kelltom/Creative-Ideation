@@ -307,8 +307,50 @@ final class SessionViewModel: ObservableObject {
                 }
             }
     }
+    
+    func deleteSession(sessionId: String) {
+        let batch = db.batch()
 
-    func updateProfanityLog(textInput: String) {
+        // Delete Sessions
+        db.collection("sessions").whereField("sessionId", isEqualTo: sessionId)
+            .getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        do {
+                            batch.deleteDocument(document.reference)
+                        }
+                    }
+                }
+            }
+
+        // Delete Session Settings Id
+        db.collection("session_settings").whereField("sessionId", isEqualTo: sessionId)
+            .getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        batch.deleteDocument(document.reference)
+                    }
+                }
+            }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            batch.commit { err in
+                if let err = err {
+                    print("Error writing batch \(err)")
+                } else {
+                    print("Batch write succeeded.")
+                    self.selectedSession = nil
+                }
+            }
+        }
+
+    }
+
+    func checkProfanity(textInput: String) {
 
         guard let uid = Auth.auth().currentUser?.uid else {
             print("cannot find uid for user who swore")
