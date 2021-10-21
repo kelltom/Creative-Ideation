@@ -336,6 +336,18 @@ final class SessionViewModel: ObservableObject {
                     }
                 }
             }
+        // Delete Session items Id
+        db.collection("session_items").whereField("sessionId", isEqualTo: sessionId)
+            .getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        batch.deleteDocument(document.reference)
+                    }
+                }
+            }
+        
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             batch.commit { err in
@@ -545,6 +557,7 @@ final class SessionViewModel: ObservableObject {
             print("Resetting Timer. Time Remaining: ", newTime)
             transaction.updateData(["timeRemaining": newTime],
                                    forDocument: sessionReference)
+            
             return nil
         }) { (_, error) in
             if let error = error {

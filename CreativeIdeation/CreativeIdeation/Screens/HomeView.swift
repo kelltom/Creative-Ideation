@@ -298,6 +298,7 @@ struct HomeView: View {
                                                         if groupViewModel.isCurrentUserAdmin(groupId: group.groupId) {
                                                             Button {
                                                                 // Delete group
+                                                                groupViewModel.deleteGroups(groupId: group.groupId, teamId: teamViewModel.selectedTeam?.teamId ?? "unknown")
                                                             } label: {
                                                                 HStack {
                                                                     Text("Delete")
