@@ -264,10 +264,10 @@ final class GroupViewModel: ObservableObject {
                 }
             }
     }
-    
+
     func deleteGroups(groupId: String, teamId: String) {
-        
-        db.collection("teams").document(teamId).collection("groups").document(groupId).delete() { err in
+
+        db.collection("teams").document(teamId).collection("groups").document(groupId).delete { err in
             if let err = err {
                 print("Error deleting session item: \(err)")
             } else {

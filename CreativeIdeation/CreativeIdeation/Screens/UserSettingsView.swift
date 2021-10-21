@@ -126,7 +126,6 @@ struct UserSettingsView: View {
                     .background(Color("brandPrimary"))
                     .cornerRadius(20)
 
-
                     Spacer()
 
                     // LogOutButton

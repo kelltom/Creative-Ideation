@@ -307,7 +307,7 @@ final class SessionViewModel: ObservableObject {
                 }
             }
     }
-    
+
     func deleteSession(sessionId: String) {
         let batch = db.batch()
 
@@ -325,7 +325,7 @@ final class SessionViewModel: ObservableObject {
                 }
             }
 
-        // Delete Session Settings Id
+        // Delete Session from Settings Id
         db.collection("session_settings").whereField("sessionId", isEqualTo: sessionId)
             .getDocuments { (querySnapshot, err) in
                 if let err = err {
@@ -336,7 +336,7 @@ final class SessionViewModel: ObservableObject {
                     }
                 }
             }
-        // Delete Session items Id
+        // Delete Session from seession_items Id
         db.collection("session_items").whereField("sessionId", isEqualTo: sessionId)
             .getDocuments { (querySnapshot, err) in
                 if let err = err {
@@ -347,7 +347,6 @@ final class SessionViewModel: ObservableObject {
                     }
                 }
             }
-        
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             batch.commit { err in
@@ -557,7 +556,7 @@ final class SessionViewModel: ObservableObject {
             print("Resetting Timer. Time Remaining: ", newTime)
             transaction.updateData(["timeRemaining": newTime],
                                    forDocument: sessionReference)
-            
+
             return nil
         }) { (_, error) in
             if let error = error {
