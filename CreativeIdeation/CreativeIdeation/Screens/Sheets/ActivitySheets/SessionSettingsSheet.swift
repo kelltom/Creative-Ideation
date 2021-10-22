@@ -28,7 +28,8 @@ struct SessionSettingsSheet: View {
     @State var showDashboard: Bool = true
     @State var chartData: [Double] = [3, 5, 6]
     let barStyle = ChartStyle(backgroundColor: .white,
-                              foregroundColor: [ColorGradient(.blue, .red)])
+                              foregroundColor: [ColorGradient(.green),
+                                                ColorGradient(.red)])
 
     @State private var selectedTopStickies = "6"
     @State private var scoreSelectionExpanded = false
@@ -288,11 +289,11 @@ struct SessionSettingsSheet: View {
                                                     if !showDashboard {
                                                         CardView {
                                                             PieChart()
-                                                            ChartLabel("ProfanityLog", type: .legend)
+                                                            ChartLabel("Session Behaviour Summary", type: .legend)
                                                         }
-                                                        .data([2, 3])
+                                                        .data([sessionViewModel.lengthOfTotalWordCount, sessionViewModel.lengthOfProfanityWords])
                                                         .chartStyle(self.barStyle)
-                                                        .frame(width: 160, height: 160)
+                                                        .frame(width: geometry.size.width * 0.3, height: 250)
                                                         .padding()
 
                                                     }
