@@ -32,7 +32,6 @@ final class SessionViewModel: ObservableObject {
     @Published var profUser: ProfanityUser?
     @Published var profanityUsers: [ProfanityUser] = []
     @Published var profanityCollection: [String] = []
-    @Published var totalWordCount: [String] = []
     @Published var lengthOfTotalWordCount: Double = 0.0
     @Published var lengthOfProfanityWords: Double = 0.0
 
@@ -207,22 +206,26 @@ final class SessionViewModel: ObservableObject {
             print("Could not get active session")
             return
         }
-       
+
         // gets the number of total words used in a session
         db.collection("session_items").whereField("sessionId", isEqualTo: activeSession.sessionId)
-            .getDocuments { (querySnapshot, err) in 
+            .getDocuments { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
                 } else {
                     for document in querySnapshot!.documents {
                         do {
-                            let input = document.data()["input"] as? String
-                            totalWord.append(input ?? "unknown")
-                            if (input?.contains("*"))! {
-                                try totalProfanityWords.append(document.data()["input"] as? String ?? "unknown")
+
+                            let input = document.data()["input"] as? String ?? "n/a"
+
+                            if input.contains("*") {
+                                totalProfanityWords.append(input)
+                            } else {
+                                totalWord.append(input)
                             }
                             print(totalWord)
                             print(totalProfanityWords)
+
                         } catch {
                             print("Error getting total word count")
                         }
@@ -233,8 +236,7 @@ final class SessionViewModel: ObservableObject {
                     print("length of total profanity word", String(self.lengthOfProfanityWords))
                 }
             }
-        
-        // get the number of total swear words said in a session
+
     }
 
     /// Populates teamSessions array, storing a Session object for each found in the datastore
@@ -496,9 +498,9 @@ final class SessionViewModel: ObservableObject {
                 }
             }
     }
-   
 
-    
+
+
     /// Populates groupSessions array, storing a Session object for each found in the datastore
 
     func getGroupSessions() {

@@ -287,14 +287,36 @@ struct SessionSettingsSheet: View {
                                                     }
                                                     // Dashboard 
                                                     if !showDashboard {
-                                                        CardView {
-                                                            PieChart()
-                                                            ChartLabel("Session Behaviour Summary", type: .legend)
-                                                        }
-                                                        .data([sessionViewModel.lengthOfTotalWordCount, sessionViewModel.lengthOfProfanityWords])
-                                                        .chartStyle(self.barStyle)
-                                                        .frame(width: geometry.size.width * 0.3, height: 250)
+                                                        HStack {
+                                                            VStack(alignment: .leading) {
+                                                                HStack {
+                                                                    Rectangle()
+                                                                        .fill(Color.green)
+                                                                        .frame(width: 10, height: 10)
+                                                                    Text("Good")
+                                                                }
+                                                                .frame(width: geometry.size.width * 0.1, height: 20)
+                                                                HStack {
+                                                                    Rectangle()
+                                                                        .fill(Color.red)
+                                                                        .frame(width: 10, height: 10)
+                                                                    Text("Bad")
+                                                                        
+                                                                }
+                                                                .frame(width: geometry.size.width * 0.1, height: 20)
+                                                                
+                                                            }
+                                                            
+                                                            CardView {
+                                                                PieChart()
+                                                                ChartLabel("Session Behaviour Summary", type: .legend)
+                                                            }
+                                                            .data([sessionViewModel.lengthOfTotalWordCount, sessionViewModel.lengthOfProfanityWords])
+                                                            .chartStyle(self.barStyle)
+                                                            .frame(width: geometry.size.width * 0.45, height: 280)
                                                         .padding()
+                                                        }
+                                                        
 
                                                     }
                                                 }
