@@ -26,9 +26,8 @@ struct SessionSettingsSheet: View {
     @State var isCollapsed: Bool = true
     @State var showProfanity: Bool = true
     @State var showDashboard: Bool = true
-    @State var chartData: [Double] = [3, 5, 6]
     let barStyle = ChartStyle(backgroundColor: .white,
-                              foregroundColor: [ColorGradient(.green),
+                              foregroundColor: [ColorGradient(.blue),
                                                 ColorGradient(.red)])
 
     @State private var selectedTopStickies = "6"
@@ -178,6 +177,7 @@ struct SessionSettingsSheet: View {
                                             withAnimation {
                                                 isCollapsed.toggle()
                                                 sessionViewModel.getProfanityList(sessionMembers: groupViewModel.selectedGroup?.members ?? ["N/a"])
+                                                sessionViewModel.getDashboardData()
                                             }
                                         } label: {
 
@@ -242,7 +242,7 @@ struct SessionSettingsSheet: View {
                                                 Text("Profanity Count")
                                                     .fontWeight(.bold)
                                                     .animation(.easeInOut)
-                                                    .padding()
+                                                    .padding(2)
                                             }
                                             .frame(width: geometry.size.width * 0.7)
 
@@ -261,7 +261,7 @@ struct SessionSettingsSheet: View {
                                                                 .animation(.easeInOut)
                                                                 .padding()
                                                         }
-                                                        .padding(.top, 5)
+                                                        .padding(.top, 2)
                                                         .animation(.easeInOut)
 
                                                     }
@@ -282,49 +282,50 @@ struct SessionSettingsSheet: View {
                                                         }
                                                         .frame(width: geometry.size.width * 0.7, alignment: .leading)
                                                         .opacity(0.5)
-                                                        .padding(.top, 4)
+                                                        .padding(.top, 2)
 
                                                     }
-                                                    // Dashboard 
-                                                    if !showDashboard {
+                              
+                                                }
+
+                                            }
+                                            
+                                            // Dashboard
+                                            if !showDashboard {
+                                                HStack {
+                                                    VStack(alignment: .leading) {
                                                         HStack {
-                                                            VStack(alignment: .leading) {
-                                                                HStack {
-                                                                    Rectangle()
-                                                                        .fill(Color.green)
-                                                                        .frame(width: 10, height: 10)
-                                                                    Text("Good")
-                                                                }
-                                                                .frame(width: geometry.size.width * 0.1, height: 20)
-                                                                HStack {
-                                                                    Rectangle()
-                                                                        .fill(Color.red)
-                                                                        .frame(width: 10, height: 10)
-                                                                    Text("Bad")
-                                                                        
-                                                                }
-                                                                .frame(width: geometry.size.width * 0.1, height: 20)
-                                                                
-                                                            }
-                                                            
-                                                            CardView {
-                                                                PieChart()
-                                                                ChartLabel("Session Behaviour Summary", type: .legend)
-                                                            }
-                                                            .data([sessionViewModel.lengthOfTotalWordCount, sessionViewModel.lengthOfProfanityWords])
-                                                            .chartStyle(self.barStyle)
-                                                            .frame(width: geometry.size.width * 0.45, height: 280)
-                                                        .padding()
+                                                            Rectangle()
+                                                                .fill(Color.blue)
+                                                                .frame(width: 10, height: 10)
+                                                            Text("Good")
                                                         }
-                                                        
+                                                        .frame(width: geometry.size.width * 0.1, height: 20)
 
+                                                        HStack {
+                                                            Rectangle()
+                                                                .fill(Color.red)
+                                                                .frame(width: 10, height: 10)
+                                                            Text("Bad")
+
+                                                        }
+                                                        .frame(width: geometry.size.width * 0.1, height: 20)
                                                     }
+
+                                                    CardView {
+                                                        PieChart()
+                                                        ChartLabel("Session Behaviour Summary", type: .legend)
+                                                    }
+                                                    .data([sessionViewModel.lengthOfTotalWordCount, sessionViewModel.lengthOfProfanityWords])
+                                                    .chartStyle(self.barStyle)
+                                                    .frame(width: geometry.size.width * 0.45, height: 300)
+                                                    .padding()
                                                 }
 
                                             }
 
                                         }
-                                        .padding(5)
+                                        .padding(2)
                                     }
 
                                 }

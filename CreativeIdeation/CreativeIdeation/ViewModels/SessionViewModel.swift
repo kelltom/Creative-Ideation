@@ -198,7 +198,7 @@ final class SessionViewModel: ObservableObject {
             }
         }
     }
-    func saveDashboardData() {
+    func getDashboardData() {
         var totalWord: [String] = []
         var totalProfanityWords: [String] = []
         // get the current session id
@@ -223,17 +223,14 @@ final class SessionViewModel: ObservableObject {
                             } else {
                                 totalWord.append(input)
                             }
-                            print(totalWord)
-                            print(totalProfanityWords)
-
                         } catch {
                             print("Error getting total word count")
                         }
                     }
                     self.lengthOfTotalWordCount = Double(totalWord.count)
                     self.lengthOfProfanityWords = Double(totalProfanityWords.count)
-                    print("length of total word", String(self.lengthOfTotalWordCount))
-                    print("length of total profanity word", String(self.lengthOfProfanityWords))
+//                    print("length of total word", String(self.lengthOfTotalWordCount))
+//                    print("length of total profanity word", String(self.lengthOfProfanityWords))
                 }
             }
 
@@ -498,8 +495,6 @@ final class SessionViewModel: ObservableObject {
                 }
             }
     }
-
-
 
     /// Populates groupSessions array, storing a Session object for each found in the datastore
 

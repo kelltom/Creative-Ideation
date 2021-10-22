@@ -64,12 +64,6 @@ struct JoinTeamSheet: View {
                                         .foregroundColor(Color("StrokeColor"))
                                 }
 
-                                Button(action: actionSheet) {
-                                    Image(systemName: "square.and.arrow.up")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 36, height: 36)
-                                }
                             }
                         }
                         .frame(width: geometry.size.width * 0.75, height: 60)
