@@ -118,7 +118,7 @@ struct CreateStickyView: View {
             }
 
             Button {
-                sessionViewModel.sessionBehaviourSummary(textInput: input)
+                sessionViewModel.checkProfanity(textInput: input)
                 sessionItemViewModel.createItem(color: chosenColor, input: input)
                 sessionViewModel.updateDateModified()
                 input = ""

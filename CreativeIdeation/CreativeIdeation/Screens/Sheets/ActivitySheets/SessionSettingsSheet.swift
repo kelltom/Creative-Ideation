@@ -25,6 +25,7 @@ struct SessionSettingsSheet: View {
     @State private var timeSelectionExpanded = false
     @State var isCollapsed: Bool = true
     @State var showProfanity: Bool = true
+    @State var showDashboard: Bool = true
     @State var chartData: [Double] = [3, 5, 6]
     let barStyle = ChartStyle(backgroundColor: .white,
                               foregroundColor: [ColorGradient(.blue, .red)])
@@ -197,9 +198,12 @@ struct SessionSettingsSheet: View {
                                             HStack {
                                                 Button {
                                                     // action
+                                                    showDashboard.toggle()
                                                 } label: {
-                                                    HStack {
-                                                        Text("Show Data")
+                                                    if showDashboard {
+                                                        Text("Show Dashboard")
+                                                    } else {
+                                                        Text("Hide Dashboard")
                                                     }
                                                 }
                                             }
@@ -237,8 +241,10 @@ struct SessionSettingsSheet: View {
                                                 Text("Profanity Count")
                                                     .fontWeight(.bold)
                                                     .animation(.easeInOut)
+                                                    .padding()
                                             }
                                             .frame(width: geometry.size.width * 0.7)
+
                                             if sessionViewModel.profanityUsers.isEmpty {
                                                 VStack {
                                                     Text("No Profanity Users")
@@ -252,7 +258,7 @@ struct SessionSettingsSheet: View {
                                                             Spacer()
                                                             Text(String(user.profanityList.count))
                                                                 .animation(.easeInOut)
-
+                                                                .padding()
                                                         }
                                                         .padding(.top, 5)
                                                         .animation(.easeInOut)
@@ -278,9 +284,21 @@ struct SessionSettingsSheet: View {
                                                         .padding(.top, 4)
 
                                                     }
+                                                    // Dashboard 
+                                                    if !showDashboard {
+                                                        CardView {
+                                                            PieChart()
+                                                            ChartLabel("ProfanityLog", type: .legend)
+                                                        }
+                                                        .data([2, 3])
+                                                        .chartStyle(self.barStyle)
+                                                        .frame(width: 160, height: 160)
+                                                        .padding()
+
+                                                    }
                                                 }
+
                                             }
-//                    
 
                                         }
                                         .padding(5)
