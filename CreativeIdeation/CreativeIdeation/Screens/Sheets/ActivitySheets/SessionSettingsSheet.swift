@@ -19,7 +19,7 @@ struct SessionSettingsSheet: View {
     @Binding var showSheet: SessionSheet?
     @Binding var settings: SessionSettings
     @Binding var textTime: String
-    @Binding var textScore: String
+    @Binding var textTopStickies: String
 
     @State private var selectedTime = "10"
     @State private var timeSelectionExpanded = false
@@ -29,7 +29,7 @@ struct SessionSettingsSheet: View {
     let barStyle = ChartStyle(backgroundColor: .white,
                               foregroundColor: [ColorGradient(.blue, .red)])
 
-    @State private var selectedScore = "0"
+    @State private var selectedTopStickies = "6"
     @State private var scoreSelectionExpanded = false
 
     var body: some View {
@@ -64,7 +64,7 @@ struct SessionSettingsSheet: View {
                             .padding(.top, geometry.size.height * 0.1)
 
                         ScrollView {
-                            LazyVStack {
+                            LazyVStack(alignment: .leading) {
 
                                 Toggle("Display Timer", isOn: $settings.displayTimer)
                                     .padding()
@@ -116,36 +116,31 @@ struct SessionSettingsSheet: View {
                                         sessionSettingsViewModel.toggleScore()
                                     })
 
-                                Toggle("Delete Stickies Under Score Threshold", isOn: $settings.deleteStickies)
+                                Text("Number of Stickies for Round 2 of Voting")
                                     .padding()
                                     .padding(.bottom, -10)
-                                    .onChange(of: settings.deleteStickies, perform: { _ in
-                                        sessionSettingsViewModel.toggleDelete()
-                                    })
 
                                 HStack {
 
                                     Spacer()
 
-                                    Text("Score:")
-
-                                    TextField("", text: $textScore)
+                                    TextField("", text: $textTopStickies)
                                         .frame(width: 50)
                                         .multilineTextAlignment(.center)
                                         .padding(3)
                                         .overlay(RoundedRectangle(cornerRadius: 5).stroke())
                                         .keyboardType(.numberPad)
-                                        .onReceive(Just(selectedScore)) { newValue in
+                                        .onReceive(Just(selectedTopStickies)) { newValue in
                                             let filtered = newValue.filter { "0123456789".contains($0) }
                                             if filtered != newValue {
-                                                self.selectedScore = filtered
+                                                self.selectedTopStickies = filtered
                                             }
                                         }
 
-                                    Text("points")
+                                    Text("stickies")
 
                                     Button {
-                                        sessionSettingsViewModel.updateScoreThreshold()
+                                        sessionSettingsViewModel.updateTopStickyCount()
                                     } label: {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 5)
@@ -310,7 +305,7 @@ struct SessionSettingsSheet: View {
 
 struct SessionSettingsSheet_Previews: PreviewProvider {
     static var previews: some View {
-        SessionSettingsSheet(showSheet: .constant(.settings), settings: .constant(SessionSettings()), textTime: .constant("10"), textScore: .constant("0"))
+        SessionSettingsSheet(showSheet: .constant(.settings), settings: .constant(SessionSettings()), textTime: .constant("10"), textTopStickies: .constant("6"))
             .environmentObject(SessionViewModel())
             .environmentObject(GroupViewModel())
     }
