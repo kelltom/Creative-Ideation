@@ -221,14 +221,14 @@ final class SessionItemViewModel: ObservableObject {
         for sticky in self.stickyNotes {
             if !votedOn.contains(sticky.itemId) {
                 self.votingStickies.append(VotingSticky(itemId: sticky.itemId, chosenColor: sticky.chosenColor!, input: sticky.input, pos: pos,
-                                             onRemove: { removedStickyId in
-                                                self.votedOnStack.append((self.votingStickies.first(where: { sticky in
-                                                    sticky.itemId == removedStickyId
-                                                })!, 0))
-                                                self.votingStickies.removeAll {
-                                                    $0.itemId == removedStickyId
-                                                }
-                                             }))
+                                                        onRemove: { removedStickyId in
+                    self.votedOnStack.append((self.votingStickies.first(where: { sticky in
+                        sticky.itemId == removedStickyId
+                    })!, 0))
+                    self.votingStickies.removeAll {
+                        $0.itemId == removedStickyId
+                    }
+                }))
                 pos += 1
             }
         }
@@ -386,6 +386,7 @@ final class SessionItemViewModel: ObservableObject {
 
             print("Phrase: ", phrase)
 
+            // TODO: Change this to allow for multiple-word entries, perhaps seaparate by unimportant words like "and" and "the". At the moment, this does not allow you to enter a two-part subject, like "Aston Martin".
             // Get all separate words in sticky
             let words = phrase.components(separatedBy: " ")
             for word in words {
@@ -397,17 +398,25 @@ final class SessionItemViewModel: ObservableObject {
         // Remove duplicates
         allWords.removeDuplicates()
 
+        // Remove symbols
         var pos = -1
         for word in allWords {
             pos += 1
             allWords[pos] = word.removeCharacters(from: CharacterSet.letters.inverted)
         }
 
+        // Remove empty strings
+        allWords = allWords.filter { $0 != "" }
+
         print("All words: ", allWords)
+
+        // Convert array into comma separated string
+        let query =	(allWords.map { String($0) }).joined(separator: ",")
+        print("Query: ", query)
 
         // Call API that returns an array of Strings
         let functions = Functions.functions()
-        functions.httpsCallable("generate_ideas").call(["word": allWords]) { (result, error) in
+        functions.httpsCallable("generate_ideas").call(["allWords": query]) { (result, error) in
             if let error = error as NSError? {
                 if error.domain == FunctionsErrorDomain {
                     // Errors thrown by server
@@ -422,16 +431,16 @@ final class SessionItemViewModel: ObservableObject {
                 print("Generate Ideas CF ran successfully.")
                 if let response = result?.data as? NSDictionary {
                     if var words: [String] = response["result"] as? [String] {
-//                        for word in words {
-//                            if self.pFilter.containsProfanity(text: word).profanities.count > 0 {
-//                                words = words.filter { word.contains($0) }
-//                            }
-//                        }
-                        //if words.count > 0 {
+                        for word in words {
+                            if self.pFilter.containsProfanity(text: word).profanities.count > 0 {
+                                words = words.filter { word.contains($0) }
+                            }
+                        }
+                        if words.count > 0 {
                             self.generatedIdeas = words
-                        //} else {
-                        //    self.generatedIdeas = ["No Suggestions"]
-                        //}
+                        } else {
+                            self.generatedIdeas = ["No Suggestions"]
+                        }
                     }
                 }
             }
