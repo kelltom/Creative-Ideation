@@ -223,14 +223,14 @@ final class SessionItemViewModel: ObservableObject {
         for sticky in self.stickyNotes {
             if !votedOn.contains(sticky.itemId) {
                 self.votingStickies.append(VotingSticky(itemId: sticky.itemId, chosenColor: sticky.chosenColor!, input: sticky.input, pos: pos,
-                                             onRemove: { removedStickyId in
-                                                self.votedOnStack.append((self.votingStickies.first(where: { sticky in
-                                                    sticky.itemId == removedStickyId
-                                                })!, 0))
-                                                self.votingStickies.removeAll {
-                                                    $0.itemId == removedStickyId
-                                                }
-                                             }))
+                                                        onRemove: { removedStickyId in
+                    self.votedOnStack.append((self.votingStickies.first(where: { sticky in
+                        sticky.itemId == removedStickyId
+                    })!, 0))
+                    self.votingStickies.removeAll {
+                        $0.itemId == removedStickyId
+                    }
+                }))
                 pos += 1
             }
         }
@@ -380,25 +380,46 @@ final class SessionItemViewModel: ObservableObject {
     }
 
     func generateIdeas() {
-        // Get random sticky note's text
-        guard var input = sessionItems.randomElement()?.input else {
-            print("generateIdeas: SessionItem not found or input empty - returning empty array")
-            return
-        }
-        // Trim the text
-        input = input.trimmingCharacters(in: .whitespacesAndNewlines)
-        // Get all words in input
-        let words = input.components(separatedBy: " ")
-        // Get random word from input and remove any non alpha characters and lowercase it
-        let query = words.randomElement()!
-            .lowercased()
-            .filter("abcdefghijklmnopqrstuvwxyz".contains)
+        // Get each word on screen, process them, add to array
+        var allWords: [String] = []
+        for sticky in sessionItems {
+            var phrase = sticky.input
+            // Trim the text
+            phrase = phrase.trimmingCharacters(in: .whitespacesAndNewlines)
 
-        print(query)
+            print("Phrase: ", phrase)
+
+            // TODO: Change this to allow for multiple-word entries, perhaps seaparate by unimportant words like "and" and "the". At the moment, this does not allow you to enter a two-part subject, like "Aston Martin".
+            // Get all separate words in sticky
+            let words = phrase.components(separatedBy: " ")
+            for word in words {
+                allWords.append(word)
+            }
+            print("Words: ", words)
+        }
+
+        // Remove duplicates
+        allWords.removeDuplicates()
+
+        // Remove symbols
+        var pos = -1
+        for word in allWords {
+            pos += 1
+            allWords[pos] = word.removeCharacters(from: CharacterSet.letters.inverted)
+        }
+
+        // Remove empty strings
+        allWords = allWords.filter { $0 != "" }
+
+        print("All words: ", allWords)
+
+        // Convert array into comma separated string
+        let query =	(allWords.map { String($0) }).joined(separator: ",")
+        print("Query: ", query)
 
         // Call API that returns an array of Strings
         let functions = Functions.functions()
-        functions.httpsCallable("generate_ideas").call(["word": query]) { (result, error) in
+        functions.httpsCallable("generate_ideas").call(["allWords": query]) { (result, error) in
             if let error = error as NSError? {
                 if error.domain == FunctionsErrorDomain {
                     // Errors thrown by server
@@ -412,8 +433,17 @@ final class SessionItemViewModel: ObservableObject {
                 // On Completion
                 print("Generate Ideas CF ran successfully.")
                 if let response = result?.data as? NSDictionary {
-                    if let words: [String] = response["result"] as? [String] {
-                        self.generatedIdeas = words
+                    if var words: [String] = response["result"] as? [String] {
+                        for word in words {
+                            if self.pFilter.containsProfanity(text: word).profanities.count > 0 {
+                                words = words.filter { word.contains($0) }
+                            }
+                        }
+                        if words.count > 0 {
+                            self.generatedIdeas = words
+                        } else {
+                            self.generatedIdeas = ["No Suggestions"]
+                        }
                     }
                 }
             }
@@ -464,5 +494,31 @@ final class SessionItemViewModel: ObservableObject {
 
     func clearIdeas() {
         self.generatedIdeas = []
+    }
+}
+
+extension Array where Element: Hashable {
+    func removingDuplicates() -> [Element] {
+        var addedDict = [Element: Bool]()
+
+        return filter {
+            addedDict.updateValue(true, forKey: $0) == nil
+        }
+    }
+
+    mutating func removeDuplicates() {
+        self = self.removingDuplicates()
+    }
+}
+
+extension String {
+
+    func removeCharacters(from forbiddenChars: CharacterSet) -> String {
+        let passed = self.unicodeScalars.filter { !forbiddenChars.contains($0) }
+        return String(String.UnicodeScalarView(passed))
+    }
+
+    func removeCharacters(from: String) -> String {
+        return removeCharacters(from: CharacterSet(charactersIn: from))
     }
 }
