@@ -24,6 +24,7 @@ struct HomeView: View {
     @State var showGroupSettings: Bool = false
     @State var showUserSettings: Bool = false
     @State var showChatbot: Bool = false
+    @State var name: String =  ""
 
     private let shadowColor = Color.init(red: 0.3, green: 0.3, blue: 0.3)
 
@@ -297,6 +298,7 @@ struct HomeView: View {
                                                         if groupViewModel.isCurrentUserAdmin(groupId: group.groupId) {
                                                             Button {
                                                                 // Delete group
+                                                                groupViewModel.deleteGroups(groupId: group.groupId, teamId: teamViewModel.selectedTeam?.teamId ?? "unknown")
                                                             } label: {
                                                                 HStack {
                                                                     Text("Delete")
@@ -366,6 +368,18 @@ struct HomeView: View {
                                                             group: groupViewModel.selectedGroup?.groupTitle ?? "Unknown",
                                                             session: session)
                                                     }
+                                                    .contextMenu {
+                                                        // Session Settings
+                                                        Button {
+                                                            sessionViewModel.deleteSession(sessionId: session.sessionId)
+                                                        } label: {
+                                                            HStack {
+                                                                Text("Delete")
+                                                                Image(systemName: "trash")
+                                                            }
+                                                        }
+                                                    }
+
                                                 }
                                             }
                                             .padding()

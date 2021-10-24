@@ -31,7 +31,9 @@ final class SessionViewModel: ObservableObject {
     @Published var timerManager = TimerManager()
     @Published var profUser: ProfanityUser?
     @Published var profanityUsers: [ProfanityUser] = []
-    @Published var badwords: [String] = []
+    @Published var profanityCollection: [String] = []
+    @Published var lengthOfTotalWordCount: Double = 0.0
+    @Published var lengthOfProfanityWords: Double = 0.0
 
     @Published var msg = ""
     @Published var didOperationSucceed = false
@@ -196,6 +198,43 @@ final class SessionViewModel: ObservableObject {
             }
         }
     }
+    func getGraphData() {
+        var totalWord: [String] = []
+        var totalProfanityWords: [String] = []
+        // get the current session id
+        guard let activeSession = selectedSession else {
+            print("Could not get active session")
+            return
+        }
+
+        // gets the number of total words used in a session
+        db.collection("session_items").whereField("sessionId", isEqualTo: activeSession.sessionId)
+            .getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        do {
+
+                            let input = document.data()["input"] as? String ?? "n/a"
+
+                            if input.contains("*") {
+                                totalProfanityWords.append(input)
+                            } else {
+                                totalWord.append(input)
+                            }
+                        } catch {
+                            print("Error getting total word count")
+                        }
+                    }
+                    self.lengthOfTotalWordCount = Double(totalWord.count)
+                    self.lengthOfProfanityWords = Double(totalProfanityWords.count)
+//                    print("length of total word", String(self.lengthOfTotalWordCount))
+//                    print("length of total profanity word", String(self.lengthOfProfanityWords))
+                }
+            }
+
+    }
 
     /// Populates teamSessions array, storing a Session object for each found in the datastore
     func getAllSessions(teamId: String?) {
@@ -308,7 +347,60 @@ final class SessionViewModel: ObservableObject {
             }
     }
 
-    func sessionBehaviourSummary(textInput: String) {
+    func deleteSession(sessionId: String) {
+        let batch = db.batch()
+
+        // Delete Sessions
+        db.collection("sessions").whereField("sessionId", isEqualTo: sessionId)
+            .getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        do {
+                            batch.deleteDocument(document.reference)
+                        }
+                    }
+                }
+            }
+
+        // Delete Session from Settings Id
+        db.collection("session_settings").whereField("sessionId", isEqualTo: sessionId)
+            .getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        batch.deleteDocument(document.reference)
+                    }
+                }
+            }
+        // Delete Session from seession_items Id
+        db.collection("session_items").whereField("sessionId", isEqualTo: sessionId)
+            .getDocuments { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        batch.deleteDocument(document.reference)
+                    }
+                }
+            }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            batch.commit { err in
+                if let err = err {
+                    print("Error writing batch \(err)")
+                } else {
+                    print("Batch write succeeded.")
+                    self.selectedSession = nil
+                }
+            }
+        }
+
+    }
+
+    func checkProfanity(textInput: String) {
 
         guard let uid = Auth.auth().currentUser?.uid else {
             print("cannot find uid for user who swore")
@@ -321,7 +413,7 @@ final class SessionViewModel: ObservableObject {
         let sessionReference = db.collection("sessions").document(activeSession.sessionId)
 
         if pFilter.containsProfanity(text: textInput).profanities.count > 0 {
-            self.badwords.append(textInput)
+            self.profanityCollection.append(textInput)
             db.runTransaction({ (transaction, errorPointer) -> Any? in
                 do {
                     _ = try transaction.getDocument(sessionReference)
@@ -330,11 +422,11 @@ final class SessionViewModel: ObservableObject {
                     return nil
                 }
                 // sorts word by frequency
-                self.badwords = self.badwords.sorted { first, second in
-                    self.badwords.filter { $0 == first }.count > self.badwords.filter { $0 == second }.count
+                self.profanityCollection = self.profanityCollection.sorted { first, second in
+                    self.profanityCollection.filter { $0 == first }.count > self.profanityCollection.filter { $0 == second }.count
                 }
 
-                transaction.updateData(["profanityLog.\(uid)": self.badwords],
+                transaction.updateData(["profanityLog.\(uid)": self.profanityCollection],
                                        forDocument: sessionReference)
                 return nil
 
@@ -403,11 +495,8 @@ final class SessionViewModel: ObservableObject {
                 }
             }
     }
+
     /// Populates groupSessions array, storing a Session object for each found in the datastore
-
-    func profanityCharts() {
-
-    }
 
     func getGroupSessions() {
         // Empty list of sessions
@@ -507,6 +596,7 @@ final class SessionViewModel: ObservableObject {
             print("Resetting Timer. Time Remaining: ", newTime)
             transaction.updateData(["timeRemaining": newTime],
                                    forDocument: sessionReference)
+
             return nil
         }) { (_, error) in
             if let error = error {
@@ -635,6 +725,11 @@ final class SessionViewModel: ObservableObject {
         }
 
         return selectedSession?.castFinalVote.contains(uid) ?? false
+    }
+
+    func getBestIds() -> [String] {
+        let highestVote = selectedSession!.finalVotes.values.max()
+        return selectedSession!.finalVotes.filter { $1 == highestVote }.map { $0.0 }
     }
 
     /// Assigns values to the published BannerData object

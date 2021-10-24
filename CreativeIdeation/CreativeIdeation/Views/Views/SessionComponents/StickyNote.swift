@@ -57,10 +57,10 @@ struct StickyNote: View, Identifiable {
             if textChanged {
                 Button {
                     // Save text to DB
+                    sessionViewModel.checkProfanity(textInput: input)
                     sessionItemViewModel.updateText(text: input, itemId: itemId)
                     sessionItemViewModel.updateItem(itemId: itemId)
                     sessionViewModel.updateDateModified()
-                    sessionViewModel.sessionBehaviourSummary(textInput: input)
                     textChanged = false
                 } label: {
                     Image(systemName: "checkmark.circle.fill")

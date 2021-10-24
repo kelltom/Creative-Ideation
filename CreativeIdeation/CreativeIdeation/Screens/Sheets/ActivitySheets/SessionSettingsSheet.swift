@@ -19,17 +19,18 @@ struct SessionSettingsSheet: View {
     @Binding var showSheet: SessionSheet?
     @Binding var settings: SessionSettings
     @Binding var textTime: String
-    @Binding var textScore: String
+    @Binding var textTopStickies: String
 
     @State private var selectedTime = "10"
     @State private var timeSelectionExpanded = false
     @State var isCollapsed: Bool = true
     @State var showProfanity: Bool = true
-    @State var chartData: [Double] = [3, 5, 6]
+    @State var showGraph: Bool = true
     let barStyle = ChartStyle(backgroundColor: .white,
-                              foregroundColor: [ColorGradient(.blue, .red)])
+                              foregroundColor: [ColorGradient(.blue),
+                                                ColorGradient(.red)])
 
-    @State private var selectedScore = "0"
+    @State private var selectedTopStickies = "6"
     @State private var scoreSelectionExpanded = false
 
     var body: some View {
@@ -64,7 +65,7 @@ struct SessionSettingsSheet: View {
                             .padding(.top, geometry.size.height * 0.1)
 
                         ScrollView {
-                            LazyVStack {
+                            LazyVStack(alignment: .leading) {
 
                                 Toggle("Display Timer", isOn: $settings.displayTimer)
                                     .padding()
@@ -116,36 +117,31 @@ struct SessionSettingsSheet: View {
                                         sessionSettingsViewModel.toggleScore()
                                     })
 
-                                Toggle("Delete Stickies Under Score Threshold", isOn: $settings.deleteStickies)
+                                Text("Number of Stickies for Round 2 of Voting")
                                     .padding()
                                     .padding(.bottom, -10)
-                                    .onChange(of: settings.deleteStickies, perform: { _ in
-                                        sessionSettingsViewModel.toggleDelete()
-                                    })
 
                                 HStack {
 
                                     Spacer()
 
-                                    Text("Score:")
-
-                                    TextField("", text: $textScore)
+                                    TextField("", text: $textTopStickies)
                                         .frame(width: 50)
                                         .multilineTextAlignment(.center)
                                         .padding(3)
                                         .overlay(RoundedRectangle(cornerRadius: 5).stroke())
                                         .keyboardType(.numberPad)
-                                        .onReceive(Just(selectedScore)) { newValue in
+                                        .onReceive(Just(selectedTopStickies)) { newValue in
                                             let filtered = newValue.filter { "0123456789".contains($0) }
                                             if filtered != newValue {
-                                                self.selectedScore = filtered
+                                                self.selectedTopStickies = filtered
                                             }
                                         }
 
-                                    Text("points")
+                                    Text("stickies")
 
                                     Button {
-                                        sessionSettingsViewModel.updateScoreThreshold()
+                                        sessionSettingsViewModel.updateTopStickyCount()
                                     } label: {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 5)
@@ -181,17 +177,16 @@ struct SessionSettingsSheet: View {
                                             withAnimation {
                                                 isCollapsed.toggle()
                                                 sessionViewModel.getProfanityList(sessionMembers: groupViewModel.selectedGroup?.members ?? ["N/a"])
+                                                sessionViewModel.getGraphData()
                                             }
                                         } label: {
-
                                             Image(systemName: "chevron.right")
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fit)
                                                 .frame(width: 15, height: 15)
-                                                .foregroundColor(Color.black)
+                                                .foregroundColor(Color("StrokeColor"))
                                                 .rotationEffect(Angle.degrees(isCollapsed ? 0 : 90))
                                                 .animation(.easeInOut)
-
                                         }
                                     }
 
@@ -202,12 +197,16 @@ struct SessionSettingsSheet: View {
                                             HStack {
                                                 Button {
                                                     // action
+                                                    showGraph.toggle()
                                                 } label: {
-                                                    HStack {
-                                                        Text("Show Data")
+                                                    if showGraph {
+                                                        Text("Show Graph")
+                                                    } else {
+                                                        Text("Hide Graph")
                                                     }
                                                 }
                                             }
+
                                             Button {
                                                 withAnimation {showProfanity.toggle()}
                                             } label: {
@@ -216,17 +215,15 @@ struct SessionSettingsSheet: View {
                                                 } else {
                                                     Text("Hide Profanity")
                                                 }
-
                                             }
-
                                         } label: {
-
                                             Image(systemName: "ellipsis")
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fit)
                                                 .frame(width: 20, height: 25)
                                                 .padding()
-                                        }.foregroundColor(.black)
+                                        }
+                                        .foregroundColor(Color("StrokeColor"))
                                     }
 
                                 }
@@ -242,8 +239,10 @@ struct SessionSettingsSheet: View {
                                                 Text("Profanity Count")
                                                     .fontWeight(.bold)
                                                     .animation(.easeInOut)
+                                                    .padding(2)
                                             }
                                             .frame(width: geometry.size.width * 0.7)
+
                                             if sessionViewModel.profanityUsers.isEmpty {
                                                 VStack {
                                                     Text("No Profanity Users")
@@ -257,9 +256,9 @@ struct SessionSettingsSheet: View {
                                                             Spacer()
                                                             Text(String(user.profanityList.count))
                                                                 .animation(.easeInOut)
-
+                                                                .padding()
                                                         }
-                                                        .padding(.top, 5)
+                                                        .padding(.top, 2)
                                                         .animation(.easeInOut)
 
                                                     }
@@ -276,29 +275,52 @@ struct SessionSettingsSheet: View {
                                                                 }
 
                                                             }
-//                                                            .frame(width: geometry.size.width * 0.7, height:30)
                                                         }
                                                         .frame(width: geometry.size.width * 0.7, alignment: .leading)
                                                         .opacity(0.5)
-                                                        .padding(.top, 4)
-
+                                                        .padding(.top, 2)
                                                     }
                                                 }
                                             }
-//                                            Profanity graph
-//                                            CardView(showShadow: true) {
-//                                                BarChart()
-//                                                ChartLabel("Profanity Log", type: .legend)
-//
-//                                            }
-//                                            .data(chartData)
-//                                            .chartStyle(self.barStyle)
-//                                            .frame(width: 160, height: 160)
-//                                            .padding()
+
+                                            // Pie Graph
+                                            if !showGraph {
+                                                HStack {
+                                                    VStack(alignment: .leading) {
+                                                        HStack {
+                                                            Rectangle()
+                                                                .fill(Color.blue)
+                                                                .frame(width: 10, height: 10)
+                                                            Text("Good")
+                                                        }
+                                                        .frame(width: geometry.size.width * 0.1, height: 20)
+
+                                                        HStack {
+                                                            Rectangle()
+                                                                .fill(Color.red)
+                                                                .frame(width: 10, height: 10)
+                                                            Text("Bad")
+
+                                                        }
+                                                        .frame(width: geometry.size.width * 0.1, height: 20)
+                                                    }
+
+                                                    CardView {
+                                                        PieChart()
+                                                        ChartLabel("Session Behaviour Summary", type: .legend)
+                                                    }
+                                                    .data([sessionViewModel.lengthOfTotalWordCount, sessionViewModel.lengthOfProfanityWords])
+                                                    .chartStyle(self.barStyle)
+                                                    .frame(width: geometry.size.width * 0.45, height: 300)
+                                                    .padding()
+                                                }
+
+                                            }
 
                                         }
-                                        .padding(5)
+                                        .padding(2)
                                     }
+
                                 }
                                 Divider()
                                     .frame(width: geometry.size.width * 0.7)
@@ -318,7 +340,7 @@ struct SessionSettingsSheet: View {
 
 struct SessionSettingsSheet_Previews: PreviewProvider {
     static var previews: some View {
-        SessionSettingsSheet(showSheet: .constant(.settings), settings: .constant(SessionSettings()), textTime: .constant("10"), textScore: .constant("0"))
+        SessionSettingsSheet(showSheet: .constant(.settings), settings: .constant(SessionSettings()), textTime: .constant("10"), textTopStickies: .constant("6"))
             .environmentObject(SessionViewModel())
             .environmentObject(GroupViewModel())
     }

@@ -37,13 +37,17 @@ struct ActivityView: View {
     @State var showSheet: SessionSheet?
     @State var bounces: Int = 0
 
+    @State var newColor: Int = 1
     @State private var selectedColor = -1
     @State private var randomizeColor: Bool = true
 
     @State private var ideas: [String] = []
     @State private var ideasIndex = 0
     @State private var idea = ""
-    @State private var isBouncing = false
+
+    @State var aiPopover = false
+    @State var infoPopover = false
+    @State var newStickyPopover = false
 
     @Binding var showActivity: Bool
 
@@ -59,6 +63,7 @@ struct ActivityView: View {
                         showActivity = false
                         sessionItemViewModel.resetModel()
                         sessionViewModel.selectedSession = nil
+                        sessionSettingsViewModel.clear()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                             sessionViewModel.timerManager.pause()
                             sessionViewModel.timerManager = TimerManager()
@@ -91,19 +96,33 @@ struct ActivityView: View {
                         .font(.system(size: 48, weight: .heavy))
                         .padding()
 
-//                    Button {
-//                        // Session description
-//                    } label: {
-//                        Image(systemName: "info.circle")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .frame(width: 30, height: 30)
-//                            .foregroundColor(Color("StrokeColor"))
-//                    }
+                    Button {
+                        infoPopover.toggle()
+                    } label: {
+                        Image(systemName: "info.circle")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(Color("StrokeColor"))
+                    }
+                    .popover(isPresented: $infoPopover, arrowEdge: .bottom) {
+                        if sessionViewModel.selectedSession?.sessionDescription == "" {
+                            Text("No Description")
+                                .font(.title2)
+                                .padding()
+                        } else {
+                            VStack {
+                                Text(sessionViewModel.selectedSession?.sessionDescription ?? "No Description")
+                                    .font(.title2)
+                                    .frame(maxWidth: 400)
+                                    .padding()
+                            }
+                        }
+                    }
 
                     Spacer()
 
-                    if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup?.groupId ?? "no ID") {
+                    if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup?.groupId ?? "no ID") && sessionViewModel.selectedSession?.stage ?? 1 != 4 {
                         Button {
                             withAnimation {
                                 if sessionViewModel.selectedSession?.stage ?? 1 == 1 {
@@ -113,7 +132,7 @@ struct ActivityView: View {
                                     sessionViewModel.beginVoting()
                                 } else if sessionViewModel.selectedSession!.stage == 2 {
                                     sessionViewModel.finishVoting()
-                                    sessionItemViewModel.finishVoting(spots: 6)
+                                    sessionItemViewModel.finishVoting(spots: sessionSettingsViewModel.settings[1].topStickiesCount)
                                 } else if sessionViewModel.selectedSession!.stage == 3 {
                                     sessionViewModel.finishTopVoting()
                                 }
@@ -135,7 +154,6 @@ struct ActivityView: View {
                         Button {
                             showSheet = .settings
 
-//                                sessionViewModel.getProfanityList(sessionMembers: groupViewModel.selectedGroup?.members ?? ["N/a"])
                         } label: {
                             Image("settings")
                                 .resizable()
@@ -227,9 +245,8 @@ struct ActivityView: View {
 
                         VStack(alignment: .trailing) {
                             Button {
-                                let newColor = randomizeColor ? Int.random(in: 0..<5) : selectedColor
-                                sessionItemViewModel.createItem(color: newColor)
-                                sessionViewModel.updateDateModified()
+                                newColor = randomizeColor ? Int.random(in: 0..<5) : selectedColor
+                                newStickyPopover = true
 
                             } label: {
                                 VStack(spacing: 0) {
@@ -252,6 +269,9 @@ struct ActivityView: View {
                                 .cornerRadius(18)
                                 .shadow(radius: 6, y: 4)
                                 .padding()
+                            }
+                            .popover(isPresented: $newStickyPopover, arrowEdge: .leading) {
+                                CreateStickyView(newStickyPopover: $newStickyPopover, chosenColor: newColor)
                             }
 
                             VStack(spacing: 10) {
@@ -444,70 +464,12 @@ struct ActivityView: View {
                             .padding(.trailing, 21)
 
                             HStack {
-                                // Suggestion carousel
-                                if sessionItemViewModel.generatedIdeas.count > 0 {
-                                    HStack {
-                                        // Cycle left
-                                        Button {
-                                            if ideasIndex > 0 {
-                                                ideasIndex -= 1
-                                            } else {
-                                                ideasIndex = sessionItemViewModel.generatedIdeas.count - 1
-                                            }
-                                            idea = sessionItemViewModel.generatedIdeas[ideasIndex]
-                                        } label: {
-                                            Image(systemName: "chevron.left")
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: 20, height: 20)
-                                        }
-
-                                        // Idea Text
-                                        Menu(sessionItemViewModel.generatedIdeas[ideasIndex]) {
-                                            // Copy Text
-                                            Button {
-                                                UIPasteboard.general.string =
-                                                    sessionItemViewModel.generatedIdeas[ideasIndex]
-                                            } label: {
-                                                Label("Copy", systemImage: "doc.on.doc")
-                                            }
-                                            // Close Ideas
-                                            Button {
-                                                sessionItemViewModel.clearIdeas()
-                                            } label: {
-                                                Label("Close", systemImage: "xmark")
-                                            }
-                                        }
-                                        .font(.title2)
-
-                                        // Cycle right
-                                        Button {
-                                            if ideasIndex < sessionItemViewModel.generatedIdeas.count - 1 {
-                                                ideasIndex += 1
-                                            } else {
-                                                ideasIndex = 0
-                                            }
-                                            idea = sessionItemViewModel.generatedIdeas[ideasIndex]
-                                        } label: {
-                                            Image(systemName: "chevron.right")
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: 20, height: 20)
-                                        }
-                                    }
-                                    .frame(minWidth: 20)
-                                    .padding(10)
-                                    .background(Color("BackgroundColor"))
-                                    .clipped()
-                                    .cornerRadius(15)
-                                    .shadow(radius: 4, y: 4)
-                                }
-
                                 // AI Word Generation button
                                 Button {
                                     sessionItemViewModel.clearIdeas()
                                     ideasIndex = 0
                                     sessionItemViewModel.generateIdeas()
+                                    aiPopover = true
                                 } label: {
                                     Image("brainwriting")
                                         .resizable()
@@ -517,6 +479,63 @@ struct ActivityView: View {
                                         .shadow(radius: 4, y: 4)
                                 }
                                 .padding(.trailing)
+                                .popover(isPresented: $aiPopover, arrowEdge: .leading) {
+                                    if sessionItemViewModel.generatedIdeas.count > 0 {
+                                        HStack {
+                                            // Cycle left
+                                            Button {
+                                                if ideasIndex > 0 {
+                                                    ideasIndex -= 1
+                                                } else {
+                                                    ideasIndex = sessionItemViewModel.generatedIdeas.count - 1
+                                                }
+                                                idea = sessionItemViewModel.generatedIdeas[ideasIndex]
+                                            } label: {
+                                                Image(systemName: "chevron.left")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(width: 20, height: 20)
+                                                    .foregroundColor(Color("StrokeColor"))
+                                            }
+
+                                            // Idea Text
+                                            Text(sessionItemViewModel.generatedIdeas[ideasIndex])
+                                                .font(.title2)
+                                                .frame(width: 160)
+
+                                            Button {
+                                                UIPasteboard.general.string =
+                                                    sessionItemViewModel.generatedIdeas[ideasIndex]
+                                            } label: {
+                                                Image(systemName: "doc.on.doc")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(width: 25, height: 25)
+                                                    .foregroundColor(Color("StrokeColor"))
+                                            }
+
+                                            // Cycle right
+                                            Button {
+                                                if ideasIndex < sessionItemViewModel.generatedIdeas.count - 1 {
+                                                    ideasIndex += 1
+                                                } else {
+                                                    ideasIndex = 0
+                                                }
+                                                idea = sessionItemViewModel.generatedIdeas[ideasIndex]
+                                            } label: {
+                                                Image(systemName: "chevron.right")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(width: 20, height: 20)
+                                                    .foregroundColor(Color("StrokeColor"))
+                                            }
+                                        }
+                                        .padding(10)
+                                        .clipped()
+                                        .cornerRadius(15)
+                                        .shadow(radius: 4, y: 4)
+                                    }
+                                }
                             }
                             .padding(.top)
 
@@ -534,14 +553,14 @@ struct ActivityView: View {
                     TopVotedView()
                         .animation(.easeInOut)
                 } else if sessionViewModel.selectedSession?.stage == 4 {
-                    BestIdeaView(bestIdea: sessionItemViewModel.stickyNotes.filter {$0.itemId == sessionViewModel.selectedSession?.finalVotes.max { first, second in first.value < second.value }?.key}.first ?? StickyNote(input: "", itemId: ""))
+                    BestIdeaView(bestIdeas: $sessionItemViewModel.bestIdeas)
                         .animation(.easeInOut)
                 }
             }
             .sheet(item: $showSheet) { item in
                 switch item {
                 case .settings:
-                    SessionSettingsSheet(showSheet: $showSheet, settings: $sessionSettingsViewModel.settings[1], textTime: $sessionSettingsViewModel.textTime, textScore: $sessionSettingsViewModel.textScore)
+                    SessionSettingsSheet(showSheet: $showSheet, settings: $sessionSettingsViewModel.settings[1], textTime: $sessionSettingsViewModel.textTime, textTopStickies: $sessionSettingsViewModel.textTopStickies)
                         .environmentObject(self.sessionViewModel)
                 }
             }
@@ -555,11 +574,6 @@ struct ActivityView: View {
             } else {
                 sessionViewModel.timerManager.timeRemaining = sessionViewModel.selectedSession!.timeRemaining
             }
-            if timerManager.timeRemaining == 0 {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    isBouncing = true
-                }
-            }
         }
         .onChange(of: timerManager.mode, perform: { mode in
             if mode == .finished {
@@ -569,8 +583,6 @@ struct ActivityView: View {
                     }
                 }
                 sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
-            } else {
-                isBouncing = false
             }
         })
     }

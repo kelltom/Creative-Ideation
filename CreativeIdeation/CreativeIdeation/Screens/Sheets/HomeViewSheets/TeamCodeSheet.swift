@@ -7,16 +7,19 @@
 
 import CoreImage.CIFilterBuiltins
 import SwiftUI
+import UIKit
 
 struct TeamCodeSheet: View {
 
     @Binding var showSheets: ActiveSheet?
     @State var isCopied: Bool = false
+    @State var showShareSheet: Bool = false
     @EnvironmentObject var teamViewModel: TeamViewModel
 
     // Stores Core Image context
     let context = CIContext()
     let filter = CIFilter.qrCodeGenerator()
+    @State var qrImage = UIImage()
 
     var body: some View {
 
@@ -88,14 +91,27 @@ struct TeamCodeSheet: View {
                             .interpolation(.none)
                             .scaledToFit()
                             .frame(width: geometry.size.width * 0.5, height: geometry.size.width * 0.5)
-                    }
 
+                        Button {
+                            self.showShareSheet = true
+                        } label: {
+                            HStack {
+                                Text("Share")
+                                    .fontWeight(.bold)
+                                    .font(.title2)
+                                Image(systemName: "square.and.arrow.up")
+                                    .font(.title)
+                            }
+                        }
+                    }
                     Spacer()
+                }
+                .sheet(isPresented: $showShareSheet) {
+                    ShareItems(activityItems: [generateQRCode(from: teamViewModel.selectedTeam?.accessCode ?? "")])
                 }
 
             }
         }
-
     }
 
     /// Generates a QR code
@@ -105,21 +121,13 @@ struct TeamCodeSheet: View {
 
         if let outputImage = filter.outputImage {
             if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
+
                 return UIImage(cgImage: cgimg)
             }
         }
 
         return UIImage(systemName: "xmark.circle") ?? UIImage()
     }
-
-//    private func delayAlert() {
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//            withAnimation {
-//                isCopied = false
-//            }
-//        }
-//    }
-
 }
 
 struct CodeGeneratorView_Previews: PreviewProvider {

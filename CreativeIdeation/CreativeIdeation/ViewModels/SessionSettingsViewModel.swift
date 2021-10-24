@@ -16,7 +16,7 @@ final class SessionSettingsViewModel: ObservableObject {
 
     @Published var settings = [SessionSettings()]
     @Published var textTime = "10"
-    @Published var textScore = "0"
+    @Published var textTopStickies = "6"
 
     func clear() {
         listener?.remove()
@@ -34,11 +34,11 @@ final class SessionSettingsViewModel: ObservableObject {
             "timerSetting": 600,
             "displayScore": true,
             "deleteStickies": false,
-            "deleteScoreSetting": 0,
+            "topStickiesCount": 6,
             "filterProfanity": true
         ]) { err in
             if let err = err {
-                print("Error creating SessionSettings")
+                print("Error creating SessionSettings: ", err)
             } else {
                 print("SessionSettings successfully created")
             }
@@ -76,11 +76,11 @@ final class SessionSettingsViewModel: ObservableObject {
                             self.settings[1].timerSetting = mockSettings.timerSetting
                             self.settings[1].displayScore = mockSettings.displayScore
                             self.settings[1].deleteStickies = mockSettings.deleteStickies
-                            self.settings[1].deleteScoreSetting = mockSettings.deleteScoreSetting
+                            self.settings[1].topStickiesCount = mockSettings.topStickiesCount
                             self.settings[1].filterProfanity = mockSettings.filterProfanity
 
                             self.textTime = String(mockSettings.timerSetting / 60)
-                            self.textScore = String(mockSettings.deleteScoreSetting)
+                            self.textTopStickies = String(mockSettings.topStickiesCount)
 
                         } catch {
                             print("Error reading modified settings from DB: \(error)")
@@ -195,8 +195,8 @@ final class SessionSettingsViewModel: ObservableObject {
         }
     }
 
-    func updateScoreThreshold() {
-        let newScore = Int(textScore) ?? 0
+    func updateTopStickyCount() {
+        let newCount = Int(textTopStickies) ?? 6
 
         let settingsReference = db.collection("session_settings").document(settings.last!.settingsId)
 
@@ -207,7 +207,7 @@ final class SessionSettingsViewModel: ObservableObject {
                 errorPointer?.pointee = fetchError
                 return nil
             }
-            transaction.updateData(["deleteScoreSetting": newScore],
+            transaction.updateData(["topStickiesCount": newCount],
                                    forDocument: settingsReference)
             return nil
         }) { (_, error) in

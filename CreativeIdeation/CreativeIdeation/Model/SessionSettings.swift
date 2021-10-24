@@ -17,7 +17,7 @@ struct SessionSettings: Identifiable, Codable, Hashable {
     var timerSetting = 600
     var displayScore = true
     var deleteStickies = false
-    var deleteScoreSetting = 0
+    var topStickiesCount = 6
     var filterProfanity = true
 
     enum CodingKeys: String, CodingKey {
@@ -27,7 +27,7 @@ struct SessionSettings: Identifiable, Codable, Hashable {
         case timerSetting
         case displayScore
         case deleteStickies
-        case deleteScoreSetting
+        case topStickiesCount
         case filterProfanity
     }
 }
