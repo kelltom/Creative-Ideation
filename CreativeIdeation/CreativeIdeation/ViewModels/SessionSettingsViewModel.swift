@@ -38,7 +38,7 @@ final class SessionSettingsViewModel: ObservableObject {
             "filterProfanity": true
         ]) { err in
             if let err = err {
-                print("Error creating SessionSettings")
+                print("Error creating SessionSettings: ", err)
             } else {
                 print("SessionSettings successfully created")
             }

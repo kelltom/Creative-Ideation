@@ -25,7 +25,7 @@ struct SessionSettingsSheet: View {
     @State private var timeSelectionExpanded = false
     @State var isCollapsed: Bool = true
     @State var showProfanity: Bool = true
-    @State var showDashboard: Bool = true
+    @State var showGraph: Bool = true
     let barStyle = ChartStyle(backgroundColor: .white,
                               foregroundColor: [ColorGradient(.blue),
                                                 ColorGradient(.red)])
@@ -177,10 +177,9 @@ struct SessionSettingsSheet: View {
                                             withAnimation {
                                                 isCollapsed.toggle()
                                                 sessionViewModel.getProfanityList(sessionMembers: groupViewModel.selectedGroup?.members ?? ["N/a"])
-                                                sessionViewModel.getDashboardData()
+                                                sessionViewModel.getGraphData()
                                             }
                                         } label: {
-
                                             Image(systemName: "chevron.right")
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fit)
@@ -188,7 +187,6 @@ struct SessionSettingsSheet: View {
                                                 .foregroundColor(Color("StrokeColor"))
                                                 .rotationEffect(Angle.degrees(isCollapsed ? 0 : 90))
                                                 .animation(.easeInOut)
-
                                         }
                                     }
 
@@ -199,15 +197,16 @@ struct SessionSettingsSheet: View {
                                             HStack {
                                                 Button {
                                                     // action
-                                                    showDashboard.toggle()
+                                                    showGraph.toggle()
                                                 } label: {
-                                                    if showDashboard {
-                                                        Text("Show Dashboard")
+                                                    if showGraph {
+                                                        Text("Show Graph")
                                                     } else {
-                                                        Text("Hide Dashboard")
+                                                        Text("Hide Graph")
                                                     }
                                                 }
                                             }
+
                                             Button {
                                                 withAnimation {showProfanity.toggle()}
                                             } label: {
@@ -216,17 +215,15 @@ struct SessionSettingsSheet: View {
                                                 } else {
                                                     Text("Hide Profanity")
                                                 }
-
                                             }
-
                                         } label: {
-
                                             Image(systemName: "ellipsis")
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fit)
                                                 .frame(width: 20, height: 25)
                                                 .padding()
-                                        }.foregroundColor(Color("StrokeColor"))
+                                        }
+                                        .foregroundColor(Color("StrokeColor"))
                                     }
 
                                 }
@@ -278,20 +275,16 @@ struct SessionSettingsSheet: View {
                                                                 }
 
                                                             }
-//                                                            .frame(width: geometry.size.width * 0.7, height:30)
                                                         }
                                                         .frame(width: geometry.size.width * 0.7, alignment: .leading)
                                                         .opacity(0.5)
                                                         .padding(.top, 2)
-
                                                     }
-                              
                                                 }
-
                                             }
-                                            
-                                            // Dashboard
-                                            if !showDashboard {
+
+                                            // Pie Graph
+                                            if !showGraph {
                                                 HStack {
                                                     VStack(alignment: .leading) {
                                                         HStack {

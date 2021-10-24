@@ -198,7 +198,7 @@ final class SessionViewModel: ObservableObject {
             }
         }
     }
-    func getDashboardData() {
+    func getGraphData() {
         var totalWord: [String] = []
         var totalProfanityWords: [String] = []
         // get the current session id

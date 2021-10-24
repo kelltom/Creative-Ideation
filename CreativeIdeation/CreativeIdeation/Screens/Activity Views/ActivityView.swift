@@ -153,7 +153,7 @@ struct ActivityView: View {
                     if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup?.groupId ?? "no ID") {
                         Button {
                             showSheet = .settings
-                            
+
                         } label: {
                             Image("settings")
                                 .resizable()
