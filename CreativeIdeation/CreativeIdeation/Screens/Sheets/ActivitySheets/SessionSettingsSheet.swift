@@ -26,7 +26,7 @@ struct SessionSettingsSheet: View {
     @State var isCollapsed: Bool = true
     @State var showProfanity: Bool = true
     @State var showGraph: Bool = true
-    let barStyle = ChartStyle(backgroundColor: .white,
+    let pieStyle = ChartStyle(backgroundColor: Color("BackgroundColor"),
                               foregroundColor: [ColorGradient(.blue),
                                                 ColorGradient(.red)])
 
@@ -239,7 +239,7 @@ struct SessionSettingsSheet: View {
                                                 Text("Profanity Count")
                                                     .fontWeight(.bold)
                                                     .animation(.easeInOut)
-                                                    .padding(2)
+                                                    .padding(.horizontal, 2)
                                             }
                                             .frame(width: geometry.size.width * 0.7)
 
@@ -249,36 +249,30 @@ struct SessionSettingsSheet: View {
                                                 }
                                             } else {
                                                 ForEach(sessionViewModel.profanityUsers, id: \.self) { user in
-                                                    VStack {
-                                                        HStack {
-                                                            Text(user.name)
-                                                                .animation(.easeInOut)
-                                                            Spacer()
-                                                            Text(String(user.profanityList.count))
-                                                                .animation(.easeInOut)
-                                                                .padding()
-                                                        }
-                                                        .padding(.top, 2)
-                                                        .animation(.easeInOut)
-
+                                                    HStack {
+                                                        Text(user.name)
+                                                            .animation(.easeInOut)
+                                                        Spacer()
+                                                        Text(String(user.profanityList.count))
+                                                            .animation(.easeInOut)
+                                                            .padding()
                                                     }
+                                                    .padding(.bottom, -20)
+                                                    .animation(.easeInOut)
 
                                                     if !showProfanity {
-                                                        VStack {
-                                                            HStack {
-                                                                Text("Words: ")
-                                                                    .fontWeight(.bold)
+                                                        HStack {
+                                                            Text("Words: ")
+                                                                .fontWeight(.bold)
+                                                                .animation(.easeInOut)
+                                                            ScrollView(.horizontal) {
+                                                                Text(user.profanityList.joined(separator: ", "))
                                                                     .animation(.easeInOut)
-                                                                ScrollView(.horizontal) {
-                                                                    Text(user.profanityList.joined(separator: ", "))
-                                                                        .animation(.easeInOut)
-                                                                }
-
                                                             }
+
                                                         }
                                                         .frame(width: geometry.size.width * 0.7, alignment: .leading)
                                                         .opacity(0.5)
-                                                        .padding(.top, 2)
                                                     }
                                                 }
                                             }
@@ -307,10 +301,11 @@ struct SessionSettingsSheet: View {
 
                                                     CardView {
                                                         PieChart()
+                                                            .padding()
                                                         ChartLabel("Session Behaviour Summary", type: .legend)
                                                     }
                                                     .data([sessionViewModel.lengthOfTotalWordCount, sessionViewModel.lengthOfProfanityWords])
-                                                    .chartStyle(self.barStyle)
+                                                    .chartStyle(self.pieStyle)
                                                     .frame(width: geometry.size.width * 0.45, height: 300)
                                                     .padding()
                                                 }
