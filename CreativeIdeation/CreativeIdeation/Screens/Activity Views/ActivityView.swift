@@ -48,6 +48,7 @@ struct ActivityView: View {
     @State var aiPopover = false
     @State var infoPopover = false
     @State var newStickyPopover = false
+    @State var timerPopover = false
 
     @Binding var showActivity: Bool
 
@@ -56,8 +57,8 @@ struct ActivityView: View {
 
             Color("BackgroundColor")
 
-            VStack {
-                HStack {
+            VStack(spacing: 0) {
+                HStack(alignment: .center) {
 
                     Button {
                         showActivity = false
@@ -73,27 +74,26 @@ struct ActivityView: View {
                         ZStack {
                             Circle()
                                 .foregroundColor(Color("BackgroundColor"))
-                                .frame(width: 80, height: 80)
+                                .frame(width: 50, height: 50)
 
                             Circle().stroke(lineWidth: 2)
                                 .foregroundColor(Color("StrokeColor"))
-                                .frame(width: 80, height: 80)
+                                .frame(width: 50, height: 50)
 
                             Image(systemName: "arrow.left")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 40, height: 40)
+                                .frame(width: 25, height: 25)
                                 .foregroundColor(Color("StrokeColor"))
                         }
-                        .frame(width: 85, height: 85)
+                        .frame(width: 55, height: 55)
                         .clipped()
-                        .padding(.leading, 45)
-                        .padding(.top, 20)
+                        .padding()
                         .shadow(radius: 4, y: 4)
                     }
 
                     Text(sessionViewModel.selectedSession?.sessionTitle ?? "Loading...")
-                        .font(.system(size: 48, weight: .heavy))
+                        .font(.system(size: 40, weight: .heavy))
                         .padding()
 
                     Button {
@@ -102,7 +102,7 @@ struct ActivityView: View {
                         Image(systemName: "info.circle")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 30, height: 30)
+                            .frame(width: 35, height: 35)
                             .foregroundColor(Color("StrokeColor"))
                     }
                     .popover(isPresented: $infoPopover, arrowEdge: .bottom) {
@@ -117,6 +117,22 @@ struct ActivityView: View {
                                     .frame(maxWidth: 400)
                                     .padding()
                             }
+                        }
+                    }
+
+                    // Settings gear button for Session Preferences
+                    if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup?.groupId ?? "no ID") {
+                        Button {
+                            showSheet = .settings
+
+                        } label: {
+                            Image(systemName: "gearshape.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundColor(Color("StrokeColor"))
+                                .frame(width: 35, height: 35)
+                                .padding()
+                                .shadow(radius: 4, y: 4)
                         }
                     }
 
@@ -138,95 +154,121 @@ struct ActivityView: View {
                                 }
                             }
                         } label: {
-                            Text("Next Stage...")
-                                .font(.title)
-                                .foregroundColor(Color.white)
-                                .padding(10)
-                                .background(Color.red)
-                                .cornerRadius(12)
-                                .shadow(radius: 4, y: 4)
-                                .padding(.trailing)
-                        }
-                    }
+                            HStack {
+                                Text("Proceed")
+                                    .font(.title)
+                                    .foregroundColor(Color.white)
+                                    .padding(.trailing, 8)
 
-                    // Settings gear button for Session Preferences
-                    if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup?.groupId ?? "no ID") {
-                        Button {
-                            showSheet = .settings
-
-                        } label: {
-                            Image("settings")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 60, height: 60)
-                                .padding(.trailing, 30)
-                                .shadow(radius: 4)
+                                Image(systemName: "chevron.right.2")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 25, height: 25)
+                                    .foregroundColor(Color.white)
+                            }
+                            .padding(10)
+                            .background(Color.green)
+                            .cornerRadius(12)
+                            .shadow(radius: 4, y: 4)
+                            .padding(.trailing)
                         }
                     }
                 }
+                .padding(8)
+                .padding(.bottom, -5)
 
                 if sessionViewModel.selectedSession?.stage == 1 {
-                    HStack {
-                        Menu {
-                            Button("Alphabetically", action: { sessionItemViewModel.sortStickies(sortBy: .alphabetical)})
-                            Button("By Color", action: { sessionItemViewModel.sortStickies(sortBy: .color)})
-                            Button("By Score", action: { sessionItemViewModel.sortStickies(sortBy: .score)})
-                        } label: {
-                            Label("Sort", systemImage: "arrow.up.arrow.down.circle")
-                        }
-                        .font(.largeTitle)
-                        .foregroundColor(Color("StrokeColor"))
-                        .padding(.leading)
-                        .padding(.top, 12)
+                    HStack(alignment: .center) {
+                        ZStack {
+//                            HStack {
+//                                Menu {
+//                                    Button("Alphabetically", action: { sessionItemViewModel.sortStickies(sortBy: .alphabetical)})
+//                                    Button("By Color", action: { sessionItemViewModel.sortStickies(sortBy: .color)})
+//                                } label: {
+//                                    Label("Sort", systemImage: "arrow.up.arrow.down.circle")
+//                                }
+//                                .font(.system(size: 35))
+//                                .foregroundColor(Color("StrokeColor"))
+//                                .padding(.leading, 18)
+//
+//                                Spacer()
+//                            }
 
-                        Spacer()
+                            if sessionSettingsViewModel.settings.last!.displayTimer {
+                                HStack {
 
-                        if sessionSettingsViewModel.settings.last!.displayTimer {
-                            HStack {
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(lineWidth: 3)
-                                        .frame(width: 120, height: 70)
-                                        .padding(.trailing)
+                                    Spacer()
 
-                                    Text(timerManager.toString())
-                                        .font(.largeTitle)
-                                        .padding(.trailing)
-                                }
+                                    if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup?.groupId ?? "no ID") {
+                                        Button {
+                                            timerPopover = true
+                                        } label: {
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius: 20)
+                                                    .stroke(lineWidth: 3)
+                                                    .frame(width: 120, height: 70)
+                                                    .padding(.horizontal)
 
-                                if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup?.groupId ?? "no ID") {
-                                    Button {
-                                        if timerManager.timeRemaining == 0 {
-                                            timerManager.reset(newTime: sessionSettingsViewModel.settings[1].timerSetting)
+                                                Text(timerManager.toString())
+                                                    .font(.largeTitle)
+                                                    .padding(.horizontal)
+                                                    .foregroundColor(Color("StrokeColor"))
+                                            }
                                         }
-                                        sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
-                                    } label: {
-                                        Image(systemName: timerManager.mode == .running ? "pause.fill" : "play.fill")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 35, height: 35)
-                                            .foregroundColor(timerManager.mode == .running ? .blue : .green)
-                                            .padding(.trailing)
-                                    }
+                                        .popover(isPresented: $timerPopover, arrowEdge: .bottom) {
+                                            HStack {
+                                                Button {
+                                                    if timerManager.timeRemaining == 0 {
+                                                        timerManager.reset(newTime: sessionSettingsViewModel.settings[1].timerSetting)
+                                                    }
+                                                    sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
+                                                } label: {
+                                                    Image(systemName: timerManager.mode == .running ? "pause.fill" : "play.fill")
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: 35, height: 35)
+                                                        .foregroundColor(timerManager.mode == .running ? .blue : .green)
+                                                        .padding()
+                                                        .padding(.trailing, -8)
+                                                }
 
-                                    Button {
-                                        if !(timerManager.mode == .running) {
-                                            sessionViewModel.resetTimer(time: sessionSettingsViewModel.settings[1].timerSetting)
+                                                Button {
+                                                    if !(timerManager.mode == .running) {
+                                                        sessionViewModel.resetTimer(time: sessionSettingsViewModel.settings[1].timerSetting)
+                                                    }
+                                                } label: {
+                                                    Image(systemName: "gobackward")
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: 40, height: 40)
+                                                        .font(Font.title.weight(.bold))
+                                                        .foregroundColor(timerManager.mode == .running ? Color("FadedColor") : .red)
+                                                        .padding()
+                                                        .padding(.leading, -8)
+                                                }
+                                            }
                                         }
-                                    } label: {
-                                        Image(systemName: "gobackward")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 40, height: 40)
-                                            .font(Font.title.weight(.bold))
-                                            .foregroundColor(timerManager.mode == .running ? Color("FadedColor") : .red)
+                                    } else {
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 20)
+                                                .stroke(lineWidth: 3)
+                                                .frame(width: 120, height: 70)
+                                                .padding(.horizontal)
+
+                                            Text(timerManager.toString())
+                                                .font(.largeTitle)
+                                                .padding(.horizontal)
+                                                .foregroundColor(Color("StrokeColor"))
+                                        }
                                     }
+                                    Spacer()
                                 }
                             }
-                            .padding(.top)
-                        }
 
-                        Spacer()
+                            Spacer()
+                        }
+                        .padding(8)
+                        .padding(.bottom, -5)
                     }
 
                     HStack(spacing: 0) {
@@ -243,7 +285,7 @@ struct ActivityView: View {
                             .padding(.leading, 10)
                         }
 
-                        VStack(alignment: .trailing) {
+                        VStack {
                             Button {
                                 newColor = randomizeColor ? Int.random(in: 0..<5) : selectedColor
                                 newStickyPopover = true
@@ -461,80 +503,99 @@ struct ActivityView: View {
                             .clipped()
                             .cornerRadius(15)
                             .shadow(radius: 6, y: 4)
-                            .padding(.trailing, 21)
 
-                            HStack {
-                                // AI Word Generation button
-                                Button {
-                                    sessionItemViewModel.clearIdeas()
-                                    ideasIndex = 0
-                                    sessionItemViewModel.generateIdeas()
-                                    aiPopover = true
-                                } label: {
-                                    Image("brainwriting")
+                            Menu {
+                                Button("Sort Alphabetically", action: { sessionItemViewModel.sortStickies(sortBy: .alphabetical)})
+                                Button("Sort by Color", action: { sessionItemViewModel.sortStickies(sortBy: .color)})
+                            } label: {
+                                Image(systemName: "arrow.up.arrow.down.circle")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 65, height: 65)
+                                    .foregroundColor(Color("StrokeColor"))
+                            }
+                            .padding(.top)
+                            .foregroundColor(Color("StrokeColor"))
+
+                            // AI Word Generation button
+                            Button {
+                                sessionItemViewModel.clearIdeas()
+                                ideasIndex = 0
+                                sessionItemViewModel.generateIdeas()
+                                aiPopover = true
+                            } label: {
+                                ZStack {
+                                    Image(systemName: "lightbulb")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(width: 90, height: 90)
-                                        .padding(.top, 8)
-                                        .shadow(radius: 4, y: 4)
+                                        .frame(width: 75, height: 75)
+                                        .foregroundColor(Color("StrokeColor"))
+
+                                    Image(systemName: "questionmark")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 35, height: 35)
+                                        .foregroundColor(Color("StrokeColor"))
+                                        .padding(.bottom, 16)
                                 }
-                                .padding(.trailing)
-                                .popover(isPresented: $aiPopover, arrowEdge: .leading) {
-                                    if sessionItemViewModel.generatedIdeas.count > 0 {
-                                        HStack {
-                                            // Cycle left
-                                            Button {
-                                                if ideasIndex > 0 {
-                                                    ideasIndex -= 1
-                                                } else {
-                                                    ideasIndex = sessionItemViewModel.generatedIdeas.count - 1
-                                                }
-                                                idea = sessionItemViewModel.generatedIdeas[ideasIndex]
-                                            } label: {
-                                                Image(systemName: "chevron.left")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .frame(width: 20, height: 20)
-                                                    .foregroundColor(Color("StrokeColor"))
+                                .clipped()
+                                .shadow(radius: 4, y: 4)
+                            }
+                            .popover(isPresented: $aiPopover, arrowEdge: .leading) {
+                                if sessionItemViewModel.generatedIdeas.count > 0 {
+                                    HStack {
+                                        // Cycle left
+                                        Button {
+                                            if ideasIndex > 0 {
+                                                ideasIndex -= 1
+                                            } else {
+                                                ideasIndex = sessionItemViewModel.generatedIdeas.count - 1
                                             }
-
-                                            // Idea Text
-                                            Text(sessionItemViewModel.generatedIdeas[ideasIndex])
-                                                .font(.title2)
-                                                .frame(width: 160)
-
-                                            Button {
-                                                UIPasteboard.general.string =
-                                                    sessionItemViewModel.generatedIdeas[ideasIndex]
-                                            } label: {
-                                                Image(systemName: "doc.on.doc")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .frame(width: 25, height: 25)
-                                                    .foregroundColor(Color("StrokeColor"))
-                                            }
-
-                                            // Cycle right
-                                            Button {
-                                                if ideasIndex < sessionItemViewModel.generatedIdeas.count - 1 {
-                                                    ideasIndex += 1
-                                                } else {
-                                                    ideasIndex = 0
-                                                }
-                                                idea = sessionItemViewModel.generatedIdeas[ideasIndex]
-                                            } label: {
-                                                Image(systemName: "chevron.right")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .frame(width: 20, height: 20)
-                                                    .foregroundColor(Color("StrokeColor"))
-                                            }
+                                            idea = sessionItemViewModel.generatedIdeas[ideasIndex]
+                                        } label: {
+                                            Image(systemName: "chevron.left")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 20, height: 20)
+                                                .foregroundColor(Color("StrokeColor"))
                                         }
-                                        .padding(10)
-                                        .clipped()
-                                        .cornerRadius(15)
-                                        .shadow(radius: 4, y: 4)
+
+                                        // Idea Text
+                                        Text(sessionItemViewModel.generatedIdeas[ideasIndex])
+                                            .font(.title2)
+                                            .frame(width: 160)
+
+                                        Button {
+                                            UIPasteboard.general.string =
+                                                sessionItemViewModel.generatedIdeas[ideasIndex]
+                                        } label: {
+                                            Image(systemName: "doc.on.doc")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 25, height: 25)
+                                                .foregroundColor(Color("StrokeColor"))
+                                        }
+
+                                        // Cycle right
+                                        Button {
+                                            if ideasIndex < sessionItemViewModel.generatedIdeas.count - 1 {
+                                                ideasIndex += 1
+                                            } else {
+                                                ideasIndex = 0
+                                            }
+                                            idea = sessionItemViewModel.generatedIdeas[ideasIndex]
+                                        } label: {
+                                            Image(systemName: "chevron.right")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 20, height: 20)
+                                                .foregroundColor(Color("StrokeColor"))
+                                        }
                                     }
+                                    .padding(10)
+                                    .clipped()
+                                    .cornerRadius(15)
+                                    .shadow(radius: 4, y: 4)
                                 }
                             }
                             .padding(.top)
