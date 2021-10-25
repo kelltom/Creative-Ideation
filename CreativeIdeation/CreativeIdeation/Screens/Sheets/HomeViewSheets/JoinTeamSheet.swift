@@ -76,20 +76,6 @@ struct JoinTeamSheet: View {
                         BigButton(title: "Join", geometry: geometry, widthScale: 0.75)
                     }
 
-                    // Export Share Button
-                    Button {
-
-                    } label: {
-                        HStack {
-                            Text("Share")
-                                .fontWeight(.bold)
-                                .font(.title2)
-                            Image(systemName: "square.and.arrow.up")
-                                .font(.title2)
-
-                        }
-
-                    }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
