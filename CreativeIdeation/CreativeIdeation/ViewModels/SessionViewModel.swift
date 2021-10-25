@@ -314,6 +314,7 @@ final class SessionViewModel: ObservableObject {
                                 self.groupSessions[selectedSessionGroupIndex!].sessionDescription = mockSession.sessionDescription
                                 self.groupSessions[selectedSessionGroupIndex!].inProgress = mockSession.inProgress
                                 self.groupSessions[selectedSessionGroupIndex!].dateModified = mockSession.dateModified
+                                self.groupSessions[selectedSessionGroupIndex!].stage = mockSession.stage
                                 self.groupSessions[selectedSessionGroupIndex!].timerActive = mockSession.timerActive
                                 self.groupSessions[selectedSessionGroupIndex!].timerEnd = mockSession.timerEnd
                                 self.groupSessions[selectedSessionGroupIndex!].timeRemaining = mockSession.timeRemaining
