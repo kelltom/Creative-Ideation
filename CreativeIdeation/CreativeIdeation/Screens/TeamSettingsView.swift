@@ -21,6 +21,7 @@ struct TeamSettingsView: View {
     var teamName: String = "My Team"
     var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
 
+    var isAdmin: Bool = false
     @State private var profanityFilter = true
     @State var showSheet: EditSheet?
 
@@ -139,13 +140,24 @@ struct TeamSettingsView: View {
                         .background(Color("FadedColor"))
 
                     Spacer()
+                    if teamViewModel.isCurrentUserTeamAdmin(teamId: teamViewModel.selectedTeam?.teamId ?? "unknown") {
 
-                    Button {
-                        teamViewModel.deleteSelectedTeam(teamId: teamViewModel.selectedTeam?.teamId)
-                    } label: {
-                        DeleteButton(backgroundColor: isPrivate ? .gray : .red)
+                        Button {
+
+                            teamViewModel.deleteSelectedTeam(teamId: teamViewModel.selectedTeam?.teamId)
+                        } label: {
+                            DeleteButton(backgroundColor: isPrivate ? .gray : .red)
+                        }
+                        .disabled(isPrivate)
+
+                    } else {
+                        Button {
+
+                        } label: {
+                            DeleteButton(backgroundColor: .gray)
+                        }
+                        .disabled(true)
                     }
-                    .disabled(isPrivate)
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
                 .sheet(item: $showSheet) { item in

@@ -437,6 +437,22 @@ final class TeamViewModel: ObservableObject {
         }
     }
 
+    func isCurrentUserTeamAdmin(teamId: String) -> Bool {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("isCurrentUserAdmin: Cannot find uid.")
+            return false  // should probably throw error here
+        }
+
+        guard let index = teams.firstIndex(where: {$0.teamId == teamId}) else {
+            print("isCurrentUserAdmin: Cannot find index of selected team.")
+            return false
+        }
+
+        let team = teams[index]
+        return team.admins.contains(uid)
+
+    }
+
     // Enables delete functionality on home view
     func deleteSelectedTeam(teamId: String?) {
         guard let teamId = teamId else {
