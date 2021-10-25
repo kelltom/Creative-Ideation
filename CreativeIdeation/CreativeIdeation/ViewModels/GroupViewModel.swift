@@ -498,6 +498,50 @@ final class GroupViewModel: ObservableObject {
         }
     }
 
+    /// Used to remove the current user from the given Group
+    func leaveGroup(group: Group) {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("leaveGroup: Cannot get current user ID.")
+            return
+        }
+
+        if group.admins.contains(uid) {
+            print("leaveGroup: Cannot leave Group if you are admin.")
+            // Set banner
+            self.setBannerData(title: "Failed to leave Group",
+                               details: "Cannot leave Group if you are admin.",
+                               type: .warning)
+            self.showBanner = true
+            self.isLoading = false
+            return
+        }
+
+        let groupRef = db.collection("teams").document(group.fkTeamId).collection("groups").document(group.groupId)
+
+        groupRef.updateData(["members": FieldValue.arrayRemove([uid])]) { err in
+            if let err = err {
+                // Set banner
+                self.setBannerData(title: "Failed to leave Group",
+                                   details: "Error: \(err.localizedDescription).",
+                                   type: .error)
+                self.showBanner = true
+
+                print("leaveGroup: Error leaving Group: \(err)")
+            } else {
+                // Set banner
+                self.setBannerData(title: "Success",
+                                   details: "Group has been left.",
+                                   type: .success)
+                self.showBanner = true
+                self.isLoading = false
+
+                self.groups.removeAll {
+                    $0.id == group.id
+                }
+            }
+        }
+    }
+
     func updateGroupTitle(newTitle: String, teamId: String?) {
         self.isLoading = true
 

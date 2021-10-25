@@ -308,6 +308,7 @@ struct HomeView: View {
                                                         } else {
                                                             Button {
                                                                 // Leave group
+                                                                groupViewModel.leaveGroup(group: group)
                                                             } label: {
                                                                 HStack {
                                                                     Text("Leave")
