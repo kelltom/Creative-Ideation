@@ -41,6 +41,7 @@
 		C944CD32266D0A0A00F964DD /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = C944CD31266D0A0A00F964DD /* Member.swift */; };
 		C94A099A266C4A86004E6614 /* GroupMembersSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A0999266C4A86004E6614 /* GroupMembersSheet.swift */; };
 		C96870F92721F0F40092FD35 /* CreateStickyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96870F82721F0F40092FD35 /* CreateStickyView.swift */; };
+		C96870FF272744290092FD35 /* ConfettiView in Frameworks */ = {isa = PBXBuildFile; productRef = C96870FE272744290092FD35 /* ConfettiView */; };
 		C99D53C126E02CBE0076D1BC /* Profanity Filter in Frameworks */ = {isa = PBXBuildFile; productRef = C99D53C026E02CBE0076D1BC /* Profanity Filter */; };
 		C9AE738125EAAD940090C96B /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE738025EAAD940090C96B /* ActivityView.swift */; };
 		C9AE739E25EB19F50090C96B /* CreateSessionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE739D25EB19F50090C96B /* CreateSessionSheet.swift */; };
@@ -181,6 +182,7 @@
 				C99D53C126E02CBE0076D1BC /* Profanity Filter in Frameworks */,
 				DDA2E49A27064E6C005D8753 /* AssistantV2 in Frameworks */,
 				DD4A6A9E26D0271900F592E1 /* CodeScanner in Frameworks */,
+				C96870FF272744290092FD35 /* ConfettiView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -495,6 +497,7 @@
 				C99D53C026E02CBE0076D1BC /* Profanity Filter */,
 				268F9992270E72E600FD35F4 /* SwiftUICharts */,
 				DDA2E49927064E6C005D8753 /* AssistantV2 */,
+				C96870FE272744290092FD35 /* ConfettiView */,
 			);
 			productName = CreativeIdeation;
 			productReference = DD3BF92A25D9C97800C368B0 /* CreativeIdeation.app */;
@@ -529,6 +532,7 @@
 				C99D53BF26E02CBE0076D1BC /* XCRemoteSwiftPackageReference "profanitiy-filter-swift" */,
 				268F9991270E72E600FD35F4 /* XCRemoteSwiftPackageReference "ChartView" */,
 				DDA2E49827064E6C005D8753 /* XCRemoteSwiftPackageReference "swift-sdk" */,
+				C96870FD272744290092FD35 /* XCRemoteSwiftPackageReference "ConfettiView" */,
 			);
 			productRefGroup = DD3BF92B25D9C97800C368B0 /* Products */;
 			projectDirPath = "";
@@ -856,6 +860,14 @@
 				version = "2.0.0-beta.2";
 			};
 		};
+		C96870FD272744290092FD35 /* XCRemoteSwiftPackageReference "ConfettiView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ziligy/ConfettiView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		C99D53BF26E02CBE0076D1BC /* XCRemoteSwiftPackageReference "profanitiy-filter-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jvanbrunt/profanitiy-filter-swift";
@@ -895,6 +907,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 268F9991270E72E600FD35F4 /* XCRemoteSwiftPackageReference "ChartView" */;
 			productName = SwiftUICharts;
+		};
+		C96870FE272744290092FD35 /* ConfettiView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C96870FD272744290092FD35 /* XCRemoteSwiftPackageReference "ConfettiView" */;
+			productName = ConfettiView;
 		};
 		C99D53C026E02CBE0076D1BC /* Profanity Filter */ = {
 			isa = XCSwiftPackageProductDependency;
