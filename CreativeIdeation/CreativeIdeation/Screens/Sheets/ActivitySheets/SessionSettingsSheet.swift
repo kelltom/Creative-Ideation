@@ -24,8 +24,8 @@ struct SessionSettingsSheet: View {
     @State private var selectedTime = "10"
     @State private var timeSelectionExpanded = false
     @State var isCollapsed: Bool = true
-    @State var showProfanity: Bool = true
-    @State var showGraph: Bool = true
+    @State var showProfanity: Bool = false
+    @State var showGraph: Bool = false
     let pieStyle = ChartStyle(backgroundColor: Color("BackgroundColor"),
                               foregroundColor: [ColorGradient(.blue),
                                                 ColorGradient(.red)])
@@ -260,7 +260,7 @@ struct SessionSettingsSheet: View {
                                                     .padding(.bottom, -20)
                                                     .animation(.easeInOut)
 
-                                                    if !showProfanity {
+                                                    if showProfanity {
                                                         HStack {
                                                             Text("Words: ")
                                                                 .fontWeight(.bold)
@@ -278,7 +278,7 @@ struct SessionSettingsSheet: View {
                                             }
 
                                             // Pie Graph
-                                            if !showGraph {
+                                            if showGraph {
                                                 HStack {
                                                     VStack(alignment: .leading) {
                                                         HStack {
@@ -320,7 +320,6 @@ struct SessionSettingsSheet: View {
                                 Divider()
                                     .frame(width: geometry.size.width * 0.7)
                                     .background(Color("FadedColor"))
-                                    .animation(.easeInOut)
 
                             }
                             .frame(width: geometry.size.width * 0.7)
