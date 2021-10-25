@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ConfettiView
 
 struct BestIdeaView: View {
 
@@ -22,48 +23,13 @@ struct BestIdeaView: View {
         GeometryReader { geometry in
             ZStack {
 
-                // Background Stars VStack
-                VStack {
-                    HStack(alignment: .top) {
-                        Star(size: geometry.size.height * 0.09, color: Color.red, inverted: true)
-                        Spacer()
-                        Star(size: geometry.size.height * 0.065, color: Color.purple)
-                    }
-                    HStack {
-                        Star(size: geometry.size.height * 0.07, color: Color.yellow)
-                            .padding(.trailing, 30)
-                        Spacer()
-                        Star(size: geometry.size.height * 0.08, color: Color.green, inverted: true)
-                            .padding(.trailing, 30)
-                    }
-                    HStack(alignment: .bottom) {
-                        Star(size: geometry.size.height * 0.05, color: Color.blue, inverted: true)
-                            .padding(.leading, 30)
-                        Spacer()
-                        Star(size: geometry.size.height * 0.075, color: Color.orange)
-                    }
-                    HStack {
-                        Star(size: geometry.size.height * 0.085, color: Color.green)
-                            .padding(.trailing, 30)
-                        Spacer()
-                        Star(size: geometry.size.height * 0.06, color: Color.red, inverted: true)
-                            .padding(.leading, 30)
-                    }
-                    HStack(alignment: .top) {
-                        Star(size: geometry.size.height * 0.07, color: Color.purple, inverted: true)
-                            .padding(.leading, 30)
-                        Spacer()
-                        Star(size: geometry.size.height * 0.055, color: Color.yellow)
-                            .padding(.leading, 30)
-                    }
-                    HStack(alignment: .bottom) {
-                        Star(size: geometry.size.height * 0.065, color: Color.orange)
-                            .padding(.trailing, 30)
-                        Spacer()
-                        Star(size: geometry.size.height * 0.085, color: Color.blue, inverted: true)
-                            .padding(.leading, 30)
-                    }
-                }
+                // Confetti!
+                ConfettiView(confetti: [
+                    .shape(.triangle, .red),
+                    .shape(.square, .green),
+                    .shape(.circle, UIColor.init(red: 0, green: 0.5, blue: 1, alpha: 1)),
+                    .text("⭐")
+                ])
 
                 // Best Stickies
                 HStack {
