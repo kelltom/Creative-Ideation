@@ -260,7 +260,7 @@ struct SessionSettingsSheet: View {
                                                     .padding(.bottom, -20)
                                                     .animation(.easeInOut)
 
-                                                    if showProfanity {
+                                                    if !showProfanity {
                                                         HStack {
                                                             Text("Words: ")
                                                                 .fontWeight(.bold)
@@ -278,7 +278,7 @@ struct SessionSettingsSheet: View {
                                             }
 
                                             // Pie Graph
-                                            if showGraph {
+                                            if !showGraph {
                                                 HStack {
                                                     VStack(alignment: .leading) {
                                                         HStack {

@@ -25,10 +25,12 @@ struct BestIdeaView: View {
 
                 // Confetti!
                 ConfettiView(confetti: [
-                    .shape(.triangle, .red),
-                    .shape(.square, .green),
-                    .shape(.circle, UIColor.init(red: 0, green: 0.5, blue: 1, alpha: 1)),
-                    .text("⭐")
+//                    .shape(.triangle, .red),
+//                    .shape(.square, .green),
+//                    .shape(.circle, UIColor.init(red: 0, green: 0.5, blue: 1, alpha: 1)),
+//                    .text("⭐")
+//                    .text("🐷")
+                    .text("🎉")
                 ])
 
                 // Best Stickies
@@ -36,15 +38,19 @@ struct BestIdeaView: View {
                     VStack {
                         Text("The voters have spoken!")
                             .font(.largeTitle)
+                            .background(Color("BackgroundColor").opacity(0.5))
                             .padding()
 
                         if bestIdeas.count < 2 {
                             Text("...and the best idea from this session was:")
                                 .font(.title)
+                                .background(Color("BackgroundColor").opacity(0.5))
                                 .padding(.bottom)
+
                         } else {
                             Text("...and it's a tie! The best ideas were:")
                                 .font(.title)
+                                .background(Color("BackgroundColor").opacity(0.5))
                         }
 
                         Spacer()
