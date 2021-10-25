@@ -109,6 +109,7 @@ struct HomeView: View {
                     // Top Title Bar
                     HStack(spacing: 20) {
                         Text(teamViewModel.selectedTeam?.teamName ?? "No Team Selected")
+                            .lineLimit(1)
                             .font(.largeTitle)
 
                         // Add Members and Settings Gear (do not display if selected Team nil)

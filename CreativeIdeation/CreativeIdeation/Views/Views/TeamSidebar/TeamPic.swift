@@ -40,6 +40,7 @@ struct TeamPic: View {
             }
 
             Text(teamName)
+                .lineLimit(2)
                 .font(.footnote)
                 .foregroundColor(.white)
                 .frame(maxWidth: 60)
