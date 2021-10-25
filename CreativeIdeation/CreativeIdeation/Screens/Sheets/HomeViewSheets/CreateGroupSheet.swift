@@ -64,7 +64,7 @@ struct CreateGroupSheet: View {
 
                         // Select Group Members title
                         HStack {
-                            Text("Select Group Members")
+                            Text("Add Following Team Members")
                                 .font(.title3)
                                 .fontWeight(.bold)
                             Spacer()
