@@ -106,17 +106,24 @@ struct GroupSettingsView: View {
                     Spacer()
 
                     // Delete/Leave button
-                    Button {
-                    } label: {
-                        // Comment this out to make Preview work
-                        if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup!.groupId) {
+                    if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup!.groupId) {
+                        Button {
+                            groupViewModel.deleteGroups(groupId: groupViewModel.selectedGroup!.groupId, teamId: groupViewModel.selectedGroup!.fkTeamId)
+                        } label: {
+                            // Comment this out to make Preview work
                             DeleteButton(text: "Delete Group")
-                        } else {
+                        }
+                    } else {
+                        Button {
+                            groupViewModel.leaveGroup(group: groupViewModel.selectedGroup!)
+                            showGroupSettings = false
+                        } label: {
                             DeleteButton(text: "Leave Group",
                                          image: "rectangle.lefthalf.inset.fill.arrow.left",
                                          backgroundColor: Color.gray)
                         }
                     }
+
                 }
                 .frame(width: geometry.size.width,
                        height: geometry.size.height)
