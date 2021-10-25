@@ -269,9 +269,9 @@ final class GroupViewModel: ObservableObject {
 
         db.collection("teams").document(teamId).collection("groups").document(groupId).delete { err in
             if let err = err {
-                print("Error deleting session item: \(err)")
+                print("Error deleting group item: \(err)")
             } else {
-                print("Session item deleted!")
+                print("group deleted!")
             }
         }
 
