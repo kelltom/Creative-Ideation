@@ -123,9 +123,10 @@ struct CreateAccountView: View {
         .onChange(of: userAccountViewModel.createSuccess == true) { _ in
             // When a user account is successfully created, make a Private team
             teamViewModel.getTeams()
-            teamViewModel.createTeam(teamName: "Private",
-                                     teamDescription: "Private Team for user.",
-                                     isPrivate: true)
+            // PRIVATE TEAMS ARE DISABLED FOR BETA RELEASE
+//            teamViewModel.createTeam(teamName: "Private",
+//                                     teamDescription: "Private Team for user.",
+//                                     isPrivate: true)
         }
     }
 }
