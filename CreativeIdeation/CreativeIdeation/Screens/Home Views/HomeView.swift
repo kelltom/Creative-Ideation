@@ -142,22 +142,11 @@ struct HomeView: View {
 
                         Spacer()
 
-                        // Notifications Bell
-                        Button {
-                            // view notifications
-                        } label: {
-                            Image(systemName: "bell.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 40, height: 40)
-                                .foregroundColor(Color.yellow)
-                        }
-
                         // User Profile Icon
                         Button {
                             showUserSettings = true
                         } label: {
-                            ProfilePic(size: 70)
+                            ProfilePic(size: 60)
                                 .shadow(color: .black, radius: 4, y: 4)
                                 .padding(.trailing, 5)
                         }
