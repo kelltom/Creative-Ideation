@@ -155,7 +155,6 @@ final class SessionViewModel: ObservableObject {
             "type": "",
             "inProgress": true,
             "stage": 1,
-            "showScores": false,
             "dateCreated": Date(),
             "dateModified": Date(),
             "createdBy": uid,
@@ -277,7 +276,6 @@ final class SessionViewModel: ObservableObject {
                             self.teamSessions[selectedSessionIndex!].sessionDescription = mockSession.sessionDescription
                             self.teamSessions[selectedSessionIndex!].inProgress = mockSession.inProgress
                             self.teamSessions[selectedSessionIndex!].stage = mockSession.stage
-                            self.teamSessions[selectedSessionIndex!].showScores = mockSession.showScores
                             self.teamSessions[selectedSessionIndex!].dateModified = mockSession.dateModified
                             self.teamSessions[selectedSessionIndex!].timerEnd = mockSession.timerEnd
                             self.teamSessions[selectedSessionIndex!].timerActive = mockSession.timerActive
@@ -302,7 +300,6 @@ final class SessionViewModel: ObservableObject {
                                 self.selectedSession!.timerEnd = mockSession.timerEnd
                                 self.selectedSession!.timeRemaining = mockSession.timeRemaining
                                 self.selectedSession!.stage = mockSession.stage
-                                self.selectedSession!.showScores = mockSession.showScores
                                 self.selectedSession!.castFinalVote = mockSession.castFinalVote
                                 self.selectedSession!.finalVotes = mockSession.finalVotes
                                 self.selectedSession!.profanityLog = mockSession.profanityLog
@@ -622,8 +619,7 @@ final class SessionViewModel: ObservableObject {
                 return nil
             }
             print("Finishing Voting")
-            transaction.updateData(["stage": 3,
-                                    "showScores": true],
+            transaction.updateData(["stage": 3],
                                    forDocument: sessionReference)
             return nil
         }) { (_, error) in

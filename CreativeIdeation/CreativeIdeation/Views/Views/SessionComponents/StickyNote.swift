@@ -29,20 +29,10 @@ struct StickyNote: View, Identifiable {
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
             VStack(spacing: 0) {
-                ZStack {
-                    Rectangle()
-                        .foregroundColor(colorScheme == .dark ? chosenColor?.darker() : chosenColor)
-                        .frame(width: 160, height: 30)
-
-                    if (sessionViewModel.selectedSession?.showScores ?? false) && sessionSettingsViewModel.settings.last!.displayScore {
-                        Text("Score: " + String(score))
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .foregroundColor(Color("StrokeColor"))
-                    }
-                }
-                .simultaneousGesture(longPress)
-            // .simultaneousGesture(simpleDrag)
+                Rectangle()
+                    .foregroundColor(colorScheme == .dark ? chosenColor?.darker() : chosenColor)
+                    .frame(width: 160, height: 30)
+                    .simultaneousGesture(longPress)
 
                 TextEditor(text: $input)
                     .frame(width: 160, height: 130)

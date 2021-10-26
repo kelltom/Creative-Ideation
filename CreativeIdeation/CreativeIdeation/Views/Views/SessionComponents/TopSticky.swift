@@ -12,6 +12,7 @@ struct TopSticky: View, Identifiable {
     var id = UUID()
 
     @EnvironmentObject var sessionViewModel: SessionViewModel
+    @EnvironmentObject var sessionSettingsViewModel: SessionSettingsViewModel
     @Environment(\.colorScheme) var colorScheme
 
     @State var itemId: String = ""
@@ -29,11 +30,12 @@ struct TopSticky: View, Identifiable {
                             .foregroundColor(colorScheme == .dark ? chosenColor.darker() : chosenColor)
                             .frame(width: geometry.size.width, height: geometry.size.height * 0.15)
 
-                        Text("Score: " + String(score))
-                            .font(.title)
-                            .fontWeight(.bold)
+                        if sessionSettingsViewModel.settings.last!.displayScore {
+                            Text("Score: " + String(score))
+                                .font(.title)
+                                .fontWeight(.bold)
                             .foregroundColor(Color("StrokeColor"))
-
+                        }
                     }
 
                     // Text area
