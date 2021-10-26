@@ -36,6 +36,8 @@ struct HomeView: View {
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
     @EnvironmentObject var sessionSettingsViewModel: SessionSettingsViewModel
 
+    @Environment(\.colorScheme) var colorScheme
+
     /// Temporary way to show conditional views in preview canvas
     var preview: Bool = false
 
@@ -478,7 +480,7 @@ struct HomeView: View {
                             Image(systemName: "questionmark.circle.fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .foregroundColor(.blue)
+                                .foregroundColor(colorScheme == .dark ? .blue.lighter(by: 20) : .blue)
                                 .frame(width: 60, height: 60)
                                 .clipped()
                                 .padding(20)
@@ -493,7 +495,7 @@ struct HomeView: View {
 struct GroupView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
-            .preferredColorScheme(.dark)
+            .preferredColorScheme(.light)
             .environmentObject(TeamViewModel())
             .environmentObject(GroupViewModel())
             .environmentObject(SessionViewModel())

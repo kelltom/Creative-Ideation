@@ -11,7 +11,6 @@ struct TutorialOverlay: View {
 
     @State var isPointing: Bool = false
 
-
     var body: some View {
         VStack {
             HStack(alignment: .top) {
@@ -21,8 +20,7 @@ struct TutorialOverlay: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 40)
-                        .offset(x: isPointing ? -7 : 7, y: isPointing ? -7 : 7)
-                        .animation(.interpolatingSpring(stiffness: 25, damping: 0).repeatForever())
+//                        .offset(x: isPointing ? -7 : 7, y: isPointing ? -7 : 7)
                         .padding(.bottom)
                     Text("Tap the + to create or join a Team!")
                         .font(.title)
@@ -46,9 +44,9 @@ struct TutorialOverlay: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 40)
-                        .offset(y: isPointing ? -7 : 7)
-                        .animation(.interpolatingSpring(stiffness: 25, damping: 0).repeatForever())
-                        .padding(.trailing, 20)
+//                        .offset(y: isPointing ? -7 : 7)
+//                        .animation(.interpolatingSpring(stiffness: 25, damping: 0).repeatForever(), value: isPointing)
+                        .padding(.trailing, 15)
                     Text("Tap here to edit user settings!")
                         .font(.title)
                         .multilineTextAlignment(.center)
@@ -82,8 +80,8 @@ struct TutorialOverlay: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 40)
-                        .offset(x: isPointing ? 7 : -7, y: isPointing ? 7 : -7)
-                        .animation(.interpolatingSpring(stiffness: 25, damping: 0).repeatForever())
+//                        .offset(x: isPointing ? 7 : -7, y: isPointing ? 7 : -7)
+//                        .animation(.interpolatingSpring(stiffness: 25, damping: 0).repeatForever())
                         .padding(.top, 50)
                 }
                 .padding(.trailing, 100)
@@ -93,9 +91,9 @@ struct TutorialOverlay: View {
         }
         .foregroundColor(Color("StrokeColor"))
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                isPointing = true
-            }
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                isPointing = true
+//            }
         }
     }
 }
