@@ -228,8 +228,7 @@ final class SessionViewModel: ObservableObject {
                     }
                     self.lengthOfTotalWordCount = Double(totalWord.count)
                     self.lengthOfProfanityWords = Double(totalProfanityWords.count)
-//                    print("length of total word", String(self.lengthOfTotalWordCount))
-//                    print("length of total profanity word", String(self.lengthOfProfanityWords))
+
                 }
             }
 

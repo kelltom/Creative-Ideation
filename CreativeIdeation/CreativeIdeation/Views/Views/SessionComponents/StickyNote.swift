@@ -33,6 +33,7 @@ struct StickyNote: View, Identifiable {
                     .foregroundColor(colorScheme == .dark ? chosenColor?.darker() : chosenColor)
                     .frame(width: 160, height: 30)
                     .simultaneousGesture(longPress)
+                
 
                 TextEditor(text: $input)
                     .frame(width: 160, height: 130)
@@ -60,7 +61,22 @@ struct StickyNote: View, Identifiable {
                         .foregroundColor(chosenColor)
                         .padding(5)
                 }
+            } else if selected {
+                if sessionItemViewModel.isUsersSticky() {
+                    Button {
+                        sessionItemViewModel.deleteSelected()
+
+                    } label: {
+                        Image(systemName: "trash.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(chosenColor)
+                            .padding(5)
+                    }
+                }
             }
+            
         }
         .clipped()
         .shadow(color: selected ? Color.black : Color.clear, radius: 4, y: 4 )
