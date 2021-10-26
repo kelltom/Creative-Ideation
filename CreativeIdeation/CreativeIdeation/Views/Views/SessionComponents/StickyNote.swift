@@ -33,7 +33,6 @@ struct StickyNote: View, Identifiable {
                     .foregroundColor(colorScheme == .dark ? chosenColor?.darker() : chosenColor)
                     .frame(width: 160, height: 30)
                     .simultaneousGesture(longPress)
-                
 
                 TextEditor(text: $input)
                     .frame(width: 160, height: 130)
@@ -61,7 +60,9 @@ struct StickyNote: View, Identifiable {
                         .foregroundColor(chosenColor)
                         .padding(5)
                 }
-            } else if selected {
+            }
+            
+            if selected {
                 if sessionItemViewModel.isUsersSticky() {
                     Button {
                         sessionItemViewModel.deleteSelected()
@@ -76,7 +77,7 @@ struct StickyNote: View, Identifiable {
                     }
                 }
             }
-            
+
         }
         .clipped()
         .shadow(color: selected ? Color.black : Color.clear, radius: 4, y: 4 )

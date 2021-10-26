@@ -14,50 +14,50 @@ import FirebaseFunctions
 import Profanity_Filter
 
 final class SessionItemViewModel: ObservableObject {
-    
+
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
-    
+
     @Published var activeSession: Session?        // Session object of the currently active Session
-    
+
     @Published var selectedItem: SessionItem?       // Currently selected SessionItem
     @Published var sessionItems: [SessionItem] = []    // List of StickyItems from the session that is currently active
-    
+
     @Published var selectedSticky: StickyNote?      // Currently selected StickyNote
     @Published var stickyNotes: [StickyNote] = []       // Array of StickyNotes in the session
-    
+
     @Published var votingStickies: [VotingSticky] = []  // Stickies to be voted on
     @Published var votedOnStack: [(VotingSticky, Int)] = []   // Stickies that have been voted on in current session
-    
+
     @Published var topStickies: [TopSticky] = []
-    
+
     @Published var bestIdeas: [StickyNote] = []
-    
+
     @Published var generatedIdeas: [String] = []
     @Published var isCreator = false
-    
+
     // Published vars for displaying like/dislike/skip/undo button animations
     @Published var showingLike = false
     @Published var showingSkip = false
     @Published var showingDislike = false
     @Published var isSpinning = false
-    
+
     private var spinTimer: Timer?
     private var animationTimer: Timer?
     private var pFilter: ProfanityFilter = ProfanityFilter()
-    
+
     enum SortingType {
         case alphabetical
         case score
         case color
     }
-    
+
     let colorArray = [Color.init(red: 0.9, green: 0, blue: 0),
                       Color.init(red: 0.9, green: 0.5, blue: 0),
                       Color.init(red: 0, green: 0.9, blue: 0),
                       Color.init(red: 0, green: 0.7, blue: 0.9),
                       Color.init(red: 0.9, green: 0.45, blue: 0.9)]
-    
+
     func resetModel() {
         clearAnimations()
         listener?.remove()
@@ -71,16 +71,16 @@ final class SessionItemViewModel: ObservableObject {
         selectedSticky = nil
         stickyNotes = []
     }
-    
+
     func updateText(text: String, itemId: String) {
         sessionItems[sessionItems.firstIndex(where: {$0.itemId == itemId})!].input = pFilter.maskProfanity(text: text)
-        
+
     }
-    
+
     func updateItem(itemId: String) {
         let itemReference = db.collection("session_items").document(itemId)
         let localItem = sessionItems.first(where: {$0.itemId == itemId})
-        
+
         // swiftlint:disable multiple_closures_with_trailing_closure
         db.runTransaction({ (transaction, errorPointer) -> Any? in
             // let itemDocument: DocumentSnapshot
@@ -90,10 +90,10 @@ final class SessionItemViewModel: ObservableObject {
                 errorPointer?.pointee = fetchError
                 return nil
             }
-            
+
             let newColor = localItem!.color
             let newInput = localItem!.input
-            
+
             transaction.updateData(["color": newColor,
                                     "input": newInput],
                                    forDocument: itemReference)
@@ -105,15 +105,15 @@ final class SessionItemViewModel: ObservableObject {
         }
         // swiftlint:enable multiple_closures_with_trailing_closure
     }
-    
+
     func castVote(itemId: String, scoreChange: Int) {
         // function for casting a vote and updating the database with the user id and the new score
-        
+
         guard let uid = Auth.auth().currentUser?.uid else {
             print("castVote: Failed to get uid")
             return
         }
-        
+
         if scoreChange == 1 {
             clearAnimations()
             self.showingLike.toggle()
@@ -123,9 +123,9 @@ final class SessionItemViewModel: ObservableObject {
             self.showingDislike.toggle()
             setAnimationTimer()
         }
-        
+
         let itemReference = db.collection("session_items").document(itemId)
-        
+
         // swiftlint:disable multiple_closures_with_trailing_closure
         db.runTransaction({ (transaction, errorPointer) -> Any? in
             do {
@@ -134,7 +134,7 @@ final class SessionItemViewModel: ObservableObject {
                 errorPointer?.pointee = fetchError
                 return nil
             }
-            
+
             transaction.updateData(["score": FieldValue.increment(Int64(scoreChange)),
                                     "haveVoted": FieldValue.arrayUnion([uid])],
                                    forDocument: itemReference)
@@ -145,24 +145,24 @@ final class SessionItemViewModel: ObservableObject {
             }
         }
     }
-    
+
     func undoVote() {
         if votedOnStack.count > 0 {
-            
+
             guard let uid = Auth.auth().currentUser?.uid else {
                 print("undoVote: Failed to get uid")
                 return
             }
-            
+
             let poppedSticky = votedOnStack.last!.0
             let scoreChange = -votedOnStack.last!.1
             print("Score in undoVote: ", scoreChange)
-            
+
             votingStickies.append(poppedSticky)
             votedOnStack.remove(at: votedOnStack.count - 1)
-            
+
             let itemReference = db.collection("session_items").document(poppedSticky.itemId)
-            
+
             // swiftlint:disable multiple_closures_with_trailing_closure
             db.runTransaction({ (transaction, errorPointer) -> Any? in
                 do {
@@ -171,7 +171,7 @@ final class SessionItemViewModel: ObservableObject {
                     errorPointer?.pointee = fetchError
                     return nil
                 }
-                
+
                 transaction.updateData(["score": FieldValue.increment(Int64(scoreChange)),
                                         "haveVoted": FieldValue.arrayRemove([uid])],
                                        forDocument: itemReference)
@@ -183,43 +183,43 @@ final class SessionItemViewModel: ObservableObject {
             }
         }
     }
-    
+
     @objc func clearAnimations() {
         self.showingLike = false
         self.showingSkip = false
         self.showingDislike = false
     }
-    
+
     @objc func animateSpinning() {
         self.isSpinning.toggle()
     }
-    
+
     func setAnimationTimer() {
         // function for settings timers for like/dislike/skip animations
         animationTimer?.invalidate()
         animationTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.clearAnimations), userInfo: nil, repeats: false)
     }
-    
+
     /// Populate a list of stickies to be voted on in the voting stage of the Sticky Notes activity
     func populateVotingList() {
-        
+
         votingStickies = []  // clear current list
         var votedOn: [String] = []  // list of stickies that have already been voted on by user
         spinTimer?.invalidate()
         spinTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(self.animateSpinning), userInfo: nil, repeats: true) // Timer for spin animations on upvote and downvote
-        
+
         guard let uid = Auth.auth().currentUser?.uid else {
             print("populateVotingList: Failed to get uid")
             return
         }
-        
+
         // identify stickies that user already voted on
         for item in self.sessionItems {
             if item.haveVoted.contains(uid) {
                 votedOn.append(item.itemId)
             }
         }
-        
+
         // populate list of stickies yet to be voted on
         var pos = 0  // position of sticky in the list
         for sticky in self.stickyNotes {
@@ -237,15 +237,15 @@ final class SessionItemViewModel: ObservableObject {
             }
         }
     }
-    
+
     func loadItems() {
-        
+
         // Ensure Team ID is not nil
         guard let activeSession = activeSession else {
             print("Cannot get items: activeSession is nil")
             return
         }
-        
+
         listener = db.collection("session_items").whereField("sessionId", in: [activeSession.sessionId])
             .addSnapshotListener { querySnapshot, error in
                 guard let snapshot = querySnapshot else {
@@ -270,17 +270,17 @@ final class SessionItemViewModel: ObservableObject {
                             let docID = diff.document.documentID
                             let selectedItemIndex = self.sessionItems.firstIndex(where: {$0.itemId == docID})
                             let selectedStickyIndex = self.stickyNotes.firstIndex(where: {$0.itemId == docID})
-                            
+
                             self.sessionItems[selectedItemIndex!].color = mockItem.color
                             self.sessionItems[selectedItemIndex!].input = mockItem.input
                             self.sessionItems[selectedItemIndex!].score = mockItem.score
                             self.sessionItems[selectedItemIndex!].haveVoted = mockItem.haveVoted
-                            
+
                             self.stickyNotes.remove(at: selectedStickyIndex!)
                             self.createSticky(newItem: self.sessionItems[selectedItemIndex!],
                                               selected: self.selectedSticky?.itemId == docID,
                                               index: selectedStickyIndex!)
-                            
+
                         } catch {
                             print("Error reading modified item from DB: \(error)")
                         }
@@ -290,33 +290,33 @@ final class SessionItemViewModel: ObservableObject {
                         let selectedItemId = diff.document.documentID
                         let selectedItemIndex = self.sessionItems.firstIndex(where: {$0.itemId == selectedItemId})
                         let selectedStickyIndex = self.stickyNotes.firstIndex(where: {$0.itemId == selectedItemId})
-                        
+
                         if self.selectedSticky?.itemId == selectedItemId {
                             self.selectedSticky = nil
                             self.selectedItem = nil
                         }
-                        
+
                         self.sessionItems.remove(at: selectedItemIndex!)
                         self.stickyNotes.remove(at: selectedStickyIndex!)
-                        
+
                     }
                 }
             }
     }
-    
+
     func createItem(color: Int, input: String) {
-        
+
         guard let uid = Auth.auth().currentUser?.uid else {
             print("getCurrentUserInfo: failed to find uid")
             return
         }
-        
+
         // Create a new sticky note and session item
         var newItem = SessionItem()
         newItem.color = color
         newItem.input = pFilter.maskProfanity(text: input)
         newItem.sessionId = activeSession!.sessionId
-        
+
         let itemRef = db.collection("session_items").document()
         let batch = db.batch()
         batch.setData([
@@ -328,7 +328,7 @@ final class SessionItemViewModel: ObservableObject {
             "haveVoted": newItem.haveVoted,
             "uid": uid
         ], forDocument: itemRef)
-        
+
         batch.commit { err in
             if let err = err {
                 print("Error writing batch for createSticky: \(err)")
@@ -337,7 +337,7 @@ final class SessionItemViewModel: ObservableObject {
             }
         }
     }
-    
+
     func createSticky(newItem: SessionItem, selected: Bool = false, index: Int = -1) {
         let newSticky = StickyNote(
             input: newItem.input,
@@ -353,21 +353,21 @@ final class SessionItemViewModel: ObservableObject {
             stickyNotes.insert(newSticky, at: index)
         }
     }
-    
+
     func updateSelected(note: StickyNote) {
         clearSelected()
         selectedSticky = note
         selectedItem = sessionItems.first(where: {$0.itemId == note.itemId})
     }
-    
+
     func clearSelected() {
         selectedSticky?.selected = false
         selectedSticky = nil
         selectedItem = nil
     }
-    
+
     func isUsersSticky() -> Bool {
-        
+
         guard let uid = Auth.auth().currentUser?.uid else {
             print("user id ub sessionitemVM: failed to find uid")
             return false
@@ -389,11 +389,11 @@ final class SessionItemViewModel: ObservableObject {
             }
         return self.isCreator
     }
-    
+
     func deleteSelected() {
         // Delete the selected sticky
         let selectedItemId = selectedSticky!.itemId
-        
+
         db.collection("session_items").document(selectedItemId).delete { err in
             if let err = err {
                 print("Error deleting session item: \(err)")
@@ -401,17 +401,17 @@ final class SessionItemViewModel: ObservableObject {
                 print("Session item deleted!")
             }
         }
-        
+
         clearSelected()
     }
-    
+
     func colorSelected(color: Int) {
         // Change the colour of the selected sticky
         sessionItems[sessionItems.firstIndex(where: {$0.itemId == selectedSticky!.itemId})!].color = color
         selectedSticky?.chosenColor = self.colorArray[color]
         self.updateText(text: selectedSticky!.input, itemId: selectedSticky!.itemId)
     }
-    
+
     func generateIdeas() {
         // Get each word on screen, process them, add to array
         var allWords: [String] = []
@@ -419,9 +419,9 @@ final class SessionItemViewModel: ObservableObject {
             var phrase = sticky.input
             // Trim the text
             phrase = phrase.trimmingCharacters(in: .whitespacesAndNewlines)
-            
+
             print("Phrase: ", phrase)
-            
+
             // TODO: Change this to allow for multiple-word entries, perhaps seaparate by unimportant words like "and" and "the". At the moment, this does not allow you to enter a two-part subject, like "Aston Martin".
             // Get all separate words in sticky
             let words = phrase.components(separatedBy: " ")
@@ -430,26 +430,26 @@ final class SessionItemViewModel: ObservableObject {
             }
             print("Words: ", words)
         }
-        
+
         // Remove duplicates
         allWords.removeDuplicates()
-        
+
         // Remove symbols
         var pos = -1
         for word in allWords {
             pos += 1
             allWords[pos] = word.removeCharacters(from: CharacterSet.letters.inverted)
         }
-        
+
         // Remove empty strings
         allWords = allWords.filter { $0 != "" }
-        
+
         print("All words: ", allWords)
-        
+
         // Convert array into comma separated string
         let query =	(allWords.map { String($0) }).joined(separator: ",")
         print("Query: ", query)
-        
+
         // Call API that returns an array of Strings
         let functions = Functions.functions()
         functions.httpsCallable("generate_ideas").call(["allWords": query]) { (result, error) in
@@ -482,7 +482,7 @@ final class SessionItemViewModel: ObservableObject {
             }
         }
     }
-    
+
     func sortStickies(sortBy: SortingType) {
         switch sortBy {
         case .alphabetical:
@@ -493,7 +493,7 @@ final class SessionItemViewModel: ObservableObject {
             stickyNotes.sort { $0.numberColor < $1.numberColor}
         }
     }
-    
+
     func getTopStickies(spots: Int) {
         topStickies = []
         var sticky: StickyNote
@@ -502,7 +502,7 @@ final class SessionItemViewModel: ObservableObject {
             topStickies.append(TopSticky(chosenColor: sticky.chosenColor!, input: sticky.input, score: sticky.score))
         }
     }
-    
+
     func finishVoting(spots: Int) {
         sortStickies(sortBy: .score)
         var remainingSpots = spots
@@ -520,11 +520,11 @@ final class SessionItemViewModel: ObservableObject {
             }
         }
     }
-    
+
     func getBestIdeas(itemIds: [String]) {
         bestIdeas = stickyNotes.filter { itemIds.contains($0.itemId) }
     }
-    
+
     func clearIdeas() {
         self.generatedIdeas = []
     }
@@ -533,24 +533,24 @@ final class SessionItemViewModel: ObservableObject {
 extension Array where Element: Hashable {
     func removingDuplicates() -> [Element] {
         var addedDict = [Element: Bool]()
-        
+
         return filter {
             addedDict.updateValue(true, forKey: $0) == nil
         }
     }
-    
+
     mutating func removeDuplicates() {
         self = self.removingDuplicates()
     }
 }
 
 extension String {
-    
+
     func removeCharacters(from forbiddenChars: CharacterSet) -> String {
         let passed = self.unicodeScalars.filter { !forbiddenChars.contains($0) }
         return String(String.UnicodeScalarView(passed))
     }
-    
+
     func removeCharacters(from: String) -> String {
         return removeCharacters(from: CharacterSet(charactersIn: from))
     }
