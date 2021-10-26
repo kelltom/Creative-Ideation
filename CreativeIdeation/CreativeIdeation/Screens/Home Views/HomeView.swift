@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import zlib
 
 enum ActiveSheet: Identifiable {
     case team, group, session, addTeamMembers, joinTeam, addGroupMembers
@@ -394,16 +395,7 @@ struct HomeView: View {
                             .frame(maxWidth: .infinity)
                         }
                     } else {
-                        // No Team Selected
-                        Text("Try creating or selecting a Team in the sidebar!")
-                            .padding()
-                            .frame(minWidth: 50)
-                            .background(RoundedRectangle(cornerRadius: 5)
-                                            .stroke(Color("StrokeColor")))
-                            .font(.title2)
-                            .padding()
-
-                        Spacer()
+                        TutorialOverlay()
                     }
 
                 }
@@ -512,6 +504,7 @@ struct HomeView: View {
 struct GroupView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
+            .preferredColorScheme(.dark)
             .environmentObject(TeamViewModel())
             .environmentObject(GroupViewModel())
             .environmentObject(SessionViewModel())
