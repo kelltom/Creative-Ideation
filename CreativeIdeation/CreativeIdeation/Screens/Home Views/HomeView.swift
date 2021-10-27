@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import zlib
 
 enum ActiveSheet: Identifiable {
     case team, group, session, addTeamMembers, joinTeam, addGroupMembers
@@ -34,6 +35,8 @@ struct HomeView: View {
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
     @EnvironmentObject var sessionSettingsViewModel: SessionSettingsViewModel
+
+    @Environment(\.colorScheme) var colorScheme
 
     /// Temporary way to show conditional views in preview canvas
     var preview: Bool = false
@@ -141,22 +144,11 @@ struct HomeView: View {
 
                         Spacer()
 
-                        // Notifications Bell
-                        Button {
-                            // view notifications
-                        } label: {
-                            Image(systemName: "bell.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 40, height: 40)
-                                .foregroundColor(Color.yellow)
-                        }
-
                         // User Profile Icon
                         Button {
                             showUserSettings = true
                         } label: {
-                            ProfilePic(size: 70)
+                            ProfilePic(size: 60)
                                 .shadow(color: .black, radius: 4, y: 4)
                                 .padding(.trailing, 5)
                         }
@@ -394,16 +386,7 @@ struct HomeView: View {
                             .frame(maxWidth: .infinity)
                         }
                     } else {
-                        // No Team Selected
-                        Text("Try creating or selecting a Team in the sidebar!")
-                            .padding()
-                            .frame(minWidth: 50)
-                            .background(RoundedRectangle(cornerRadius: 5)
-                                            .stroke(Color("StrokeColor")))
-                            .font(.title2)
-                            .padding()
-
-                        Spacer()
+                        TutorialOverlay()
                     }
 
                 }
@@ -497,7 +480,7 @@ struct HomeView: View {
                             Image(systemName: "questionmark.circle.fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .foregroundColor(.blue)
+                                .foregroundColor(colorScheme == .dark ? .blue.lighter(by: 20) : .blue)
                                 .frame(width: 60, height: 60)
                                 .clipped()
                                 .padding(20)
@@ -512,6 +495,7 @@ struct HomeView: View {
 struct GroupView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
+            .preferredColorScheme(.light)
             .environmentObject(TeamViewModel())
             .environmentObject(GroupViewModel())
             .environmentObject(SessionViewModel())

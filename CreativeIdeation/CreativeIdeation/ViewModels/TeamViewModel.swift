@@ -554,6 +554,7 @@ final class TeamViewModel: ObservableObject {
                         do {
                             let newTeam = try (diff.document.data(as: Team.self)!)
                             self.teams.append(newTeam)
+                            self.selectedTeam = self.teams.last
                         } catch {
                             print("Error reading new team from DB: \(error)")
                         }
