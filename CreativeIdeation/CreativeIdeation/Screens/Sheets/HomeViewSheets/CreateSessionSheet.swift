@@ -10,7 +10,6 @@ import Profanity_Filter
 
 struct CreateSessionSheet: View {
 
-    @State var sessionName: String = ""
     @Binding var showSheets: ActiveSheet?
     @Binding var showActivity: Bool
 

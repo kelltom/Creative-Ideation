@@ -434,7 +434,7 @@ struct HomeView: View {
                 switch item {
 
                 case .session:
-                    CreateSessionSheet(sessionName: "", showSheets: $activeSheet, showActivity: $showActivity)
+                    CreateSessionSheet(showSheets: $activeSheet, showActivity: $showActivity)
                         .environmentObject(self.groupViewModel)
                         .environmentObject(self.teamViewModel)
                         .environmentObject(self.sessionViewModel)
