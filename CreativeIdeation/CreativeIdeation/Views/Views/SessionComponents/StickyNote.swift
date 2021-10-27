@@ -61,9 +61,10 @@ struct StickyNote: View, Identifiable {
                         .padding(5)
                 }
             }
-            
+
             if selected {
-                if sessionItemViewModel.isUsersSticky() {
+
+                if sessionItemViewModel.isCreator {
                     Button {
                         sessionItemViewModel.deleteSelected()
 
@@ -100,6 +101,7 @@ struct StickyNote: View, Identifiable {
             .onEnded {_ in
                 self.selected = true
                 sessionItemViewModel.updateSelected(note: self)
+                sessionItemViewModel.isUsersSticky()
             }
     }
 }
