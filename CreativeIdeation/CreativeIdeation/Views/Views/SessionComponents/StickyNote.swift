@@ -38,11 +38,13 @@ struct StickyNote: View, Identifiable {
                     .frame(width: 160, height: 130)
                     .background(colorScheme == .dark ? chosenColor?.darker(by: 15.0) : chosenColor?.lighter(by: 20.0))
                     .foregroundColor(Color("StrokeColor"))
+
                     .onChange(of: input, perform: {_ in
-                        textChanged = true
+                            textChanged = true
                     })
             }
             .cornerRadius(10)
+           
 
             if textChanged {
                 Button {
@@ -62,9 +64,7 @@ struct StickyNote: View, Identifiable {
                 }
             }
 
-            if selected {
-
-                if sessionItemViewModel.isCreator {
+            if selected && sessionItemViewModel.isCreator{
                     Button {
                         sessionItemViewModel.deleteSelected()
 
@@ -76,7 +76,7 @@ struct StickyNote: View, Identifiable {
                             .foregroundColor(chosenColor)
                             .padding(5)
                     }
-                }
+                
             }
 
         }

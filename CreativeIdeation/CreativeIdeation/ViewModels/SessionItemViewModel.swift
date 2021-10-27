@@ -366,11 +366,11 @@ final class SessionItemViewModel: ObservableObject {
         selectedItem = nil
     }
 
-    func isUsersSticky() -> Bool {
+    func isUsersSticky() {
 
         guard let uid = Auth.auth().currentUser?.uid else {
             print("user id ub sessionitemVM: failed to find uid")
-            return false
+            return
         }
         // Delete the selected sticky
         let selectedItemId = selectedSticky!.itemId
@@ -387,7 +387,6 @@ final class SessionItemViewModel: ObservableObject {
                     }
                 }
             }
-        return self.isCreator
     }
 
     func deleteSelected() {
