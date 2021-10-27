@@ -40,20 +40,22 @@ struct StickyNote: View, Identifiable {
                     .foregroundColor(Color("StrokeColor"))
 
                     .onChange(of: input, perform: {_ in
-                            textChanged = true
+                        textChanged = true
+                        sessionItemViewModel.isCreator = false
                     })
             }
             .cornerRadius(10)
-           
 
             if textChanged {
                 Button {
+                   
                     // Save text to DB
                     sessionViewModel.checkProfanity(textInput: input)
                     sessionItemViewModel.updateText(text: input, itemId: itemId)
                     sessionItemViewModel.updateItem(itemId: itemId)
                     sessionViewModel.updateDateModified()
                     textChanged = false
+
                 } label: {
                     Image(systemName: "checkmark.circle.fill")
                         .resizable()
@@ -62,9 +64,10 @@ struct StickyNote: View, Identifiable {
                         .foregroundColor(chosenColor)
                         .padding(5)
                 }
+               
             }
 
-            if selected && sessionItemViewModel.isCreator{
+            if selected && sessionItemViewModel.isCreator {
                     Button {
                         sessionItemViewModel.deleteSelected()
 
@@ -76,7 +79,7 @@ struct StickyNote: View, Identifiable {
                             .foregroundColor(chosenColor)
                             .padding(5)
                     }
-                
+
             }
 
         }
