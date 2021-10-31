@@ -51,7 +51,6 @@ final class UserAccountViewModel: ObservableObject {
                                    type: .error)
                 self.showBanner = true
             } else {
-                print("Success")
                 self.isLoading = false
                 self.authSuccess = true
 

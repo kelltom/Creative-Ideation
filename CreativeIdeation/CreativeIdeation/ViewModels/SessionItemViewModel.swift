@@ -40,6 +40,7 @@ final class SessionItemViewModel: ObservableObject {
     @Published var showingSkip = false
     @Published var showingDislike = false
     @Published var isSpinning = false
+
     private var spinTimer: Timer?
     private var animationTimer: Timer?
     private var pFilter: ProfanityFilter = ProfanityFilter()
@@ -303,6 +304,12 @@ final class SessionItemViewModel: ObservableObject {
     }
 
     func createItem(color: Int, input: String) {
+
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("getCurrentUserInfo: failed to find uid")
+            return
+        }
+
         // Create a new sticky note and session item
         var newItem = SessionItem()
         newItem.color = color
@@ -317,14 +324,13 @@ final class SessionItemViewModel: ObservableObject {
             "input": newItem.input,
             "color": newItem.color,
             "score": newItem.score,
-            "haveVoted": newItem.haveVoted
+            "haveVoted": newItem.haveVoted,
+            "uid": uid
         ], forDocument: itemRef)
 
         batch.commit { err in
             if let err = err {
                 print("Error writing batch for createSticky: \(err)")
-            } else {
-                print("Item created successfully with id: \(itemRef.documentID)")
             }
         }
     }
@@ -357,6 +363,22 @@ final class SessionItemViewModel: ObservableObject {
         selectedItem = nil
     }
 
+    func isUsersSticky() -> Bool {
+
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("user id ub sessionitemVM: failed to find uid")
+            return false
+        }
+        
+        guard let selectedItemId = selectedSticky?.itemId else {
+            return false
+        }
+
+        let itemCreatorId = sessionItems.first(where: {$0.itemId == selectedItemId})!.uid
+
+        return itemCreatorId == uid
+    }
+
     func deleteSelected() {
         // Delete the selected sticky
         let selectedItemId = selectedSticky!.itemId
@@ -369,7 +391,8 @@ final class SessionItemViewModel: ObservableObject {
             }
         }
 
-        clearSelected()
+        selectedSticky = nil
+        selectedItem = nil
     }
 
     func colorSelected(color: Int) {

@@ -12,6 +12,7 @@ struct SessionItem: Identifiable, Codable, Hashable {
     var id = UUID()
 
     var itemId = ""
+    var uid = ""
     var input = ""
     var color = 0
     var score = 0
@@ -21,6 +22,7 @@ struct SessionItem: Identifiable, Codable, Hashable {
 
     enum CodingKeys: String, CodingKey {
         case itemId
+        case uid
         case input
         case color
         case score
