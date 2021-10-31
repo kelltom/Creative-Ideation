@@ -284,17 +284,13 @@ final class SessionViewModel: ObservableObject {
                             self.teamSessions[selectedSessionIndex!].profanityLog = mockSession.profanityLog
 
                             if self.selectedSession != nil && mockSession.sessionId == self.selectedSession?.sessionId {
-                                print("modified active session")
                                 if mockSession.timerActive {
-                                    print("starting timer")
                                     self.getRemainingTime(endTime: mockSession.timerEnd)
                                     self.timerManager.start()
                                 } else {
-                                    print("pausing timer")
                                     self.timerManager.pause()
                                     self.timerManager.timeRemaining = mockSession.timeRemaining
                                 }
-                                print("Reading time remaining: ", mockSession.timeRemaining)
                                 self.selectedSession!.timerActive = mockSession.timerActive
                                 self.selectedSession!.timerEnd = mockSession.timerEnd
                                 self.selectedSession!.timeRemaining = mockSession.timeRemaining

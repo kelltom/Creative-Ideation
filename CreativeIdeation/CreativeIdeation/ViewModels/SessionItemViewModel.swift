@@ -34,7 +34,6 @@ final class SessionItemViewModel: ObservableObject {
     @Published var bestIdeas: [StickyNote] = []
 
     @Published var generatedIdeas: [String] = []
-    @Published var isCreator = false
 
     // Published vars for displaying like/dislike/skip/undo button animations
     @Published var showingLike = false
@@ -332,8 +331,6 @@ final class SessionItemViewModel: ObservableObject {
         batch.commit { err in
             if let err = err {
                 print("Error writing batch for createSticky: \(err)")
-            } else {
-                print("Item created successfully with id: \(itemRef.documentID)")
             }
         }
     }
@@ -366,27 +363,20 @@ final class SessionItemViewModel: ObservableObject {
         selectedItem = nil
     }
 
-    func isUsersSticky() {
+    func isUsersSticky() -> Bool {
 
         guard let uid = Auth.auth().currentUser?.uid else {
             print("user id ub sessionitemVM: failed to find uid")
-            return
+            return false
         }
-        // Delete the selected sticky
-        let selectedItemId = selectedSticky!.itemId
-        db.collection("session_items").document(selectedItemId)
-            .getDocument { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    let stickyNoteCreator = querySnapshot?.data()?["uid"] as? String ?? "n/a"
-                    if uid == stickyNoteCreator {
-                        self.isCreator = true
-                    } else {
-                        self.isCreator = false
-                    }
-                }
-            }
+        
+        guard let selectedItemId = selectedSticky?.itemId else {
+            return false
+        }
+
+        let itemCreatorId = sessionItems.first(where: {$0.itemId == selectedItemId})!.uid
+
+        return itemCreatorId == uid
     }
 
     func deleteSelected() {
@@ -401,7 +391,8 @@ final class SessionItemViewModel: ObservableObject {
             }
         }
 
-        clearSelected()
+        selectedSticky = nil
+        selectedItem = nil
     }
 
     func colorSelected(color: Int) {

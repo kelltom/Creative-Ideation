@@ -180,20 +180,6 @@ struct ActivityView: View {
                 if sessionViewModel.selectedSession?.stage == 1 {
                     HStack(alignment: .center) {
                         ZStack {
-//                            HStack {
-//                                Menu {
-//                                    Button("Alphabetically", action: { sessionItemViewModel.sortStickies(sortBy: .alphabetical)})
-//                                    Button("By Color", action: { sessionItemViewModel.sortStickies(sortBy: .color)})
-//                                } label: {
-//                                    Label("Sort", systemImage: "arrow.up.arrow.down.circle")
-//                                }
-//                                .font(.system(size: 35))
-//                                .foregroundColor(Color("StrokeColor"))
-//                                .padding(.leading, 18)
-//
-//                                Spacer()
-//                            }
-
                             if sessionSettingsViewModel.settings.last!.displayTimer {
                                 HStack {
 
@@ -316,193 +302,193 @@ struct ActivityView: View {
                                 CreateStickyView(newStickyPopover: $newStickyPopover, chosenColor: newColor)
                             }
 
-                            VStack(spacing: 10) {
-                                HStack(spacing: 10) {
-                                    Button {
-                                        if sessionItemViewModel.selectedSticky != nil {
-                                            sessionItemViewModel.colorSelected(color: 0)
-                                            sessionViewModel.updateDateModified()
-                                        } else {
-                                            selectedColor = 0
-                                            randomizeColor = false
-                                        }
-
-                                    } label: {
-                                        ZStack {
-                                            Circle()
-                                                .fill(colorArray[0])
-                                                .frame(width: 25, height: 25)
-                                            if selectedColor == 0 {
-                                                Circle()
-                                                    .stroke(Color("BackgroundColor"), lineWidth: 2)
-                                                    .frame(width: 19, height: 19)
-                                            }
-                                        }
-                                    }
-
-                                    Button {
-                                        if sessionItemViewModel.selectedSticky != nil {
-                                            sessionItemViewModel.colorSelected(color: 1)
-                                            sessionViewModel.updateDateModified()
-                                        } else {
-                                            selectedColor = 1
-                                            randomizeColor = false
-                                        }
-                                    } label: {
-                                        ZStack {
-                                            Circle()
-                                                .fill(colorArray[1])
-                                                .frame(width: 25, height: 25)
-                                            if selectedColor == 1 {
-                                                Circle()
-                                                    .stroke(Color("BackgroundColor"), lineWidth: 2)
-                                                    .frame(width: 19, height: 19)
-                                            }
-                                        }
-                                    }
-                                }
-                                HStack(spacing: 10) {
-                                    Button {
-                                        if sessionItemViewModel.selectedSticky != nil {
-                                            sessionItemViewModel.colorSelected(color: 2)
-                                            sessionViewModel.updateDateModified()
-                                        } else {
-                                            selectedColor = 2
-                                            randomizeColor = false
-                                        }
-                                    } label: {
-                                        ZStack {
-                                            Circle()
-                                                .fill(colorArray[2])
-                                                .frame(width: 25, height: 25)
-                                            if selectedColor == 2 {
-                                                Circle()
-                                                    .stroke(Color("BackgroundColor"), lineWidth: 2)
-                                                    .frame(width: 19, height: 19)
-                                            }
-                                        }
-                                    }
-
-                                    Button {
-                                        if sessionItemViewModel.selectedSticky != nil {
-                                            sessionItemViewModel.colorSelected(color: 3)
-                                            sessionViewModel.updateDateModified()
-                                        } else {
-                                            selectedColor = 3
-                                            randomizeColor = false
-                                        }
-                                    } label: {
-                                        ZStack {
-                                            Circle()
-                                                .fill(colorArray[3])
-                                                .frame(width: 25, height: 25)
-                                            if selectedColor == 3 {
-                                                Circle()
-                                                    .stroke(Color("BackgroundColor"), lineWidth: 2)
-                                                    .frame(width: 19, height: 19)
-                                            }
-                                        }
-                                    }
-                                }
-                                HStack(spacing: 10) {
-                                    Button {
-                                        if sessionItemViewModel.selectedSticky != nil {
-                                            sessionItemViewModel.colorSelected(color: 4)
-                                            sessionViewModel.updateDateModified()
-                                        } else {
-                                            selectedColor = 4
-                                            randomizeColor = false
-                                        }
-                                    } label: {
-                                        ZStack {
-                                            Circle()
-                                                .fill(colorArray[4])
-                                                .frame(width: 25, height: 25)
-                                            if selectedColor == 4 {
-                                                Circle()
-                                                    .stroke(Color("BackgroundColor"), lineWidth: 2)
-                                                    .frame(width: 19, height: 19)
-                                            }
-                                        }
-                                    }
-                                }
-
-                                Button {
-                                    if sessionItemViewModel.selectedSticky == nil {
-                                        // randomize button
-                                        if !randomizeColor {
-                                            selectedColor = -1
-                                            randomizeColor = true
-                                        }
-
-                                    } else {
-                                        // confirm button, deselect
-                                        sessionItemViewModel.updateItem(itemId: sessionItemViewModel.selectedItem!.itemId)
-                                        sessionItemViewModel.clearSelected()
-                                        sessionViewModel.updateDateModified()
-                                    }
-                                } label: {
-                                    if sessionItemViewModel.selectedSticky == nil {
-                                        ZStack {
-                                            Image(systemName: "questionmark")
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: 15, height: 15)
-                                                .foregroundColor(randomizeColor ? Color.white : Color.black)
-                                                .frame(width: 60, height: 30)
-                                                .background(randomizeColor ? Color.black : Color.white)
-                                                .cornerRadius(5)
-                                                .padding(.top, 5)
-
-                                            if randomizeColor {
-                                                RoundedRectangle(cornerRadius: 5)
-                                                    .stroke(Color("BackgroundColor"), lineWidth: 2)
-                                                    .frame(width: 54, height: 24)
-                                                    .padding(.top, 5)
-                                            } else {
-                                                RoundedRectangle(cornerRadius: 5)
-                                                    .stroke(Color.black, lineWidth: 2)
-                                                    .frame(width: 60, height: 30)
-                                                    .padding(.top, 5)
-                                            }
-                                        }
-                                    } else {
-                                        Image(systemName: "checkmark")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 15, height: 15)
-                                            .foregroundColor(.white)
-                                            .frame(width: 60, height: 30)
-                                            .background(Color.green)
-                                            .cornerRadius(5)
-                                            .padding(.top, 5)
-                                    }
-                                }
-
-                                Button {
-                                    if sessionItemViewModel.selectedSticky != nil {
-                                        // delete button
-                                        sessionItemViewModel.deleteSelected()
-                                        sessionViewModel.updateDateModified()
-                                    }
-                                } label: {
-                                    Image(systemName: "trash.fill")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 20, height: 20)
-                                        .foregroundColor(.white)
-                                        .frame(width: 60, height: 30)
-                                        .background(Color.red)
-                                        .opacity(sessionItemViewModel.selectedSticky != nil ? 1 : 0.5)
-                                        .cornerRadius(5)
-                                }
-                                .disabled(sessionItemViewModel.selectedSticky == nil)
-                            }
-                            .frame(minWidth: 80, minHeight: 200)
-                            .background(Color("BackgroundColor"))
-                            .clipped()
-                            .cornerRadius(15)
-                            .shadow(radius: 6, y: 4)
+//                            VStack(spacing: 10) {
+//                                HStack(spacing: 10) {
+//                                    Button {
+//                                        if sessionItemViewModel.selectedSticky != nil {
+//                                            sessionItemViewModel.colorSelected(color: 0)
+//                                            sessionViewModel.updateDateModified()
+//                                        } else {
+//                                            selectedColor = 0
+//                                            randomizeColor = false
+//                                        }
+//
+//                                    } label: {
+//                                        ZStack {
+//                                            Circle()
+//                                                .fill(colorArray[0])
+//                                                .frame(width: 25, height: 25)
+//                                            if selectedColor == 0 {
+//                                                Circle()
+//                                                    .stroke(Color("BackgroundColor"), lineWidth: 2)
+//                                                    .frame(width: 19, height: 19)
+//                                            }
+//                                        }
+//                                    }
+//
+//                                    Button {
+//                                        if sessionItemViewModel.selectedSticky != nil {
+//                                            sessionItemViewModel.colorSelected(color: 1)
+//                                            sessionViewModel.updateDateModified()
+//                                        } else {
+//                                            selectedColor = 1
+//                                            randomizeColor = false
+//                                        }
+//                                    } label: {
+//                                        ZStack {
+//                                            Circle()
+//                                                .fill(colorArray[1])
+//                                                .frame(width: 25, height: 25)
+//                                            if selectedColor == 1 {
+//                                                Circle()
+//                                                    .stroke(Color("BackgroundColor"), lineWidth: 2)
+//                                                    .frame(width: 19, height: 19)
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                                HStack(spacing: 10) {
+//                                    Button {
+//                                        if sessionItemViewModel.selectedSticky != nil {
+//                                            sessionItemViewModel.colorSelected(color: 2)
+//                                            sessionViewModel.updateDateModified()
+//                                        } else {
+//                                            selectedColor = 2
+//                                            randomizeColor = false
+//                                        }
+//                                    } label: {
+//                                        ZStack {
+//                                            Circle()
+//                                                .fill(colorArray[2])
+//                                                .frame(width: 25, height: 25)
+//                                            if selectedColor == 2 {
+//                                                Circle()
+//                                                    .stroke(Color("BackgroundColor"), lineWidth: 2)
+//                                                    .frame(width: 19, height: 19)
+//                                            }
+//                                        }
+//                                    }
+//
+//                                    Button {
+//                                        if sessionItemViewModel.selectedSticky != nil {
+//                                            sessionItemViewModel.colorSelected(color: 3)
+//                                            sessionViewModel.updateDateModified()
+//                                        } else {
+//                                            selectedColor = 3
+//                                            randomizeColor = false
+//                                        }
+//                                    } label: {
+//                                        ZStack {
+//                                            Circle()
+//                                                .fill(colorArray[3])
+//                                                .frame(width: 25, height: 25)
+//                                            if selectedColor == 3 {
+//                                                Circle()
+//                                                    .stroke(Color("BackgroundColor"), lineWidth: 2)
+//                                                    .frame(width: 19, height: 19)
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                                HStack(spacing: 10) {
+//                                    Button {
+//                                        if sessionItemViewModel.selectedSticky != nil {
+//                                            sessionItemViewModel.colorSelected(color: 4)
+//                                            sessionViewModel.updateDateModified()
+//                                        } else {
+//                                            selectedColor = 4
+//                                            randomizeColor = false
+//                                        }
+//                                    } label: {
+//                                        ZStack {
+//                                            Circle()
+//                                                .fill(colorArray[4])
+//                                                .frame(width: 25, height: 25)
+//                                            if selectedColor == 4 {
+//                                                Circle()
+//                                                    .stroke(Color("BackgroundColor"), lineWidth: 2)
+//                                                    .frame(width: 19, height: 19)
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//
+//                                Button {
+//                                    if sessionItemViewModel.selectedSticky == nil {
+//                                        // randomize button
+//                                        if !randomizeColor {
+//                                            selectedColor = -1
+//                                            randomizeColor = true
+//                                        }
+//
+//                                    } else {
+//                                        // confirm button, deselect
+//                                        sessionItemViewModel.updateItem(itemId: sessionItemViewModel.selectedItem!.itemId)
+//                                        sessionItemViewModel.clearSelected()
+//                                        sessionViewModel.updateDateModified()
+//                                    }
+//                                } label: {
+//                                    if sessionItemViewModel.selectedSticky == nil {
+//                                        ZStack {
+//                                            Image(systemName: "questionmark")
+//                                                .resizable()
+//                                                .aspectRatio(contentMode: .fit)
+//                                                .frame(width: 15, height: 15)
+//                                                .foregroundColor(randomizeColor ? Color.white : Color.black)
+//                                                .frame(width: 60, height: 30)
+//                                                .background(randomizeColor ? Color.black : Color.white)
+//                                                .cornerRadius(5)
+//                                                .padding(.top, 5)
+//
+//                                            if randomizeColor {
+//                                                RoundedRectangle(cornerRadius: 5)
+//                                                    .stroke(Color("BackgroundColor"), lineWidth: 2)
+//                                                    .frame(width: 54, height: 24)
+//                                                    .padding(.top, 5)
+//                                            } else {
+//                                                RoundedRectangle(cornerRadius: 5)
+//                                                    .stroke(Color.black, lineWidth: 2)
+//                                                    .frame(width: 60, height: 30)
+//                                                    .padding(.top, 5)
+//                                            }
+//                                        }
+//                                    } else {
+//                                        Image(systemName: "checkmark")
+//                                            .resizable()
+//                                            .aspectRatio(contentMode: .fit)
+//                                            .frame(width: 15, height: 15)
+//                                            .foregroundColor(.white)
+//                                            .frame(width: 60, height: 30)
+//                                            .background(Color.green)
+//                                            .cornerRadius(5)
+//                                            .padding(.top, 5)
+//                                    }
+//                                }
+//
+//                                Button {
+//                                    if sessionItemViewModel.selectedSticky != nil {
+//                                        // delete button
+//                                        sessionItemViewModel.deleteSelected()
+//                                        sessionViewModel.updateDateModified()
+//                                    }
+//                                } label: {
+//                                    Image(systemName: "trash.fill")
+//                                        .resizable()
+//                                        .aspectRatio(contentMode: .fit)
+//                                        .frame(width: 20, height: 20)
+//                                        .foregroundColor(.white)
+//                                        .frame(width: 60, height: 30)
+//                                        .background(Color.red)
+//                                        .opacity(sessionItemViewModel.selectedSticky != nil ? 1 : 0.5)
+//                                        .cornerRadius(5)
+//                                }
+//                                .disabled(sessionItemViewModel.selectedSticky == nil)
+//                            }
+//                            .frame(minWidth: 80, minHeight: 200)
+//                            .background(Color("BackgroundColor"))
+//                            .clipped()
+//                            .cornerRadius(15)
+//                            .shadow(radius: 6, y: 4)
 
                             Menu {
                                 Button("Sort Alphabetically", action: { sessionItemViewModel.sortStickies(sortBy: .alphabetical)})

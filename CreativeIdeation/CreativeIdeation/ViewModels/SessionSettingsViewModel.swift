@@ -59,7 +59,6 @@ final class SessionSettingsViewModel: ObservableObject {
                 snapshot.documentChanges.forEach { diff in
                     if diff.type == .added {
                         // Add new item locally
-                        print("ADDING")
                         do {
                             let newSettings = try (diff.document.data(as: SessionSettings.self)!)
                             self.settings.append(newSettings)
