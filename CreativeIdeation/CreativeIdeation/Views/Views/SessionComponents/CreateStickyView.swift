@@ -11,6 +11,7 @@ struct CreateStickyView: View {
 
     @EnvironmentObject var sessionViewModel: SessionViewModel
     @EnvironmentObject var sessionItemViewModel: SessionItemViewModel
+    @EnvironmentObject var sessionSettingsViewModel: SessionSettingsViewModel
     @Environment(\.colorScheme) var colorScheme
 
     let colorArray = [Color.init(red: 0.9, green: 0, blue: 0),
@@ -118,8 +119,10 @@ struct CreateStickyView: View {
             }
 
             Button {
-                sessionViewModel.checkProfanity(textInput: input)
-                sessionItemViewModel.createItem(color: chosenColor, input: input)
+                if sessionSettingsViewModel.settings[1].filterProfanity {
+                    sessionViewModel.checkProfanity(textInput: input)
+                }
+                sessionItemViewModel.createItem(color: chosenColor, input: input, filterProfanity: sessionSettingsViewModel.settings[1].filterProfanity)
                 sessionViewModel.updateDateModified()
                 input = ""
                 chosenColor = Int.random(in: 0..<5)

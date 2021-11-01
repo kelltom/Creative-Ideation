@@ -36,7 +36,7 @@ struct StickyNote: View, Identifiable {
                     .popover(isPresented: $selected) {
                         HStack {
                             Button {
-                                sessionItemViewModel.colorSelected(color: 0)
+                                sessionItemViewModel.colorSelected(color: 0, filterProfanity: sessionSettingsViewModel.settings[1].filterProfanity)
                                 sessionViewModel.updateDateModified()
                             } label: {
                                 ZStack {
@@ -52,7 +52,7 @@ struct StickyNote: View, Identifiable {
                             }
 
                             Button {
-                                sessionItemViewModel.colorSelected(color: 1)
+                                sessionItemViewModel.colorSelected(color: 1, filterProfanity: sessionSettingsViewModel.settings[1].filterProfanity)
                                 sessionViewModel.updateDateModified()
                             } label: {
                                 ZStack {
@@ -68,7 +68,7 @@ struct StickyNote: View, Identifiable {
                             }
 
                             Button {
-                                sessionItemViewModel.colorSelected(color: 2)
+                                sessionItemViewModel.colorSelected(color: 2, filterProfanity: sessionSettingsViewModel.settings[1].filterProfanity)
                                 sessionViewModel.updateDateModified()
                             } label: {
                                 ZStack {
@@ -84,7 +84,7 @@ struct StickyNote: View, Identifiable {
                             }
 
                             Button {
-                                sessionItemViewModel.colorSelected(color: 3)
+                                sessionItemViewModel.colorSelected(color: 3, filterProfanity: sessionSettingsViewModel.settings[1].filterProfanity)
                                 sessionViewModel.updateDateModified()
                             } label: {
                                 ZStack {
@@ -100,7 +100,7 @@ struct StickyNote: View, Identifiable {
                             }
 
                             Button {
-                                sessionItemViewModel.colorSelected(color: 4)
+                                sessionItemViewModel.colorSelected(color: 4, filterProfanity: sessionSettingsViewModel.settings[1].filterProfanity)
                                 sessionViewModel.updateDateModified()
                             } label: {
                                 ZStack {
@@ -117,6 +117,7 @@ struct StickyNote: View, Identifiable {
 
                             if sessionItemViewModel.isUsersSticky() {
                                     Button {
+                                        selected = false
                                         sessionItemViewModel.deleteSelected()
                                     } label: {
                                         Image(systemName: "trash.fill")
@@ -144,8 +145,10 @@ struct StickyNote: View, Identifiable {
             if textChanged {
                 Button {
                     // Save text to DB
-                    sessionViewModel.checkProfanity(textInput: input)
-                    sessionItemViewModel.updateText(text: input, itemId: itemId)
+                    if sessionSettingsViewModel.settings[1].filterProfanity {
+                        sessionViewModel.checkProfanity(textInput: input)
+                    }
+                    sessionItemViewModel.updateText(text: input, itemId: itemId, filterProfanity: sessionSettingsViewModel.settings[1].filterProfanity)
                     sessionItemViewModel.updateItem(itemId: itemId)
                     sessionViewModel.updateDateModified()
                     textChanged = false
