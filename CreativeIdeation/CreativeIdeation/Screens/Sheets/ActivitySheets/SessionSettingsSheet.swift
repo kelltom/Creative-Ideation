@@ -97,6 +97,11 @@ struct SessionSettingsSheet: View {
 
                                     Button {
                                         sessionSettingsViewModel.updateTime()
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                                            if !sessionViewModel.selectedSession!.timerActive {
+                                                sessionViewModel.resetTimer(time: Int(sessionSettingsViewModel.textTime)! * 60)
+                                            }
+                                        }
                                     } label: {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 5)

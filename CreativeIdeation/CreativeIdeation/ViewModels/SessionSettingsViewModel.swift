@@ -64,7 +64,7 @@ final class SessionSettingsViewModel: ObservableObject {
                         do {
                             let newSettings = try (diff.document.data(as: SessionSettings.self)!)
                             self.settings.append(newSettings)
-                            self.textTime = String(newSettings.timerSetting)
+                            self.textTime = String(newSettings.timerSetting / 60)
                             self.textTopStickies = String(newSettings.topStickiesCount)
                         } catch {
                             print("Error reading settings from DB: \(error)")
