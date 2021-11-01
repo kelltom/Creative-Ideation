@@ -64,7 +64,7 @@ struct SessionSettingsSheet: View {
                             .font(.system(size: 40, weight: .heavy))
                             .padding(.top, geometry.size.height * 0.1)
 
-                        ScrollView {
+                        ScrollView(showsIndicators: false) {
                             LazyVStack(alignment: .leading) {
 
                                 Toggle("Display Timer", isOn: $settings.displayTimer)
@@ -163,8 +163,11 @@ struct SessionSettingsSheet: View {
 
                                 Toggle("Filter Profanity", isOn: $settings.filterProfanity)
                                     .padding()
-                                    .onChange(of: settings.filterProfanity, perform: { _ in
+                                    .onChange(of: settings.filterProfanity, perform: { filter in
                                         sessionSettingsViewModel.toggleProfanity()
+                                        if !filter {
+                                            isCollapsed = true
+                                        }
                                     })
 
                                 // Profanity Begins Here
@@ -177,6 +180,7 @@ struct SessionSettingsSheet: View {
                                         Text("Profanity Log")
                                             .font(.title3)
                                             .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                                            .foregroundColor(sessionSettingsViewModel.settings[1].filterProfanity ? Color("StrokeColor") : Color("FadedColor"))
                                             .padding()
                                         Button {
                                             withAnimation {
@@ -189,10 +193,11 @@ struct SessionSettingsSheet: View {
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fit)
                                                 .frame(width: 15, height: 15)
-                                                .foregroundColor(Color("StrokeColor"))
+                                                .foregroundColor(sessionSettingsViewModel.settings[1].filterProfanity ? Color("StrokeColor") : Color("FadedColor"))
                                                 .rotationEffect(Angle.degrees(isCollapsed ? 0 : 90))
                                                 .animation(.easeInOut)
                                         }
+                                        .disabled(!sessionSettingsViewModel.settings[1].filterProfanity)
                                     }
 
                                     // Export Data Options
@@ -225,17 +230,18 @@ struct SessionSettingsSheet: View {
                                             Image(systemName: "ellipsis")
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fit)
+                                                .foregroundColor(sessionSettingsViewModel.settings[1].filterProfanity ? Color("StrokeColor") : Color("FadedColor"))
                                                 .frame(width: 20, height: 25)
                                                 .padding()
                                         }
-                                        .foregroundColor(Color("StrokeColor"))
+                                        .disabled(!sessionSettingsViewModel.settings[1].filterProfanity)
                                     }
 
                                 }
                                 // Profanity log list
                                 if !isCollapsed {
                                     VStack {
-                                        ScrollView {
+                                        ScrollView(showsIndicators: false) {
                                             HStack {
                                                 Text("Name")
                                                     .fontWeight(.bold)
@@ -270,7 +276,7 @@ struct SessionSettingsSheet: View {
                                                             Text("Words: ")
                                                                 .fontWeight(.bold)
                                                                 .animation(.easeInOut)
-                                                            ScrollView(.horizontal) {
+                                                            ScrollView(.horizontal, showsIndicators: false) {
                                                                 Text(user.profanityList.joined(separator: ", "))
                                                                     .animation(.easeInOut)
                                                             }
