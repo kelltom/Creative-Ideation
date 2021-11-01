@@ -86,10 +86,10 @@ struct SessionSettingsSheet: View {
                                         .padding(3)
                                         .overlay(RoundedRectangle(cornerRadius: 5).stroke())
                                         .keyboardType(.numberPad)
-                                        .onReceive(Just(selectedTime)) { newValue in
+                                        .onReceive(Just(textTime)) { newValue in
                                             let filtered = newValue.filter { "0123456789".contains($0) }
                                             if filtered != newValue {
-                                                self.selectedTime = filtered
+                                                self.textTime = filtered
                                             }
                                         }
 
@@ -131,10 +131,10 @@ struct SessionSettingsSheet: View {
                                         .padding(3)
                                         .overlay(RoundedRectangle(cornerRadius: 5).stroke())
                                         .keyboardType(.numberPad)
-                                        .onReceive(Just(selectedTopStickies)) { newValue in
+                                        .onReceive(Just(textTopStickies)) { newValue in
                                             let filtered = newValue.filter { "0123456789".contains($0) }
                                             if filtered != newValue {
-                                                self.selectedTopStickies = filtered
+                                                self.textTopStickies = filtered
                                             }
                                         }
 

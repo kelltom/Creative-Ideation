@@ -21,6 +21,8 @@ final class SessionSettingsViewModel: ObservableObject {
     func clear() {
         listener?.remove()
         settings = [SessionSettings()]
+        textTime = "10"
+        textTopStickies = "6"
     }
 
     func createSettings(sessionId: String) {
@@ -62,6 +64,8 @@ final class SessionSettingsViewModel: ObservableObject {
                         do {
                             let newSettings = try (diff.document.data(as: SessionSettings.self)!)
                             self.settings.append(newSettings)
+                            self.textTime = String(newSettings.timerSetting)
+                            self.textTopStickies = String(newSettings.topStickiesCount)
                         } catch {
                             print("Error reading settings from DB: \(error)")
                         }
