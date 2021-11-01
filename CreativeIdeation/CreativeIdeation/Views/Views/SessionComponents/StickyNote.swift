@@ -117,6 +117,7 @@ struct StickyNote: View, Identifiable {
 
                             if sessionItemViewModel.isUsersSticky() {
                                     Button {
+                                        selected = false
                                         sessionItemViewModel.deleteSelected()
                                     } label: {
                                         Image(systemName: "trash.fill")
