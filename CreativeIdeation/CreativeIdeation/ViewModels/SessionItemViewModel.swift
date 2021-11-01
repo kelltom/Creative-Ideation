@@ -71,9 +71,12 @@ final class SessionItemViewModel: ObservableObject {
         stickyNotes = []
     }
 
-    func updateText(text: String, itemId: String) {
-        sessionItems[sessionItems.firstIndex(where: {$0.itemId == itemId})!].input = pFilter.maskProfanity(text: text)
-
+    func updateText(text: String, itemId: String, filterProfanity: Bool) {
+        if filterProfanity {
+            sessionItems[sessionItems.firstIndex(where: {$0.itemId == itemId})!].input = pFilter.maskProfanity(text: text)
+        } else {
+            sessionItems[sessionItems.firstIndex(where: {$0.itemId == itemId})!].input = text
+        }
     }
 
     func updateItem(itemId: String) {
@@ -303,7 +306,7 @@ final class SessionItemViewModel: ObservableObject {
             }
     }
 
-    func createItem(color: Int, input: String) {
+    func createItem(color: Int, input: String, filterProfanity: Bool) {
 
         guard let uid = Auth.auth().currentUser?.uid else {
             print("getCurrentUserInfo: failed to find uid")
@@ -313,8 +316,13 @@ final class SessionItemViewModel: ObservableObject {
         // Create a new sticky note and session item
         var newItem = SessionItem()
         newItem.color = color
-        newItem.input = pFilter.maskProfanity(text: input)
         newItem.sessionId = activeSession!.sessionId
+
+        if filterProfanity {
+            newItem.input = pFilter.maskProfanity(text: input)
+        } else {
+            newItem.input = input
+        }
 
         let itemRef = db.collection("session_items").document()
         let batch = db.batch()
@@ -395,11 +403,11 @@ final class SessionItemViewModel: ObservableObject {
         selectedItem = nil
     }
 
-    func colorSelected(color: Int) {
+    func colorSelected(color: Int, filterProfanity: Bool) {
         // Change the colour of the selected sticky
         sessionItems[sessionItems.firstIndex(where: {$0.itemId == selectedSticky!.itemId})!].color = color
         selectedSticky?.chosenColor = self.colorArray[color]
-        self.updateText(text: selectedSticky!.input, itemId: selectedSticky!.itemId)
+        self.updateText(text: selectedSticky!.input, itemId: selectedSticky!.itemId, filterProfanity: filterProfanity)
     }
 
     func generateIdeas() {
