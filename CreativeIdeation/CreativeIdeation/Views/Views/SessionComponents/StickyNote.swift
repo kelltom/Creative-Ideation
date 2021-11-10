@@ -33,7 +33,7 @@ struct StickyNote: View, Identifiable {
                     .foregroundColor(colorScheme == .dark ? chosenColor?.darker() : chosenColor)
                     .frame(width: 160, height: 30)
                     .simultaneousGesture(barTap)
-                    .popover(isPresented: $selected) {
+                    .popover(isPresented: $selected, arrowEdge: .top) {
                         HStack {
                             Button {
                                 sessionItemViewModel.colorSelected(color: 0, filterProfanity: sessionSettingsViewModel.settings[1].filterProfanity)
