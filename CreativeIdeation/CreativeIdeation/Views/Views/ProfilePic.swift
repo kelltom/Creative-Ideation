@@ -10,9 +10,10 @@ import SwiftUI
 struct ProfilePic: View {
 
     var size: CGFloat = 45
+    var image: String = "person.fill"
 
     var body: some View {
-        Image(systemName: "person.fill")
+        Image(systemName: image)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(width: size, height: size)
