@@ -195,13 +195,13 @@ struct UserSettingsView: View {
                 }
                 .onAppear {
                     userAccountViewModel.getCurrentUserInfo()
-                    
+
                 }
             }
             .navigationBarHidden(true)
             .sheet(isPresented: $showImagePicker, onDismiss: loadImage) {
                 ImagePicker(selectedImage: self.$inputImage)
-                //PhotoPicker(pickerResult: self.$inputImage, isPresented: self.$showImagePicker)
+                // PhotoPicker(pickerResult: self.$inputImage, isPresented: self.$showImagePicker)
 
             }
         }
@@ -209,10 +209,11 @@ struct UserSettingsView: View {
 
     func loadImage() {
         guard let inputImage = self.inputImage else { return }
-
+        guard let currentUser = userAccountViewModel.selectedUser?.id else {return}
         if let imageData = inputImage.jpegData(compressionQuality: 1) {
+
             let storage = Storage.storage()
-            storage.reference().child("test").putData(imageData, metadata: nil) {
+            storage.reference().child(currentUser).putData(imageData, metadata: nil) {
                 (_, err) in
                 if let err = err {
                     print("error occured \(err.localizedDescription)")

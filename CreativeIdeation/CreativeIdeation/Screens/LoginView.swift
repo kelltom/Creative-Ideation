@@ -79,6 +79,7 @@ struct LoginView: View {
                             // Log In Button
                             Button {
                                 userAccountViewModel.authenticate(email: email, password: password)
+
                             } label: {
                                 BigButton(title: "Log In", geometry: geometry, widthScale: widthScale)
                             }
@@ -113,7 +114,7 @@ struct LoginView: View {
             .edgesIgnoringSafeArea(.vertical)
             .onAppear {
                 userAccountViewModel.showBanner = false
-                userAccountViewModel.getImage()
+
             }
             .onDisappear {
                 email = ""

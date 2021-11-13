@@ -458,6 +458,8 @@ struct HomeView: View {
             .onChange(of: groupViewModel.selectedGroup) { _ in
                 sessionViewModel.selectedGroupId = groupViewModel.selectedGroup?.groupId
                 sessionViewModel.getGroupSessions()
+            }.onAppear {
+                userAccountViewModel.getImage()
             }
 
             // Chatbot

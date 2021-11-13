@@ -14,7 +14,7 @@ import FirebaseStorage
 
 final class UserAccountViewModel: ObservableObject {
 
-    // private var dbService : DBService! 
+    // private var dbService : DBService!
     private var db = Firestore.firestore()
     private var pFilter = ProfanityFilter()
 
@@ -25,12 +25,13 @@ final class UserAccountViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var selectedUser: User?
     @Published var currentImage: Image!
+    @Published var isUploadSuccess: Bool = false
 
     @Published var showBanner = false
     @Published var bannerData: BannerModifier.BannerData =
-        BannerModifier.BannerData(title: "Default Title",
-                                  detail: "Default detail message.",
-                                  type: .info)
+    BannerModifier.BannerData(title: "Default Title",
+                              detail: "Default detail message.",
+                              type: .info)
 
     func authenticate(email: String, password: String) {
         self.isLoading = true
@@ -315,7 +316,7 @@ final class UserAccountViewModel: ObservableObject {
             self.showBanner = true
 
             print("Fields cannot be empty")
-        // checks if user enters the correct new password
+            // checks if user enters the correct new password
         } else if newPassword != confirmPassword {
             self.isLoading = false
             self.updateSuccess = false
@@ -430,24 +431,58 @@ final class UserAccountViewModel: ObservableObject {
             }
         }
     }
+  
+//    func saveImage(inputImage: UIImage) -> Bool {
+//        guard let uid = Auth.auth().currentUser?.uid else {
+//            print("userAccountViewModel: save Image - not able to get uid")
+//            return false
+//        }
+//        if let imageData = inputImage.jpegData(compressionQuality: 1) {
+//
+//            let storage = Storage.storage()
+//            storage.reference().child(uid).putData(imageData, metadata: nil) {
+//                (_, err) in
+//                if let err = err {
+//                    self.isUploadSuccess = false
+//                    print("error occured \(err.localizedDescription)")
+//                } else {
+//                    print("upload success")
+//                    self.isUploadSuccess = true
+//                }
+//            }
+//        }
+//
+//        return self.isUploadSuccess
+//    }
+ 
 
-    func getImage(){
-        Storage.storage().reference().child("test").getData(maxSize: 5184*3456) {
-            (imageData, err) in
-            if let err = err {
-                print("error occured \(err.localizedDescription)")
+    func getImage() {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("UserAccountVM/GetImage - not able to get uid")
+            return
+        }
+        print("userId--\(uid)")
+
+        let storageReference = Storage.storage().reference().child(uid)
+        storageReference.getData(maxSize: 5184 * 2456) {
+            (imageData, error) in
+            if let error = error {
+                print("Error in getting image occured \(error.localizedDescription)")
+                self.currentImage = nil
             } else {
                 if let imageData = imageData {
+                    // assign to value
                     let img = UIImage(data: imageData)
                     self.currentImage = Image(uiImage: img!)
                     print("download success")
+                    print("yes there is an image with this id")
                 } else {
-                    print("failed to unwrap image data")
+                    print("there is no image with this ID")
                 }
             }
         }
     }
-        /// Assigns values to the published BannerData object
+    /// Assigns values to the published BannerData object
     private func setBannerData(title: String, details: String, type: BannerModifier.BannerType) {
         bannerData.title = title
         bannerData.detail = details
