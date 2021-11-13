@@ -13,11 +13,11 @@ import Profanity_Filter
 import FirebaseStorage
 
 final class UserAccountViewModel: ObservableObject {
-
+    
     // private var dbService : DBService!
     private var db = Firestore.firestore()
     private var pFilter = ProfanityFilter()
-
+    
     @Published var authSuccess = false
     @Published var createSuccess = false
     @Published var updateSuccess = false
@@ -26,37 +26,38 @@ final class UserAccountViewModel: ObservableObject {
     @Published var selectedUser: User?
     @Published var currentImage: Image!
     @Published var isUploadSuccess: Bool = false
-
+    
     @Published var showBanner = false
     @Published var bannerData: BannerModifier.BannerData =
     BannerModifier.BannerData(title: "Default Title",
                               detail: "Default detail message.",
                               type: .info)
-
+    
     func authenticate(email: String, password: String) {
         self.isLoading = true
-
+        
         // Populate User object
         var user = User()
         user.email = email
         user.password = password
-
+        
         // Authenticate user credentials
         Auth.auth().signIn(withEmail: user.email, password: user.password) { (_, error) in
             if error != nil {
                 print(error?.localizedDescription ?? "")
                 self.isLoading = false
                 self.authSuccess = false
-
+                
                 // Set banner
                 self.setBannerData(title: "Cannot authenticate",
                                    details: "Cannot authenticate credentials. \(error?.localizedDescription ?? "Unknown error.")",
                                    type: .error)
                 self.showBanner = true
             } else {
+                self.downloadImage()
                 self.isLoading = false
                 self.authSuccess = true
-
+                
                 // Set banner
                 self.setBannerData(title: "Success",
                                    details: "Authenticated credentials successfully.",
@@ -64,8 +65,9 @@ final class UserAccountViewModel: ObservableObject {
                 self.showBanner = true
             }
         }
+        
     }
-
+    
     /// Sign out
     func signOut() {
         let firebaseAuth = Auth.auth()
@@ -82,7 +84,7 @@ final class UserAccountViewModel: ObservableObject {
             print("Error signing out: %@", signOutError)
         }
     }
-
+    
     /// Populates selectedUser attribute
     func getCurrentUserInfo() { // reading the database onAppear in UpdateEmailSettings
         self.showBanner = false
@@ -90,7 +92,7 @@ final class UserAccountViewModel: ObservableObject {
             print("getCurrentUserInfo: failed to find uid")
             return
         }
-
+        
         // getting logged in user information
         db.collection("users").document(uid)
             .getDocument { (querySnapshot, err) in
@@ -107,26 +109,26 @@ final class UserAccountViewModel: ObservableObject {
                 }
             }
     }
-
+    
     /// updating user name to  db
     func updateUserName(name: String) {
         self.isLoading = true
-
+        
         // Get user ID
         guard let uid = Auth.auth().currentUser?.uid else {
             print("Could not find signed-in user's ID")
             return
         }
-
+        
         var user = User()
         user.name = name
         let oldName = self.selectedUser?.name
-
+        
         // Error Validation
         if name.isEmpty {
             self.isLoading = false
             self.updateSuccess = false
-
+            
             // Set banner
             setBannerData(title: "Cannot change name",
                           details: "New name cannot be empty",
@@ -135,7 +137,7 @@ final class UserAccountViewModel: ObservableObject {
         } else if name == oldName {
             self.isLoading = false
             self.updateSuccess = false
-
+            
             // Set banner
             self.setBannerData(title: "Cannot change name",
                                details: "New name cannot be the same as current name.",
@@ -144,7 +146,7 @@ final class UserAccountViewModel: ObservableObject {
         } else if pFilter.containsProfanity(text: name).profanities.count > 0 {
             self.isLoading = false
             self.updateSuccess = false
-
+            
             // Set Banner
             setBannerData(title: "Cannot change name",
                           details: "New name cannot contain profanity.",
@@ -158,90 +160,90 @@ final class UserAccountViewModel: ObservableObject {
                 if let err = err {
                     self.isLoading = false
                     self.updateSuccess = false
-
+                    
                     // Set banner
                     self.setBannerData(title: "Cannot change name",
                                        details: "Error updating user name. Please contact your admin. \(err)",
                                        type: .error)
                     self.showBanner = true
-
+                    
                     print("updateUserName: Error updating user name")
                 } else {
                     self.isLoading = false
                     self.updateSuccess = true
                     self.selectedUser?.name = user.name  // update view
-
+                    
                     // Set banner
                     self.setBannerData(title: "Success",
                                        details: "Name updated successfully!",
                                        type: .success)
                     self.showBanner = true
-
+                    
                     print("updateUserName: User name updated successfully")
                 }
             }
         }
     }
-
+    
     /// Updates user's email with input
     func updateUserEmail(email: String, password: String) {
         self.isLoading = true
-
+        
         // Get user ID
         guard let uid = Auth.auth().currentUser?.uid else {
             print("Could not find signed-in user's ID")
             return
         }
-
+        
         // Get current user
         guard let currentUser = Auth.auth().currentUser else {
             return
         }
-
+        
         var user = User()
         user.email = email
         let oldEmail = currentUser.email!
-
+        
         // reauthenticating user for email change
         let credential = EmailAuthProvider.credential(withEmail: oldEmail, password: password)
-
+        
         // Error checking before updating to DB
         if email.isEmpty || password.isEmpty {
             self.isLoading = false
             self.updateSuccess = false
-
+            
             // Set Banner
             self.setBannerData(title: "Cannot change email",
                                details: "Email or password cannot be empty.",
                                type: .warning)
             self.showBanner = true
-
+            
             print("Update failed: Email or password cannot be empty")
-
+            
         } else if oldEmail.lowercased() == user.email.lowercased() {
             self.isLoading = false
             self.updateSuccess = false
-
+            
             // Set Banner
             self.setBannerData(title: "Cannot change email",
                                details: "Email cannot be same as previous email.",
                                type: .warning)
             self.showBanner = true
-
+            
             print("Update failed: Email cannot be same as old email")
-
+            
         } else {
             currentUser.reauthenticate(with: credential) { _, error in
                 if error != nil {
                     self.isLoading = false
                     self.updateSuccess = false
-
+                    
                     // Set Banner
                     self.setBannerData(title: "Cannot change email",
                                        details: "Password entered is incorrect. Try again.",
                                        type: .warning)
                     self.showBanner = true
-
+                    
                     print("Update failed: password entered is incorrect")
                 } else {
                     // Update email to auth
@@ -251,7 +253,7 @@ final class UserAccountViewModel: ObservableObject {
                             self.isLoading = false
                             let err = error?.localizedDescription ?? "Error updating email"
                             self.updateSuccess = false
-
+                            
                             // Set Banner
                             self.setBannerData(title: "Email update failed",
                                                details: "Failed to update email. Ensure you are connected to the internet. Error: \(err)",
@@ -266,7 +268,7 @@ final class UserAccountViewModel: ObservableObject {
                                     print("Error updating user email: \(err)")
                                     self.isLoading = false
                                     self.updateSuccess = false
-
+                                    
                                     // Set Banner
                                     self.setBannerData(title: "Email update failed",
                                                        details: "Failed to update email. Ensure you are connected to the internet. Error: \(err)",
@@ -277,7 +279,7 @@ final class UserAccountViewModel: ObservableObject {
                                     self.isLoading = false
                                     self.updateSuccess = true
                                     self.selectedUser?.email = user.email
-
+                                    
                                     // Set Banner
                                     self.setBannerData(title: "Success",
                                                        details: "Email updated successfully!",
@@ -291,42 +293,42 @@ final class UserAccountViewModel: ObservableObject {
             }
         }
     }
-
+    
     func updateUserPassword(newPassword: String, confirmPassword: String, oldPassword: String) {
         self.isLoading = true
-
+        
         // Get current user
         guard let currentUser = Auth.auth().currentUser else {
             return
         }
         let currentUsersEmail = currentUser.email!
-
+        
         // accessing FireBaseAuth User credentials with EmailAuthProvider
         let credential = EmailAuthProvider.credential(withEmail: currentUsersEmail, password: oldPassword)
-
+        
         // Error Validation
         if newPassword.isEmpty || confirmPassword.isEmpty || oldPassword.isEmpty {
             self.isLoading = false
             self.updateSuccess = false
-
+            
             // Set Banner
             self.setBannerData(title: "Cannot change password",
                                details: "Fields cannot be empty. Please fill out all the fields.",
                                type: .warning)
             self.showBanner = true
-
+            
             print("Fields cannot be empty")
             // checks if user enters the correct new password
         } else if newPassword != confirmPassword {
             self.isLoading = false
             self.updateSuccess = false
-
+            
             // Set Banner
             self.setBannerData(title: "Cannot change password",
                                details: "New passwords do not match. Please re-enter your password.",
                                type: .warning)
             self.showBanner = true
-
+            
             print("passwords do not match")
         } else {
             // re-authenticate user to check user password is correct
@@ -334,13 +336,13 @@ final class UserAccountViewModel: ObservableObject {
                 if error != nil {
                     self.isLoading = false
                     self.updateSuccess = false
-
+                    
                     // Set Banner
                     self.setBannerData(title: "Cannot change password",
                                        details: "Password entered is incorrect. Please try again.",
                                        type: .warning)
                     self.showBanner = true
-
+                    
                     print(error?.localizedDescription ?? "error reauthenticating failed")
                 } else {
                     // update password to db
@@ -351,7 +353,7 @@ final class UserAccountViewModel: ObservableObject {
                             print("Password update is successful")
                             self.isLoading = false
                             self.updateSuccess = true
-
+                            
                             // Set Banner
                             self.setBannerData(title: "Success",
                                                details: "Password is successfully updated!",
@@ -363,11 +365,11 @@ final class UserAccountViewModel: ObservableObject {
             }
         }
     }
-
+    
     func createAccount(name: String, email: String, password: String) {
         self.showBanner = false
         self.isLoading = true
-
+        
         if pFilter.containsProfanity(text: name).profanities.count > 0 {
             self.setBannerData(title: "Error creating account",
                                details: "Cannot use profanity in your name.",
@@ -377,29 +379,29 @@ final class UserAccountViewModel: ObservableObject {
             self.createSuccess = false
             return
         }
-
+        
         // Populate User object
         var user = User()
         user.name = name
         user.email = email
         user.password = password
-
+        
         // Add new User to authenticated list
         Auth.auth().createUser(withEmail: user.email, password: user.password) { authResult, error in
             if error != nil {
                 print(error?.localizedDescription ?? "Error creating account")
                 self.isLoading = false
                 self.createSuccess = false
-
+                
                 // Set banner
                 self.setBannerData(title: "Error creating account",
                                    details: "Error: \(error?.localizedDescription ?? "unknown")",
                                    type: .error)
                 self.showBanner = true
-
+                
             } else {
                 print("Successfully created User auth")
-
+                
                 // Mirror user in DB (ideally, it would take the User object and convert to document
                 self.db.collection("users").document((authResult?.user.uid)! as String).setData([
                     "name": user.name,
@@ -410,7 +412,7 @@ final class UserAccountViewModel: ObservableObject {
                         print("Error adding document: \(err)")
                         self.isLoading = false
                         self.createSuccess = false
-
+                        
                         // Set banner
                         self.setBannerData(title: "Error creating account",
                                            details: "We've encountered an error trying to create your account. Make sure you're connected to the internet and try again. Error: \(err.localizedDescription)",
@@ -420,7 +422,7 @@ final class UserAccountViewModel: ObservableObject {
                         print("Document added with")
                         self.isLoading = false
                         self.createSuccess = true
-
+                        
                         // Set banner
                         self.setBannerData(title: "Success",
                                            details: "Your account has been successfully created!",
@@ -431,41 +433,38 @@ final class UserAccountViewModel: ObservableObject {
             }
         }
     }
-  
-//    func saveImage(inputImage: UIImage) -> Bool {
-//        guard let uid = Auth.auth().currentUser?.uid else {
-//            print("userAccountViewModel: save Image - not able to get uid")
-//            return false
-//        }
-//        if let imageData = inputImage.jpegData(compressionQuality: 1) {
-//
-//            let storage = Storage.storage()
-//            storage.reference().child(uid).putData(imageData, metadata: nil) {
-//                (_, err) in
-//                if let err = err {
-//                    self.isUploadSuccess = false
-//                    print("error occured \(err.localizedDescription)")
-//                } else {
-//                    print("upload success")
-//                    self.isUploadSuccess = true
-//                }
-//            }
-//        }
-//
-//        return self.isUploadSuccess
-//    }
- 
-
-    func getImage() {
+    
+    //    func saveImage(inputImage: UIImage) -> Bool {
+    //        guard let uid = Auth.auth().currentUser?.uid else {
+    //            print("userAccountViewModel: save Image - not able to get uid")
+    //            return false
+    //        }
+    //        if let imageData = inputImage.jpegData(compressionQuality: 1) {
+    //
+    //            let storage = Storage.storage()
+    //            storage.reference().child(uid).putData(imageData, metadata: nil) {
+    //                (_, err) in
+    //                if let err = err {
+    //                    self.isUploadSuccess = false
+    //                    print("error occured \(err.localizedDescription)")
+    //                } else {
+    //                    print("upload success")
+    //                    self.isUploadSuccess = true
+    //                }
+    //            }
+    //        }
+    //
+    //        return self.isUploadSuccess
+    //    }
+    
+    func downloadImage() {
         guard let uid = Auth.auth().currentUser?.uid else {
             print("UserAccountVM/GetImage - not able to get uid")
             return
         }
-        print("userId--\(uid)")
-
+        
         let storageReference = Storage.storage().reference().child(uid)
-        storageReference.getData(maxSize: 5184 * 2456) {
-            (imageData, error) in
+        storageReference.getData(maxSize: 5184 * 2456) { (imageData, error) in
             if let error = error {
                 print("Error in getting image occured \(error.localizedDescription)")
                 self.currentImage = nil
@@ -474,10 +473,9 @@ final class UserAccountViewModel: ObservableObject {
                     // assign to value
                     let img = UIImage(data: imageData)
                     self.currentImage = Image(uiImage: img!)
-                    print("download success")
-                    print("yes there is an image with this id")
+                    print("download success, Image with this user exists")
                 } else {
-                    print("there is no image with this ID")
+                    print("not able to set to UIImage")
                 }
             }
         }

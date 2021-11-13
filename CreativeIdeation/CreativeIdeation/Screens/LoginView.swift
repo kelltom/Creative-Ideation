@@ -9,42 +9,42 @@ import SwiftUI
 import Firebase
 
 struct LoginView: View {
-
+    
     // Allows for CreateAccount View to jump back to this View
     @State var showCreateAcc = false
-
+    
     @State var email: String = ""
     @State var password: String = ""
     @State private var widthScale: CGFloat = 0.75
-
+    
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
     @EnvironmentObject var teamViewModel: TeamViewModel
-
+    
     var body: some View {
-
+        
         NavigationView {
-
+            
             ZStack {
-
+                
                 Color("BackgroundColor")
-
+                
                 if userAccountViewModel.isLoading {
                     ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
                         .scaleEffect(3).padding()
                 }
-
+                
                 GeometryReader { geometry in
                     VStack {
-
+                        
                         Spacer()
-
+                        
                         VStack {
-
+                            
                             Text("Log In")
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
                                 .padding()
-
+                            
                             HStack {
                                 Text("Enter Email Address")
                                     .font(.title3)
@@ -52,9 +52,9 @@ struct LoginView: View {
                                 Spacer()
                             }
                             .frame(width: geometry.size.width * widthScale)
-
+                            
                             EditTextField(title: "Email Address", input: $email, geometry: geometry, widthScale: widthScale)
-
+                            
                             HStack {
                                 Text("Enter Password")
                                     .font(.title3)
@@ -62,9 +62,9 @@ struct LoginView: View {
                                 Spacer()
                             }
                             .frame(width: geometry.size.width * widthScale)
-
+                            
                             EditTextField(title: "Password", input: $password, secure: true, geometry: geometry, widthScale: widthScale)
-
+                            
                             // Log In Link
                             NavigationLink(
                                 destination: HomeView(),
@@ -73,18 +73,21 @@ struct LoginView: View {
                                     EmptyView()
                                 })
                                 .onChange(of: userAccountViewModel.authSuccess == true) { _ in
+                                    
                                     teamViewModel.getTeams()
                                 }
-
+                            
                             // Log In Button
                             Button {
+                                
                                 userAccountViewModel.authenticate(email: email, password: password)
-
+                                //                                userAccountViewModel.downloadImage()
+                                
                             } label: {
                                 BigButton(title: "Log In", geometry: geometry, widthScale: widthScale)
                             }
                             .padding(.top)
-
+                            
                             // Create Acc Button
                             HStack {
                                 Text("New user?")
@@ -94,14 +97,14 @@ struct LoginView: View {
                                 }
                             }
                             .padding(.top, 20)
-
+                            
                             NavigationLink(destination: EmptyView()) {
                                 EmptyView()
                             }
                             .hidden()
-
+                            
                         }
-
+                        
                         Spacer()
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -114,7 +117,7 @@ struct LoginView: View {
             .edgesIgnoringSafeArea(.vertical)
             .onAppear {
                 userAccountViewModel.showBanner = false
-
+                
             }
             .onDisappear {
                 email = ""
@@ -134,11 +137,11 @@ struct LoginView_Previews: PreviewProvider {
 }
 
 struct GoogleButton: View {
-
+    
     var body: some View {
-
+        
         HStack {
-
+            
             Image("google")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -147,14 +150,14 @@ struct GoogleButton: View {
                 .background(Color(.white))
                 .cornerRadius(10)
                 .padding(.leading, 1)
-
+            
             Spacer()
-
+            
             Text("Sign in with Google")
                 .offset(x: -25)
-
+            
             Spacer()
-
+            
         }
         .frame(width: 550, height: 60, alignment: .center)
         .background(Color(.blue))
@@ -163,6 +166,6 @@ struct GoogleButton: View {
         .font(.title2)
         .padding()
         .shadow(radius: 5, x: 5, y: 5)
-
+        
     }
 }
