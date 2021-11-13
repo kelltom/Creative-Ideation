@@ -10,6 +10,7 @@ import Firebase
 import SwiftUI
 import FirebaseFirestoreSwift
 import Profanity_Filter
+import FirebaseStorage
 
 final class UserAccountViewModel: ObservableObject {
 
@@ -23,6 +24,7 @@ final class UserAccountViewModel: ObservableObject {
     @Published var logOutFlag = false
     @Published var isLoading = false
     @Published var selectedUser: User?
+    @Published var currentImage: Image!
 
     @Published var showBanner = false
     @Published var bannerData: BannerModifier.BannerData =
@@ -429,6 +431,25 @@ final class UserAccountViewModel: ObservableObject {
         }
     }
 
+    func getImage(){
+        Storage.storage().reference().child("test").getData(maxSize: 5184*3456) {
+            (imageData, err) in
+            if let err = err {
+                print("error occured \(err.localizedDescription)")
+            } else {
+                if let imageData = imageData {
+                    let img = UIImage(data: imageData)
+                    self.currentImage = Image(uiImage: img!)
+                    print("download success")
+                } else {
+                    print("failed to unwrap image data")
+                }
+            }
+            
+        }
+    }
+    
+    
     /// Assigns values to the published BannerData object
     private func setBannerData(title: String, details: String, type: BannerModifier.BannerType) {
         bannerData.title = title

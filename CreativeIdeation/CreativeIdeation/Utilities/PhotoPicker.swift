@@ -48,7 +48,7 @@ struct PhotoPicker: UIViewControllerRepresentable {
                       return
                   }
                   self.parent.pickerResult = object as? UIImage
-                  
+
 //                  guard let uiImage = object as? UIImage else {
 //                      print("unable to unwrap image as ui image - unable to read")
 //                      return
