@@ -195,13 +195,13 @@ struct UserSettingsView: View {
                 }
                 .onAppear {
                     userAccountViewModel.getCurrentUserInfo()
-                    userAccountViewModel.getImage()
+                    
                 }
             }
             .navigationBarHidden(true)
             .sheet(isPresented: $showImagePicker, onDismiss: loadImage) {
                 ImagePicker(selectedImage: self.$inputImage)
-                //                PhotoPicker(pickerResult: self.$inputImage, isPresented: self.$showImagePicker)
+                //PhotoPicker(pickerResult: self.$inputImage, isPresented: self.$showImagePicker)
 
             }
         }
@@ -221,7 +221,7 @@ struct UserSettingsView: View {
                 }
             }
         }
-        image = Image(uiImage: inputImage)
+        userAccountViewModel.currentImage = Image(uiImage: inputImage)
 
     }
 

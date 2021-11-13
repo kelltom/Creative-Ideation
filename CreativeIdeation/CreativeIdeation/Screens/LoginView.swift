@@ -113,6 +113,7 @@ struct LoginView: View {
             .edgesIgnoringSafeArea(.vertical)
             .onAppear {
                 userAccountViewModel.showBanner = false
+                userAccountViewModel.getImage()
             }
             .onDisappear {
                 email = ""

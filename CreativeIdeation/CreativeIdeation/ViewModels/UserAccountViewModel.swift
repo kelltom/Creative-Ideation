@@ -445,12 +445,9 @@ final class UserAccountViewModel: ObservableObject {
                     print("failed to unwrap image data")
                 }
             }
-            
         }
     }
-    
-    
-    /// Assigns values to the published BannerData object
+        /// Assigns values to the published BannerData object
     private func setBannerData(title: String, details: String, type: BannerModifier.BannerType) {
         bannerData.title = title
         bannerData.detail = details
