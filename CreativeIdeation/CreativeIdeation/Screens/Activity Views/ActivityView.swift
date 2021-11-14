@@ -55,7 +55,7 @@ struct ActivityView: View {
     var body: some View {
         ZStack {
 
-            Color("BackgroundColor")
+            Color("BackgroundColor").zIndex(0)
 
             VStack(spacing: 0) {
                 HStack(alignment: .center) {
@@ -140,7 +140,7 @@ struct ActivityView: View {
 
                     if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup?.groupId ?? "no ID") && sessionViewModel.selectedSession?.stage ?? 1 != 4 {
                         Button {
-                            withAnimation {
+                            withAnimation(.easeInOut) {
                                 if sessionViewModel.selectedSession?.stage ?? 1 == 1 {
                                     if timerManager.mode == .running {
                                         sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
@@ -364,10 +364,19 @@ struct ActivityView: View {
                                             .frame(width: 160)
 
                                         Button {
-                                            UIPasteboard.general.string =
-                                                sessionItemViewModel.generatedIdeas[ideasIndex]
+                                            sessionItemViewModel.createItem(color: Int.random(in: 0..<5), input: sessionItemViewModel.generatedIdeas[ideasIndex], filterProfanity: sessionSettingsViewModel.settings[1].filterProfanity)
+                                            if ideasIndex > 0 {
+                                                ideasIndex -= 1
+                                                sessionItemViewModel.generatedIdeas.remove(at: ideasIndex + 1)
+                                            } else {
+                                                sessionItemViewModel.generatedIdeas.remove(at: ideasIndex)
+                                                if sessionItemViewModel.generatedIdeas.count == 0 {
+                                                    aiPopover = false
+                                                }
+                                            }
+                                            sessionViewModel.updateDateModified()
                                         } label: {
-                                            Image(systemName: "doc.on.doc")
+                                            Image(systemName: "plus.square.fill.on.square.fill")
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fit)
                                                 .frame(width: 25, height: 25)
