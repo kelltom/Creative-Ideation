@@ -8,15 +8,16 @@
 import SwiftUI
 import UIKit
 
-struct ImagePicker: UIViewControllerRepresentable {  /// UIview controller is a protocol
-
+struct ImagePicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?
+//    var sourceType: UIImagePickerController.SourceType
     @Environment(\.presentationMode) private var presentationMode
 
     // creates and configures the view controller
     func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
         let imagePicker = UIImagePickerController()
-        imagePicker.allowsEditing = false
+        imagePicker.allowsEditing = true
+//        imagePicker.sourceType = self.sourceType
         imagePicker.delegate = context.coordinator
         return imagePicker
     }
@@ -27,7 +28,7 @@ struct ImagePicker: UIViewControllerRepresentable {  /// UIview controller is a 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-
+    // coordinator class is used to communicate with the Image Picker
     final class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
         var parent: ImagePicker
         init(_ parent: ImagePicker) {

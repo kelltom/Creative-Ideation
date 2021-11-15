@@ -28,7 +28,7 @@ struct UserSettingsView: View {
     @State private var showImagePicker = false
     @State private var inputImage: UIImage?
     @State private var image: Image?
-    @State private var sourceType: String?
+    @State private var sourceType: UIImagePickerController.SourceType = .photoLibrary
 
     @Binding var showUserSettings: Bool
 
@@ -83,7 +83,7 @@ struct UserSettingsView: View {
                                     .contextMenu {
                                         Button {
                                             self.showImagePicker = true
-
+                                            self.sourceType = .photoLibrary
                                         } label: {
                                             HStack {
                                                 Text("Choose Image")
@@ -92,6 +92,7 @@ struct UserSettingsView: View {
                                         }
                                         Button {
                                             self.showImagePicker.toggle()
+                                            self.sourceType = .camera
                                         } label: {
                                             HStack {
                                                 Text("Open Camera")
@@ -210,6 +211,7 @@ struct UserSettingsView: View {
             .navigationBarHidden(true)
             .sheet(isPresented: $showImagePicker, onDismiss: uploadImage) {
                 ImagePicker(selectedImage: self.$inputImage)
+//                ImagePicker(selectedImage: self.$inputImage, sourceType: self.sourceType)
                 // PhotoPicker(pickerResult: self.$inputImage, isPresented: self.$showImagePicker)
 
             }
