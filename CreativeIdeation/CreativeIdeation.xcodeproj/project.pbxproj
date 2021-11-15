@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		26325B472706556400B31DF6 /* SessionSettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26325B462706556400B31DF6 /* SessionSettingsSheet.swift */; };
+		266FB86A2741C9B100D318FD /* LocalFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266FB8692741C9B000D318FD /* LocalFileManager.swift */; };
 		2673153C273D9F9D007B79AA /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2673153B273D9F9D007B79AA /* ImagePicker.swift */; };
 		26833F5F26F67D1A00C24A93 /* UpdateTeamNameSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26833F5E26F67D1A00C24A93 /* UpdateTeamNameSheet.swift */; };
 		26833F6126F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26833F6026F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift */; };
@@ -96,6 +97,7 @@
 
 /* Begin PBXFileReference section */
 		26325B462706556400B31DF6 /* SessionSettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSettingsSheet.swift; sourceTree = "<group>"; };
+		266FB8692741C9B000D318FD /* LocalFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileManager.swift; sourceTree = "<group>"; };
 		2673153B273D9F9D007B79AA /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		26833F5E26F67D1A00C24A93 /* UpdateTeamNameSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTeamNameSheet.swift; sourceTree = "<group>"; };
 		26833F6026F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTeamDescriptionSheet.swift; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 				26E658912717AD7300BCB646 /* ShareItems.swift */,
 				2673153B273D9F9D007B79AA /* ImagePicker.swift */,
 				269B7A43273F19DE00FD6C2E /* PhotoPicker.swift */,
+				266FB8692741C9B000D318FD /* LocalFileManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -658,6 +661,7 @@
 				76C0480426054878009ECBAB /* TeamCodeSheet.swift in Sources */,
 				DD4449D226D9545800F23D39 /* GroupSettingsView.swift in Sources */,
 				761F4751261E212A0019B580 /* UpdateEmailSheet.swift in Sources */,
+				266FB86A2741C9B100D318FD /* LocalFileManager.swift in Sources */,
 				DD8AE46F26D420FA00AC7ABB /* BannerModifier.swift in Sources */,
 				768315D2261F5A1500F9D593 /* LogOutButton.swift in Sources */,
 				76A0956925E825ED00917450 /* SearchBarView.swift in Sources */,
