@@ -22,6 +22,7 @@ struct ActivityView: View {
     @EnvironmentObject var sessionViewModel: SessionViewModel
     @EnvironmentObject var sessionSettingsViewModel: SessionSettingsViewModel
     @EnvironmentObject var groupViewModel: GroupViewModel
+    @Environment(\.colorScheme) var colorScheme
 
     let colorArray = [Color.init(red: 0.9, green: 0, blue: 0),
                       Color.init(red: 0.9, green: 0.6, blue: 0),
@@ -34,6 +35,7 @@ struct ActivityView: View {
 
     @ObservedObject var timerManager: TimerManager
 
+    @State var showChatbot: Bool = false
     @State var showSheet: SessionSheet?
     @State var bounces: Int = 0
 
@@ -430,6 +432,35 @@ struct ActivityView: View {
                 case .settings:
                     SessionSettingsSheet(showSheet: $showSheet, settings: $sessionSettingsViewModel.settings[1], textTime: $sessionSettingsViewModel.textTime, textTopStickies: $sessionSettingsViewModel.textTopStickies)
                         .environmentObject(self.sessionViewModel)
+                }
+            }
+
+            // Chatbot
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    if showChatbot {
+                        // Actual Chatbot
+                        ChatbotView(showChatbot: $showChatbot)
+                            .padding(20)
+                            .animation(.easeInOut)
+                    } else {
+                        // Chatbot Button
+                        Button {
+                            withAnimation {
+                                showChatbot = true
+                            }
+                        } label: {
+                            Image(systemName: "questionmark.circle.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundColor(colorScheme == .dark ? .blue.lighter(by: 20) : .blue)
+                                .frame(width: 60, height: 60)
+                                .clipped()
+                                .padding(20)
+                        }
+                    }
                 }
             }
         }
