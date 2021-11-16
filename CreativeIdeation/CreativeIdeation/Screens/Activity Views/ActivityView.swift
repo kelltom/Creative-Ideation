@@ -442,7 +442,7 @@ struct ActivityView: View {
                     Spacer()
                     if showChatbot {
                         // Actual Chatbot
-                        ChatbotView(showChatbot: $showChatbot)
+                        ChatbotView(showChatbot: $showChatbot, initialRequest: "How do I brainstorm with sticky notes?")
                             .padding(20)
                             .animation(.easeInOut)
                     } else {
