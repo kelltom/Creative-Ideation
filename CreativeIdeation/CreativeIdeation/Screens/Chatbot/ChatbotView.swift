@@ -11,6 +11,7 @@ struct ChatbotView: View {
 
     @Binding var showChatbot: Bool
     @State var input: String = ""
+    @State var initialRequest: String = "Help"
 
     @EnvironmentObject var chatbotViewModel: ChatbotViewModel
 
@@ -18,7 +19,7 @@ struct ChatbotView: View {
         VStack(spacing: 0) {
             // Title Bar
             HStack {
-                Text("Chatbot")
+                Text("Help Centre")
                     .font(.title2)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
@@ -90,7 +91,7 @@ struct ChatbotView: View {
                 .stroke(Color.gray)
         )
         .onAppear {
-            chatbotViewModel.send(text: "Help")
+            chatbotViewModel.send(text: initialRequest)
         }
         .onDisappear {
             chatbotViewModel.chatlog = []
