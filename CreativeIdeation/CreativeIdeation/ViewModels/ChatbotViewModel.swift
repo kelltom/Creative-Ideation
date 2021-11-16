@@ -14,6 +14,11 @@ final class ChatbotViewModel: ObservableObject {
     /// Chat log containing message history with chatbot in order (array of tuples)
     @Published var chatlog: [Message] = []
 
+    /// Clears chatlog
+    func clearLog() {
+        chatlog = []
+    }
+
     /// Send message to chatbot and expect response
     func send(text: String) {
 

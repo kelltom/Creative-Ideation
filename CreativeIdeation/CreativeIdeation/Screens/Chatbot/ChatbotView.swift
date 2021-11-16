@@ -39,7 +39,7 @@ struct ChatbotView: View {
 
             // Chat Area
             ScrollView(.vertical, showsIndicators: true) {
-                LazyVStack {
+                VStack {
                     ForEach(chatbotViewModel.chatlog.reversed()) { message in
                         MessageView(message: message)
                             .rotationEffect(Angle(degrees: 180))
@@ -94,7 +94,7 @@ struct ChatbotView: View {
             chatbotViewModel.send(text: initialRequest)
         }
         .onDisappear {
-            chatbotViewModel.chatlog = []
+            chatbotViewModel.clearLog()
         }
     }
 }
