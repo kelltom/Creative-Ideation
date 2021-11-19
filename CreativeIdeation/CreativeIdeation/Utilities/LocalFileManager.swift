@@ -58,7 +58,7 @@ class LocalFileManager {
     }
 
     private func getURLforFolder(folderName: String) -> URL? {
-     
+
         // saving images to the cachesDirectory for temporary storage
         guard let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else {
             return nil

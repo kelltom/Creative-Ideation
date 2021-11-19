@@ -436,7 +436,7 @@ final class UserAccountViewModel: ObservableObject {
         }
     }
 
-    func uploadImage(selectedImage: UIImage, imageID: String) {
+    func uploadImageToFirebase(selectedImage: UIImage, imageID: String) {
 
         if let imageData = selectedImage.jpegData(compressionQuality: 1) { // returnign image as jpeg
             let storage = Storage.storage()
@@ -499,7 +499,7 @@ final class UserAccountViewModel: ObservableObject {
                 print("User has not selected a profile picture")
                 self.userProfilePicture = nil
             }
-            
+
         }
     }
 

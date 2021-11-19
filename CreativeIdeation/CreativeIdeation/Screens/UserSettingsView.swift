@@ -70,20 +70,21 @@ struct UserSettingsView: View {
                                         .scaledToFit()
                                         .frame(width: 60, height: 60)
                                         .clipShape(Circle())
+                                        .padding(.bottom, 4)
 
                                 } else {
-                                    ProfilePic(size: 40, image: "person.fill")
+                                    ProfilePic(size: 60, image: "person.fill")
 
                                 }
-                                
+
                                 Menu {
-                                    Button(action: chooseImage){
+                                    Button(action: chooseImage) {
                                         Label("Choose Image", systemImage: "square.and.arrow.up")
                                     }
-                                    Button(action: openCamera){
+                                    Button(action: openCamera) {
                                         Label("Open Camera", systemImage: "camera")
                                     }
-                                    
+
                                 } label: {
                                     Image(systemName: "plus")
                                         .frame(width: 20, height: 20)
@@ -162,6 +163,7 @@ struct UserSettingsView: View {
                     }
                     .frame(width: geometry.size.width * 0.75, alignment: .center)
                     .padding(.bottom)
+                    .padding(.top)
                     .background(Color("brandPrimary"))
                     .cornerRadius(20)
 
@@ -201,9 +203,7 @@ struct UserSettingsView: View {
             }
             .navigationBarHidden(true)
             .sheet(isPresented: $showImagePicker, onDismiss: uploadImage) {
-                ImagePicker(selectedImage: self.$inputImage)
-//                ImagePicker(selectedImage: self.$inputImage, sourceType: self.sourceType)
-                // PhotoPicker(pickerResult: self.$inputImage, isPresented: self.$showImagePicker)
+                ImagePicker(selectedImage: self.$inputImage, sourceType: self.sourceType)
 
             }
 
@@ -213,16 +213,17 @@ struct UserSettingsView: View {
     func uploadImage() {
         guard let inputImage = self.inputImage else { return }
         guard let currentUser = userAccountViewModel.selectedUser?.id else {return}
+        let resizedImage = inputImage.resized(to: CGSize(width: 100, height: 100))
         userAccountViewModel.isLoading = true
-        userAccountViewModel.uploadImage(selectedImage: inputImage, imageID: currentUser)
+        userAccountViewModel.uploadImageToFirebase(selectedImage: resizedImage, imageID: currentUser)
     }
-    
-    func chooseImage(){
+
+    func chooseImage() {
         self.showImagePicker = true
-     
+        self.sourceType = .photoLibrary
     }
-    
-    func openCamera(){
+
+    func openCamera() {
         self.showImagePicker.toggle()
         self.sourceType = .camera
     }
@@ -235,6 +236,14 @@ prefix func ! (value: Binding<Bool>) -> Binding<Bool> {
         get: { !value.wrappedValue },
         set: { value.wrappedValue = !$0 }
     )
+}
+
+extension UIImage {
+    func resized(to size: CGSize) -> UIImage {
+        return UIGraphicsImageRenderer(size: size).image { _ in
+            draw(in: CGRect(origin: .zero, size: size))
+        }
+    }
 }
 
 struct UserPrefView_Previews: PreviewProvider {
