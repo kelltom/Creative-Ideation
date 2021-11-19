@@ -75,32 +75,23 @@ struct UserSettingsView: View {
                                     ProfilePic(size: 40, image: "person.fill")
 
                                 }
-                                Image(systemName: "plus")
-                                    .frame(width: 20, height: 20)
-                                    .foregroundColor(Color.white)
-                                    .background(Color.blue)
-                                    .clipShape(Circle())
-                                    .contextMenu {
-                                        Button {
-                                            self.showImagePicker = true
-                                            self.sourceType = .photoLibrary
-                                        } label: {
-                                            HStack {
-                                                Text("Choose Image")
-                                                Image(systemName: "square.and.arrow.up")
-                                            }
-                                        }
-                                        Button {
-                                            self.showImagePicker.toggle()
-                                            self.sourceType = .camera
-                                        } label: {
-                                            HStack {
-                                                Text("Open Camera")
-                                                Image(systemName: "camera")
-                                            }
-                                        }
+                                
+                                Menu {
+                                    Button(action: chooseImage){
+                                        Label("Choose Image", systemImage: "square.and.arrow.up")
                                     }
-                                    .frame(width: 55, height: 55, alignment: .bottomTrailing)
+                                    Button(action: openCamera){
+                                        Label("Open Camera", systemImage: "camera")
+                                    }
+                                    
+                                } label: {
+                                    Image(systemName: "plus")
+                                        .frame(width: 20, height: 20)
+                                        .foregroundColor(Color.white)
+                                        .background(Color.blue)
+                                        .clipShape(Circle())
+                                }
+                                .frame(width: 55, height: 55, alignment: .bottomTrailing)
 
                             }
 
@@ -224,6 +215,16 @@ struct UserSettingsView: View {
         guard let currentUser = userAccountViewModel.selectedUser?.id else {return}
         userAccountViewModel.isLoading = true
         userAccountViewModel.uploadImage(selectedImage: inputImage, imageID: currentUser)
+    }
+    
+    func chooseImage(){
+        self.showImagePicker = true
+     
+    }
+    
+    func openCamera(){
+        self.showImagePicker.toggle()
+        self.sourceType = .camera
     }
 
 }

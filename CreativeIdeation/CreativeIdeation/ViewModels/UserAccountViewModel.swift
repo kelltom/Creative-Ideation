@@ -494,8 +494,12 @@ final class UserAccountViewModel: ObservableObject {
             print("Retrieved from file manager")
             self.userProfilePicture = Image(uiImage: savedImage)
         } else {
-            print("User has not selected a profile picture")
-            self.userProfilePicture = nil
+            downloadImage()
+            if self.userProfilePicture == nil {
+                print("User has not selected a profile picture")
+                self.userProfilePicture = nil
+            }
+            
         }
     }
 
