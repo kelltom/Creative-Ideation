@@ -373,7 +373,7 @@ final class GroupViewModel: ObservableObject {
         isLoading = true
 
         guard selectedGroup != nil else {
-            print("removeMembers: Selected Group is nil.")
+            print("addMembers: Selected Group is nil.")
             isLoading = false
             return
         }

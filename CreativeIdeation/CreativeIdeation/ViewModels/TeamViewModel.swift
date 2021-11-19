@@ -592,6 +592,78 @@ final class TeamViewModel: ObservableObject {
             }
     }
 
+    func removeMembers(memberIds: Set<String>) {
+
+        isLoading = true
+
+        guard selectedTeam != nil else {
+            print("removeMembers: Selected Team is nil.")
+            isLoading = false
+            return
+        }
+
+        if memberIds.isEmpty {
+            // Set banner
+            self.setBannerData(title: "Failed to remove members",
+                               details: "Please select members to remove first.",
+                               type: .warning)
+            self.showBanner = true
+            isLoading = false
+            return
+        }
+
+        let idsToRemove = Array(memberIds)
+
+        // Check if owner/admin ID is among them
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("removeMembers: Cannot get UID.")
+            isLoading = false
+            return
+        }
+
+        if idsToRemove.contains(uid) {
+            // Set banner
+            self.setBannerData(title: "Failed to remove members",
+                               details: "You cannot remove the owner from the Team.",
+                               type: .warning)
+            self.showBanner = true
+            isLoading = false
+            return
+        }
+
+        let teamRef = db.collection("teams").document(selectedTeam!.teamId)
+
+        teamRef.updateData(["members": FieldValue.arrayRemove(idsToRemove)]) { err in
+            if let err = err {
+                // Set banner
+                self.setBannerData(title: "Failed to remove members",
+                                   details: "Error: \(err.localizedDescription).",
+                                   type: .error)
+                self.showBanner = true
+                self.isLoading = false
+
+                print("removeMembers: Error removing members: \(err)")
+            } else {
+                // Set banner
+                self.setBannerData(title: "Success",
+                                   details: "Team members removed successfully.",
+                                   type: .success)
+                self.showBanner = true
+                self.isLoading = false
+
+                // Remove Ids from members array
+                self.selectedTeam!.members.removeAll {
+                    idsToRemove.contains($0)
+                }
+
+                // Remove Member objects from groupMembers
+                self.teamMembers.removeAll {
+                    idsToRemove.contains($0.id)
+                }
+            }
+        }
+    }
+
     func clear() {
         listener?.remove()
         teams = []

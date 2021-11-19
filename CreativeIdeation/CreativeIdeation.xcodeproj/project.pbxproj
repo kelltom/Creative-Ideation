@@ -42,6 +42,7 @@
 		C94A099A266C4A86004E6614 /* GroupMembersSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A0999266C4A86004E6614 /* GroupMembersSheet.swift */; };
 		C96870F92721F0F40092FD35 /* CreateStickyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96870F82721F0F40092FD35 /* CreateStickyView.swift */; };
 		C96870FF272744290092FD35 /* ConfettiView in Frameworks */ = {isa = PBXBuildFile; productRef = C96870FE272744290092FD35 /* ConfettiView */; };
+		C98BAADE27421726008369F7 /* UpdateTeamMembersSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98BAADD27421726008369F7 /* UpdateTeamMembersSheet.swift */; };
 		C99D53C126E02CBE0076D1BC /* Profanity Filter in Frameworks */ = {isa = PBXBuildFile; productRef = C99D53C026E02CBE0076D1BC /* Profanity Filter */; };
 		C9AE738125EAAD940090C96B /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE738025EAAD940090C96B /* ActivityView.swift */; };
 		C9AE739E25EB19F50090C96B /* CreateSessionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AE739D25EB19F50090C96B /* CreateSessionSheet.swift */; };
@@ -126,6 +127,7 @@
 		C944CD31266D0A0A00F964DD /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		C94A0999266C4A86004E6614 /* GroupMembersSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMembersSheet.swift; sourceTree = "<group>"; };
 		C96870F82721F0F40092FD35 /* CreateStickyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStickyView.swift; sourceTree = "<group>"; };
+		C98BAADD27421726008369F7 /* UpdateTeamMembersSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTeamMembersSheet.swift; sourceTree = "<group>"; };
 		C9AE738025EAAD940090C96B /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		C9AE739D25EB19F50090C96B /* CreateSessionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSessionSheet.swift; sourceTree = "<group>"; };
 		C9AE73A125EB1ACA0090C96B /* ActivityTypeTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTypeTile.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 			children = (
 				26833F5E26F67D1A00C24A93 /* UpdateTeamNameSheet.swift */,
 				26833F6026F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift */,
+				C98BAADD27421726008369F7 /* UpdateTeamMembersSheet.swift */,
 			);
 			path = TeamSettingsSheets;
 			sourceTree = "<group>";
@@ -623,6 +626,7 @@
 				C9419B76261915E900279BB5 /* SessionItemViewModel.swift in Sources */,
 				76731F342602802200536836 /* TeamSettingsView.swift in Sources */,
 				DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */,
+				C98BAADE27421726008369F7 /* UpdateTeamMembersSheet.swift in Sources */,
 				DD3705CF26027AFA00E611FD /* User.swift in Sources */,
 				DDDFDA8E25E0830800342B1B /* BigButton.swift in Sources */,
 				C93F31DC26CEFE1C00EC835D /* ActiveMembers.swift in Sources */,

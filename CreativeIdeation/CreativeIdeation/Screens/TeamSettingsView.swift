@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum EditSheet: Identifiable {
-    case name, description
+    case name, description, members
 
     var id: Int {
         hashValue
@@ -93,13 +93,34 @@ struct TeamSettingsView: View {
                                 }
 
                             }
+
+                            Text("Team Members")
+                                .font(.title3)
+                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+
+                            HStack {
+                                Text("Add or remove Team members")
+                                    .font(.title3)
+                                    .italic()
+
+                                Spacer()
+
+                                // Edit Team Members button
+                                Button {
+                                    showSheet = .members
+                                } label: {
+                                    // button design
+                                    teamViewModel.isCurrentUserTeamAdmin(teamId: teamViewModel.selectedTeam!.teamId) ?
+                                        TextEditButton() : TextEditButton(text: "View")
+                                }
+                            }
                         }
                         .padding()
-                        .frame(width: geometry.size.width * 0.7, height: 300, alignment: .leading)
+                        .frame(width: geometry.size.width * 0.7, height: 450, alignment: .leading)
                         .background(Color("BackgroundColor"))
                         .cornerRadius(20)
                     }
-                    .frame(width: geometry.size.width * 0.75, height: 450, alignment: .center)
+                    .frame(width: geometry.size.width * 0.75, height: 600, alignment: .center)
                     .padding(.bottom)
                     .background(Color("brandPrimary"))
                     .cornerRadius(20)
@@ -160,6 +181,9 @@ struct TeamSettingsView: View {
                     }
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
+                .onAppear {
+                    teamViewModel.loadMembers()
+                }
                 .sheet(item: $showSheet) { item in
                     switch item {
 
@@ -169,6 +193,12 @@ struct TeamSettingsView: View {
 
                     case .description:
                         UpdateTeamDescriptionSheet(showSheet: $showSheet)
+                            .environmentObject(self.teamViewModel)
+
+                    case .members:
+                        UpdateTeamMembersSheet(isAdmin: teamViewModel.isCurrentUserTeamAdmin(
+                                                    teamId: teamViewModel.selectedTeam!.teamId),
+                                                    showSheet: $showSheet)
                             .environmentObject(self.teamViewModel)
                     }
                 }
