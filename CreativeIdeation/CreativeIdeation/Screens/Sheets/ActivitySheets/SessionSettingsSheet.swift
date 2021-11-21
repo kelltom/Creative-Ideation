@@ -26,6 +26,7 @@ struct SessionSettingsSheet: View {
     @State var isCollapsed: Bool = true
     @State var showProfanity: Bool = false
     @State var showGraph: Bool = false
+    var numbers = ["1","2", "3", "4", "5", "6", "7", "8", "9", "10"]
     let pieStyle = ChartStyle(backgroundColor: Color("BackgroundColor"),
                               foregroundColor: [ColorGradient(.blue),
                                                 ColorGradient(.red)])
@@ -79,19 +80,15 @@ struct SessionSettingsSheet: View {
                                     Spacer()
 
                                     Text("Time:")
-
-                                    TextField("", text: $textTime)
-                                        .frame(width: 50)
-                                        .multilineTextAlignment(.center)
-                                        .padding(3)
-                                        .overlay(RoundedRectangle(cornerRadius: 5).stroke())
-                                        .keyboardType(.numberPad)
-                                        .onReceive(Just(textTime)) { newValue in
-                                            let filtered = newValue.filter { "0123456789".contains($0) }
-                                            if filtered != newValue {
-                                                self.textTime = filtered
-                                            }
+                                    Picker("Time", selection: $textTime) {
+                                        ForEach(numbers, id:\.self) {
+                                            Text($0)
                                         }
+                                    }
+                                    .frame(width: 50)
+                                    .padding(3)
+                                    .overlay(RoundedRectangle(cornerRadius: 5).stroke())
+
 
                                     Text("minutes")
 
@@ -129,19 +126,16 @@ struct SessionSettingsSheet: View {
                                 HStack {
 
                                     Spacer()
-
-                                    TextField("", text: $textTopStickies)
-                                        .frame(width: 50)
-                                        .multilineTextAlignment(.center)
-                                        .padding(3)
-                                        .overlay(RoundedRectangle(cornerRadius: 5).stroke())
-                                        .keyboardType(.numberPad)
-                                        .onReceive(Just(textTopStickies)) { newValue in
-                                            let filtered = newValue.filter { "0123456789".contains($0) }
-                                            if filtered != newValue {
-                                                self.textTopStickies = filtered
-                                            }
+                                    
+                                    Picker("", selection: $textTopStickies) {
+                                        ForEach(numbers, id:\.self) {
+                                            Text($0)
                                         }
+                                    }
+                                    .frame(width: 50)
+                                    .padding(3)
+                                    .overlay(RoundedRectangle(cornerRadius: 5).stroke())
+
 
                                     Text("stickies")
 
@@ -287,8 +281,17 @@ struct SessionSettingsSheet: View {
                                                     }
                                                 }
                                                 
+                                              
+                                                
                                                 // Pie Graph
                                                 if !showGraph {
+                                                    
+                                                    Text("Session Behaviour Summary Graph")
+                                                        .foregroundColor(sessionSettingsViewModel.settings[1].filterProfanity ? Color("StrokeColor") : Color("FadedColor"))
+                                                        .font(.title3)
+                                                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                                                        .padding(.top, 8)
+                                                    
                                                     HStack {
                                                         VStack(alignment: .leading) {
                                                             HStack {
@@ -312,7 +315,7 @@ struct SessionSettingsSheet: View {
                                                         CardView {
                                                             PieChart()
                                                                 .padding()
-                                                            ChartLabel("Session Behaviour Summary", type: .legend)
+                                                           
                                                         }
                                                         .data([sessionViewModel.lengthOfTotalWordCount, sessionViewModel.lengthOfProfanityWords])
                                                         .chartStyle(self.pieStyle)
