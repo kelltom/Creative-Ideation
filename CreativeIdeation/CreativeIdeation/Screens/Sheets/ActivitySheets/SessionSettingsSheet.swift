@@ -286,43 +286,45 @@ struct SessionSettingsSheet: View {
                                                         .opacity(0.5)
                                                     }
                                                 }
-                                            }
+                                                
+                                                // Pie Graph
+                                                if !showGraph {
+                                                    HStack {
+                                                        VStack(alignment: .leading) {
+                                                            HStack {
+                                                                Rectangle()
+                                                                    .fill(Color.blue)
+                                                                    .frame(width: 10, height: 10)
+                                                                Text("Good")
+                                                            }
+                                                            .frame(width: geometry.size.width * 0.1, height: 20)
 
-                                            // Pie Graph
-                                            if !showGraph {
-                                                HStack {
-                                                    VStack(alignment: .leading) {
-                                                        HStack {
-                                                            Rectangle()
-                                                                .fill(Color.blue)
-                                                                .frame(width: 10, height: 10)
-                                                            Text("Good")
+                                                            HStack {
+                                                                Rectangle()
+                                                                    .fill(Color.red)
+                                                                    .frame(width: 10, height: 10)
+                                                                Text("Bad")
+
+                                                            }
+                                                            .frame(width: geometry.size.width * 0.1, height: 20)
                                                         }
-                                                        .frame(width: geometry.size.width * 0.1, height: 20)
 
-                                                        HStack {
-                                                            Rectangle()
-                                                                .fill(Color.red)
-                                                                .frame(width: 10, height: 10)
-                                                            Text("Bad")
-
+                                                        CardView {
+                                                            PieChart()
+                                                                .padding()
+                                                            ChartLabel("Session Behaviour Summary", type: .legend)
                                                         }
-                                                        .frame(width: geometry.size.width * 0.1, height: 20)
+                                                        .data([sessionViewModel.lengthOfTotalWordCount, sessionViewModel.lengthOfProfanityWords])
+                                                        .chartStyle(self.pieStyle)
+                                                        .frame(width: geometry.size.width * 0.45, height: 300)
+                                                        .padding()
                                                     }
 
-                                                    CardView {
-                                                        PieChart()
-                                                            .padding()
-                                                        ChartLabel("Session Behaviour Summary", type: .legend)
-                                                    }
-                                                    .data([sessionViewModel.lengthOfTotalWordCount, sessionViewModel.lengthOfProfanityWords])
-                                                    .chartStyle(self.pieStyle)
-                                                    .frame(width: geometry.size.width * 0.45, height: 300)
-                                                    .padding()
                                                 }
 
                                             }
 
+                            
                                         }
                                         .padding(2)
                                     }
