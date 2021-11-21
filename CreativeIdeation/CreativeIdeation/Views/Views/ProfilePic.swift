@@ -9,17 +9,21 @@ import SwiftUI
 
 struct ProfilePic: View {
 
+    @EnvironmentObject var userAccountViewModel : UserAccountViewModel
+
     var size: CGFloat = 45
-    var image: String = "person.fill"
+    //var image: String = "person.fill"
 
     var body: some View {
-        Image(systemName: image)
-            .resizable()
-            .aspectRatio(contentMode: .fit)
+        Text(userAccountViewModel.selectedUser?.name.prefix(1) ?? "?")
+            .font(.title)
             .frame(width: size, height: size)
-            .foregroundColor(Color.black)
-            .background(Color.gray)
+            .foregroundColor(Color("StrokeColor"))
+            .background(Color("BackgroundColor"))
             .clipShape(Circle())
+            .onAppear {
+                userAccountViewModel.getCurrentUserInfo()
+            }
     }
 }
 

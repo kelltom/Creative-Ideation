@@ -164,6 +164,7 @@ struct HomeView: View {
                                     .scaledToFit()
                                     .frame(width: 60, height: 60)
                                     .clipShape(Circle())
+                                    .padding(.trailing, 5)
                             }
                         }
 

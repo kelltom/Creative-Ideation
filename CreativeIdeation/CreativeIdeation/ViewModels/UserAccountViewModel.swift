@@ -503,6 +503,20 @@ final class UserAccountViewModel: ObservableObject {
         }
     }
 
+    func deleteProfileImage() {
+        // Create a reference to the file to delete
+        let imageRef = Storage.storage().reference().child(selectedUser!.id)
+
+        // Delete the file
+        imageRef.delete { error in
+            if error != nil {
+                print("failed deleting user profile pic from firebase storage")
+            } else {
+                print("successfully deleted user profile pic from firebase storage")
+            }
+        }
+    }
+
     /// Assigns values to the published BannerData object
     private func setBannerData(title: String, details: String, type: BannerModifier.BannerType) {
         bannerData.title = title

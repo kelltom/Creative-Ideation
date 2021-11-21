@@ -28,7 +28,7 @@ struct UserSettingsView: View {
     @State private var showImagePicker = false
     @State private var inputImage: UIImage?
     @State private var image: Image?
-    @State private var sourceType: UIImagePickerController.SourceType = .photoLibrary
+    @State private var sourceType: UIImagePickerController.SourceType = .camera
 
     @Binding var showUserSettings: Bool
 
@@ -70,11 +70,9 @@ struct UserSettingsView: View {
                                         .scaledToFit()
                                         .frame(width: 60, height: 60)
                                         .clipShape(Circle())
-                                        .padding(.bottom, 4)
 
                                 } else {
-                                    ProfilePic(size: 60, image: "person.fill")
-
+                                    ProfilePic(size: 60)
                                 }
 
                                 Menu {
@@ -83,6 +81,9 @@ struct UserSettingsView: View {
                                     }
                                     Button(action: openCamera) {
                                         Label("Open Camera", systemImage: "camera")
+                                    }
+                                    Button(action: removePic) {
+                                        Label("Remove Picture", systemImage: "xmark.circle.fill")
                                     }
 
                                 } label: {
@@ -203,7 +204,7 @@ struct UserSettingsView: View {
             }
             .navigationBarHidden(true)
             .sheet(isPresented: $showImagePicker, onDismiss: uploadImage) {
-                ImagePicker(selectedImage: self.$inputImage, sourceType: self.sourceType)
+                ImagePicker(selectedImage: self.$inputImage, sourceType: self.$sourceType)
 
             }
 
@@ -219,13 +220,18 @@ struct UserSettingsView: View {
     }
 
     func chooseImage() {
-        self.showImagePicker = true
         self.sourceType = .photoLibrary
+        self.showImagePicker = true
     }
 
     func openCamera() {
-        self.showImagePicker.toggle()
         self.sourceType = .camera
+        self.showImagePicker.toggle()
+    }
+
+    func removePic() {
+        userAccountViewModel.deleteProfileImage()
+        userAccountViewModel.userProfilePicture = nil
     }
 
 }
