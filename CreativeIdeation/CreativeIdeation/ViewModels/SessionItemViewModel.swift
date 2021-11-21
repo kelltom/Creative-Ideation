@@ -377,7 +377,7 @@ final class SessionItemViewModel: ObservableObject {
             print("user id ub sessionitemVM: failed to find uid")
             return false
         }
-        
+
         guard let selectedItemId = selectedSticky?.itemId else {
             return false
         }

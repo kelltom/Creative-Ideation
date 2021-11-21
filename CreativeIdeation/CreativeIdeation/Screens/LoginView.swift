@@ -73,12 +73,14 @@ struct LoginView: View {
                                     EmptyView()
                                 })
                                 .onChange(of: userAccountViewModel.authSuccess == true) { _ in
+
                                     teamViewModel.getTeams()
                                 }
 
                             // Log In Button
                             Button {
                                 userAccountViewModel.authenticate(email: email, password: password)
+
                             } label: {
                                 BigButton(title: "Log In", geometry: geometry, widthScale: widthScale)
                             }

@@ -10,12 +10,16 @@ import Firebase
 import SwiftUI
 import FirebaseFirestoreSwift
 import Profanity_Filter
+import FirebaseStorage
 
 final class UserAccountViewModel: ObservableObject {
 
-    // private var dbService : DBService! 
+    // private var dbService : DBService!
     private var db = Firestore.firestore()
     private var pFilter = ProfanityFilter()
+    private var manager = LocalFileManager.instance
+    private var retreivedImage: UIImage?
+    private var folderName = "profile_picture"
 
     @Published var authSuccess = false
     @Published var createSuccess = false
@@ -23,12 +27,14 @@ final class UserAccountViewModel: ObservableObject {
     @Published var logOutFlag = false
     @Published var isLoading = false
     @Published var selectedUser: User?
+    @Published var userProfilePicture: Image!
+    @Published var isUploadSuccess: Bool = false
 
     @Published var showBanner = false
     @Published var bannerData: BannerModifier.BannerData =
-        BannerModifier.BannerData(title: "Default Title",
-                                  detail: "Default detail message.",
-                                  type: .info)
+    BannerModifier.BannerData(title: "Default Title",
+                              detail: "Default detail message.",
+                              type: .info)
 
     func authenticate(email: String, password: String) {
         self.isLoading = true
@@ -61,6 +67,7 @@ final class UserAccountViewModel: ObservableObject {
                 self.showBanner = true
             }
         }
+
     }
 
     /// Sign out
@@ -313,7 +320,7 @@ final class UserAccountViewModel: ObservableObject {
             self.showBanner = true
 
             print("Fields cannot be empty")
-        // checks if user enters the correct new password
+            // checks if user enters the correct new password
         } else if newPassword != confirmPassword {
             self.isLoading = false
             self.updateSuccess = false
@@ -425,6 +432,87 @@ final class UserAccountViewModel: ObservableObject {
                         self.showBanner = true
                     }
                 }
+            }
+        }
+    }
+
+    func uploadImageToFirebase(selectedImage: UIImage, imageID: String) {
+
+        if let imageData = selectedImage.jpegData(compressionQuality: 1) { // returnign image as jpeg
+            let storage = Storage.storage()
+            storage.reference().child(imageID).putData(imageData, metadata: nil) {
+                (_, err) in
+                if let err = err {
+                    print("Error in uploading profile picture has occured \(err.localizedDescription)")
+                } else {
+                    self.isLoading = false
+                    self.saveImageToFileManager(inputImage: selectedImage, imageID: imageID, folderName: self.folderName)
+                    self.userProfilePicture = Image(uiImage: selectedImage)
+                    print("Upload profile picture is success")
+                }
+            }
+        }
+
+    }
+    func downloadImage() {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("Failed to get uid from downloading image")
+            return
+        }
+
+        let storageReference = Storage.storage().reference().child(uid)
+        storageReference.getData(maxSize: 5184 * 2456) { (imageData, error) in
+            if let error = error {
+                print("Error in getting image occured \(error.localizedDescription)")
+                self.userProfilePicture = nil
+            } else {
+                if let imageData = imageData {
+                    // assign to value
+                    let img = UIImage(data: imageData)
+                    self.userProfilePicture = Image(uiImage: img!)
+                    print("Downloading image success, Image with this user exists")
+                } else {
+                    print("Not able to set to UIImage")
+                }
+            }
+        }
+    }
+
+    func saveImageToFileManager(inputImage: UIImage, imageID: String, folderName: String) {
+        // Calling the local file manager instance to save to FM
+        manager.saveImagetoFileManager(image: inputImage, imageName: imageID, folderName: folderName)
+        self.userProfilePicture = Image(uiImage: inputImage) // set pfp
+    }
+
+    func getImageFromFileManager() {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("FM - not able to get uid image from file manager")
+            return
+        }
+
+        if let savedImage = manager.getImage(imageName: uid, folderName: self.folderName) {
+            print("Retrieved from file manager")
+            self.userProfilePicture = Image(uiImage: savedImage)
+        } else {
+            downloadImage()
+            if self.userProfilePicture == nil {
+                print("User has not selected a profile picture")
+                self.userProfilePicture = nil
+            }
+
+        }
+    }
+
+    func deleteProfileImage() {
+        // Create a reference to the file to delete
+        let imageRef = Storage.storage().reference().child(selectedUser!.id)
+
+        // Delete the file
+        imageRef.delete { error in
+            if error != nil {
+                print("failed deleting user profile pic from firebase storage")
+            } else {
+                print("successfully deleted user profile pic from firebase storage")
             }
         }
     }

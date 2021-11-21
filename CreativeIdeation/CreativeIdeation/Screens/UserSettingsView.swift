@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseStorage
 
 enum PreferenceSheet: Identifiable {
     case name, email, password
@@ -24,17 +25,28 @@ struct UserSettingsView: View {
     @State var showSheet: PreferenceSheet?
     @State private var darkModeFilter = true
 
+    @State private var showImagePicker = false
+    @State private var inputImage: UIImage?
+    @State private var image: Image?
+    @State private var sourceType: UIImagePickerController.SourceType = .camera
+
     @Binding var showUserSettings: Bool
 
     var userName: String = ""
     var email: String = ""
     var password: String = "*********"
+    var folderName: String = "profile_picture"
 
     var body: some View {
 
         ZStack {
 
             Color("BackgroundColor")
+
+            if userAccountViewModel.isLoading {
+                ProgressView().progressViewStyle(CircularProgressViewStyle(tint: Color("brandPrimary")))
+                    .scaleEffect(3).padding()
+            }
 
             // Back button required, as NavigationView not used to get to this page
             BackButton(text: "Home", binding: $showUserSettings)
@@ -49,14 +61,43 @@ struct UserSettingsView: View {
                         .padding(.top, 20)  // Added to make heading position consistent with other settings screens that have custom back buttons
 
                     VStack {
+                        VStack {
+                            ZStack {
 
-                        ProfilePic(size: 60)
-                            .shadow(color: .black, radius: 4, y: 4)
-                            .padding()
-                            .contextMenu(ContextMenu(menuItems: {
-                                Text("Upload from gallery")
-                                Text("Take photo")
-                            }))
+                                if userAccountViewModel.userProfilePicture != nil {
+                                    userAccountViewModel.userProfilePicture?
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 60, height: 60)
+                                        .clipShape(Circle())
+
+                                } else {
+                                    ProfilePic(size: 60)
+                                }
+
+                                Menu {
+                                    Button(action: chooseImage) {
+                                        Label("Choose Image", systemImage: "square.and.arrow.up")
+                                    }
+                                    Button(action: openCamera) {
+                                        Label("Open Camera", systemImage: "camera")
+                                    }
+                                    Button(action: removePic) {
+                                        Label("Remove Picture", systemImage: "xmark.circle.fill")
+                                    }
+
+                                } label: {
+                                    Image(systemName: "plus")
+                                        .frame(width: 20, height: 20)
+                                        .foregroundColor(Color.white)
+                                        .background(Color.blue)
+                                        .clipShape(Circle())
+                                }
+                                .frame(width: 55, height: 55, alignment: .bottomTrailing)
+
+                            }
+
+                        }
 
                         VStack(alignment: .leading ) {
 
@@ -108,7 +149,7 @@ struct UserSettingsView: View {
                                 Spacer()
 
                                 Button { // edit button for password
-                                        showSheet = .password
+                                    showSheet = .password
                                 } label: {
                                     // button design
                                     TextEditButton()
@@ -123,6 +164,7 @@ struct UserSettingsView: View {
                     }
                     .frame(width: geometry.size.width * 0.75, alignment: .center)
                     .padding(.bottom)
+                    .padding(.top)
                     .background(Color("brandPrimary"))
                     .cornerRadius(20)
 
@@ -133,6 +175,7 @@ struct UserSettingsView: View {
                         userAccountViewModel.signOut()
                         teamViewModel.clear()
                         groupViewModel.clear()
+                        userAccountViewModel.userProfilePicture = nil
                     } label: {
                         LogOutButton()
                     }
@@ -156,11 +199,41 @@ struct UserSettingsView: View {
                 }
                 .onAppear {
                     userAccountViewModel.getCurrentUserInfo()
+
                 }
             }
             .navigationBarHidden(true)
+            .sheet(isPresented: $showImagePicker, onDismiss: uploadImage) {
+                ImagePicker(selectedImage: self.$inputImage, sourceType: self.$sourceType)
+
+            }
+
         }
     }
+
+    func uploadImage() {
+        guard let inputImage = self.inputImage else { return }
+        guard let currentUser = userAccountViewModel.selectedUser?.id else {return}
+        let resizedImage = inputImage.resized(to: CGSize(width: 100, height: 100))
+        userAccountViewModel.isLoading = true
+        userAccountViewModel.uploadImageToFirebase(selectedImage: resizedImage, imageID: currentUser)
+    }
+
+    func chooseImage() {
+        self.sourceType = .photoLibrary
+        self.showImagePicker = true
+    }
+
+    func openCamera() {
+        self.sourceType = .camera
+        self.showImagePicker.toggle()
+    }
+
+    func removePic() {
+        userAccountViewModel.deleteProfileImage()
+        userAccountViewModel.userProfilePicture = nil
+    }
+
 }
 
 /// Enables the use of the ! operator on binding variables
@@ -169,6 +242,14 @@ prefix func ! (value: Binding<Bool>) -> Binding<Bool> {
         get: { !value.wrappedValue },
         set: { value.wrappedValue = !$0 }
     )
+}
+
+extension UIImage {
+    func resized(to size: CGSize) -> UIImage {
+        return UIGraphicsImageRenderer(size: size).image { _ in
+            draw(in: CGRect(origin: .zero, size: size))
+        }
+    }
 }
 
 struct UserPrefView_Previews: PreviewProvider {

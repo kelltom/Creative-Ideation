@@ -126,7 +126,7 @@ struct HomeView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 40, height: 40)
                                     .foregroundColor(teamViewModel.selectedTeam?.isPrivate ?? true ?
-                                                        Color("FadedColor") : Color("StrokeColor"))
+                                                     Color("FadedColor") : Color("StrokeColor"))
                             }
                             .disabled(teamViewModel.selectedTeam?.isPrivate ?? true)
 
@@ -145,12 +145,27 @@ struct HomeView: View {
                         Spacer()
 
                         // User Profile Icon
-                        Button {
-                            showUserSettings = true
-                        } label: {
-                            ProfilePic(size: 60)
-                                .shadow(color: .black, radius: 4, y: 4)
-                                .padding(.trailing, 5)
+                        if userAccountViewModel.userProfilePicture == nil {
+                            Button {
+                                showUserSettings = true
+
+                            } label: {
+                                ProfilePic(size: 60)
+                                    .shadow(color: .black, radius: 4, y: 4)
+                                    .padding(.trailing, 5)
+                            }
+                        } else {
+                            Button {
+                                showUserSettings = true
+
+                            } label: {
+                                userAccountViewModel.userProfilePicture?
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 60, height: 60)
+                                    .clipShape(Circle())
+                                    .padding(.trailing, 5)
+                            }
                         }
 
                     }
@@ -216,8 +231,8 @@ struct HomeView: View {
                                                         SessionTile(team: teamViewModel.selectedTeam?.teamName ?? "N/A",
                                                                     group: groupViewModel.groups
                                                                         .first(where: {
-                                                                            $0.groupId == session.groupId
-                                                                        })?.groupTitle ?? "N/A",
+                                                            $0.groupId == session.groupId
+                                                        })?.groupTitle ?? "N/A",
                                                                     session: session)
                                                     }
                                                 }
@@ -228,10 +243,10 @@ struct HomeView: View {
                                     }
                                     .transition(
                                         .asymmetric(insertion:
-                                                        .opacity
+                                                            .opacity
                                                         .animation(.easeInOut(duration: 0.5)),
                                                     removal:
-                                                        .slide
+                                                            .slide
                                                         .animation(.easeInOut(duration: 0.15))
                                                         .combined(with: .scale(scale: 0.1, anchor: .topTrailing)
                                                                     .animation(.easeInOut(duration: 0.25)))))
@@ -392,9 +407,9 @@ struct HomeView: View {
                 }
 
                 NavigationLink(destination: ActivityView(
-                                timerManager: sessionViewModel.timerManager, showActivity: self.$showActivity), isActive: self.$showActivity) {
-                    EmptyView()
-                }
+                    timerManager: sessionViewModel.timerManager, showActivity: self.$showActivity), isActive: self.$showActivity) {
+                        EmptyView()
+                    }
 
                 NavigationLink(destination: GroupSettingsView(showGroupSettings: $showGroupSettings),
                                isActive: self.$showGroupSettings) {
@@ -458,8 +473,11 @@ struct HomeView: View {
             .onChange(of: groupViewModel.selectedGroup) { _ in
                 sessionViewModel.selectedGroupId = groupViewModel.selectedGroup?.groupId
                 sessionViewModel.getGroupSessions()
-            }
 
+            }
+            .onAppear {
+                userAccountViewModel.getImageFromFileManager()
+            }
             // Chatbot
             VStack {
                 Spacer()
