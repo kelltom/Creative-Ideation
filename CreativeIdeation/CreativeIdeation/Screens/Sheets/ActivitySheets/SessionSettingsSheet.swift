@@ -26,6 +26,7 @@ struct SessionSettingsSheet: View {
     @State var isCollapsed: Bool = true
     @State var showProfanity: Bool = false
     @State var showGraph: Bool = false
+    var numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"]
     let pieStyle = ChartStyle(backgroundColor: Color("BackgroundColor"),
                               foregroundColor: [ColorGradient(.blue),
                                                 ColorGradient(.red)])
@@ -80,18 +81,17 @@ struct SessionSettingsSheet: View {
 
                                     Text("Time:")
 
-                                    TextField("", text: $textTime)
-                                        .frame(width: 50)
-                                        .multilineTextAlignment(.center)
-                                        .padding(3)
-                                        .overlay(RoundedRectangle(cornerRadius: 5).stroke())
-                                        .keyboardType(.numberPad)
-                                        .onReceive(Just(textTime)) { newValue in
-                                            let filtered = newValue.filter { "0123456789".contains($0) }
-                                            if filtered != newValue {
-                                                self.textTime = filtered
-                                            }
+                                    Picker("Time", selection: $textTime) {
+                                        ForEach(numbers, id: \.self) {
+                                            Text($0)
+                                                .rotationEffect(.degrees(90))
                                         }
+                                    }
+                                    .frame(width: 90, height: 30)
+                                    .rotationEffect(.degrees(-90))
+                                    .pickerStyle(WheelPickerStyle())
+                                    .compositingGroup()
+                                    .clipped(antialiased: true)
 
                                     Text("minutes")
 
@@ -129,19 +129,19 @@ struct SessionSettingsSheet: View {
                                 HStack {
 
                                     Spacer()
+                                    Text("Top")
 
-                                    TextField("", text: $textTopStickies)
-                                        .frame(width: 50)
-                                        .multilineTextAlignment(.center)
-                                        .padding(3)
-                                        .overlay(RoundedRectangle(cornerRadius: 5).stroke())
-                                        .keyboardType(.numberPad)
-                                        .onReceive(Just(textTopStickies)) { newValue in
-                                            let filtered = newValue.filter { "0123456789".contains($0) }
-                                            if filtered != newValue {
-                                                self.textTopStickies = filtered
-                                            }
+                                    Picker("", selection: $textTopStickies) {
+                                        ForEach(numbers[..<10], id: \.self) {
+                                            Text($0)
+                                                .rotationEffect(.degrees(90))
                                         }
+                                    }
+                                    .frame(width: 90, height: 30)
+                                    .pickerStyle(WheelPickerStyle())
+                                    .rotationEffect(.degrees(-90))
+                                    .compositingGroup()
+                                    .clipped(antialiased: true)
 
                                     Text("stickies")
 
@@ -286,39 +286,47 @@ struct SessionSettingsSheet: View {
                                                         .opacity(0.5)
                                                     }
                                                 }
-                                            }
 
-                                            // Pie Graph
-                                            if !showGraph {
-                                                HStack {
-                                                    VStack(alignment: .leading) {
-                                                        HStack {
-                                                            Rectangle()
-                                                                .fill(Color.blue)
-                                                                .frame(width: 10, height: 10)
-                                                            Text("Good")
+                                                // Pie Graph
+                                                if !showGraph {
+
+                                                    Text("Session Behaviour Summary Graph")
+                                                        .foregroundColor(sessionSettingsViewModel.settings[1].filterProfanity ? Color("StrokeColor") : Color("FadedColor"))
+                                                        .font(.title3)
+                                                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                                                        .padding(.top, 8)
+
+                                                    HStack {
+                                                        VStack(alignment: .leading) {
+                                                            HStack {
+                                                                Rectangle()
+                                                                    .fill(Color.blue)
+                                                                    .frame(width: 10, height: 10)
+                                                                Text("Good")
+                                                            }
+                                                            .frame(width: geometry.size.width * 0.1, height: 20)
+
+                                                            HStack {
+                                                                Rectangle()
+                                                                    .fill(Color.red)
+                                                                    .frame(width: 10, height: 10)
+                                                                Text("Bad")
+
+                                                            }
+                                                            .frame(width: geometry.size.width * 0.1, height: 20)
                                                         }
-                                                        .frame(width: geometry.size.width * 0.1, height: 20)
 
-                                                        HStack {
-                                                            Rectangle()
-                                                                .fill(Color.red)
-                                                                .frame(width: 10, height: 10)
-                                                            Text("Bad")
+                                                        CardView {
+                                                            PieChart()
+                                                                .padding()
 
                                                         }
-                                                        .frame(width: geometry.size.width * 0.1, height: 20)
+                                                        .data([sessionViewModel.lengthOfTotalWordCount, sessionViewModel.lengthOfProfanityWords])
+                                                        .chartStyle(self.pieStyle)
+                                                        .frame(width: geometry.size.width * 0.45, height: 300)
+                                                        .padding()
                                                     }
 
-                                                    CardView {
-                                                        PieChart()
-                                                            .padding()
-                                                        ChartLabel("Session Behaviour Summary", type: .legend)
-                                                    }
-                                                    .data([sessionViewModel.lengthOfTotalWordCount, sessionViewModel.lengthOfProfanityWords])
-                                                    .chartStyle(self.pieStyle)
-                                                    .frame(width: geometry.size.width * 0.45, height: 300)
-                                                    .padding()
                                                 }
 
                                             }
