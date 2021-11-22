@@ -98,12 +98,6 @@ struct JoinTeamSheet: View {
             print("Scanning failed: ", error)
         }
     }
-
-    func actionSheet() {
-        guard let data = URL(string: "https://www.zoho.com") else { return }
-        let av = UIActivityViewController(activityItems: [data], applicationActivities: nil)
-
-    }
 }
 
 struct JoinTeamView_Previews: PreviewProvider {
