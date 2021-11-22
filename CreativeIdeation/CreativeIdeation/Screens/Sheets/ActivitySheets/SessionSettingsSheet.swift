@@ -84,11 +84,10 @@ struct SessionSettingsSheet: View {
                                     Picker("Time", selection: $textTime) {
                                         ForEach(numbers, id: \.self) {
                                             Text($0)
-                                                .frame(width: 80)
                                                 .rotationEffect(.degrees(90))
                                         }
                                     }
-                                    .frame(width: 75, height: 30)
+                                    .frame(width: 90, height: 30)
                                     .rotationEffect(.degrees(-90))
                                     .pickerStyle(WheelPickerStyle())
                                     .compositingGroup()
@@ -138,12 +137,11 @@ struct SessionSettingsSheet: View {
                                                 .rotationEffect(.degrees(90))
                                         }
                                     }
-                                    .frame(width: 80, height: 30)
+                                    .frame(width: 90, height: 30)
                                     .pickerStyle(WheelPickerStyle())
                                     .rotationEffect(.degrees(-90))
                                     .compositingGroup()
                                     .clipped(antialiased: true)
-
 
                                     Text("stickies")
 
