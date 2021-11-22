@@ -26,7 +26,7 @@ struct SessionSettingsSheet: View {
     @State var isCollapsed: Bool = true
     @State var showProfanity: Bool = false
     @State var showGraph: Bool = false
-    var numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+    var numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"]
     let pieStyle = ChartStyle(backgroundColor: Color("BackgroundColor"),
                               foregroundColor: [ColorGradient(.blue),
                                                 ColorGradient(.red)])
@@ -84,9 +84,12 @@ struct SessionSettingsSheet: View {
                                     Picker("Time", selection: $textTime) {
                                         ForEach(numbers, id: \.self) {
                                             Text($0)
+                                                .frame(width: 80)
+                                                .rotationEffect(.degrees(90))
                                         }
                                     }
-                                    .frame(width: 80, height: 30)
+                                    .frame(width: 75, height: 30)
+                                    .rotationEffect(.degrees(-90))
                                     .pickerStyle(WheelPickerStyle())
                                     .compositingGroup()
                                     .clipped(antialiased: true)
@@ -128,15 +131,19 @@ struct SessionSettingsSheet: View {
 
                                     Spacer()
                                     Text("Top")
+
                                     Picker("", selection: $textTopStickies) {
-                                        ForEach(numbers, id: \.self) {
+                                        ForEach(numbers[..<10], id: \.self) {
                                             Text($0)
+                                                .rotationEffect(.degrees(90))
                                         }
                                     }
                                     .frame(width: 80, height: 30)
                                     .pickerStyle(WheelPickerStyle())
+                                    .rotationEffect(.degrees(-90))
                                     .compositingGroup()
                                     .clipped(antialiased: true)
+
 
                                     Text("stickies")
 
