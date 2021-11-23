@@ -39,9 +39,8 @@ struct ActivityView: View {
     @State var showSheet: SessionSheet?
     @State var bounces: Int = 0
 
-    @State var newColor: Int = 1
+    @State var newColor: Int = Int.random(in: 0..<5)
     @State private var selectedColor = -1
-    @State private var randomizeColor: Bool = true
 
     @State private var ideas: [String] = []
     @State private var ideasIndex = 0
@@ -275,7 +274,7 @@ struct ActivityView: View {
 
                         VStack {
                             Button {
-                                newColor = randomizeColor ? Int.random(in: 0..<5) : selectedColor
+                                //newColor = Int.random(in: 0..<5)
                                 newStickyPopover = true
 
                             } label: {
@@ -482,6 +481,11 @@ struct ActivityView: View {
                     }
                 }
                 sessionViewModel.toggleTimer(timeRemaining: Double(timerManager.timeRemaining))
+            }
+        })
+        .onChange(of: newStickyPopover, perform: { showing in
+            if !showing {
+                newColor = Int.random(in: 0..<5)
             }
         })
     }
