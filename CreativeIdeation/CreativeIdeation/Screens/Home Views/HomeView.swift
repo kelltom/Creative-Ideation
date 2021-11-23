@@ -228,7 +228,7 @@ struct HomeView: View {
                                                         sessionItemViewModel.loadItems()
                                                         showActivity = true
                                                     } label: {
-                                                        SessionTile(team: teamViewModel.selectedTeam?.teamName ?? "N/A",
+                                                        SessionTile(date: session.dateModified, team: teamViewModel.selectedTeam?.teamName ?? "N/A",
                                                                     group: groupViewModel.groups
                                                                         .first(where: {
                                                             $0.groupId == session.groupId
@@ -373,7 +373,7 @@ struct HomeView: View {
                                                         showActivity = true
                                                     } label: {
                                                         SessionTile(
-                                                            team: teamViewModel.selectedTeam?.teamName ?? "Unknown",
+                                                            date: session.dateModified, team: teamViewModel.selectedTeam?.teamName ?? "Unknown",
                                                             group: groupViewModel.selectedGroup?.groupTitle ?? "Unknown",
                                                             session: session)
                                                     }
