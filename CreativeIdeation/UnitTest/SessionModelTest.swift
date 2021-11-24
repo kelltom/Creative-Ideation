@@ -22,39 +22,25 @@ class SessionModelTest: XCTestCase {
       try super.tearDownWithError()
     }
 
-    func testCastFinalVote() {
-        // given
-        sut.selectedSession = Session(inProgress: true)
-        sut.selectedSession?.castFinalVote = ["A", "B", "C", "D"] // all users within the session
-        let uid = "A"
-
-        // when
-        var result = sut.didCastFinalVote()
-        result = sut.selectedSession!.castFinalVote.contains(uid)
-
-        // then
-        XCTAssertTrue(result, "Unable to find user id in final cast vote")
-//        if result {
-//
-//        } else {
-//            XCTAssertFalse(result, "Failed to get user not in final casting")
-//        }
-
-    }
 
     func testBestIds() {
         // given
         sut.selectedSession = Session(inProgress: true)
         sut.selectedSession!.finalVotes = ["A": 1, "B": 5, "C": 2, "D": 1]
-        let highest = sut.selectedSession!.finalVotes.values.max()
 
         // when
-        var result = sut.getBestIds()
-        result = sut.selectedSession!.finalVotes.filter { $1 == highest }.map { $0.0 }
+        var result1 = sut.getBestIds()
+        
+        // given
+        sut.selectedSession = Session(inProgress: true)
+        sut.selectedSession!.finalVotes = ["A": 1, "B": 5, "C": 5, "D": 1]
 
+        // when
+        var result2 = sut.getBestIds()
+       
         // then
-        XCTAssertEqual(result, ["B"], "failed to get list of string" )
-
+        XCTAssertEqual(result1, ["B"], "failed to get top list" )
+        XCTAssertEqual(result2, ["B", "C"], "failed to detect tie in best votes" )
     }
 
 }
