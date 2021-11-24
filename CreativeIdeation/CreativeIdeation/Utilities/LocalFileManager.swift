@@ -33,14 +33,29 @@ class LocalFileManager {
     }
 
     func getImage(imageName: String, folderName: String) -> UIImage? {
+        // get image path
         guard let
-                url = getURLForImage(imageName: imageName, folderName: folderName), // check if get can get url and if file manager exsits
+                url = getURLForImage(imageName: imageName, folderName: folderName),
               FileManager.default.fileExists(atPath: url.path) else {
                   return nil
 
               }
 
         return UIImage(contentsOfFile: url.path)
+    }
+    
+    func deleteImage(imageName: String, folderName: String) {
+        // get image path
+        guard let url = getURLForImage(imageName: imageName, folderName: folderName) else {
+            return
+        }
+        do {
+           try FileManager.default.removeItem(atPath: url.path)
+            print("Delete from file manager image success")
+        } catch {
+            print("Cannot Delete Profile Picture from File Manager")
+        }
+              
     }
 
     // will create folder if no folder exists

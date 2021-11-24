@@ -230,7 +230,7 @@ struct UserSettingsView: View {
     }
 
     func removePic() {
-        userAccountViewModel.deleteProfileImage()
+        userAccountViewModel.deleteImage()
         userAccountViewModel.userProfilePicture = nil
     }
 
