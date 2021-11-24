@@ -12,10 +12,11 @@ struct SessionTile: View {
     var title: String = "Example Title"
     var activity: String = "Sticky Notes"
     var image: String = "post-it"
-    var date: String = "25-Feb-2021"
+    var date: Date
     var inProgress: Bool = true
     var team: String = "Big Company"
     var group: String = "Marketing"
+    let formatter = DateFormatter()
 
     var session: Session
 
@@ -39,9 +40,21 @@ struct SessionTile: View {
 
                 Spacer()
 
-                Text(date)
-                    .font(.caption)
-                    .foregroundColor(Color("FadedColor"))
+                if #available(iOS 15.0, *) {
+                    if Calendar.current.isDateInToday(date) {
+                        Text(date.formatted(.dateTime .hour() .minute())) // formatter.string(from: date)
+                            .font(.caption)
+                            .foregroundColor(Color("FadedColor"))
+                    } else {
+                        Text(date.formatted(.dateTime .month(.wide) .day() .year())) // formatter.string(from: date)
+                            .font(.caption)
+                            .foregroundColor(Color("FadedColor"))
+                    }
+                } else {
+                    Text(formatter.string(from: date)) // formatter.string(from: date)
+                        .font(.caption)
+                        .foregroundColor(Color("FadedColor"))
+                }
             }
             .padding(3)
 
@@ -70,11 +83,15 @@ struct SessionTile: View {
         .cornerRadius(25)
         .overlay(RoundedRectangle(cornerRadius: 25.0)
                     .stroke(Color("StrokeColor"), lineWidth: 2.0))
+        .onAppear {
+            formatter.dateStyle = .medium
+            print(date)
+        }
     }
 }
 
 struct SessionItem_Previews: PreviewProvider {
     static var previews: some View {
-        SessionTile(session: Session(sessionTitle: "Sample Title", type: "Sticky Notes"))
+        SessionTile(date: Date(), session: Session(sessionTitle: "Sample Title", type: "Sticky Notes"))
     }
 }

@@ -454,7 +454,7 @@ final class UserAccountViewModel: ObservableObject {
         }
 
     }
-    func downloadImage() {
+    func downloadImageFromFirebase() {
         guard let uid = Auth.auth().currentUser?.uid else {
             print("Failed to get uid from downloading image")
             return
@@ -483,6 +483,14 @@ final class UserAccountViewModel: ObservableObject {
         manager.saveImagetoFileManager(image: inputImage, imageName: imageID, folderName: folderName)
         self.userProfilePicture = Image(uiImage: inputImage) // set pfp
     }
+    
+//    func removeFromFileManager(){
+//        guard let currentUserPfp = selectedUser?.id else {
+//            return
+//        }
+//        manager.deleteImage(imageName: currentUserPfp, folderName: self.folderName)
+//        print("delete success")
+//    }
 
     func getImageFromFileManager() {
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -494,7 +502,7 @@ final class UserAccountViewModel: ObservableObject {
             print("Retrieved from file manager")
             self.userProfilePicture = Image(uiImage: savedImage)
         } else {
-            downloadImage()
+            downloadImageFromFirebase()
             if self.userProfilePicture == nil {
                 print("User has not selected a profile picture")
                 self.userProfilePicture = nil
@@ -503,15 +511,20 @@ final class UserAccountViewModel: ObservableObject {
         }
     }
 
-    func deleteProfileImage() {
+    func deleteImage() {
+        guard let profileImageId = selectedUser?.id else {
+            return
+        }
         // Create a reference to the file to delete
-        let imageRef = Storage.storage().reference().child(selectedUser!.id)
-
+        let imageRef = Storage.storage().reference().child(profileImageId)
+        
         // Delete the file
         imageRef.delete { error in
             if error != nil {
                 print("failed deleting user profile pic from firebase storage")
             } else {
+                // once image from firebase storage is removed successfully also remove it from file manager
+                self.manager.deleteImage(imageName: profileImageId, folderName: self.folderName)
                 print("successfully deleted user profile pic from firebase storage")
             }
         }
