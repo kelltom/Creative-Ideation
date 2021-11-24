@@ -80,7 +80,6 @@ final class TeamViewModel: ObservableObject {
                             } catch {
                                 print("Error adding member to list of team members")
                             }
-
                         }
                         self.teamMembers = self.teamMembers.sorted(by: {
                             $0.name.compare($1.name) == .orderedAscending
@@ -662,6 +661,10 @@ final class TeamViewModel: ObservableObject {
                 }
             }
         }
+    }
+
+    func getOwner(id: String) -> Int {
+        return teamMembers.firstIndex(where: {$0.id == id}) ?? -1
     }
 
     func clear() {

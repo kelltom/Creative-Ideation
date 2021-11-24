@@ -73,7 +73,6 @@ struct LoginView: View {
                                     EmptyView()
                                 })
                                 .onChange(of: userAccountViewModel.authSuccess == true) { _ in
-
                                     teamViewModel.getTeams()
                                 }
 

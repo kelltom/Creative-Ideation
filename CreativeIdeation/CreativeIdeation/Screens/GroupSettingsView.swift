@@ -129,9 +129,6 @@ struct GroupSettingsView: View {
                        height: geometry.size.height)
             }
             .navigationBarHidden(true)
-            .onAppear {
-                teamViewModel.loadMembers()
-            }
         }
         .sheet(item: $showSheet) { item in
             switch item {

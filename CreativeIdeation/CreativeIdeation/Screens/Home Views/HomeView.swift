@@ -150,7 +150,7 @@ struct HomeView: View {
                                 showUserSettings = true
 
                             } label: {
-                                ProfilePic(size: 60)
+                                ProfilePic(size: 60, initial: userAccountViewModel.selectedUser?.name.prefix(1) ?? "?")
                                     .shadow(color: .black, radius: 4, y: 4)
                                     .padding(.trailing, 5)
                             }
@@ -209,10 +209,6 @@ struct HomeView: View {
                                     }
 
                                     Spacer()
-
-                                    GroupMemberPanel()
-                                        .hidden()
-
                                 }
                                 .padding(.leading)
 
@@ -372,10 +368,12 @@ struct HomeView: View {
                                                         sessionItemViewModel.loadItems()
                                                         showActivity = true
                                                     } label: {
-                                                        SessionTile(
-                                                            date: session.dateModified, team: teamViewModel.selectedTeam?.teamName ?? "Unknown",
-                                                            group: groupViewModel.selectedGroup?.groupTitle ?? "Unknown",
-                                                            session: session)
+                                                        SessionTile(date: session.dateModified, team: teamViewModel.selectedTeam?.teamName ?? "N/A",
+                                                                    group: groupViewModel.groups
+                                                                        .first(where: {
+                                                            $0.groupId == session.groupId
+                                                        })?.groupTitle ?? "N/A",
+                                                                    session: session)
                                                     }
                                                     .contextMenu {
                                                         // Session Settings
@@ -464,6 +462,7 @@ struct HomeView: View {
                 }
             }
             .onChange(of: teamViewModel.selectedTeam) {_ in
+                teamViewModel.loadMembers()
                 groupViewModel.clear()
                 groupViewModel.getGroups(teamId: teamViewModel.selectedTeam?.teamId)
                 sessionViewModel.clear()
