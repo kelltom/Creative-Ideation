@@ -71,4 +71,59 @@ class UserAccountManagement: XCTestCase {
         }
 
     }
+    
+    func testUpdateUserAccountInformation() {
+        // given
+        let emailAddress = app.textFields["Email Address"]
+        let passwordSecureTextField = app.secureTextFields["Password"]
+        let loginButton =  app.buttons["Log In"]
+        emailAddress.tap()
+        emailAddress.typeText("Toads@email.com")
+        emailAddress.tap()
+        passwordSecureTextField.tap()
+        passwordSecureTextField.typeText("abc123")
+        loginButton.tap()
+        
+        // recorded navigation element
+        let element = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element
+        element.children(matching: .button).element(boundBy: 4).tap()
+        element.children(matching: .button).matching(identifier: "Edit").element(boundBy: 0).tap()
+        
+        let enterNewNameTextField = app.textFields["Enter New Name "]
+        enterNewNameTextField.tap()
+        enterNewNameTextField.typeText("Toad Toads")
+        
+        let submitButton = app.buttons["Submit"]
+        submitButton.tap()
+        
+        // NEW NAME
+        if enterNewNameTextField.isSelected {
+            XCTAssertTrue(enterNewNameTextField.exists, " enter new name text field not found")
+        }
+        
+        let closeButton = app.buttons["Close"]
+        closeButton.tap()
+        element.children(matching: .button).matching(identifier: "Edit").element(boundBy: 1).tap()
+        
+        
+        // NEW EMAIL
+        let enterNewEmailTextField = app.textFields["Enter New Email "]
+        enterNewEmailTextField.tap()
+        enterNewEmailTextField.typeText("toads@email.com")
+        
+        let enterPasswordToConfirmSecureTextField = app.secureTextFields["Enter Password to Confirm "]
+        enterPasswordToConfirmSecureTextField.tap()
+        enterPasswordToConfirmSecureTextField.typeText("abc1234")
+        
+        // then
+        if enterNewEmailTextField.isSelected && enterPasswordToConfirmSecureTextField.isSelected {
+            XCTAssertTrue(enterNewEmailTextField.exists, " enter new email text field not found")
+            XCTAssertTrue(enterPasswordToConfirmSecureTextField.exists, " enter password text field not found")
+        }
+        submitButton.tap()
+        closeButton.tap()
+  
+
+    }
+    
 }
