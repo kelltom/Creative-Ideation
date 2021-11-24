@@ -9,10 +9,10 @@ import SwiftUI
 
 struct ProfilePic: View {
 
-    @EnvironmentObject var userAccountViewModel : UserAccountViewModel
+    @EnvironmentObject var userAccountViewModel: UserAccountViewModel
 
     var size: CGFloat = 45
-    //var image: String = "person.fill"
+    // var image: String = "person.fill"
 
     var body: some View {
         Text(userAccountViewModel.selectedUser?.name.prefix(1) ?? "?")
