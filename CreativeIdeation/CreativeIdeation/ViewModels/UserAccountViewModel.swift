@@ -12,11 +12,7 @@ import FirebaseFirestoreSwift
 import Profanity_Filter
 import FirebaseStorage
 
-protocol UserService {
-    func authenticate(email: String, password: String)
-}
-
-final class UserAccountViewModel: ObservableObject, UserAccountProtocol {
+final class UserAccountViewModel: ObservableObject {
 
     // private var dbService : DBService!
     private var db = Firestore.firestore()

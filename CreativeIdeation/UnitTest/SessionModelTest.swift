@@ -22,7 +22,6 @@ class SessionModelTest: XCTestCase {
       try super.tearDownWithError()
     }
 
-
     func testBestIds() {
         // given
         sut.selectedSession = Session(inProgress: true)
@@ -30,14 +29,14 @@ class SessionModelTest: XCTestCase {
 
         // when
         var result1 = sut.getBestIds()
-        
+
         // given
         sut.selectedSession = Session(inProgress: true)
         sut.selectedSession!.finalVotes = ["A": 1, "B": 5, "C": 5, "D": 1]
 
         // when
         var result2 = sut.getBestIds()
-       
+
         // then
         XCTAssertEqual(result1, ["B"], "failed to get top list" )
         XCTAssertEqual(result2, ["B", "C"], "failed to detect tie in best votes" )

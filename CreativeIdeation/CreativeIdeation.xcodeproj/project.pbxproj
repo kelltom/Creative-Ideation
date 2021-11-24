@@ -14,6 +14,7 @@
 		26833F6126F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26833F6026F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift */; };
 		268F9993270E72E600FD35F4 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 268F9992270E72E600FD35F4 /* SwiftUICharts */; };
 		269B7A46273F39FC00FD6C2E /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 269B7A45273F39FC00FD6C2E /* FirebaseStorage */; };
+		26D45024274EBC7F00D17DFE /* UserAccountManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D45023274EBC7F00D17DFE /* UserAccountManagement.swift */; };
 		26D62693274EB0F800CD04F9 /* CreativeIdeationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D62692274EB0F800CD04F9 /* CreativeIdeationUITests.swift */; };
 		26D62695274EB0F800CD04F9 /* CreativeIdeationUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D62694274EB0F800CD04F9 /* CreativeIdeationUITestsLaunchTests.swift */; };
 		26E23516274D6794004E6B5F /* GroupModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E23515274D6794004E6B5F /* GroupModelTest.swift */; };
@@ -21,8 +22,6 @@
 		26E2351A274D8625004E6B5F /* SessionModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E23519274D8625004E6B5F /* SessionModelTest.swift */; };
 		26E658922717AD7300BCB646 /* ShareItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E658912717AD7300BCB646 /* ShareItems.swift */; };
 		26FB20FC274C3FE7008FDA3A /* SessionItemModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FB20FB274C3FE7008FDA3A /* SessionItemModelTest.swift */; };
-		26FB2103274C7CD0008FDA3A /* UserAccountProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FB2102274C7CD0008FDA3A /* UserAccountProtocol.swift */; };
-		26FB2106274C7ED1008FDA3A /* MockUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FB2105274C7ED1008FDA3A /* MockUserService.swift */; };
 		761F4751261E212A0019B580 /* UpdateEmailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761F4750261E212A0019B580 /* UpdateEmailSheet.swift */; };
 		762EB076262655A100466F64 /* JoinTeamSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762EB075262655A100466F64 /* JoinTeamSheet.swift */; };
 		76731F342602802200536836 /* TeamSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76731F332602802200536836 /* TeamSettingsView.swift */; };
@@ -126,6 +125,7 @@
 		2673153B273D9F9D007B79AA /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		26833F5E26F67D1A00C24A93 /* UpdateTeamNameSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTeamNameSheet.swift; sourceTree = "<group>"; };
 		26833F6026F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTeamDescriptionSheet.swift; sourceTree = "<group>"; };
+		26D45023274EBC7F00D17DFE /* UserAccountManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountManagement.swift; sourceTree = "<group>"; };
 		26D62690274EB0F800CD04F9 /* CreativeIdeationUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CreativeIdeationUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		26D62692274EB0F800CD04F9 /* CreativeIdeationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreativeIdeationUITests.swift; sourceTree = "<group>"; };
 		26D62694274EB0F800CD04F9 /* CreativeIdeationUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreativeIdeationUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -135,8 +135,6 @@
 		26E658912717AD7300BCB646 /* ShareItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareItems.swift; sourceTree = "<group>"; };
 		26FB20F9274C3FE7008FDA3A /* UnitTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		26FB20FB274C3FE7008FDA3A /* SessionItemModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionItemModelTest.swift; sourceTree = "<group>"; };
-		26FB2102274C7CD0008FDA3A /* UserAccountProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountProtocol.swift; sourceTree = "<group>"; };
-		26FB2105274C7ED1008FDA3A /* MockUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserService.swift; sourceTree = "<group>"; };
 		761F4750261E212A0019B580 /* UpdateEmailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateEmailSheet.swift; sourceTree = "<group>"; };
 		762EB075262655A100466F64 /* JoinTeamSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinTeamSheet.swift; sourceTree = "<group>"; };
 		76731F332602802200536836 /* TeamSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSettingsView.swift; sourceTree = "<group>"; };
@@ -261,6 +259,7 @@
 		26D62691274EB0F800CD04F9 /* CreativeIdeationUITests */ = {
 			isa = PBXGroup;
 			children = (
+				26D45023274EBC7F00D17DFE /* UserAccountManagement.swift */,
 				26D62692274EB0F800CD04F9 /* CreativeIdeationUITests.swift */,
 				26D62694274EB0F800CD04F9 /* CreativeIdeationUITestsLaunchTests.swift */,
 			);
@@ -276,14 +275,6 @@
 				26FB20FB274C3FE7008FDA3A /* SessionItemModelTest.swift */,
 			);
 			path = UnitTest;
-			sourceTree = "<group>";
-		};
-		26FB2104274C7EB1008FDA3A /* Testing */ = {
-			isa = PBXGroup;
-			children = (
-				26FB2105274C7ED1008FDA3A /* MockUserService.swift */,
-			);
-			path = Testing;
 			sourceTree = "<group>";
 		};
 		76731F372602825200536836 /* TeamSettings */ = {
@@ -371,7 +362,6 @@
 				26E658912717AD7300BCB646 /* ShareItems.swift */,
 				2673153B273D9F9D007B79AA /* ImagePicker.swift */,
 				266FB8692741C9B000D318FD /* LocalFileManager.swift */,
-				26FB2102274C7CD0008FDA3A /* UserAccountProtocol.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -445,7 +435,6 @@
 		DD3BF92125D9C97700C368B0 = {
 			isa = PBXGroup;
 			children = (
-				26FB2104274C7EB1008FDA3A /* Testing */,
 				DD3BF92C25D9C97800C368B0 /* CreativeIdeation */,
 				26FB20FA274C3FE7008FDA3A /* UnitTest */,
 				26D62691274EB0F800CD04F9 /* CreativeIdeationUITests */,
@@ -748,6 +737,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				26D62695274EB0F800CD04F9 /* CreativeIdeationUITestsLaunchTests.swift in Sources */,
+				26D45024274EBC7F00D17DFE /* UserAccountManagement.swift in Sources */,
 				26D62693274EB0F800CD04F9 /* CreativeIdeationUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -776,7 +766,6 @@
 				C93F31D626CEE61000EC835D /* EditTextField.swift in Sources */,
 				C9F230C725F29DA3006590DA /* ProfilePic.swift in Sources */,
 				C93F31DA26CEFE1700EC835D /* VotingSticky.swift in Sources */,
-				26FB2106274C7ED1008FDA3A /* MockUserService.swift in Sources */,
 				76A0956525E80F0500917450 /* CreateGroupSheet.swift in Sources */,
 				DD47EC27270F72AF00777E0E /* ChatbotView.swift in Sources */,
 				7699646726069A55005058C7 /* GroupViewModel.swift in Sources */,
@@ -800,7 +789,6 @@
 				76731F342602802200536836 /* TeamSettingsView.swift in Sources */,
 				2673153C273D9F9D007B79AA /* ImagePicker.swift in Sources */,
 				DD3A4CE825DDC3CC007D68B6 /* LoginView.swift in Sources */,
-				26FB2103274C7CD0008FDA3A /* UserAccountProtocol.swift in Sources */,
 				C98BAADE27421726008369F7 /* UpdateTeamMembersSheet.swift in Sources */,
 				DD3705CF26027AFA00E611FD /* User.swift in Sources */,
 				DDDFDA8E25E0830800342B1B /* BigButton.swift in Sources */,

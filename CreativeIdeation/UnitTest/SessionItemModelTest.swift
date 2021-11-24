@@ -7,6 +7,7 @@
 
 import XCTest
 @testable import CreativeIdeation
+import SwiftUI
 
 class SessionItemModelTest: XCTestCase {
     var sut: SessionItemViewModel!
@@ -69,12 +70,21 @@ class SessionItemModelTest: XCTestCase {
         XCTAssertEqual(sut.selectedItem?.itemId, "B", "Selected sticky is not Item B")
     }
 
-    func testColoringSelectedSticky() {
-
-    }
-
     func testSortingStickies() {
+        // given
+        sut.stickyNotes.append(StickyNote(input: "Apple", itemId: "2", numberColor: 2, score: 3))
+        sut.stickyNotes.append(StickyNote(input: "Carrots", itemId: "1", numberColor: 3, score: 5))
+        sut.stickyNotes.append(StickyNote(input: "Blueberry", itemId: "3", numberColor: 1, score: 1))
 
+        // when
+        sut.sortStickies(sortBy: .score)
+        XCTAssertEqual(sut.stickyNotes[0].score, 5, "not able to sort by score")
+
+        sut.sortStickies(sortBy: .alphabetical)
+        XCTAssertEqual(sut.stickyNotes[0].input, "Apple", "not able to sort by input")
+
+        sut.sortStickies(sortBy: .color)
+        XCTAssertEqual(sut.stickyNotes[0].numberColor, 1, "not able to sort by color")
     }
 
 }
