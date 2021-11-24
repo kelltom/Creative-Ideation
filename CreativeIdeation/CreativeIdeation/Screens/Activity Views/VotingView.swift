@@ -55,14 +55,15 @@ struct VotingView: View {
                         Spacer()
                         VStack {
 
-                            ZStack {
-                                // Title text
-                                Text("Voting")
-                                    .font(.system(size: 40, weight: .heavy))
-                                    .padding(.top)
-                                    .frame(width: geometry.size.width * 0.2)
-                            }
-                            .frame(width: geometry.size.width * 0.7)
+                            Spacer()
+
+                            // Title text
+                            Text("Voting")
+                                .font(.system(size: 40, weight: .heavy))
+                                .frame(width: geometry.size.width * 0.2)
+                                .padding(.bottom, -25)
+
+                            Spacer()
 
                             // Populate stack of votable sticky notes on screen
                             ZStack {
@@ -109,20 +110,20 @@ struct VotingView: View {
                                     ZStack {
                                         Circle()
                                             .foregroundColor(Color("BackgroundColor"))
-                                            .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+                                            .frame(width: geometry.size.width * 0.12, height: geometry.size.width * 0.12)
 
                                         Circle().stroke(lineWidth: 4)
                                             .foregroundColor(Color.red)
-                                            .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+                                            .frame(width: geometry.size.width * 0.12, height: geometry.size.width * 0.12)
 
                                         Image(systemName: "hand.thumbsdown")
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
-                                            .frame(width: geometry.size.width * 0.075, height: geometry.size.width * 0.075)
+                                            .frame(width: geometry.size.width * 0.055, height: geometry.size.width * 0.055)
                                             .padding(.top, 10)
                                             .foregroundColor(.red)
                                     }
-                                    .frame(width: geometry.size.width * 0.16, height: geometry.size.width * 0.16)
+                                    .frame(width: geometry.size.width * 0.13, height: geometry.size.width * 0.13)
                                     .clipped()
                                     .shadow(radius: 4, y: 4)
                                 }
@@ -143,20 +144,20 @@ struct VotingView: View {
                                     ZStack {
                                         Circle()
                                             .foregroundColor(Color("BackgroundColor"))
-                                            .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+                                            .frame(width: geometry.size.width * 0.12, height: geometry.size.width * 0.12)
 
                                         Circle().stroke(lineWidth: 4)
                                             .foregroundColor(Color("FadedColor"))
-                                            .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+                                            .frame(width: geometry.size.width * 0.12, height: geometry.size.width * 0.12)
 
                                         Image(systemName: "hand.raised")
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
-                                            .frame(width: geometry.size.width * 0.075, height: geometry.size.width * 0.075)
+                                            .frame(width: geometry.size.width * 0.055, height: geometry.size.width * 0.055)
                                             .padding(.leading, 4)
                                             .foregroundColor(Color("FadedColor"))
                                     }
-                                    .frame(width: geometry.size.width * 0.16, height: geometry.size.width * 0.16)
+                                    .frame(width: geometry.size.width * 0.13, height: geometry.size.width * 0.13)
                                     .clipped()
                                     .shadow(radius: 4, y: 4)
                                 }
@@ -176,20 +177,20 @@ struct VotingView: View {
                                     ZStack {
                                         Circle()
                                             .foregroundColor(Color("BackgroundColor"))
-                                            .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+                                            .frame(width: geometry.size.width * 0.12, height: geometry.size.width * 0.12)
 
                                         Circle().stroke(lineWidth: 4)
                                             .foregroundColor(Color.green)
-                                            .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
+                                            .frame(width: geometry.size.width * 0.12, height: geometry.size.width * 0.12)
 
                                         Image(systemName: "hand.thumbsup")
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
-                                            .frame(width: geometry.size.width * 0.075, height: geometry.size.width * 0.075)
+                                            .frame(width: geometry.size.width * 0.055, height: geometry.size.width * 0.055)
                                             .padding(.bottom, 10)
                                             .foregroundColor(.green)
                                     }
-                                    .frame(width: geometry.size.width * 0.16, height: geometry.size.width * 0.16)
+                                    .frame(width: geometry.size.width * 0.13, height: geometry.size.width * 0.13)
                                     .clipped()
                                     .shadow(radius: 4, y: 4)
                                 }
@@ -203,23 +204,23 @@ struct VotingView: View {
                             } label: {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 15)
-                                        .frame(width: geometry.size.width * 0.77, height: geometry.size.width * 0.11)
+                                        .frame(width: geometry.size.width * 0.68, height: geometry.size.width * 0.09)
                                         .foregroundColor(Color("BackgroundColor"))
 
                                     RoundedRectangle(cornerRadius: 15)
                                         .stroke(lineWidth: 4)
-                                        .frame(width: geometry.size.width * 0.77, height: geometry.size.width * 0.11)
+                                        .frame(width: geometry.size.width * 0.68, height: geometry.size.width * 0.09)
                                         .foregroundColor(.orange)
 
                                     Image(systemName: "arrow.counterclockwise")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(width: geometry.size.width * 0.075, height: geometry.size.width * 0.075)
+                                        .frame(width: geometry.size.width * 0.055, height: geometry.size.width * 0.055)
                                         .foregroundColor(.orange)
                                         .rotationEffect(Angle.degrees(undoRotation))
                                         .animation(spinAnimation)
                                 }
-                                .frame(width: geometry.size.width * 0.8, height: geometry.size.width * 0.12)
+                                .frame(width: geometry.size.width * 0.71, height: geometry.size.width * 0.10)
                                 .clipped()
                                 .shadow(radius: 4, y: 4)
                                 .padding()
@@ -232,7 +233,7 @@ struct VotingView: View {
                     // Animations for Dislike/Skip/Like
                     VStack {
                         Spacer()
-                        HStack {
+                        HStack(alignment: .top) {
                             if $sessionItemViewModel.showingDislike.wrappedValue {
                                 ZStack {
                                     Image(systemName: "burst.fill")
@@ -281,9 +282,9 @@ struct VotingView: View {
                                 .transition(.scale(scale: 0.5).animation(.easeInOut(duration: 0.2)))
                             }
                         }
-                        .frame(width: geometry.size.width * 0.75)
+                        .frame(width: geometry.size.width * 0.7)
                         Spacer()
-                            .frame(height: geometry.size.width * 0.42)
+                            .frame(height: geometry.size.width * 0.365)
                     }
                 }
             }
@@ -291,19 +292,7 @@ struct VotingView: View {
         .onAppear {
             // Get list of sticky notes to be voted on
             sessionItemViewModel.populateVotingList()
-//            if selectedSession!.isDoneVoting {
-//                
-//            }
         }
-//        .onChange(of: selectedSession?.isDoneVoting, perform: { doneVoting in
-//            if doneVoting ?? true {
-//                sessionItemViewModel.sortStickies(sortBy: .score)
-//                if sessionSettingsViewModel.settings.last!.deleteStickies {
-//                    sessionItemViewModel.deleteBottomStickies(minScore: sessionSettingsViewModel.settings.last!.deleteScoreSetting)
-//                }
-//                sessionItemViewModel.getTopStickies(spots: numTopStickies)
-//            }
-//        })
     }
 
 }

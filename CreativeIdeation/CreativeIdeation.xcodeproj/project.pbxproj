@@ -58,7 +58,6 @@
 		C9C784FA270FF1C700BED6F1 /* TopVotedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C784F9270FF1C700BED6F1 /* TopVotedView.swift */; };
 		C9C784FC271016E900BED6F1 /* BestIdeaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C784FB271016E900BED6F1 /* BestIdeaView.swift */; };
 		C9C784FE2719A9DA00BED6F1 /* BestIdea.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C784FD2719A9DA00BED6F1 /* BestIdea.swift */; };
-		C9C785002719B9AC00BED6F1 /* Star.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C784FF2719B9AC00BED6F1 /* Star.swift */; };
 		C9D4A56626F3CE6F00B0BC2D /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D4A56526F3CE6F00B0BC2D /* TimerManager.swift */; };
 		C9F230BA25F29D53006590DA /* TeamPic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230B925F29D53006590DA /* TeamPic.swift */; };
 		C9F230BD25F29D8D006590DA /* GroupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230BC25F29D8D006590DA /* GroupButton.swift */; };
@@ -144,7 +143,6 @@
 		C9C784F9270FF1C700BED6F1 /* TopVotedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopVotedView.swift; sourceTree = "<group>"; };
 		C9C784FB271016E900BED6F1 /* BestIdeaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestIdeaView.swift; sourceTree = "<group>"; };
 		C9C784FD2719A9DA00BED6F1 /* BestIdea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestIdea.swift; sourceTree = "<group>"; };
-		C9C784FF2719B9AC00BED6F1 /* Star.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Star.swift; sourceTree = "<group>"; };
 		C9D4A56526F3CE6F00B0BC2D /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
 		C9F230B925F29D53006590DA /* TeamPic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamPic.swift; sourceTree = "<group>"; };
 		C9F230BC25F29D8D006590DA /* GroupButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupButton.swift; sourceTree = "<group>"; };
@@ -269,7 +267,6 @@
 				C9AE73A125EB1ACA0090C96B /* ActivityTypeTile.swift */,
 				C9C784F22706ABFD00BED6F1 /* TopSticky.swift */,
 				C9C784FD2719A9DA00BED6F1 /* BestIdea.swift */,
-				C9C784FF2719B9AC00BED6F1 /* Star.swift */,
 				C96870F82721F0F40092FD35 /* CreateStickyView.swift */,
 			);
 			path = SessionComponents;
@@ -622,7 +619,6 @@
 				DD9DA76426F5433E007F1BB7 /* BackButton.swift in Sources */,
 				DDA2E49C270653F1005D8753 /* WatsonAssistant.swift in Sources */,
 				C9C67A2525E8288B002D16A9 /* HomeView.swift in Sources */,
-				C9C785002719B9AC00BED6F1 /* Star.swift in Sources */,
 				DD2977352603D266000A1C95 /* UserAccountViewModel.swift in Sources */,
 				DD7997B026083F5C00392AED /* Session.swift in Sources */,
 				C9419B732619126400279BB5 /* SessionItem.swift in Sources */,
