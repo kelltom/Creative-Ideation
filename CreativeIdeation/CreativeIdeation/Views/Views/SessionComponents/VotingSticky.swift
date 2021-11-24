@@ -45,6 +45,7 @@ struct VotingSticky: View, Identifiable {
 
                 // Text area
                 Text(input)
+                    .font(.largeTitle)
                     .frame(width: geometry.size.width * 0.45, height: geometry.size.height * 0.45)
                     .frame(width: geometry.size.width * 0.5, height: geometry.size.height * 0.5)
                     .background(colorScheme == .dark ? chosenColor.darker(by: 15.0) : chosenColor.lighter(by: 20.0))

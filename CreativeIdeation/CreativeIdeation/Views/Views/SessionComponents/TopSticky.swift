@@ -28,7 +28,7 @@ struct TopSticky: View, Identifiable {
                     ZStack {
                         Rectangle()
                             .foregroundColor(colorScheme == .dark ? chosenColor.darker() : chosenColor)
-                            .frame(width: geometry.size.width, height: geometry.size.height * 0.15)
+                            .frame(width: geometry.size.width, height: geometry.size.height * 0.2)
 
                         if sessionSettingsViewModel.settings.last!.displayScore {
                             Text("Score: " + String(score))
@@ -40,7 +40,8 @@ struct TopSticky: View, Identifiable {
 
                     // Text area
                     Text(input)
-                        .frame(width: geometry.size.width * 0.97, height: geometry.size.height * 0.65)
+                        .font(.title)
+                        .frame(width: geometry.size.width * 0.97, height: geometry.size.height * 0.6)
                         .frame(width: geometry.size.width)
                         .background(colorScheme == .dark ? chosenColor.darker(by: 15.0) : chosenColor.lighter(by: 20.0))
                         .foregroundColor(Color("StrokeColor"))

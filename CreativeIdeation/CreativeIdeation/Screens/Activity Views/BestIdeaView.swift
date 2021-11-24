@@ -28,9 +28,9 @@ struct BestIdeaView: View {
 //                    .shape(.triangle, .red),
 //                    .shape(.square, .green),
 //                    .shape(.circle, UIColor.init(red: 0, green: 0.5, blue: 1, alpha: 1)),
-//                    .text("⭐")
+                    .text("⭐")
 //                    .text("🐷")
-                    .text("🎉")
+//                    .text("🎉")
                 ])
 
                 // Best Stickies
