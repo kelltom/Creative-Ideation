@@ -83,9 +83,6 @@ struct HomeView: View {
                             }
                         }
                     }
-                    .onAppear {
-                        teamViewModel.selectTeam(team: teamViewModel.teams.first!)
-                    }
 
                     // PLUS BUTTON TO ADD OR CREATE TEAM
                     Menu {
@@ -480,6 +477,10 @@ struct HomeView: View {
             }
             .onAppear {
                 userAccountViewModel.getImageFromFileManager()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    groupViewModel.clear()
+                    groupViewModel.getGroups(teamId: teamViewModel.selectedTeam?.teamId)
+                }
             }
             // Chatbot
             VStack {

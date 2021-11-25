@@ -575,8 +575,8 @@ final class TeamViewModel: ObservableObject {
                         // Add new item locally
                         do {
                             let newTeam = try (diff.document.data(as: Team.self)!)
-                            self.teams.append(newTeam)
-                            self.selectedTeam = self.teams.last
+                            self.teams.insert(newTeam, at: 0)
+                            self.selectTeam(team: self.teams.first!)
                         } catch {
                             print("Error reading new team from DB: \(error)")
                         }
