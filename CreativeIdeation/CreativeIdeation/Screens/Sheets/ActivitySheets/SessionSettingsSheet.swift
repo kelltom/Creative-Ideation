@@ -132,7 +132,7 @@ struct SessionSettingsSheet: View {
                                     Text("Top")
 
                                     Picker("", selection: $textTopStickies) {
-                                        ForEach(numbers[..<10], id: \.self) {
+                                        ForEach(numbers[1..<10], id: \.self) {
                                             Text($0)
                                                 .rotationEffect(.degrees(90))
                                         }
