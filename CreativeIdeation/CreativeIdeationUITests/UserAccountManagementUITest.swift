@@ -23,7 +23,7 @@ class UserAccountManagementUITest: XCTestCase {
         let passwordSecureTextField = app.secureTextFields["Password"]
         let loginButton =  app.buttons["Log In"]
         emailAddress.tap()
-        emailAddress.typeText("Toad123@email.com")
+        emailAddress.typeText("Toad@email.com")
         passwordSecureTextField.tap()
         passwordSecureTextField.typeText("abc123")
 
@@ -78,7 +78,7 @@ class UserAccountManagementUITest: XCTestCase {
         let passwordSecureTextField = app.secureTextFields["Password"]
         let loginButton =  app.buttons["Log In"]
         emailAddress.tap()
-        emailAddress.typeText("Toad123@email.com")
+        emailAddress.typeText("Toad@email.com")
         emailAddress.tap()
         passwordSecureTextField.tap()
         passwordSecureTextField.typeText("abc123")
@@ -108,7 +108,7 @@ class UserAccountManagementUITest: XCTestCase {
         // NEW EMAIL
         let enterNewEmailTextField = app.textFields["Enter New Email "]
         enterNewEmailTextField.tap()
-        enterNewEmailTextField.typeText("toad@email.com")
+        enterNewEmailTextField.typeText("toad123@email.com")
 
         let enterPasswordToConfirmSecureTextField = app.secureTextFields["Enter Password to Confirm "]
         enterPasswordToConfirmSecureTextField.tap()

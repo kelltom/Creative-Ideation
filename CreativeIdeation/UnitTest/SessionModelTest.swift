@@ -39,7 +39,7 @@ class SessionModelTest: XCTestCase {
 
         // then
         XCTAssertEqual(result1, ["B"], "failed to get top list" )
-        XCTAssertEqual(result2, ["B", "C"], "failed to detect tie in best votes" )
+        XCTAssert(result2.elementsEqual(["C", "B"]) || result2.elementsEqual(["B", "C"]), "failed to detect tie in best votes")
     }
 
 }
