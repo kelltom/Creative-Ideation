@@ -13,7 +13,6 @@ struct ProfilePic: View {
 
     var size: CGFloat = 45
     var initial: String.SubSequence
-    //var image: String = "person.fill"
 
     var body: some View {
         Text(initial)
@@ -22,6 +21,12 @@ struct ProfilePic: View {
             .foregroundColor(Color("StrokeColor"))
             .background(Color("BackgroundColor"))
             .clipShape(Circle())
+            .overlay(
+                Circle()
+                    .stroke(Color("StrokeColor"), lineWidth: 2)
+            )
+            .padding(2)
+            .clipped()
             .onAppear {
                 userAccountViewModel.getCurrentUserInfo()
             }
