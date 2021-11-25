@@ -90,11 +90,12 @@ struct CreateSessionSheet: View {
                 sessionSettingsViewModel.createSettings(sessionId: sessionViewModel.newSession.sessionId)
                 sessionSettingsViewModel.loadSettings(sessionId: sessionViewModel.newSession.sessionId)
                 sessionViewModel.selectedSession = sessionViewModel.newSession
+                showSheets = nil
                 sessionItemViewModel.activeSession = sessionViewModel.newSession
                 sessionItemViewModel.loadItems()
                 // Reset variables
-                showSheets = nil
                 showActivity = true
+                sessionViewModel.newSession = Session()
                 self.sessionViewModel.didOperationSucceed = false
             }
         })
