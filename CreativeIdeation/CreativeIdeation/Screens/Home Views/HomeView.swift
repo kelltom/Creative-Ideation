@@ -477,10 +477,8 @@ struct HomeView: View {
             }
             .onAppear {
                 userAccountViewModel.getImageFromFileManager()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    groupViewModel.clear()
-                    groupViewModel.getGroups(teamId: teamViewModel.selectedTeam?.teamId)
-                }
+                groupViewModel.clear()
+                groupViewModel.getGroups(teamId: teamViewModel.selectedTeam?.teamId)
             }
             // Chatbot
             VStack {
