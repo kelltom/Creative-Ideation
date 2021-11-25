@@ -94,20 +94,20 @@ final class TeamViewModel: ObservableObject {
     }
 
     func loadMemberPic(memberId: String) {
-        let storageReference = Storage.storage().reference().child(memberId)
-        storageReference.getData(maxSize: 5184 * 2456) { (imageData, error) in
-            if let error = error {
-                print("Error in getting image occured \(error.localizedDescription)")
-            } else {
-                if let imageData = imageData {
-                    // assign to value
-                    let img = UIImage(data: imageData)
-                    self.memberPics[memberId] = Image(uiImage: img!)
-                    print("Downloading image success, Image with this user exists")
-                    print("ID: ", memberId)
-                    print("Index: ", self.memberPics.count - 1)
+        if memberPics[memberId] == nil {
+            let storageReference = Storage.storage().reference().child(memberId)
+            storageReference.getData(maxSize: 5184 * 2456) { (imageData, error) in
+                if let error = error {
+                    print("Error in getting image occured \(error.localizedDescription)")
                 } else {
-                    print("Not able to set to UIImage")
+                    if let imageData = imageData {
+                        // assign to value
+                        let img = UIImage(data: imageData)
+                        self.memberPics[memberId] = Image(uiImage: img!)
+                        print("Downloading image success, ID:", memberId)
+                    } else {
+                        print("Not able to set to UIImage")
+                    }
                 }
             }
         }

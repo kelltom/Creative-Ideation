@@ -107,8 +107,6 @@ struct SessionTile: View {
                 }
             } else {
                 owner = teamViewModel.teamMembers[ownerIndex]
-                print(owner.name)
-                print(owner.id)
             }
         })
     }
