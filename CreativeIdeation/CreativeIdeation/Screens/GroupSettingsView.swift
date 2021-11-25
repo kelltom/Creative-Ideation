@@ -146,6 +146,7 @@ struct GroupSettingsView: View {
         }
         .onAppear {
             isAdmin = groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup!.groupId)
+            teamViewModel.loadMembers()
         }
     }
 }

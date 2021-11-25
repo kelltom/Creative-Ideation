@@ -202,6 +202,9 @@ struct TeamSettingsView: View {
             }
         }
         .edgesIgnoringSafeArea(.vertical)
+        .onAppear {
+            teamViewModel.loadMembers()
+        }
     }
 }
 
