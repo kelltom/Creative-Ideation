@@ -19,6 +19,7 @@ enum PreferenceSheet: Identifiable {
 struct UserSettingsView: View {
 
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
+    @EnvironmentObject var sessionViewModel: SessionViewModel
     @EnvironmentObject var teamViewModel: TeamViewModel
     @EnvironmentObject var groupViewModel: GroupViewModel
 
@@ -174,6 +175,7 @@ struct UserSettingsView: View {
                     Button {
                         teamViewModel.clear()
                         groupViewModel.clear()
+                        sessionViewModel.clear()
                         userAccountViewModel.userProfilePicture = nil
                         userAccountViewModel.signOut()
                     } label: {

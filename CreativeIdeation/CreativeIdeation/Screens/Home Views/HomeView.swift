@@ -72,7 +72,9 @@ struct HomeView: View {
                         .contextMenu {
                             Button {
                                 // Delete selected team
-                                teamViewModel.deleteSelectedTeam(teamId: team.teamId)
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                    teamViewModel.deleteSelectedTeam(teamId: team.teamId)
+                                }
                             } label: {
                                 HStack {
                                     Text("Delete")
@@ -80,6 +82,9 @@ struct HomeView: View {
                                 }
                             }
                         }
+                    }
+                    .onAppear {
+                        teamViewModel.selectTeam(team: teamViewModel.teams.first!)
                     }
 
                     // PLUS BUTTON TO ADD OR CREATE TEAM

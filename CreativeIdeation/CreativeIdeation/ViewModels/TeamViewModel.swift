@@ -698,6 +698,8 @@ final class TeamViewModel: ObservableObject {
         teamCode = ""
         didCreateSuccess = false
         newTeamId = ""
+        teamMembers = []
+        memberPics = [:]
     }
 
     // Generates a random code that can be used to join the team
