@@ -83,9 +83,6 @@ struct HomeView: View {
                             }
                         }
                     }
-                    .onAppear {
-                        teamViewModel.selectTeam(team: teamViewModel.teams.first!)
-                    }
 
                     // PLUS BUTTON TO ADD OR CREATE TEAM
                     Menu {
@@ -480,6 +477,8 @@ struct HomeView: View {
             }
             .onAppear {
                 userAccountViewModel.getImageFromFileManager()
+                groupViewModel.clear()
+                groupViewModel.getGroups(teamId: teamViewModel.selectedTeam?.teamId)
             }
             // Chatbot
             VStack {
