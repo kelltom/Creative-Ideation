@@ -25,7 +25,7 @@ class SessionItemModelTest: XCTestCase {
 
     func testUpdatingItemText() {
         // given
-        let profanityText = "poop Blue"
+        let profanityText = "damn Blue"
         sut.sessionItems.append(SessionItem(itemId: "0"))
         sut.sessionItems.append(SessionItem(itemId: "1"))
 
@@ -62,7 +62,7 @@ class SessionItemModelTest: XCTestCase {
         sut.sessionItems.append(SessionItem(itemId: "A"))
         sut.sessionItems.append(SessionItem(itemId: "B"))
 
-        /// when
+        // when
         sut.updateSelected(note: sticky1)
 
         // then

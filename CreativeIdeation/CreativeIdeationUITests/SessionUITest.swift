@@ -16,9 +16,9 @@ class SessionUITest: XCTestCase {
         app = XCUIApplication()
         app.launch()
     }
-    
+
     func testUICreateSession() {
-        
+
         let emailAddress = app.textFields["Email Address"]
         let passwordSecureTextField = app.secureTextFields["Password"]
         let loginButton =  app.buttons["Log In"]
@@ -28,19 +28,19 @@ class SessionUITest: XCTestCase {
         passwordSecureTextField.tap()
         passwordSecureTextField.typeText("abc123")
         loginButton.tap()
-        
+
         // Create session
         app.scrollViews.otherElements.buttons["Add"].tap()
-        
+
         let sessionNameTextField = app.textFields["Session Name"]
         sessionNameTextField.tap()
         sessionNameTextField.typeText("session 123")
-        
+
         if sessionNameTextField.isSelected {
             XCTAssertTrue(sessionNameTextField.exists, "session name text field is not found")
         }
         app.buttons["Start"].tap()
-                
+
      }
 
 }
