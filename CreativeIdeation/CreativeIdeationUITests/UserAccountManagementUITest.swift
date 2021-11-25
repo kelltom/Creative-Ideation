@@ -23,7 +23,7 @@ class UserAccountManagementUITest: XCTestCase {
         let passwordSecureTextField = app.secureTextFields["Password"]
         let loginButton =  app.buttons["Log In"]
         emailAddress.tap()
-        emailAddress.typeText("Toad@email.com")
+        emailAddress.typeText("Toad123@email.com")
         passwordSecureTextField.tap()
         passwordSecureTextField.typeText("abc123")
 

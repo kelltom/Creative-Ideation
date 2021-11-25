@@ -7,7 +7,7 @@
 
 import XCTest
 
-class TeamsManagementUITest: XCTestCase {
+class SessionUITest: XCTestCase {
     var app: XCUIApplication!
 
     override func setUpWithError() throws {
@@ -17,7 +17,7 @@ class TeamsManagementUITest: XCTestCase {
         app.launch()
     }
     
-    func testCreatingTeams() {
+    func testUICreateSession() {
         
         let emailAddress = app.textFields["Email Address"]
         let passwordSecureTextField = app.secureTextFields["Password"]
@@ -39,11 +39,8 @@ class TeamsManagementUITest: XCTestCase {
         if sessionNameTextField.isSelected {
             XCTAssertTrue(sessionNameTextField.exists, "session name text field is not found")
         }
-        
         app.buttons["Start"].tap()
                 
-        
- 
-    }
+     }
 
 }
