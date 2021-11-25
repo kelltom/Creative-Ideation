@@ -97,10 +97,14 @@ struct CreateGroupSheet: View {
             .banner(data: $groupViewModel.bannerData,
                     show: $groupViewModel.showBanner)
         }
-        .onChange(of: groupViewModel.wasCreateSuccess, perform: { _ in
-            if groupViewModel.wasCreateSuccess {
-                groupViewModel.selectedGroup = groupViewModel.groups.last
+        .onChange(of: groupViewModel.wasCreateSuccess, perform: { success in
+            if success {
+                groupViewModel.selectedGroup = groupViewModel.groups.first
                 multiSelection = Set<String>()
+                groupViewModel.wasCreateSuccess = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                    showSheets = nil
+                }
             }
         })
     }

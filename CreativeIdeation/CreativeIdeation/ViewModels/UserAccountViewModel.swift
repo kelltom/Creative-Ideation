@@ -81,6 +81,8 @@ final class UserAccountViewModel: ObservableObject {
                 self.createSuccess = false
             }
             self.showBanner = false
+            self.userProfilePicture = nil
+            self.selectedUser = nil
             print("signed out successfully")
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)

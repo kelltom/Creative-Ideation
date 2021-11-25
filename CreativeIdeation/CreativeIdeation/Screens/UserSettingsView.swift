@@ -176,7 +176,6 @@ struct UserSettingsView: View {
                         teamViewModel.clear()
                         groupViewModel.clear()
                         sessionViewModel.clear()
-                        userAccountViewModel.userProfilePicture = nil
                         userAccountViewModel.signOut()
                     } label: {
                         LogOutButton()
