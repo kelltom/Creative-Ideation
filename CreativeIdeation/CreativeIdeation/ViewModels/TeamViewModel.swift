@@ -12,6 +12,7 @@ import FirebaseFirestoreSwift
 import FirebaseFunctions
 import SwiftUI
 import Profanity_Filter
+import FirebaseStorage
 
 final class TeamViewModel: ObservableObject {
 
@@ -23,6 +24,7 @@ final class TeamViewModel: ObservableObject {
     @Published var selectedTeam: Team?  // selected team in the sidebar
     @Published var teamCode = ""
     @Published var teamMembers: [Member] = []
+    @Published var memberPics: [String: Image] = [:]
 
     @Published var didCreateSuccess: Bool = false  // toggles when Team is created
     @Published var newTeamId: String = ""  // ID of the most recent created Team
@@ -77,6 +79,7 @@ final class TeamViewModel: ObservableObject {
                             do {
                                 // Convert document to Member object and append to list of team members
                                 try self.teamMembers.append(document.data(as: Member.self)!)
+                                self.loadMemberPic(memberId: self.teamMembers.last!.id)
                             } catch {
                                 print("Error adding member to list of team members")
                             }
@@ -87,6 +90,26 @@ final class TeamViewModel: ObservableObject {
                     }
                 }
             chunk += 1
+        }
+    }
+
+    func loadMemberPic(memberId: String) {
+        let storageReference = Storage.storage().reference().child(memberId)
+        storageReference.getData(maxSize: 5184 * 2456) { (imageData, error) in
+            if let error = error {
+                print("Error in getting image occured \(error.localizedDescription)")
+            } else {
+                if let imageData = imageData {
+                    // assign to value
+                    let img = UIImage(data: imageData)
+                    self.memberPics[memberId] = Image(uiImage: img!)
+                    print("Downloading image success, Image with this user exists")
+                    print("ID: ", memberId)
+                    print("Index: ", self.memberPics.count - 1)
+                } else {
+                    print("Not able to set to UIImage")
+                }
+            }
         }
     }
 

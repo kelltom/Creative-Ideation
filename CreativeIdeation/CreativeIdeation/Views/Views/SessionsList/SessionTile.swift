@@ -72,7 +72,15 @@ struct SessionTile: View {
                 .foregroundColor(Color("StrokeColor"))
 
             HStack(alignment: .bottom, spacing: 5) {
-                ProfilePic(size: 30, initial: owner.name.prefix(1))
+                if teamViewModel.memberPics[session.createdBy] != nil {
+                    teamViewModel.memberPics[session.createdBy]!
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                        .clipShape(Circle())
+                } else {
+                    ProfilePic(size: 40, initial: owner.name.prefix(1))
+                }
 
                 Text(owner.name)
                     .font(.caption)
@@ -93,8 +101,9 @@ struct SessionTile: View {
         }
         .onChange(of: ownerIndex, perform: { _ in
             if ownerIndex < 0 {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.65) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     ownerIndex = teamViewModel.getOwner(id: session.createdBy)
+
                 }
             } else {
                 owner = teamViewModel.teamMembers[ownerIndex]
