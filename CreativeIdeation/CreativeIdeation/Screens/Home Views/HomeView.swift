@@ -262,6 +262,7 @@ struct HomeView: View {
 
                                         // Add Group button
                                         Button {
+                                            teamViewModel.loadMembers()
                                             activeSheet = .group
                                         } label: {
                                             Text("Add Group")
