@@ -14,7 +14,8 @@
 		26833F6126F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26833F6026F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift */; };
 		268F9993270E72E600FD35F4 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 268F9992270E72E600FD35F4 /* SwiftUICharts */; };
 		269B7A46273F39FC00FD6C2E /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 269B7A45273F39FC00FD6C2E /* FirebaseStorage */; };
-		26D45024274EBC7F00D17DFE /* UserAccountManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D45023274EBC7F00D17DFE /* UserAccountManagement.swift */; };
+		26D45024274EBC7F00D17DFE /* UserAccountManagementUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D45023274EBC7F00D17DFE /* UserAccountManagementUITest.swift */; };
+		26D45026274F06DA00D17DFE /* TeamsManagementUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D45025274F06DA00D17DFE /* TeamsManagementUITest.swift */; };
 		26D62693274EB0F800CD04F9 /* CreativeIdeationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D62692274EB0F800CD04F9 /* CreativeIdeationUITests.swift */; };
 		26D62695274EB0F800CD04F9 /* CreativeIdeationUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D62694274EB0F800CD04F9 /* CreativeIdeationUITestsLaunchTests.swift */; };
 		26E23516274D6794004E6B5F /* GroupModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E23515274D6794004E6B5F /* GroupModelTest.swift */; };
@@ -125,7 +126,8 @@
 		2673153B273D9F9D007B79AA /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		26833F5E26F67D1A00C24A93 /* UpdateTeamNameSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTeamNameSheet.swift; sourceTree = "<group>"; };
 		26833F6026F68CB000C24A93 /* UpdateTeamDescriptionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTeamDescriptionSheet.swift; sourceTree = "<group>"; };
-		26D45023274EBC7F00D17DFE /* UserAccountManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountManagement.swift; sourceTree = "<group>"; };
+		26D45023274EBC7F00D17DFE /* UserAccountManagementUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountManagementUITest.swift; sourceTree = "<group>"; };
+		26D45025274F06DA00D17DFE /* TeamsManagementUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamsManagementUITest.swift; sourceTree = "<group>"; };
 		26D62690274EB0F800CD04F9 /* CreativeIdeationUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CreativeIdeationUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		26D62692274EB0F800CD04F9 /* CreativeIdeationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreativeIdeationUITests.swift; sourceTree = "<group>"; };
 		26D62694274EB0F800CD04F9 /* CreativeIdeationUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreativeIdeationUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -259,7 +261,8 @@
 		26D62691274EB0F800CD04F9 /* CreativeIdeationUITests */ = {
 			isa = PBXGroup;
 			children = (
-				26D45023274EBC7F00D17DFE /* UserAccountManagement.swift */,
+				26D45025274F06DA00D17DFE /* TeamsManagementUITest.swift */,
+				26D45023274EBC7F00D17DFE /* UserAccountManagementUITest.swift */,
 				26D62692274EB0F800CD04F9 /* CreativeIdeationUITests.swift */,
 				26D62694274EB0F800CD04F9 /* CreativeIdeationUITestsLaunchTests.swift */,
 			);
@@ -737,8 +740,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				26D62695274EB0F800CD04F9 /* CreativeIdeationUITestsLaunchTests.swift in Sources */,
-				26D45024274EBC7F00D17DFE /* UserAccountManagement.swift in Sources */,
+				26D45024274EBC7F00D17DFE /* UserAccountManagementUITest.swift in Sources */,
 				26D62693274EB0F800CD04F9 /* CreativeIdeationUITests.swift in Sources */,
+				26D45026274F06DA00D17DFE /* TeamsManagementUITest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,7 +7,7 @@
 
 import XCTest
 
-class UserAccountManagement: XCTestCase {
+class UserAccountManagementUITest: XCTestCase {
     var app: XCUIApplication!
 
     override func setUpWithError() throws {
@@ -78,7 +78,7 @@ class UserAccountManagement: XCTestCase {
         let passwordSecureTextField = app.secureTextFields["Password"]
         let loginButton =  app.buttons["Log In"]
         emailAddress.tap()
-        emailAddress.typeText("Toads@email.com")
+        emailAddress.typeText("Toad123@email.com")
         emailAddress.tap()
         passwordSecureTextField.tap()
         passwordSecureTextField.typeText("abc123")
@@ -109,11 +109,11 @@ class UserAccountManagement: XCTestCase {
         // NEW EMAIL
         let enterNewEmailTextField = app.textFields["Enter New Email "]
         enterNewEmailTextField.tap()
-        enterNewEmailTextField.typeText("toads@email.com")
+        enterNewEmailTextField.typeText("toad@email.com")
         
         let enterPasswordToConfirmSecureTextField = app.secureTextFields["Enter Password to Confirm "]
         enterPasswordToConfirmSecureTextField.tap()
-        enterPasswordToConfirmSecureTextField.typeText("abc1234")
+        enterPasswordToConfirmSecureTextField.typeText("abc123")
         
         // then
         if enterNewEmailTextField.isSelected && enterPasswordToConfirmSecureTextField.isSelected {
