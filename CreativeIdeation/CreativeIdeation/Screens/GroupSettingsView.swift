@@ -20,6 +20,7 @@ struct GroupSettingsView: View {
     @Binding var showGroupSettings: Bool
     @State var showSheet: Sheets?
     @State var canOnlyAdminMakeSessions: Bool = true
+    @State var isAdmin: Bool = false
 
     @EnvironmentObject var teamViewModel: TeamViewModel
     @EnvironmentObject var groupViewModel: GroupViewModel
@@ -63,7 +64,7 @@ struct GroupSettingsView: View {
                                     showSheet = .name
                                 } label: {
                                     // button design
-                                    if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup!.groupId) {
+                                    if isAdmin {
                                         TextEditButton()
                                     } else {
                                         TextEditButton()
@@ -88,8 +89,7 @@ struct GroupSettingsView: View {
                                     showSheet = .members
                                 } label: {
                                     // button design
-                                    groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup!.groupId) ?
-                                        TextEditButton() : TextEditButton(text: "View")
+                                    isAdmin ? TextEditButton() : TextEditButton(text: "View")
                                 }
                             }
                         }
@@ -106,7 +106,7 @@ struct GroupSettingsView: View {
                     Spacer()
 
                     // Delete/Leave button
-                    if groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup!.groupId) {
+                    if isAdmin {
                         Button {
                             groupViewModel.deleteGroups(groupId: groupViewModel.selectedGroup!.groupId, teamId: groupViewModel.selectedGroup!.fkTeamId)
                         } label: {
@@ -138,12 +138,14 @@ struct GroupSettingsView: View {
                     .environmentObject(self.groupViewModel)
 
             case .members:
-                UpdateGroupMembersSheet(isAdmin: groupViewModel.isCurrentUserAdmin(
-                                            groupId: groupViewModel.selectedGroup!.groupId),
+                UpdateGroupMembersSheet(isAdmin: isAdmin,
                                             showSheet: $showSheet)
                     .environmentObject(teamViewModel)
                     .environmentObject(self.groupViewModel)
             }
+        }
+        .onAppear {
+            isAdmin = groupViewModel.isCurrentUserAdmin(groupId: groupViewModel.selectedGroup!.groupId)
         }
     }
 }

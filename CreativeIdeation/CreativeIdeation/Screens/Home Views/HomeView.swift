@@ -467,7 +467,6 @@ struct HomeView: View {
                 }
             }
             .onChange(of: teamViewModel.selectedTeam) {_ in
-                teamViewModel.loadMembers()
                 groupViewModel.clear()
                 groupViewModel.getGroups(teamId: teamViewModel.selectedTeam?.teamId)
                 sessionViewModel.clear()
