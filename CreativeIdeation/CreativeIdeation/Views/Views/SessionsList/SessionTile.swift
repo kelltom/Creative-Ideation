@@ -9,9 +9,13 @@ import SwiftUI
 
 struct SessionTile: View {
 
+    @EnvironmentObject var teamViewModel: TeamViewModel
+
     var title: String = "Example Title"
     var activity: String = "Sticky Notes"
     var image: String = "post-it"
+    @State var owner: Member = Member()
+    @State var ownerIndex: Int = -2
     var date: Date
     var inProgress: Bool = true
     var team: String = "Big Company"
@@ -68,9 +72,17 @@ struct SessionTile: View {
                 .foregroundColor(Color("StrokeColor"))
 
             HStack(alignment: .bottom, spacing: 5) {
-                ProfilePic(size: 30)
+                if teamViewModel.memberPics[session.createdBy] != nil {
+                    teamViewModel.memberPics[session.createdBy]!
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                        .clipShape(Circle())
+                } else {
+                    ProfilePic(size: 40, initial: owner.name.prefix(1))
+                }
 
-                Text("Owner")
+                Text(owner.name)
                     .font(.caption)
                     .foregroundColor(Color("FadedColor"))
 
@@ -85,13 +97,25 @@ struct SessionTile: View {
                     .stroke(Color("StrokeColor"), lineWidth: 2.0))
         .onAppear {
             formatter.dateStyle = .medium
-            print(date)
+            ownerIndex = teamViewModel.getOwner(id: session.createdBy)
         }
+        .onChange(of: ownerIndex, perform: { _ in
+            if ownerIndex < 0 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    ownerIndex = teamViewModel.getOwner(id: session.createdBy)
+
+                }
+            } else {
+                owner = teamViewModel.teamMembers[ownerIndex]
+                print(owner.name)
+                print(owner.id)
+            }
+        })
     }
 }
 
 struct SessionItem_Previews: PreviewProvider {
     static var previews: some View {
-        SessionTile(date: Date(), session: Session(sessionTitle: "Sample Title", type: "Sticky Notes"))
+        SessionTile(owner: Member(), date: Date(), session: Session(sessionTitle: "Sample Title", type: "Sticky Notes"))
     }
 }

@@ -19,6 +19,7 @@ enum PreferenceSheet: Identifiable {
 struct UserSettingsView: View {
 
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
+    @EnvironmentObject var sessionViewModel: SessionViewModel
     @EnvironmentObject var teamViewModel: TeamViewModel
     @EnvironmentObject var groupViewModel: GroupViewModel
 
@@ -72,7 +73,7 @@ struct UserSettingsView: View {
                                         .clipShape(Circle())
 
                                 } else {
-                                    ProfilePic(size: 60)
+                                    ProfilePic(size: 60, initial: userAccountViewModel.selectedUser?.name.prefix(1) ?? "?")
                                 }
 
                                 Menu {
@@ -172,10 +173,11 @@ struct UserSettingsView: View {
 
                     // LogOutButton
                     Button {
-                        userAccountViewModel.signOut()
                         teamViewModel.clear()
                         groupViewModel.clear()
+                        sessionViewModel.clear()
                         userAccountViewModel.userProfilePicture = nil
+                        userAccountViewModel.signOut()
                     } label: {
                         LogOutButton()
                     }

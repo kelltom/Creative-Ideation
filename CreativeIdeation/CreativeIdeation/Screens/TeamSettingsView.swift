@@ -181,9 +181,6 @@ struct TeamSettingsView: View {
                     }
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
-                .onAppear {
-                    teamViewModel.loadMembers()
-                }
                 .sheet(item: $showSheet) { item in
                     switch item {
 

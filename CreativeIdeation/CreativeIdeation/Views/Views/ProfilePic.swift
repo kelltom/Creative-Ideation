@@ -12,15 +12,21 @@ struct ProfilePic: View {
     @EnvironmentObject var userAccountViewModel : UserAccountViewModel
 
     var size: CGFloat = 45
-    //var image: String = "person.fill"
+    var initial: String.SubSequence
 
     var body: some View {
-        Text(userAccountViewModel.selectedUser?.name.prefix(1) ?? "?")
+        Text(initial)
             .font(.title)
             .frame(width: size, height: size)
             .foregroundColor(Color("StrokeColor"))
             .background(Color("BackgroundColor"))
             .clipShape(Circle())
+            .overlay(
+                Circle()
+                    .stroke(Color("StrokeColor"), lineWidth: 2)
+            )
+            .padding(2)
+            .clipped()
             .onAppear {
                 userAccountViewModel.getCurrentUserInfo()
             }
@@ -29,6 +35,6 @@ struct ProfilePic: View {
 
 struct ProfilePic_Previews: PreviewProvider {
     static var previews: some View {
-        ProfilePic()
+        ProfilePic(initial: "")
     }
 }
