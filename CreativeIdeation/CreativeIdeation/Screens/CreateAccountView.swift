@@ -111,9 +111,6 @@ struct CreateAccountView: View {
                     show: $userAccountViewModel.showBanner)
         }
         .edgesIgnoringSafeArea(.vertical)
-        .onAppear {
-            // userAccountViewModel.showBanner = false
-        }
         .onDisappear {
             userAccountViewModel.showBanner = false
             name = ""

@@ -96,8 +96,10 @@ struct CreateTeamSheet: View {
             if didSucceed {
                 // Create "Everyone" default Group for this Team
                 groupviewModel.createGroup(teamId: teamViewModel.newTeamId, groupTitle: "Public", suppressBanner: true, isPublic: true)
-
                 teamViewModel.didCreateSuccess = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                    showSheets = nil
+                }
             }
         }
     }
