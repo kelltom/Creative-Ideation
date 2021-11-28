@@ -12,8 +12,11 @@ struct ProfilePic: View {
     @EnvironmentObject var userAccountViewModel: UserAccountViewModel
 
     var size: CGFloat = 45
+
     var initial: String.SubSequence
 
+    // var image: String = "person.fill"
+    
     var body: some View {
         Text(initial)
             .font(.title)
