@@ -274,7 +274,7 @@ struct ActivityView: View {
 
                         VStack {
                             Button {
-                                //newColor = Int.random(in: 0..<5)
+                                // newColor = Int.random(in: 0..<5)
                                 newStickyPopover = true
 
                             } label: {

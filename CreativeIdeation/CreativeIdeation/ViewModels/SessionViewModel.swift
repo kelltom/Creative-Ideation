@@ -437,10 +437,6 @@ final class SessionViewModel: ObservableObject {
         var profanityUsersTemp: [ProfanityUser] = []
         self.profanityUsers = []
 
-        guard let sessionId = selectedSession else {
-            print("session id is nil")
-            return
-        }
         guard let activeSession = selectedSession else {
             print("Could not get active session")
             return

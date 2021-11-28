@@ -192,12 +192,12 @@ struct SessionSettingsSheet: View {
                                             Image(systemName: "chevron.right")
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fit)
-                                                .frame(width: 15, height: 15)
+                                                .frame(width: 40, height: 15)
                                                 .foregroundColor(sessionSettingsViewModel.settings[1].filterProfanity ? Color("StrokeColor") : Color("FadedColor"))
                                                 .rotationEffect(Angle.degrees(isCollapsed ? 0 : 90))
                                                 .animation(.easeInOut)
                                         }
-                                        .disabled(!sessionSettingsViewModel.settings[1].filterProfanity)
+                                        .disabled(sessionSettingsViewModel.settings[1].filterProfanity == false)
                                     }
 
                                     // Export Data Options
@@ -302,19 +302,21 @@ struct SessionSettingsSheet: View {
                                                                 Rectangle()
                                                                     .fill(Color.blue)
                                                                     .frame(width: 10, height: 10)
-                                                                Text("Good")
+                                                                Text("Good - \(String(format: "%.0f", sessionViewModel.lengthOfTotalWordCount))")
                                                             }
-                                                            .frame(width: geometry.size.width * 0.1, height: 20)
+                                                      
 
                                                             HStack {
                                                                 Rectangle()
                                                                     .fill(Color.red)
                                                                     .frame(width: 10, height: 10)
-                                                                Text("Bad")
+                                                                Text("Bad - \(String(format: "%.0f", sessionViewModel.lengthOfProfanityWords))")
 
                                                             }
-                                                            .frame(width: geometry.size.width * 0.1, height: 20)
+                                                            
+
                                                         }
+                                                        .frame(width: geometry.size.width * 0.2, height: 20)
 
                                                         CardView {
                                                             PieChart()
@@ -326,7 +328,6 @@ struct SessionSettingsSheet: View {
                                                         .frame(width: geometry.size.width * 0.45, height: 300)
                                                         .padding()
                                                     }
-
                                                 }
 
                                             }

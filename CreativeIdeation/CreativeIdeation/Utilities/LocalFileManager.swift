@@ -43,7 +43,7 @@ class LocalFileManager {
 
         return UIImage(contentsOfFile: url.path)
     }
-    
+
     func deleteImage(imageName: String, folderName: String) {
         // get image path
         guard let url = getURLForImage(imageName: imageName, folderName: folderName) else {
@@ -55,7 +55,7 @@ class LocalFileManager {
         } catch {
             print("Cannot Delete Profile Picture from File Manager")
         }
-              
+
     }
 
     // will create folder if no folder exists

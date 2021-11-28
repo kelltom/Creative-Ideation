@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProfilePic: View {
 
-    @EnvironmentObject var userAccountViewModel : UserAccountViewModel
+    @EnvironmentObject var userAccountViewModel: UserAccountViewModel
 
     var size: CGFloat = 45
     var initial: String.SubSequence

@@ -485,14 +485,6 @@ final class UserAccountViewModel: ObservableObject {
         manager.saveImagetoFileManager(image: inputImage, imageName: imageID, folderName: folderName)
         self.userProfilePicture = Image(uiImage: inputImage) // set pfp
     }
-    
-//    func removeFromFileManager(){
-//        guard let currentUserPfp = selectedUser?.id else {
-//            return
-//        }
-//        manager.deleteImage(imageName: currentUserPfp, folderName: self.folderName)
-//        print("delete success")
-//    }
 
     func getImageFromFileManager() {
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -519,7 +511,7 @@ final class UserAccountViewModel: ObservableObject {
         }
         // Create a reference to the file to delete
         let imageRef = Storage.storage().reference().child(profileImageId)
-        
+
         // Delete the file
         imageRef.delete { error in
             if error != nil {

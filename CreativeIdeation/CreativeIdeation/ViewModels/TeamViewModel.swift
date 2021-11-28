@@ -220,7 +220,7 @@ final class TeamViewModel: ObservableObject {
 
     // Add users to team based on access code
     func joinTeam(code: String) {
-        var listOfCodes: [String] = []
+
         // get user id
         guard let uid = Auth.auth().currentUser?.uid else {
             print("joinTeam: Could not find signed-in user's ID")

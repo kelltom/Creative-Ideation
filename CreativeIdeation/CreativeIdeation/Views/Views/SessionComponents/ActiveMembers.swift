@@ -5,9 +5,9 @@
 ////  Created by Matthew Marini on 2021-02-27.
 ////
 //
-//import SwiftUI
+// import SwiftUI
 //
-//struct ActiveMembers: View {
+// struct ActiveMembers: View {
 //    var body: some View {
 //        HStack {
 //            ProfilePic()
@@ -23,10 +23,10 @@
 //        .shadow(color: .black, radius: 4, y: 4)
 //
 //    }
-//}
+// }
 //
-//struct ActiveMembers_Previews: PreviewProvider {
+// struct ActiveMembers_Previews: PreviewProvider {
 //    static var previews: some View {
 //        ActiveMembers()
 //    }
-//}
+// }
