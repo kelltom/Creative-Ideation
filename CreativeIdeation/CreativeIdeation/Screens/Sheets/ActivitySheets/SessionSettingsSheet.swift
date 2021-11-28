@@ -236,7 +236,6 @@ struct SessionSettingsSheet: View {
                                         }
                                         .disabled(!sessionSettingsViewModel.settings[1].filterProfanity)
                                     }
-
                                 }
                                 // Profanity log list
                                 if !isCollapsed {
@@ -304,7 +303,6 @@ struct SessionSettingsSheet: View {
                                                                     .frame(width: 10, height: 10)
                                                                 Text("Good - \(String(format: "%.0f", sessionViewModel.lengthOfTotalWordCount))")
                                                             }
-                                                      
 
                                                             HStack {
                                                                 Rectangle()
@@ -313,7 +311,6 @@ struct SessionSettingsSheet: View {
                                                                 Text("Bad - \(String(format: "%.0f", sessionViewModel.lengthOfProfanityWords))")
 
                                                             }
-                                                            
 
                                                         }
                                                         .frame(width: geometry.size.width * 0.2, height: 20)
