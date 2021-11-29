@@ -106,23 +106,23 @@ struct GroupSettingsView: View {
                     Spacer()
 
                     // Delete/Leave button
-                    if isAdmin {
-                        Button {
-                            groupViewModel.deleteGroups(groupId: groupViewModel.selectedGroup!.groupId, teamId: groupViewModel.selectedGroup!.fkTeamId)
-                        } label: {
-                            // Comment this out to make Preview work
-                            DeleteButton(text: "Delete Group")
-                        }
-                    } else {
-                        Button {
-                            groupViewModel.leaveGroup(group: groupViewModel.selectedGroup!)
-                            showGroupSettings = false
-                        } label: {
-                            DeleteButton(text: "Leave Group",
-                                         image: "rectangle.lefthalf.inset.fill.arrow.left",
-                                         backgroundColor: Color.gray)
-                        }
-                    }
+//                    if isAdmin {
+//                        Button {
+//                            groupViewModel.deleteGroups(groupId: groupViewModel.selectedGroup!.groupId, teamId: groupViewModel.selectedGroup!.fkTeamId)
+//                        } label: {
+//                            // Comment this out to make Preview work
+//                            DeleteButton(text: "Delete Group")
+//                        }
+//                    } else {
+//                        Button {
+//                            groupViewModel.leaveGroup(group: groupViewModel.selectedGroup!)
+//                            showGroupSettings = false
+//                        } label: {
+//                            DeleteButton(text: "Leave Group",
+//                                         image: "rectangle.lefthalf.inset.fill.arrow.left",
+//                                         backgroundColor: Color.gray)
+//                        }
+//                    }
 
                 }
                 .frame(width: geometry.size.width,

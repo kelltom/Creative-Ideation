@@ -22,7 +22,6 @@ struct TeamSettingsView: View {
     var description: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
 
     var isAdmin: Bool = false
-    @State private var profanityFilter = true
     @State var showSheet: EditSheet?
 
     @EnvironmentObject var teamViewModel: TeamViewModel
@@ -125,60 +124,25 @@ struct TeamSettingsView: View {
                     .background(Color("brandPrimary"))
                     .cornerRadius(20)
 
-                    VStack(alignment: .leading) {
-
-                        Text("Profanity Control")
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .padding(.top)
-                            .padding()
-
-                        HStack {
-                            Toggle("Filter Specfic Words", isOn: $profanityFilter)
-                                .padding()
-                        }
-
-                        HStack {
-
-                            Text("Blocked Words List")
-                                .padding()
-
-                            Spacer()
-
-                            Button {
-                                // button functionality
-                            } label: {
-                                // button design
-                                TextEditButton()
-                            }
-                        }
-
-                    }
-                    .frame(width: geometry.size.width * 0.70, height: 230)
-
-                    Divider()
-                        .frame(width: geometry.size.width * 0.70)
-                        .background(Color("FadedColor"))
-
                     Spacer()
-                    if teamViewModel.isCurrentUserTeamAdmin(teamId: teamViewModel.selectedTeam?.teamId ?? "unknown") {
-
-                        Button {
-
-                            teamViewModel.deleteSelectedTeam(teamId: teamViewModel.selectedTeam?.teamId)
-                        } label: {
-                            DeleteButton(backgroundColor: isPrivate ? .gray : .red)
-                        }
-                        .disabled(isPrivate)
-
-                    } else {
-                        Button {
-
-                        } label: {
-                            DeleteButton(backgroundColor: .gray)
-                        }
-                        .disabled(true)
-                    }
+//                    if teamViewModel.isCurrentUserTeamAdmin(teamId: teamViewModel.selectedTeam?.teamId ?? "unknown") {
+//
+//                        Button {
+//
+//                            teamViewModel.deleteSelectedTeam(teamId: teamViewModel.selectedTeam?.teamId)
+//                        } label: {
+//                            DeleteButton(backgroundColor: isPrivate ? .gray : .red)
+//                        }
+//                        .disabled(isPrivate)
+//
+//                    } else {
+//                        Button {
+//
+//                        } label: {
+//                            DeleteButton(backgroundColor: .gray)
+//                        }
+//                        .disabled(true)
+//                    }
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
                 .sheet(item: $showSheet) { item in
