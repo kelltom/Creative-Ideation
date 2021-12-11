@@ -484,7 +484,7 @@ final class SessionItemViewModel: ObservableObject {
     func sortStickies(sortBy: SortingType) {
         switch sortBy {
         case .alphabetical:
-            stickyNotes.sort { $0.input < $1.input }
+            stickyNotes.sort { $0.input.lowercased() < $1.input.lowercased() }
         case .score:
             stickyNotes.sort { $0.score > $1.score }
         case .color:

@@ -594,6 +594,10 @@ final class TeamViewModel: ObservableObject {
                             self.teams[selectedTeamIndex!].members = mockTeam.members
                             self.teams[selectedTeamIndex!].admins = mockTeam.admins
 
+                            if self.selectedTeam?.teamId == mockTeam.teamId {
+                                self.selectedTeam = mockTeam
+                            }
+
                         } catch {
                             print("Error reading modified team from DB: \(error)")
                         }

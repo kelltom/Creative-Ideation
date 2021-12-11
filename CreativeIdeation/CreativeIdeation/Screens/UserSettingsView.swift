@@ -200,7 +200,6 @@ struct UserSettingsView: View {
                 }
                 .onAppear {
                     userAccountViewModel.getCurrentUserInfo()
-
                 }
             }
             .navigationBarHidden(true)

@@ -16,7 +16,6 @@ struct ProfilePic: View {
     var initial: String.SubSequence
 
     // var image: String = "person.fill"
-    
     var body: some View {
         Text(initial)
             .font(.title)
