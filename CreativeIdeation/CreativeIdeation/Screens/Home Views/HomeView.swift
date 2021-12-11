@@ -220,18 +220,20 @@ struct HomeView: View {
                                         ScrollView(.horizontal, showsIndicators: false) {
                                             LazyHStack(spacing: 50) {
                                                 ForEach(sessionViewModel.teamSessions) { session in
-                                                    Button {
-                                                        sessionItemViewModel.activeSession = session
-                                                        sessionViewModel.selectedSession = session
-                                                        sessionItemViewModel.loadItems()
-                                                        showActivity = true
-                                                    } label: {
-                                                        SessionTile(date: session.dateModified, team: teamViewModel.selectedTeam?.teamName ?? "N/A",
-                                                                    group: groupViewModel.groups
-                                                                        .first(where: {
-                                                            $0.groupId == session.groupId
-                                                        })?.groupTitle ?? "N/A",
-                                                                    session: session)
+                                                    if groupViewModel.isUserInGroup(groupId: session.groupId) {
+                                                        Button {
+                                                            sessionItemViewModel.activeSession = session
+                                                            sessionViewModel.selectedSession = session
+                                                            sessionItemViewModel.loadItems()
+                                                            showActivity = true
+                                                        } label: {
+                                                            SessionTile(date: session.dateModified, team: teamViewModel.selectedTeam?.teamName ?? "N/A",
+                                                                        group: groupViewModel.groups
+                                                                            .first(where: {
+                                                                $0.groupId == session.groupId
+                                                            })?.groupTitle ?? "N/A",
+                                                                        session: session)
+                                                        }
                                                     }
                                                 }
                                             }
