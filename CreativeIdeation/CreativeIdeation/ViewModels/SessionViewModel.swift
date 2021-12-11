@@ -44,15 +44,21 @@ final class SessionViewModel: ObservableObject {
                               detail: "Default detail message.",
                               type: .info)
 
+    /// clears the model
     func clear() {
         teamSessions = []
         groupSessions = []
         selectedSession = nil
         selectedGroupId = nil
+        newSession = Session()
+        timerManager = TimerManager()
+        profUser = nil
+        profanityUsers = []
+        profanityCollection = []
         listener?.remove()
     }
 
-    // Function for updating DateModified of the selectedSession when a stickyNote is edited
+    /// Function for updating DateModified of the selectedSession when a stickyNote is edited
     func updateDateModified() {
         guard let activeSession = selectedSession else {
             print("Could not upate DateModified: No active session")
@@ -197,6 +203,8 @@ final class SessionViewModel: ObservableObject {
             }
         }
     }
+
+    /// gets profanity data to be graphed in the profanity log
     func getGraphData() {
         var totalWord: [String] = []
         var totalProfanityWords: [String] = []
@@ -213,17 +221,12 @@ final class SessionViewModel: ObservableObject {
                     print("Error getting documents: \(err)")
                 } else {
                     for document in querySnapshot!.documents {
-                        do {
+                        let input = document.data()["input"] as? String ?? "n/a"
 
-                            let input = document.data()["input"] as? String ?? "n/a"
-
-                            if input.contains("*") {
-                                totalProfanityWords.append(input)
-                            } else {
-                                totalWord.append(input)
-                            }
-                        } catch {
-                            print("Error getting total word count")
+                        if input.contains("*") {
+                            totalProfanityWords.append(input)
+                        } else {
+                            totalWord.append(input)
                         }
                     }
                     self.lengthOfTotalWordCount = Double(totalWord.count)
@@ -234,7 +237,7 @@ final class SessionViewModel: ObservableObject {
 
     }
 
-    /// Populates teamSessions array, storing a Session object for each found in the datastore
+    /// creates a listener to populate the sessions array, and adds/updates/removes sessions as changes occur in the DB
     func getAllSessions(teamId: String?) {
 
         // Ensure Team ID is not nil
@@ -340,6 +343,7 @@ final class SessionViewModel: ObservableObject {
             }
     }
 
+    /// deletes a session from the DB
     func deleteSession(sessionId: String) {
         let batch = db.batch()
 
@@ -393,6 +397,7 @@ final class SessionViewModel: ObservableObject {
 
     }
 
+    /// checks the input string for profanity, and adds to the profanity log in the DB if necessary
     func checkProfanity(textInput: String) {
 
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -431,6 +436,7 @@ final class SessionViewModel: ObservableObject {
         }
     }
 
+    /// retrieves the profanity log for the current session
     func getProfanityList(sessionMembers: [String]) {
 
         var profanityDict: [String: [String]] = [:]
@@ -486,7 +492,6 @@ final class SessionViewModel: ObservableObject {
     }
 
     /// Populates groupSessions array, storing a Session object for each found in the datastore
-
     func getGroupSessions() {
         // Empty list of sessions
         groupSessions = []
@@ -503,6 +508,7 @@ final class SessionViewModel: ObservableObject {
         groupSessions = groupSessions.sorted(by: {$0.dateModified.compare($1.dateModified) == .orderedDescending})
     }
 
+    /// toggles the timer on/off
     func toggleTimer(timeRemaining: Double) {
 
         selectedSession?.timerActive.toggle()
@@ -559,14 +565,15 @@ final class SessionViewModel: ObservableObject {
         }
     }
 
+    /// gets the remaining time for the timer
     func getRemainingTime(endTime: Date) {
         let remainingTime = max(endTime.timeIntervalSince(Date()), 0)
         timerManager.timeRemaining = Int(remainingTime)
     }
 
+    /// reset the timer in the DB
     func resetTimer(time: Int) {
         let newTime = time
-        // timerManager.reset(newTime: newTime)
 
         guard let activeSession = selectedSession else {
             print("Could not reset timeRemaining: No active session")
@@ -594,6 +601,7 @@ final class SessionViewModel: ObservableObject {
         }
     }
 
+    /// changes the stage to the second round of voting (3)
     func finishVoting() {
         guard let activeSession = selectedSession else {
             print("Could not finish voting: No active session")
@@ -620,6 +628,7 @@ final class SessionViewModel: ObservableObject {
         }
     }
 
+    ///changes the stage to the voting stage (2)
     func beginVoting() {
         guard let activeSession = selectedSession else {
             print("Could not begin voting: No active session")
@@ -646,6 +655,7 @@ final class SessionViewModel: ObservableObject {
         }
     }
 
+    /// changes the stage to the best idea stage (4)
     func finishTopVoting() {
         guard let activeSession = selectedSession else {
             print("Could not finish voting: No active session")
@@ -672,6 +682,7 @@ final class SessionViewModel: ObservableObject {
         }
     }
 
+    /// casts the final vote from the user for round 2 of voting
     func castFinalVote(itemId: String) {
         guard let uid = Auth.auth().currentUser?.uid else {
             print("cannot find uid for current user")
@@ -706,6 +717,7 @@ final class SessionViewModel: ObservableObject {
         }
     }
 
+    /// checks whether the user has cast their final vote
     func didCastFinalVote() -> Bool {
         guard let uid = Auth.auth().currentUser?.uid else {
             print("cannot find uid for current user")
@@ -715,6 +727,7 @@ final class SessionViewModel: ObservableObject {
         return selectedSession?.castFinalVote.contains(uid) ?? false
     }
 
+    /// returns an array of the ID(s) of the best idea(s)
     func getBestIds() -> [String] {
         let highestVote = selectedSession!.finalVotes.values.max()
         return selectedSession!.finalVotes.filter { $1 == highestVote }.map { $0.0 }

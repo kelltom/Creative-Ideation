@@ -294,6 +294,22 @@ final class GroupViewModel: ObservableObject {
         return group.admins.contains(uid)
     }
 
+    func isUserInGroup(groupId: String) -> Bool {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("isCurrentUserAdmin: Cannot find uid.")
+            return false  // should probably throw error here
+        }
+
+        guard let index = groups.firstIndex(where: {$0.groupId == groupId}) else {
+            print("isCurrentUserAdmin: Cannot find index of selected group.")
+            return false
+        }
+
+        let group = groups[index]
+
+        return group.members.contains(uid)
+    }
+
     /// Populates the published groupMembers variable with Member objects of selected Group
     func loadSelectedGroupMembers(includeCurrentUser: Bool = true) {
         self.groupMembers = []
