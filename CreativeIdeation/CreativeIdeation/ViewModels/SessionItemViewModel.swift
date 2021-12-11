@@ -204,6 +204,8 @@ final class SessionItemViewModel: ObservableObject {
 
     /// Populate a list of stickies to be voted on in the voting stage of the Sticky Notes activity
     func populateVotingList() {
+        let regex = try? NSRegularExpression(pattern: "\\*{3,}")
+        var range: NSRange
 
         votingStickies = []  // clear current list
         var votedOn: [String] = []  // list of stickies that have already been voted on by user
@@ -225,17 +227,20 @@ final class SessionItemViewModel: ObservableObject {
         // populate list of stickies yet to be voted on
         var pos = 0  // position of sticky in the list
         for sticky in self.stickyNotes {
-            if !votedOn.contains(sticky.itemId) {
-                self.votingStickies.append(VotingSticky(itemId: sticky.itemId, chosenColor: sticky.chosenColor!, input: sticky.input, pos: pos,
-                                                        onRemove: { removedStickyId in
-                    self.votedOnStack.append((self.votingStickies.first(where: { sticky in
-                        sticky.itemId == removedStickyId
-                    })!, 0))
-                    self.votingStickies.removeAll {
-                        $0.itemId == removedStickyId
-                    }
-                }))
-                pos += 1
+            range = NSRange(location: 0, length: sticky.input.utf16.count)
+            if regex!.firstMatch(in: sticky.input, options: [], range: range) == nil {
+                if !votedOn.contains(sticky.itemId) {
+                    self.votingStickies.append(VotingSticky(itemId: sticky.itemId, chosenColor: sticky.chosenColor!, input: sticky.input, pos: pos,
+                                                            onRemove: { removedStickyId in
+                        self.votedOnStack.append((self.votingStickies.first(where: { sticky in
+                            sticky.itemId == removedStickyId
+                        })!, 0))
+                        self.votingStickies.removeAll {
+                            $0.itemId == removedStickyId
+                        }
+                    }))
+                    pos += 1
+                }
             }
         }
     }
