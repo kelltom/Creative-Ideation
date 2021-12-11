@@ -47,6 +47,7 @@ struct JoinTeamSheet: View {
                         // Text area
                         ZStack {
                             EditTextField(title: "Team Code", input: $code, geometry: geometry, widthScale: 0.75)
+                                .autocapitalization(UITextAutocapitalizationType.none)
 
                             HStack {
 
