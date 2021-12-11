@@ -57,6 +57,7 @@ final class SessionItemViewModel: ObservableObject {
                       Color.init(red: 0, green: 0.7, blue: 0.9),
                       Color.init(red: 0.9, green: 0.45, blue: 0.9)]
 
+    /// reset the model
     func resetModel() {
         clearAnimations()
         listener?.remove()
@@ -71,6 +72,7 @@ final class SessionItemViewModel: ObservableObject {
         stickyNotes = []
     }
 
+    /// updates local sessionItems with text entered on a sticky note view
     func updateText(text: String, itemId: String, filterProfanity: Bool) {
         if filterProfanity {
             sessionItems[sessionItems.firstIndex(where: {$0.itemId == itemId})!].input = pFilter.maskProfanity(text: text)
@@ -79,13 +81,13 @@ final class SessionItemViewModel: ObservableObject {
         }
     }
 
+    /// updates colour and text of a sessionItem in the database
     func updateItem(itemId: String) {
         let itemReference = db.collection("session_items").document(itemId)
         let localItem = sessionItems.first(where: {$0.itemId == itemId})
 
         // swiftlint:disable multiple_closures_with_trailing_closure
         db.runTransaction({ (transaction, errorPointer) -> Any? in
-            // let itemDocument: DocumentSnapshot
             do {
                 _ = try transaction.getDocument(itemReference)
             } catch let fetchError as NSError {
@@ -108,6 +110,7 @@ final class SessionItemViewModel: ObservableObject {
         // swiftlint:enable multiple_closures_with_trailing_closure
     }
 
+    /// cast a vote on a sessionItem, either + or - 1
     func castVote(itemId: String, scoreChange: Int) {
         // function for casting a vote and updating the database with the user id and the new score
 
@@ -148,6 +151,7 @@ final class SessionItemViewModel: ObservableObject {
         }
     }
 
+    /// undo the last vote made by the user
     func undoVote() {
         if votedOnStack.count > 0 {
 
@@ -186,18 +190,20 @@ final class SessionItemViewModel: ObservableObject {
         }
     }
 
+    /// clear voting animations
     @objc func clearAnimations() {
         self.showingLike = false
         self.showingSkip = false
         self.showingDislike = false
     }
 
+    /// animate the +1 and -1 popups when voting
     @objc func animateSpinning() {
         self.isSpinning.toggle()
     }
 
+    /// function for settings timers for like/dislike/skip animations
     func setAnimationTimer() {
-        // function for settings timers for like/dislike/skip animations
         animationTimer?.invalidate()
         animationTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.clearAnimations), userInfo: nil, repeats: false)
     }
@@ -245,6 +251,7 @@ final class SessionItemViewModel: ObservableObject {
         }
     }
 
+    /// creates a listener to watch for and update/add/delete sessionItems locally based on changes in the DB
     func loadItems() {
 
         // Ensure Team ID is not nil
@@ -311,6 +318,7 @@ final class SessionItemViewModel: ObservableObject {
             }
     }
 
+    /// Create a new sessionItem and add to the DB
     func createItem(color: Int, input: String, filterProfanity: Bool) {
 
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -348,6 +356,7 @@ final class SessionItemViewModel: ObservableObject {
         }
     }
 
+    /// Create a new sticky view
     func createSticky(newItem: SessionItem, selected: Bool = false, index: Int = -1) {
         let newSticky = StickyNote(
             input: newItem.input,
@@ -364,18 +373,21 @@ final class SessionItemViewModel: ObservableObject {
         }
     }
 
+    /// updates which sticky is selected
     func updateSelected(note: StickyNote) {
         clearSelected()
         selectedSticky = note
         selectedItem = sessionItems.first(where: {$0.itemId == note.itemId})
     }
 
+    /// clears which sticky is selected
     func clearSelected() {
         selectedSticky?.selected = false
         selectedSticky = nil
         selectedItem = nil
     }
 
+    /// checks whether the current user created the selected sticky
     func isUsersSticky() -> Bool {
 
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -392,8 +404,8 @@ final class SessionItemViewModel: ObservableObject {
         return itemCreatorId == uid
     }
 
+    /// deletes the selected sticky locally and the sessionItem in the DB
     func deleteSelected() {
-        // Delete the selected sticky
         let selectedItemId = selectedSticky!.itemId
 
         db.collection("session_items").document(selectedItemId).delete { err in
@@ -408,13 +420,14 @@ final class SessionItemViewModel: ObservableObject {
         selectedItem = nil
     }
 
+    /// updates the color of a sticky and sessionItem locally
     func colorSelected(color: Int, filterProfanity: Bool) {
-        // Change the colour of the selected sticky
         sessionItems[sessionItems.firstIndex(where: {$0.itemId == selectedSticky!.itemId})!].color = color
         selectedSticky?.chosenColor = self.colorArray[color]
         self.updateText(text: selectedSticky!.input, itemId: selectedSticky!.itemId, filterProfanity: filterProfanity)
     }
 
+    ///
     func generateIdeas() {
         // Get each word on screen, process them, add to array
         var allWords: [String] = []
@@ -486,6 +499,7 @@ final class SessionItemViewModel: ObservableObject {
         }
     }
 
+    /// sorts stickies as specified by sortingType
     func sortStickies(sortBy: SortingType) {
         switch sortBy {
         case .alphabetical:
@@ -497,6 +511,7 @@ final class SessionItemViewModel: ObservableObject {
         }
     }
 
+    /// gets the top stickies for round 2 of voting
     func getTopStickies(spots: Int) {
         topStickies = []
         var sticky: StickyNote
@@ -506,6 +521,7 @@ final class SessionItemViewModel: ObservableObject {
         }
     }
 
+    /// when round 1 of voting is concluded, delete stickies not good enough for round 2
     func finishVoting(spots: Int) {
         sortStickies(sortBy: .score)
         var remainingSpots = spots
@@ -524,10 +540,12 @@ final class SessionItemViewModel: ObservableObject {
         }
     }
 
+    /// get best idea to display at the end (more than one if there's a tie)
     func getBestIdeas(itemIds: [String]) {
         bestIdeas = stickyNotes.filter { itemIds.contains($0.itemId) }
     }
 
+    /// clear ideas from idea generator
     func clearIdeas() {
         self.generatedIdeas = []
     }
