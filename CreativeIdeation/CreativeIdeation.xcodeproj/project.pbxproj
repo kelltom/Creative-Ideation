@@ -46,7 +46,6 @@
 		C93F31D626CEE61000EC835D /* EditTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93F31D526CEE61000EC835D /* EditTextField.swift */; };
 		C93F31D826CEFE0C00EC835D /* StickyNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93F31D726CEFE0C00EC835D /* StickyNote.swift */; };
 		C93F31DA26CEFE1700EC835D /* VotingSticky.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93F31D926CEFE1700EC835D /* VotingSticky.swift */; };
-		C93F31DC26CEFE1C00EC835D /* ActiveMembers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93F31DB26CEFE1C00EC835D /* ActiveMembers.swift */; };
 		C9419B732619126400279BB5 /* SessionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9419B722619126400279BB5 /* SessionItem.swift */; };
 		C9419B76261915E900279BB5 /* SessionItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9419B75261915E900279BB5 /* SessionItemViewModel.swift */; };
 		C944CD32266D0A0A00F964DD /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = C944CD31266D0A0A00F964DD /* Member.swift */; };
@@ -70,7 +69,6 @@
 		C9F230BA25F29D53006590DA /* TeamPic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230B925F29D53006590DA /* TeamPic.swift */; };
 		C9F230BD25F29D8D006590DA /* GroupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230BC25F29D8D006590DA /* GroupButton.swift */; };
 		C9F230C225F29D98006590DA /* SessionTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230C025F29D98006590DA /* SessionTile.swift */; };
-		C9F230C625F29DA3006590DA /* GroupMemberPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230C425F29DA3006590DA /* GroupMemberPanel.swift */; };
 		C9F230C725F29DA3006590DA /* ProfilePic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F230C525F29DA3006590DA /* ProfilePic.swift */; };
 		DD00452D270CCBE900BD956E /* ChatbotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD00452C270CCBE900BD956E /* ChatbotViewModel.swift */; };
 		DD15B00526051A7200F51777 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD15B00426051A7200F51777 /* Team.swift */; };
@@ -160,7 +158,6 @@
 		C93F31D526CEE61000EC835D /* EditTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextField.swift; sourceTree = "<group>"; };
 		C93F31D726CEFE0C00EC835D /* StickyNote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickyNote.swift; sourceTree = "<group>"; };
 		C93F31D926CEFE1700EC835D /* VotingSticky.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VotingSticky.swift; sourceTree = "<group>"; };
-		C93F31DB26CEFE1C00EC835D /* ActiveMembers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveMembers.swift; sourceTree = "<group>"; };
 		C9419B722619126400279BB5 /* SessionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionItem.swift; sourceTree = "<group>"; };
 		C9419B75261915E900279BB5 /* SessionItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionItemViewModel.swift; sourceTree = "<group>"; };
 		C944CD31266D0A0A00F964DD /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
@@ -182,7 +179,6 @@
 		C9F230B925F29D53006590DA /* TeamPic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamPic.swift; sourceTree = "<group>"; };
 		C9F230BC25F29D8D006590DA /* GroupButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupButton.swift; sourceTree = "<group>"; };
 		C9F230C025F29D98006590DA /* SessionTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionTile.swift; sourceTree = "<group>"; };
-		C9F230C425F29DA3006590DA /* GroupMemberPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupMemberPanel.swift; sourceTree = "<group>"; };
 		C9F230C525F29DA3006590DA /* ProfilePic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePic.swift; sourceTree = "<group>"; };
 		DD00452C270CCBE900BD956E /* ChatbotViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatbotViewModel.swift; sourceTree = "<group>"; };
 		DD15B00426051A7200F51777 /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
@@ -332,7 +328,6 @@
 		C9AE738325EAAE320090C96B /* SessionComponents */ = {
 			isa = PBXGroup;
 			children = (
-				C93F31DB26CEFE1C00EC835D /* ActiveMembers.swift */,
 				C93F31D926CEFE1700EC835D /* VotingSticky.swift */,
 				C93F31D726CEFE0C00EC835D /* StickyNote.swift */,
 				C9AE73A125EB1ACA0090C96B /* ActivityTypeTile.swift */,
@@ -378,7 +373,6 @@
 			isa = PBXGroup;
 			children = (
 				76A0956825E825ED00917450 /* SearchBarView.swift */,
-				C9F230C425F29DA3006590DA /* GroupMemberPanel.swift */,
 			);
 			path = GroupMemberPanel;
 			sourceTree = "<group>";
@@ -792,12 +786,10 @@
 				C98BAADE27421726008369F7 /* UpdateTeamMembersSheet.swift in Sources */,
 				DD3705CF26027AFA00E611FD /* User.swift in Sources */,
 				DDDFDA8E25E0830800342B1B /* BigButton.swift in Sources */,
-				C93F31DC26CEFE1C00EC835D /* ActiveMembers.swift in Sources */,
 				C9C67A1125E7FEDB002D16A9 /* UserSettingsView.swift in Sources */,
 				C9C784F32706ABFD00BED6F1 /* TopSticky.swift in Sources */,
 				DD00452D270CCBE900BD956E /* ChatbotViewModel.swift in Sources */,
 				76996464260699E5005058C7 /* Group.swift in Sources */,
-				C9F230C625F29DA3006590DA /* GroupMemberPanel.swift in Sources */,
 				C9AE738125EAAD940090C96B /* ActivityView.swift in Sources */,
 				C9F230C225F29D98006590DA /* SessionTile.swift in Sources */,
 				C94A099A266C4A86004E6614 /* GroupMembersSheet.swift in Sources */,
@@ -1069,7 +1061,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"CreativeIdeation/Preview Content\"";
-				DEVELOPMENT_TEAM = 7NVCUVJ8HA;
+				DEVELOPMENT_TEAM = GD3J5ZXZM8;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = CreativeIdeation/Info.plist;
@@ -1097,7 +1089,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"CreativeIdeation/Preview Content\"";
-				DEVELOPMENT_TEAM = 7NVCUVJ8HA;
+				DEVELOPMENT_TEAM = GD3J5ZXZM8;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = CreativeIdeation/Info.plist;

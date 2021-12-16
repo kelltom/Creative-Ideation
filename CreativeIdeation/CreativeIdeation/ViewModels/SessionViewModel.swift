@@ -628,7 +628,7 @@ final class SessionViewModel: ObservableObject {
         }
     }
 
-    ///changes the stage to the voting stage (2)
+    /// Changes the stage to the voting stage (2)
     func beginVoting() {
         guard let activeSession = selectedSession else {
             print("Could not begin voting: No active session")
