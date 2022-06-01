@@ -1,45 +1,15 @@
-**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
+# Creative Ideation
 
-When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
+### About
+*Creative Ideation* was developed and submitted as a degree capstone by Kellen Evoy, Vanessa Li, and Matt Marini from Sheridan College's Honours Bachelor of Computer Science (Mobile Computing) program. 
 
-*We recommend that you open this README in another tab as you perform the tasks below. You can [watch our video](https://youtu.be/0ocf7u76WSo) for a full demo of all the steps in this tutorial. Open the video in a new tab to avoid leaving Bitbucket.*
+This project aims to solve the problem of creative roadblocks in group ideation. *Creative Ideation* is an iOS (iPad) application that helps groups of users generate creative ideas with the help of AI assistance and guided game-like activities (E.g., arranging sticky notes, idea voting). This project was inspired by Creative Problem Solving (CPS) principles, which have been explored via personal study and learned through Sheridan College’s Certificate in Creativity and Creative Problem-Solving courses. This project aims to emulate the experience of table-top ideation by providing an online, mobile workspace that replaces the need for considerable desk space and automates much of what would normally be manual physical effort.
 
----
+------------
 
-## Edit a file
+### For more information...
+See the [project report](https://drive.google.com/file/d/1CtwfvwRHR65rTeVpXMAnAven4_VKors6/view?usp=sharing) for a detailed overview of the project (problem description, project requirements, use cases, application architecture, project planning, testing, etc).
 
-You’ll start by editing this README file to learn how to edit a file in Bitbucket.
+Watch a [5-minute demonstration](https://drive.google.com/file/d/1gtGx-YTCSgUJDzEn0330Z3bSJoN8kG5_/view?usp=sharing) of the project.
 
-1. Click **Source** on the left side.
-2. Click the README.md link from the list of files.
-3. Click the **Edit** button.
-4. Delete the following text: *Delete this line to make a change to the README from Bitbucket.*
-5. After making your change, click **Commit** and then **Commit** again in the dialog. The commit page will open and you’ll see the change you just made.
-6. Go back to the **Source** page.
-
----
-
-## Create a file
-
-Next, you’ll add a new file to this repository.
-
-1. Click the **New file** button at the top of the **Source** page.
-2. Give the file a filename of **contributors.txt**.
-3. Enter your name in the empty file space.
-4. Click **Commit** and then **Commit** again in the dialog.
-5. Go back to the **Source** page.
-
-Before you move on, go ahead and explore the repository. You've already seen the **Source** page, but check out the **Commits**, **Branches**, and **Settings** pages.
-
----
-
-## Clone a repository
-
-Use these steps to clone from SourceTree, our client for using the repository command-line free. Cloning allows you to work on your files locally. If you don't yet have SourceTree, [download and install first](https://www.sourcetreeapp.com/). If you prefer to clone from the command line, see [Clone a repository](https://confluence.atlassian.com/x/4whODQ).
-
-1. You’ll see the clone button under the **Source** heading. Click that button.
-2. Now click **Check out in SourceTree**. You may need to create a SourceTree account or log in.
-3. When you see the **Clone New** dialog in SourceTree, update the destination path and name if you’d like to and then click **Clone**.
-4. Open the directory you just created to see your repository’s files.
-
-Now that you're more familiar with your Bitbucket repository, go ahead and add a new file locally. You can [push your change back to Bitbucket with SourceTree](https://confluence.atlassian.com/x/iqyBMg), or you can [add, commit,](https://confluence.atlassian.com/x/8QhODQ) and [push from the command line](https://confluence.atlassian.com/x/NQ0zDQ).
+Watch a detailed [17-minute demonstration](https://drive.google.com/file/d/1Xaa1iVyaH9H22fH5IWT2fFLiLqcd2A7T/view?usp=sharing) of the project (Beta release).
